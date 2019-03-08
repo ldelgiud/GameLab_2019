@@ -122,11 +122,13 @@ namespace ECS
         /// </summary>
         Dictionary<Type, IEnumerable<Type>> edges = new Dictionary<Type, IEnumerable<Type>>();
 
+        HashSet<Type> actionTypes = new HashSet<Type>();
 
         public DispatcherBuilder Add(SystemBase system, IEnumerable<Type> dependencies)
         {
             this.nodes.Add(system.GetType(), new Node(system));
             this.edges.Add(system.GetType(), dependencies);
+            this.actionTypes.UnionWith(system.GetActionTypes());
 
             return this;
         }
@@ -189,7 +191,7 @@ namespace ECS
                 stages[stage] = temp[stage].ToArray();
             }
 
-            return new Dispatcher(stages);
+            return new Dispatcher(stages, this.actionTypes);
         }
     }
 
@@ -204,12 +206,13 @@ namespace ECS
             return new DispatcherBuilder();
         }
 
-        ActionStore actionStore = new ActionStore();
+        ActionStore actionStore;
         readonly SystemBase[][] stages;
 
-        internal Dispatcher(SystemBase[][] stages)
+        internal Dispatcher(SystemBase[][] stages, IEnumerable<Type> actionTypes)
         {
             this.stages = stages;
+            this.actionStore = new ActionStore(actionTypes);
         }
 
         

@@ -48,6 +48,8 @@ namespace Tests
 
         class PhysicsSystem : ECS.System<ConcreteRef<PositionComponent>, ConcreteRef<VelocityComponent>>
         {
+            public PhysicsSystem() : base(new Type[] { typeof(SetPositionAction) }) { }
+
             public override void Tick(ActionStore actionStore, Entity entity, ConcreteRef<PositionComponent> positionRef, ConcreteRef<VelocityComponent> velocityRef)
             {
                 var action = new SetPositionAction();
@@ -93,9 +95,9 @@ namespace Tests
                 .Build();
 
             Context ctx = new Context();
-            ctx.Register<PositionComponent>(new SparseStorage<PositionComponent>());
-            ctx.Register<VelocityComponent>(new SparseStorage<VelocityComponent>());
-            ctx.Register<InputComponent>(new UnitStorage<InputComponent>());
+            ctx.Register(new SparseStorage<PositionComponent>());
+            ctx.Register(new SparseStorage<VelocityComponent>());
+            ctx.Register(new UnitStorage<InputComponent>());
 
 
             InputComponent input = new InputComponent();

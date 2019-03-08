@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace ECS
 {
@@ -9,17 +10,27 @@ namespace ECS
     public class ActionStore
     {
         /// <summary>
-        /// List of queued up actions.
+        /// Queued up actions, indexed by action type.
         /// </summary>
-        List<IAction> actions = new List<IAction>();
+        /// 
+        Dictionary<Type, ConcurrentQueue<IAction>> actions = new Dictionary<Type, ConcurrentQueue<IAction>>();
+
+        public ActionStore(IEnumerable<Type> actionTypes)
+        {
+            foreach (var type in actionTypes)
+            {
+                this.actions.Add(type, new ConcurrentQueue<IAction>());
+            }
+        }
 
         /// <summary>
         /// Add an action to the queue.
         /// </summary>
-        /// <param name="reducer">Action</param>
-        public void Add(IAction reducer)
+        /// <param name="action">Action</param>
+        public void Add(IAction action)
         {
-            this.actions.Add(reducer);
+            // TODO: Add debug error if type not registered
+            this.actions[action.GetType()].Enqueue(action);
         }
 
         /// <summary>
@@ -28,9 +39,15 @@ namespace ECS
         /// <param name="ctx">Context</param>
         public void Apply(Context ctx)
         {
-
-            this.actions.ForEach(action => {Console.WriteLine(action); action.Apply(ctx);});
-            this.actions.Clear();
+            // TODO: Sort actions by some priority
+            foreach (var actions in this.actions.Values)
+            {
+                IAction action;
+                while (actions.TryDequeue(out action))
+                {
+                    action.Apply(ctx);
+                }
+            }
         }
     }
 }
