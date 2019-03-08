@@ -55,6 +55,9 @@ namespace ECS.Storages
 
         public void Remove(uint index)
         {
+            // Remove from bitset
+            this.Bitset.Remove(index);
+
             // Set target element to last element
             this.data.Add(index, this.data.Get(this.length - 1));
 

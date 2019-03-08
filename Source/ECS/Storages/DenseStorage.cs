@@ -44,6 +44,9 @@ namespace ECS.Storages
 
         public void Remove(uint index)
         {
+            // Remove from bitset
+            this.Bitset.Remove(index);
+
             // Remove element from array
             this.data.Remove(index);
         }
