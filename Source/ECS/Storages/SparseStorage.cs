@@ -7,15 +7,16 @@ using Bitset = CRoaring.RoaringBitmap;
 namespace ECS.Storages
 {
     /// <summary>
-    /// Storage class for sparse components
+    /// Storage class for sparse components.
     /// </summary>
     /// <typeparam name="T">Component type</typeparam>
     public class SparseStorage<T> : IStorage<T>
         where T : struct
     {
-        Dictionary<UInt32, Int32> indices;
-        Int32 length;
-        T[] data;
+        Dictionary<uint, uint> indices = new Dictionary<uint, uint>();
+
+        uint length = 0;
+        DynamicArray<T> data = new DynamicArray<T>(DynamicArray<T>.INITIAL_ARRAY_SIZE);
 
         public BitsetType BitsetType
         {
@@ -27,25 +28,24 @@ namespace ECS.Storages
 
         public Bitset Bitset { get; private set; } = new Bitset();
 
-        public SparseStorage()
-        {
-            this.indices = new Dictionary<uint, int>();
-            // TODO: dynamic array sizing
-            this.length = 0;
-            this.data = new T[1000];
-        }
-
         public void Add(uint index, T value)
         {
+            // Add element to bitset
             this.Bitset.Add(index);
-            this.data[this.length] = value;
+          
+            // Add element to array
+            this.data.Add(this.length, value);
+
+            // Map index to element
             this.indices.Add(index, this.length);
-            this.length += 1;
+
+            // Increment length
+            ++this.length;
         }
 
         public ref T Get(uint index)
         {
-            return ref this.data[this.indices[index]];
+            return ref this.data.Get(this.indices[index]);
         }
 
         public bool Contains(uint index)
@@ -55,16 +55,22 @@ namespace ECS.Storages
 
         public void Remove(uint index)
         {
-            // TODO: swap remove
-            throw new NotImplementedException();
-            // base.Remove(index);
-            // this.indices.Remove(index);
-            // this.data
+            // Set target element to last element
+            this.data.Add(index, this.data.Get(this.length - 1));
+
+            // Clear last element
+            this.data.Remove(this.length - 1);
+
+            // Update index
+            this.indices[this.length - 1] = index;
+
+            // Decrement length;
+            --this.length;
         }
 
         public String GetString(uint index)
         {
-            return this.data[this.indices[index]].ToString();
+            return this.data.Get(this.indices[index]).ToString();
         }
     }
 }
