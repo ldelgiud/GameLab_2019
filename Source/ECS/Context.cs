@@ -106,6 +106,17 @@ namespace ECS
         }
 
         /// <summary>
+        /// Retrieve a component instance from unit storage.
+        /// </summary>
+        /// <typeparam name="C">Component type</typeparam>
+        /// <returns>Reference to the unit component instance</returns>
+        public ref C GetUnitComponent<C>()
+            where C: struct
+        {
+            return ref ((UnitStorage<C>)this.GetStorage<C>()).Get();
+        }
+
+        /// <summary>
         /// Retrieve a bitset associated to the given component type.
         /// </summary>
         /// <typeparam name="C">Component type</typeparam>

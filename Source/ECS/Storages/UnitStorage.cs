@@ -42,6 +42,11 @@ namespace ECS.Storages
             return ref this.value;
         }
 
+        public ref T Get()
+        {
+            return ref this.value;
+        }
+
         public bool Contains(uint index)
         {
             return this.valid;
