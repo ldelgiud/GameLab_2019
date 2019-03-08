@@ -14,7 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="CRoaring.Net">
-      <HintPath>lib\CRoaring.Net.dll</HintPath>
+      <HintPath>CRoaring.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
