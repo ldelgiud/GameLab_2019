@@ -88,8 +88,9 @@ namespace Tests
         [Test]
         public void Test1()
         {
-            Dispatcher dispatcher = new Dispatcher();
-            dispatcher.Register<PhysicsSystem>();
+            var dispatcher = Dispatcher.Builder()
+                .Add(new PhysicsSystem(), new Type[] { })
+                .Build();
 
             Context ctx = new Context();
             ctx.Register<PositionComponent>(new SparseStorage<PositionComponent>());
@@ -122,7 +123,7 @@ namespace Tests
             for (int i = 0; i < 10; ++i)
             {
                 Console.WriteLine("Tick!");
-                dispatcher.Tick(ctx).Apply(ctx);
+                dispatcher.Tick(ctx);
                 Console.WriteLine(ctx);
             }
 
