@@ -7,7 +7,7 @@ using Bitset = CRoaring.RoaringBitmap;
 namespace ECS.Storages
 {
     /// <summary>
-    /// Storage class for sparse components.
+    /// Storage class for sparse components. Maps indices to an underlying array to keep data packed.
     /// </summary>
     /// <typeparam name="T">Component type</typeparam>
     public class SparseStorage<T> : IStorage<T>
