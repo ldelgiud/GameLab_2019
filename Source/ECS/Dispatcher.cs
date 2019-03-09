@@ -12,7 +12,7 @@ namespace ECS
         /// <summary>
         /// Node class for dependency resolution
         /// </summary>
-        struct Node
+        class Node
         {
             /// <summary>
             /// Longest dependency chain for this node.
@@ -151,7 +151,7 @@ namespace ECS
                     {
                         throw new Exception("Listed dependency that wasn't part of this dispatcher!");
                     }
-                    this.nodes[type].Add(this.nodes[dependency]);
+                    this.nodes[dependency].Add(this.nodes[type]);
                 }
             }
 
