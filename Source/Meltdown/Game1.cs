@@ -11,6 +11,7 @@ namespace Meltdown
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D splashScreen;
 
         public Game1()
         {
@@ -39,7 +40,7 @@ namespace Meltdown
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            splashScreen = Content.Load<Texture2D>("splashscreen");
             // TODO: use this.Content to load your game content here
         }
 
@@ -76,7 +77,11 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
 
+            spriteBatch.Draw(splashScreen, new Rectangle(0, 0, 800, 800), Color.White);
+
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
