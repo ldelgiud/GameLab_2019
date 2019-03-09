@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Meltdown
 {
@@ -59,6 +60,11 @@ namespace Meltdown
         protected override void Update(GameTime gameTime)
         {
             // TODO: Add your update logic here
+            KeyboardState state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
 
             base.Update(gameTime);
         }
