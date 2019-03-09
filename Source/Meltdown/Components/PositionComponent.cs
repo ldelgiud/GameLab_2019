@@ -10,11 +10,11 @@ namespace Meltdown.Components
 {
     class PositionComponent
     {
-        public Vector2 Position { get; }
+        public Vector2 position;
 
         public PositionComponent(Vector2 position)
         {
-            this.Position = position;
+            this.position = position;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Meltdown.Systems
                 PositionComponent position = this.positionMapper.Get(id);
                 TextureComponent texture = this.textureMapper.Get(id);
 
-                this.spriteBatch.Draw(texture.Texture, position.Position, Color.White);
+                this.spriteBatch.Draw(texture.Texture, position.position, Color.White);
             }
             this.spriteBatch.End();
         }

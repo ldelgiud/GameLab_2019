@@ -36,12 +36,14 @@ namespace Meltdown
 
             world = new WorldBuilder()
                 .AddSystem(new TextureSystem(this.spriteBatch))
+                .AddSystem(new PhysicsSystem())
                 .Build();
 
             // Player
             {
                 var entity = world.CreateEntity();
                 entity.Attach(new PositionComponent(new Vector2(0, 0)));
+                entity.Attach(new VelocityComponent(new Vector2(10, 10)));
                 entity.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
                 entity.Attach(new EnergyComponent(100f));
             }
