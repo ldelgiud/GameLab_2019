@@ -79,7 +79,7 @@ namespace Meltdown
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            spriteBatch.Draw(splashScreen, new Rectangle(0, 0, 800, 800), Color.White);
+            spriteBatch.Draw(splashScreen, new Rectangle(0, 0, 800, 1000), Color.White);
 
             spriteBatch.End();
             // TODO: Add your drawing code here
