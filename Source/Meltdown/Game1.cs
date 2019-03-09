@@ -1,6 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended.Entities;
+
+using Meltdown.Components;
+using Meltdown.Systems;
+
 namespace Meltdown
 {
     /// <summary>
@@ -10,6 +15,8 @@ namespace Meltdown
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        World world;
 
         public Game1()
         {
@@ -25,7 +32,19 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            world = new WorldBuilder()
+                .AddSystem(new TextureSystem(this.spriteBatch))
+                .Build();
+
+            // Player
+            {
+                var entity = world.CreateEntity();
+                entity.Attach(new PositionComponent(new Vector2(0, 0)));
+                entity.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
+                entity.Attach(new EnergyComponent(100f));
+            }
 
             base.Initialize();
         }
@@ -37,7 +56,7 @@ namespace Meltdown
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            
 
             // TODO: use this.Content to load your game content here
         }
@@ -58,8 +77,7 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
-
+            this.world.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -71,8 +89,7 @@ namespace Meltdown
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
+            this.world.Draw(gameTime);
             base.Draw(gameTime);
         }
     }
