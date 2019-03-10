@@ -113,6 +113,7 @@
     <Compile Include="Systems\EnergyDrawSystem.cs" />
     <Compile Include="Systems\EnergySystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
+    <Compile Include="Systems\PlayerUpdateSystem.cs" />
     <Compile Include="Systems\TextureSystem.cs" />
   </ItemGroup>
   <ItemGroup>

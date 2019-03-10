@@ -63,6 +63,7 @@ namespace Meltdown
                     this.Content.Load<Texture2D>("EnergyBar"), 
                     spriteBatch,
                     Content.Load<SpriteFont>("EnergyFont")))
+                .AddSystem(new PlayerUpdateSystem())
                 .Build();
 
             // Player
