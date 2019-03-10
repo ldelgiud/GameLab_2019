@@ -118,6 +118,7 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            //TODO: understand where (what code section) to actually draw powerplant
             spriteBatch.Begin();
             spriteBatch.Draw(powerPlant.texture, powerPlant.Position, Color.White);
             spriteBatch.End();
