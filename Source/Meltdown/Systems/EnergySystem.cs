@@ -31,7 +31,7 @@ namespace Meltdown.Systems
         {
             foreach (int id in this.ActiveEntities)
             {
-
+                //TODO: Add Logic behind energyBar
             }
         }
     }
