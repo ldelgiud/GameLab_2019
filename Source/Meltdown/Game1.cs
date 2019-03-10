@@ -5,6 +5,7 @@ using MonoGame.Extended.Entities;
 
 using Meltdown.Components;
 using Meltdown.Systems;
+using System;
 
 namespace Meltdown
 {
@@ -40,14 +41,22 @@ namespace Meltdown
                 .Build();
 
             // Player
-            {
-                var entity = world.CreateEntity();
-                entity.Attach(new PositionComponent(new Vector2(0, 0)));
-                entity.Attach(new VelocityComponent(new Vector2(10, 10)));
-                entity.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
-                entity.Attach(new EnergyComponent(100f));
-            }
+            var player = world.CreateEntity();
+            player.Attach(new PositionComponent(new Vector2(0, 0)));
+            player.Attach(new VelocityComponent(new Vector2(10, 10)));
+            player.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
+            player.Attach(new EnergyComponent(100f));
 
+
+            //Spawn the Nuclear Plant
+            int R = 1000; // Distance from player spawn point
+            Random random = new Random();
+            double angle = random.NextDouble()*Math.PI/2.0;
+            var plant = world.CreateEntity();
+            double x = R * Math.Cos(angle);
+            double y = R * Math.Sin(angle);
+            plant.Attach(new PositionComponent(new Vector2((float)x,(float)y)));
+            plant.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
             base.Initialize();
         }
 

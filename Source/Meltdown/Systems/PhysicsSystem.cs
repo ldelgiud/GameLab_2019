@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using MonoGame.Extended.Entities;
 using MonoGame.Extended.Entities.Systems;
+using MonoGame.Extended.Collisions;
 
 using Meltdown.Components;
 using Microsoft.Xna.Framework;
@@ -14,7 +15,7 @@ namespace Meltdown.Systems
 {
     class PhysicsSystem : EntityUpdateSystem
     {
-        // Quadtree quadtree;
+        Quadtree quadtree;
 
         ComponentMapper<PositionComponent> positionMapper;
         ComponentMapper<VelocityComponent> velocityMapper;
