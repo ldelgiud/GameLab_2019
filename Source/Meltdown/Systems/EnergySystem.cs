@@ -38,11 +38,11 @@ namespace Meltdown.Systems
             {
                 PositionComponent position = this.positionMapper.Get(id);
 
-                double squaredDist = Math.Min(Math.Pow((powerPlant.Position.X - position.position.X), 2)
+                double squaredDist = Math.Max(Math.Pow((powerPlant.Position.X - position.position.X), 2)
                     + Math.Pow(powerPlant.Position.Y - position.position.Y, 2),
                     minDist);
-
-                this.energy.energy -= squaredDist * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000f) *0.1;
+                
+                this.energy.energy -= (1/Math.Sqrt(squaredDist)) * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000f) *10000;
 
 
             }

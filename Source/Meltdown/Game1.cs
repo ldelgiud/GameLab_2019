@@ -16,6 +16,7 @@ namespace Meltdown
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        PowerPlant powerPlant;
 
         World world;
 
@@ -41,9 +42,17 @@ namespace Meltdown
             //DATA to initialize playing field
             Vector2 playerPos = new Vector2(0, 900);
             double startingEnergy = 1000.0;
+            double range = 900.0;
 
-            //Add energy related systems to World
-            PowerPlant powerPlant = new PowerPlant(900.0, playerPos);
+            //Add and Draw Nuclear Plant
+            powerPlant = new PowerPlant(range, 
+                playerPos, 
+                this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
+            
+            spriteBatch.Begin();
+            spriteBatch.Draw(powerPlant.texture, new Rectangle(0,0,800,300), Color.White);
+            spriteBatch.End();
+
             Energy energy = new Energy(startingEnergy);
             //Create World
             world = new WorldBuilder()
@@ -109,6 +118,9 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            spriteBatch.Draw(powerPlant.texture, powerPlant.Position, Color.White);
+            spriteBatch.End();
 
             this.world.Draw(gameTime);
             base.Draw(gameTime);
