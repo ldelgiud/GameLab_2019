@@ -37,29 +37,36 @@ namespace Meltdown
         protected override void Initialize()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            
+            //DATA to initialize playing field
+            Vector2 playerPos = new Vector2(0, 900);
+            double startingEnergy = 1000.0;
 
+            //Add energy related systems to World
+            PowerPlant powerPlant = new PowerPlant(900.0, playerPos);
+            Energy energy = new Energy(startingEnergy);
+            //Create World
             world = new WorldBuilder()
                 .AddSystem(new TextureSystem(this.spriteBatch))
                 .AddSystem(new PhysicsSystem())
+                .AddSystem(new EnergySystem(energy, powerPlant))
+                .AddSystem(new EnergyDrawSystem(energy, 
+                    this.Content.Load<Texture2D>("EnergyBar"), 
+                    spriteBatch,
+                    Content.Load<SpriteFont>("EnergyFont")))
                 .Build();
 
             // Player
             var player = world.CreateEntity();
-            player.Attach(new PositionComponent(new Vector2(0, 900)));
+           
+            player.Attach(new PositionComponent(playerPos));
             player.Attach(new VelocityComponent(new Vector2(10, -10)));
             player.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
-            player.Attach(new EnergyComponent(100f));
+            player.Attach(new PlayerComponent());
 
+            
+            
 
-            //Spawn the Nuclear Plant at random angle from player
-            int R = 900; // Distance from player spawn point
-            Random random = new Random();
-            double angle = random.NextDouble()*Math.PI/2.0;
-            var plant = world.CreateEntity();
-            double x = R * Math.Cos(angle);
-            double y = 950 - R * Math.Sin(angle); //player vert pos - R*sin(angle)
-            plant.Attach(new PositionComponent(new Vector2((float)x,(float)y)));
-            plant.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
             base.Initialize();
         }
 

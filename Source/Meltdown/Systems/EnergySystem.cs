@@ -9,29 +9,42 @@ using MonoGame.Extended.Entities.Systems;
 
 using Meltdown.Components;
 using Microsoft.Xna.Framework;
+using Meltdown;
 
 namespace Meltdown.Systems
 {
     class EnergySystem : EntityUpdateSystem
     {
-        ComponentMapper<EnergyComponent> EnergyMapper;
-
-
-        public EnergySystem() : base(Aspect.All(typeof(EnergyComponent)))
+        ComponentMapper<PositionComponent> positionMapper;
+        PowerPlant powerPlant;
+        Energy energy;
+        const int minDist = 100;
+        public EnergySystem(Energy energy, PowerPlant powerPlant) : base(Aspect.All(typeof(PositionComponent), 
+            typeof(PlayerComponent)))
         {
-
+            this.energy = energy;
+            this.powerPlant = powerPlant;
         }
 
         public override void Initialize(IComponentMapperService mapperService)
         {
-            this.EnergyMapper = mapperService.GetMapper<EnergyComponent>();
+            this.positionMapper = mapperService.GetMapper<PositionComponent>();
         }
 
         public override void Update(GameTime gameTime)
         {
+
             foreach (int id in this.ActiveEntities)
             {
-                //TODO: Add Logic behind energyBar
+                PositionComponent position = this.positionMapper.Get(id);
+
+                double squaredDist = Math.Min(Math.Pow((powerPlant.Position.X - position.position.X), 2)
+                    + Math.Pow(powerPlant.Position.Y - position.position.Y, 2),
+                    minDist);
+
+                this.energy.energy -= squaredDist * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000f) *0.1;
+
+
             }
         }
     }

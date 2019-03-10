@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Meltdown.Components
 {
-    class EnemyLifeComponent
+    class PlayerComponent
     {
-        public float Life { get; private set; }
-        public EnemyLifeComponent(float Life)
+        public PlayerComponent()
         {
-            this.Life = Life;
+            
         }
     }
 }
