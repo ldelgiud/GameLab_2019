@@ -28,14 +28,13 @@ namespace Meltdown.AI
                 
             }
             Vector2 distVector = closestPlayer.position - pos;
-
             //ATTACK!
             //TODO: implement attack
 
 
 
             //UPDATE STATE
-            if (distVector.Length() >= Attack.distToSearch) return new Attack();
+            if (distVector.Length() >= Attack.distToSearch) return new Search();
             if (distVector.Length() >= Attack.distToStanby) return new StandBy();
             return this;
         }

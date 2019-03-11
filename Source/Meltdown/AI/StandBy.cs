@@ -25,7 +25,6 @@ namespace Meltdown.AI
                 if (dist.Length() <= StandBy.distToAttack) return new Attack();
                 if (dist.Length() <= StandBy.distToSearch) return new Search();
             }
-            
             return this;
         }
     }

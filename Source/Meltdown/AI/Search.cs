@@ -28,21 +28,20 @@ namespace Meltdown.AI
 
             }
             Vector2 distVector = closestPlayer.position - pos;
-
+            double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
             velocity = Vector2.Multiply(distVector, speed2Norm);
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            //TODO: Should nullcheck closestPlayer.position
-            if (distVector.Length() <= Search.distToAttack)
+            if (distance <= Search.distToAttack)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
                 return new Attack();
             }
-            if (distVector.Length() >= Search.distToStanby)
+            if (distance >= Search.distToStanby)
             {
 
                 velocity.X = 0;
