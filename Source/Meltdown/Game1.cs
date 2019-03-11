@@ -3,9 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended.Entities;
 
+using Meltdown.Game_Elements;
 using Meltdown.Components;
 using Meltdown.Systems;
 using System;
+using Microsoft.Xna.Framework.Input;
 
 namespace Meltdown
 {
@@ -39,21 +41,15 @@ namespace Meltdown
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
-            //DATA to initialize playing field
-            Vector2 playerPos = new Vector2(0, 900);
+            //Data to initialize playing field
             double startingEnergy = 1000.0;
             double range = 900.0;
-
             //Add and Draw Nuclear Plant
             powerPlant = new PowerPlant(range, 
-                playerPos, 
                 this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
-            
-            spriteBatch.Begin();
-            spriteBatch.Draw(powerPlant.texture, new Rectangle(0,0,800,300), Color.White);
-            spriteBatch.End();
-
+            //Create Shared energy object
             Energy energy = new Energy(startingEnergy);
+            
             //Create World
             world = new WorldBuilder()
                 .AddSystem(new TextureSystem(this.spriteBatch))
@@ -66,13 +62,8 @@ namespace Meltdown
                 .AddSystem(new PlayerUpdateSystem())
                 .Build();
 
-            // Player
-            var player = world.CreateEntity();
-           
-            player.Attach(new PositionComponent(playerPos));
-            player.Attach(new VelocityComponent(new Vector2(10, -10)));
-            player.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
-            player.Attach(new PlayerComponent());
+            SpawnHelper.SpawnPLayer(world, Content);
+
 
             
             
@@ -108,6 +99,10 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //Safety check
+            KeyboardState state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.Escape)) Exit();
+
             this.world.Update(gameTime);
             base.Update(gameTime);
         }
