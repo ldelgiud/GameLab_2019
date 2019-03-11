@@ -62,6 +62,7 @@ namespace Meltdown
                     Content.Load<SpriteFont>("EnergyFont")))
                 .AddSystem(new PlayerUpdateSystem())
                 .AddSystem(new PlayerInfoSystem(playerInfos))
+                .AddSystem(new AISystem(playerInfos))
                 .Build();
             
 
@@ -71,8 +72,8 @@ namespace Meltdown
                     SpawnHelper.SpawnPLayer(world, Content, i));
             }
 
-
-            SpawnHelper.SpawEnemy(world, Content, new Vector2(500, 500));
+            //Spawn one enemy for testing purposes
+            SpawnHelper.SpawEnemy(world, Content, new Vector2(50, 650));
             base.Initialize();
         }
 

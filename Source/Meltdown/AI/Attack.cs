@@ -11,15 +11,16 @@ namespace Meltdown.AI
     class Attack : AIState
     {
 
-        const double distToStanby = 250;
-        const double distToSearch = 150;
+        const double distToStanby = 650;
+        const double distToSearch = 250;
 
         
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, Vector2 velocity)
+        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
         {
             //Find closest player
             double minDist = Double.MaxValue;
-            PlayerInfo closestPlayer = new PlayerInfo();
+            //TODO: remeber that default closest player is at (0,0)
+            PlayerInfo closestPlayer = new PlayerInfo(new Vector2(0,0));
             foreach (PlayerInfo player in playerInfos)
             {
                 Vector2 dist = player.position - pos;
@@ -34,8 +35,6 @@ namespace Meltdown.AI
 
 
             //UPDATE STATE
-            //TODO: Should nullcheck closestPlayer.position
-
             if (distVector.Length() >= Attack.distToSearch) return new Attack();
             if (distVector.Length() >= Attack.distToStanby) return new StandBy();
             return this;

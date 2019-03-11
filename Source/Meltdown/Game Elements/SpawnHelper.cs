@@ -29,7 +29,7 @@ namespace Meltdown.Game_Elements
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(Content.Load<Texture2D>("player")));
             entity.Attach(new PlayerComponent(playerID));
-            return new PlayerInfo();
+            return new PlayerInfo(new Vector2(0,0));
 
         }
 

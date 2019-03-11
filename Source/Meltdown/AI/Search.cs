@@ -10,17 +10,17 @@ namespace Meltdown.AI
 {
     class Search : AIState
     {
-        const double distToStanby = 250;
-        const double distToAttack = 100;
+        const double distToStanby = 650;
+        const double distToAttack = 200;
         const float speed2Norm = 20;
 
 
 
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, Vector2 velocity)
+        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
         {
             //Find closest player
             double minDist = Double.MaxValue;
-            PlayerInfo closestPlayer = new PlayerInfo();
+            PlayerInfo closestPlayer = new PlayerInfo(new Vector2(0, 0));
             foreach (PlayerInfo player in playerInfos)
             {
                 Vector2 dist = player.position - pos;
@@ -28,17 +28,27 @@ namespace Meltdown.AI
 
             }
             Vector2 distVector = closestPlayer.position - pos;
-            distVector.Normalize();
-            velocity = Vector2.Multiply(distVector, speed2Norm); 
+
             //SEARCH
-            //TODO: implement search
-
-
+            distVector.Normalize();
+            velocity = Vector2.Multiply(distVector, speed2Norm);
+            //TODO: Implement pathfinding method
 
             //UPDATE STATE
             //TODO: Should nullcheck closestPlayer.position
-            if (distVector.Length() <= Search.distToAttack) return new Attack();
-            if (distVector.Length() >= Search.distToStanby) return new StandBy();
+            if (distVector.Length() <= Search.distToAttack)
+            {
+                velocity.X = 0;
+                velocity.Y = 0;
+                return new Attack();
+            }
+            if (distVector.Length() >= Search.distToStanby)
+            {
+
+                velocity.X = 0;
+                velocity.Y = 0;
+                return new StandBy();
+            } 
             return this;
         }
     }

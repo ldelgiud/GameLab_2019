@@ -41,10 +41,10 @@ namespace Meltdown.Systems
                 AIComponent aiComponent = this.aiMapper.Get(id);
                 PositionComponent position = this.positionMapper.Get(id);
                 VelocityComponent velocity = this.velocityMapper.Get(id);
-
-                aiComponent.State = 
-                    aiComponent.State.UpdateState(playerInfo, position.position, velocity.velocity);
                 
+                aiComponent.State = 
+                    aiComponent.State.UpdateState(playerInfo, position.position, ref velocity.velocity);
+
             }
         }
     }

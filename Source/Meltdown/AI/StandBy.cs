@@ -11,20 +11,21 @@ namespace Meltdown.AI
     class StandBy : AIState
     {
         
-        const double distToSearch = 200;
-        const double distToAttack = 100;
+        const double distToSearch = 600;
+        const double distToAttack = 200;
         
 
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, Vector2 velocity)
+        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
         {
+            
             foreach (PlayerInfo player in playerInfos)
             {
                 Vector2 dist = player.position - pos;
-
+                
                 if (dist.Length() <= StandBy.distToAttack) return new Attack();
                 if (dist.Length() <= StandBy.distToSearch) return new Search();
             }
-
+            
             return this;
         }
     }
