@@ -17,14 +17,12 @@ namespace Meltdown
     {
         public Vector2 Position { get; }
         public Texture2D texture;
-
+        public const int R = 900;
         /// <summary>
-        ///  Generates new PowerPlant at fixed dst (0,0) i.e. assumed players position
+        ///  Generates new PowerPlant at distance R from (0,0) i.e. assumed players position
         ///  and random angle between 0 and pi/2
         /// </summary>
-        /// <param name="R">Distance radius from origin</param>
-        /// <param name="pos">Origin</param>
-        public PowerPlant(double R, Texture2D texture)
+        public PowerPlant(Texture2D texture)
         {
             Random random = new Random();
             double angle = random.NextDouble() * Math.PI / 2.0;

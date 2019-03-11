@@ -43,15 +43,13 @@ namespace Meltdown
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
             //Data to initialize playing field
-            double startingEnergy = 1000.0;
-            double range = 900.0;
             int amountOfPlayers = 1;
             List<PlayerInfo> playerInfos = new List<PlayerInfo>();
-            //Add and Draw Nuclear Plant
-            powerPlant = new PowerPlant(range, 
-                this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
-            //Create Shared energy object
-            Energy energy = new Energy(startingEnergy);
+            
+            //Generate Nuclear Plant object
+            powerPlant = new PowerPlant(this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
+            //Generate Shared Energy object
+            Energy energy = new Energy();
             
             //Create World
             world = new WorldBuilder()
@@ -65,8 +63,8 @@ namespace Meltdown
                 .AddSystem(new PlayerUpdateSystem())
                 .AddSystem(new PlayerInfoSystem(playerInfos))
                 .Build();
-
             
+
             for (int i = 0; i < amountOfPlayers; ++i)
             {
                 playerInfos.Add(
@@ -74,9 +72,7 @@ namespace Meltdown
             }
 
 
-            
-            
-
+            SpawnHelper.SpawEnemy(world, Content, new Vector2(500, 500));
             base.Initialize();
         }
 
@@ -87,9 +83,6 @@ namespace Meltdown
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -98,7 +91,7 @@ namespace Meltdown
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
