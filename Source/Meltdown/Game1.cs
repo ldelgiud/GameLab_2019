@@ -73,7 +73,7 @@ namespace Meltdown
             }
 
             //Spawn one enemy for testing purposes
-            SpawnHelper.SpawEnemy(world, Content, new Vector2(300, 300));
+            SpawnHelper.SpawEnemy(world, Content, new Vector2(300, 300), 100f);
             base.Initialize();
         }
 

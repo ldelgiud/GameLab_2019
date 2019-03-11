@@ -39,15 +39,15 @@ namespace Meltdown.Game_Elements
         /// <param name="world"></param>
         /// <param name="Content"></param>
         /// <param name="pos">Position to Spawn enemy at</param>
-        public static void SpawEnemy(World world, ContentManager Content, Vector2 pos)
+        /// <param name="life">Starting Life of Enemy</param>
+        public static void SpawEnemy(World world, ContentManager Content, Vector2 pos, float life)
         {
             var entity = world.CreateEntity();
             entity.Attach(new PositionComponent(pos));
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(Content.Load<Texture2D>("EnemyPLACEHOLDER")));
             entity.Attach(new AIComponent(new StandBy()));
+            entity.Attach(new EnemyLifeComponent(life));
         }
-
-        
     }
 }

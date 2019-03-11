@@ -43,7 +43,6 @@ namespace Meltdown.AI
             }
             if (distance >= Search.distToStanby)
             {
-
                 velocity.X = 0;
                 velocity.Y = 0;
                 return new StandBy();
