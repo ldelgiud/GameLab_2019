@@ -64,6 +64,11 @@ namespace Meltdown
                     spriteBatch,
                     Content.Load<SpriteFont>("EnergyFont")))
                 .AddSystem(new PlayerUpdateSystem())
+<<<<<<< Updated upstream
+=======
+                .AddSystem(new PlayerInfoSystem(playerInfos))
+                .AddSystem(new AISystem(playerInfos))
+>>>>>>> Stashed changes
                 .Build();
 
             // Player
