@@ -105,8 +105,9 @@
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
-    <Compile Include="Energy.cs" />
-    <Compile Include="PowerPlant.cs" />
+    <Compile Include="Game Elements\Energy.cs" />
+    <Compile Include="Game Elements\PowerPlant.cs" />
+    <Compile Include="Game Elements\SpawnHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
