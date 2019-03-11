@@ -18,13 +18,15 @@ namespace Meltdown.Game_Elements
         /// </summary>
         /// <param name="world">World to generate player in</param>
         /// <param name="Content"></param>
-        public static void SpawnPLayer(World world, ContentManager Content)
+        /// <param name="playerID">starts at 0, and linearly increase, NO RANDOM VARIABLES</param>
+        public static PlayerInfo SpawnPLayer(World world, ContentManager Content, int playerID)
         {
             var entity = world.CreateEntity();
             entity.Attach(new PositionComponent(new Vector2(0, 0)));
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(Content.Load<Texture2D>("player")));
-            entity.Attach(new PlayerComponent());
+            entity.Attach(new PlayerComponent(playerID));
+            return new PlayerInfo();
 
         }
 

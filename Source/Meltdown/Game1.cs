@@ -8,6 +8,7 @@ using Meltdown.Components;
 using Meltdown.Systems;
 using System;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Meltdown
 {
@@ -44,6 +45,8 @@ namespace Meltdown
             //Data to initialize playing field
             double startingEnergy = 1000.0;
             double range = 900.0;
+            int amountOfPlayers = 1;
+            List<PlayerInfo> playerInfos = new List<PlayerInfo>();
             //Add and Draw Nuclear Plant
             powerPlant = new PowerPlant(range, 
                 this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
@@ -60,9 +63,15 @@ namespace Meltdown
                     spriteBatch,
                     Content.Load<SpriteFont>("EnergyFont")))
                 .AddSystem(new PlayerUpdateSystem())
+                .AddSystem(new PlayerInfoSystem(playerInfos))
                 .Build();
 
-            SpawnHelper.SpawnPLayer(world, Content);
+            
+            for (int i = 0; i < amountOfPlayers; ++i)
+            {
+                playerInfos.Add(
+                    SpawnHelper.SpawnPLayer(world, Content, i));
+            }
 
 
             
