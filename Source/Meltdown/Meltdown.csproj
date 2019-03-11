@@ -100,6 +100,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AIState.cs" />
+    <Compile Include="AI\Attack.cs" />
+    <Compile Include="AI\LookAlive.cs" />
+    <Compile Include="AI\Search.cs" />
+    <Compile Include="AI\StandBy.cs" />
     <Compile Include="Components\EnemyLifeComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
