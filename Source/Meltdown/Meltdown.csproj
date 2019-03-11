@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="AI\AIState.cs" />
     <Compile Include="AI\Attack.cs" />
+    <Compile Include="AI\Escape.cs" />
     <Compile Include="AI\LookAlive.cs" />
     <Compile Include="AI\Search.cs" />
     <Compile Include="AI\StandBy.cs" />
