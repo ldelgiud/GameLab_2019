@@ -3,9 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended.Entities;
 
+using Meltdown.Game_Elements;
 using Meltdown.Components;
 using Meltdown.Systems;
 using System;
+using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Meltdown
 {
@@ -39,21 +42,15 @@ namespace Meltdown
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
-            //DATA to initialize playing field
-            Vector2 playerPos = new Vector2(0, 900);
-            double startingEnergy = 1000.0;
-            double range = 900.0;
-
-            //Add and Draw Nuclear Plant
-            powerPlant = new PowerPlant(range, 
-                playerPos, 
-                this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
+            //Data to initialize playing field
+            int amountOfPlayers = 1;
+            List<PlayerInfo> playerInfos = new List<PlayerInfo>();
             
-            spriteBatch.Begin();
-            spriteBatch.Draw(powerPlant.texture, new Rectangle(0,0,800,300), Color.White);
-            spriteBatch.End();
-
-            Energy energy = new Energy(startingEnergy);
+            //Generate Nuclear Plant object
+            powerPlant = new PowerPlant(this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
+            //Generate Shared Energy object
+            Energy energy = new Energy();
+            
             //Create World
             world = new WorldBuilder()
                 .AddSystem(new TextureSystem(this.spriteBatch))
@@ -67,18 +64,16 @@ namespace Meltdown
                 .AddSystem(new PlayerInfoSystem(playerInfos))
                 .AddSystem(new AISystem(playerInfos))
                 .Build();
-
-            // Player
-            var player = world.CreateEntity();
-           
-            player.Attach(new PositionComponent(playerPos));
-            player.Attach(new VelocityComponent(new Vector2(10, -10)));
-            player.Attach(new TextureComponent(this.Content.Load<Texture2D>("player")));
-            player.Attach(new PlayerComponent());
-
-            
             
 
+            for (int i = 0; i < amountOfPlayers; ++i)
+            {
+                playerInfos.Add(
+                    SpawnHelper.SpawnPLayer(world, Content, i));
+            }
+
+            //Spawn one enemy for testing purposes
+            SpawnHelper.SpawEnemy(world, Content, new Vector2(50, 650));
             base.Initialize();
         }
 
@@ -89,9 +84,6 @@ namespace Meltdown
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            
-
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -100,7 +92,7 @@ namespace Meltdown
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
@@ -110,6 +102,10 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            //Safety check
+            KeyboardState state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.Escape)) Exit();
+
             this.world.Update(gameTime);
             base.Update(gameTime);
         }

@@ -26,7 +26,7 @@ class EnergyDrawSystem : DrawSystem {
         this.spriteBatch.Begin();
 
         this.spriteBatch.Draw(texture, new Rectangle(0,0,200,60), Color.White);
-        int readableEnergy = (int) Math.Floor((energy.energy / energy.maxEnergy)*100.0);
+        int readableEnergy = (int) Math.Floor((energy.CurrentEnergy / Energy.maxEnergy)*100.0);
         this.spriteBatch.DrawString(font,readableEnergy.ToString(), new Vector2(100, 80), Color.Black);
         this.spriteBatch.End();
     }

@@ -15,23 +15,37 @@ namespace Meltdown.Systems
     {
 
         List<PlayerInfo> playerInfo;
-        
+        ComponentMapper<PositionComponent> positionMapper;
+        ComponentMapper<VelocityComponent> velocityMapper;
+        ComponentMapper<AIComponent> aiMapper;
 
         public AISystem(List<PlayerInfo> playerInfo) :
-            base(Aspect.All(typeof(AIComponent), typeof(ActiveComponent)))
+            base(Aspect.All(typeof(AIComponent), typeof(VelocityComponent), typeof(PositionComponent)))
         {
             this.playerInfo = playerInfo;
         }
 
         public override void Initialize(IComponentMapperService mapperService)
         {
-            throw new NotImplementedException();
+            this.positionMapper = mapperService.GetMapper<PositionComponent>();
+            this.velocityMapper = mapperService.GetMapper<VelocityComponent>();
+            this.aiMapper = mapperService.GetMapper<AIComponent>();
         }
+
 
         
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            foreach (int id in this.ActiveEntities)
+            {
+                AIComponent aiComponent = this.aiMapper.Get(id);
+                PositionComponent position = this.positionMapper.Get(id);
+                VelocityComponent velocity = this.velocityMapper.Get(id);
+                
+                aiComponent.State = 
+                    aiComponent.State.UpdateState(playerInfo, position.position, ref velocity.velocity);
+
+            }
         }
     }
 }

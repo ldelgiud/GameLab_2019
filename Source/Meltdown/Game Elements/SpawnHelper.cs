@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Meltdown.Components;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+
+using Meltdown.Components;
+using Meltdown.AI;
 using MonoGame.Extended.Entities;
 
 namespace Meltdown.Game_Elements
@@ -26,12 +29,12 @@ namespace Meltdown.Game_Elements
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(Content.Load<Texture2D>("player")));
             entity.Attach(new PlayerComponent(playerID));
-            return new PlayerInfo();
+            return new PlayerInfo(new Vector2(0,0));
 
         }
 
         /// <summary>
-        /// Spawn an enemy entity at given position
+        /// Spawn an enemy entity at given position in standby
         /// </summary>
         /// <param name="world"></param>
         /// <param name="Content"></param>
@@ -42,6 +45,7 @@ namespace Meltdown.Game_Elements
             entity.Attach(new PositionComponent(pos));
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(Content.Load<Texture2D>("EnemyPLACEHOLDER")));
+            entity.Attach(new AIComponent(new StandBy()));
         }
 
         

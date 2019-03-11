@@ -3,19 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Meltdown.Game_Elements;
+using Microsoft.Xna.Framework;
 
 namespace Meltdown.AI
 {
     class Search : AIState
     {
-        public override AIState ChangeState()
-        {
-            throw new NotImplementedException();
-        }
+        const double distToStanby = 650;
+        const double distToAttack = 200;
+        const float speed2Norm = 20;
 
-        public override void DoAction()
+
+
+        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
         {
-            throw new NotImplementedException();
+            //Find closest player
+            double minDist = Double.MaxValue;
+            PlayerInfo closestPlayer = new PlayerInfo(new Vector2(0, 0));
+            foreach (PlayerInfo player in playerInfos)
+            {
+                Vector2 dist = player.position - pos;
+                if (dist.Length() < minDist) closestPlayer = player;
+
+            }
+            Vector2 distVector = closestPlayer.position - pos;
+
+            //SEARCH
+            distVector.Normalize();
+            velocity = Vector2.Multiply(distVector, speed2Norm);
+            //TODO: Implement pathfinding method
+
+            //UPDATE STATE
+            //TODO: Should nullcheck closestPlayer.position
+            if (distVector.Length() <= Search.distToAttack)
+            {
+                velocity.X = 0;
+                velocity.Y = 0;
+                return new Attack();
+            }
+            if (distVector.Length() >= Search.distToStanby)
+            {
+
+                velocity.X = 0;
+                velocity.Y = 0;
+                return new StandBy();
+            } 
+            return this;
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Meltdown.Systems
                     + Math.Pow(powerPlant.Position.Y - position.position.Y, 2),
                     minDist);
                 
-                this.energy.energy -= (1/Math.Sqrt(squaredDist)) * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000f) *10000;
+                this.energy.CurrentEnergy -= (1/Math.Sqrt(squaredDist)) * ((float)gameTime.ElapsedGameTime.Milliseconds / 1000f) *10000;
 
 
             }

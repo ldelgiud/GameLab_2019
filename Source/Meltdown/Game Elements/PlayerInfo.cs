@@ -11,8 +11,12 @@ namespace Meltdown.Game_Elements
 {
     class PlayerInfo
     {
-        Vector2 position;
-        
+        public Vector2 position;
+
+        public PlayerInfo (Vector2 position)
+        {
+            this.position = position;
+        }
         public void Update(Vector2 position)
         {
             this.position = position;

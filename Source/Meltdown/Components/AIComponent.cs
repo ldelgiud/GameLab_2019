@@ -10,12 +10,11 @@ namespace Meltdown.Components
 {
     class AIComponent
     {
-        public AIState State { get; }
+        public AIState State { get; set; }
 
         public AIComponent(AIState state)
         {
             this.State = state;
         }
-
     }
 }

@@ -8,16 +8,24 @@ namespace Meltdown
 {
     class Energy
     {
-        public double energy { get; set; }
-        public double maxEnergy;
+        private double currentEnergy; 
+        public double CurrentEnergy { get {
+                return this.currentEnergy;
+            }
 
-        public Energy(double energy)
+            set {
+                this.currentEnergy = Math.Min(value, Energy.maxEnergy); 
+            }
+        }
+        public const double maxEnergy = 1000;
+
+        /// <summary>
+        /// Generate new Energy object with maximum energy
+        /// </summary>
+        public Energy()
         {
-            this.energy = energy;
-            maxEnergy = energy;
+            this.CurrentEnergy = maxEnergy;
         }
     }
-
-
 }
 
