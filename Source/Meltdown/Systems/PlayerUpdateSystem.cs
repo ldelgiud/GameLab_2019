@@ -46,13 +46,11 @@ namespace Meltdown.Systems
                 bool D = state.IsKeyDown(Keys.D);
 
                 if (A) { velocity.velocity = new Vector2(-40, 0); }
-                if (W) { velocity.velocity = new Vector2( 0,  -40); }
-                if (S) { velocity.velocity = new Vector2( 0,  40); }
-                if (D) { velocity.velocity = new Vector2( 40, 0); }
-
-
-
-
+                else if (W) { velocity.velocity = new Vector2( 0,  -40); }
+                else if (S) { velocity.velocity = new Vector2( 0,  40); }
+                else if (D) { velocity.velocity = new Vector2( 40, 0); }
+                else { velocity.velocity = new Vector2(0, 0); }
+                
             }
         }
     }
