@@ -22,6 +22,7 @@ namespace Meltdown
         ///  Generates new PowerPlant at distance R from (0,0) i.e. assumed players position
         ///  and random angle between 0 and pi/2
         /// </summary>
+        /// <param name="texture">Texture to assign to Powerplant</param>
         public PowerPlant(Texture2D texture)
         {
             Random random = new Random();

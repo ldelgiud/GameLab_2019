@@ -45,12 +45,14 @@ namespace Meltdown.Systems
                 bool S = state.IsKeyDown(Keys.S);
                 bool D = state.IsKeyDown(Keys.D);
 
-                if (A) { velocity.velocity = new Vector2(-80, 0); }
-                else if (W) { velocity.velocity = new Vector2( 0,  -80); }
-                else if (S) { velocity.velocity = new Vector2( 0,  80); }
-                else if (D) { velocity.velocity = new Vector2( 80, 0); }
-                else { velocity.velocity = new Vector2(0, 0); }
-                
+                Vector2 newVelocity = new Vector2(0, 0);
+                if (A) { newVelocity.X += -80; }
+                if (W) { newVelocity.Y += -80; }
+                if (S) { newVelocity.Y += 80; }
+                if (D) { newVelocity.X += 80; }
+                if (!(A||W||S||D)){ velocity.velocity = new Vector2(0, 0); }
+
+                velocity.velocity = newVelocity;
             }
         }
     }

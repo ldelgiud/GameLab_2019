@@ -20,6 +20,7 @@ namespace Meltdown.AI
         {
             //Find closest player
             double minDist = Double.MaxValue;
+            //default closest player at (0,0)
             PlayerInfo closestPlayer = new PlayerInfo(new Vector2(0, 0));
             foreach (PlayerInfo player in playerInfos)
             {
