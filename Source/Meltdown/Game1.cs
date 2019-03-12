@@ -45,9 +45,8 @@ namespace Meltdown
             //Data to initialize playing field
             int amountOfPlayers = 1;
             List<PlayerInfo> playerInfos = new List<PlayerInfo>();
-            
             //Generate Nuclear Plant object
-            powerPlant = new PowerPlant(this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
+            powerPlant = new PowerPlant();
             //Generate Shared Energy object
             Energy energy = new Energy();
             
@@ -66,12 +65,15 @@ namespace Meltdown
                 .Build();
             
 
+            //Spawn player(s)
             for (int i = 0; i < amountOfPlayers; ++i)
             {
                 playerInfos.Add(
                     SpawnHelper.SpawnPLayer(world, Content, i));
             }
 
+            //Spawn powerplant
+            SpawnHelper.SpawnNuclearPowerPlant(world, Content, powerPlant);
             //Spawn one enemy for testing purposes
             SpawnHelper.SpawEnemy(world, Content, new Vector2(50, 650));
             base.Initialize();
@@ -118,9 +120,7 @@ namespace Meltdown
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             //TODO: understand where (what code section) to actually draw powerplant
-            spriteBatch.Begin();
-            spriteBatch.Draw(powerPlant.texture, powerPlant.Position, Color.White);
-            spriteBatch.End();
+            
 
             this.world.Draw(gameTime);
             base.Draw(gameTime);

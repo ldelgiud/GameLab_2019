@@ -22,7 +22,10 @@ namespace Meltdown.Game_Elements
         /// <param name="world">World to generate player in</param>
         /// <param name="Content"></param>
         /// <param name="playerID">starts at 0, and linearly increase, NO RANDOM VARIABLES</param>
-        public static PlayerInfo SpawnPLayer(World world, ContentManager Content, int playerID)
+        public static PlayerInfo SpawnPLayer(
+            World world, 
+            ContentManager Content, 
+            int playerID)
         {
             var entity = world.CreateEntity();
             entity.Attach(new PositionComponent(new Vector2(0, 0)));
@@ -33,13 +36,35 @@ namespace Meltdown.Game_Elements
 
         }
 
+        public static void SpawnNuclearPowerPlant(
+            World world, 
+            ContentManager Content, 
+            PowerPlant plant)
+        {
+            var entity = world.CreateEntity();
+            entity.Attach(new TextureComponent(Content.Load<Texture2D>("NuclearPlantPLACEHOLDER")));
+
+            
+            double angle = Constants.RANDOM.NextDouble() * Math.PI / 2.0;
+            double x = Constants.PLANT_PLAYER_DISTANCE * Math.Cos(angle);
+           
+            //TODO: change this once camera work is done
+            double y = Constants.PLANT_PLAYER_DISTANCE * Math.Sin(angle);
+            Vector2 position = new Vector2((float)x, (float)y);
+            entity.Attach(new PositionComponent(position));
+            plant.Position = position;
+        }
+
         /// <summary>
         /// Spawn an enemy entity at given position in standby
         /// </summary>
         /// <param name="world"></param>
         /// <param name="Content"></param>
         /// <param name="pos">Position to Spawn enemy at</param>
-        public static void SpawEnemy(World world, ContentManager Content, Vector2 pos)
+        public static void SpawEnemy(
+            World world, 
+            ContentManager Content, 
+            Vector2 pos)
         {
             var entity = world.CreateEntity();
             entity.Attach(new PositionComponent(pos));
