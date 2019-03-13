@@ -1,4 +1,4 @@
-﻿namespace Meltdown.States
+﻿namespace Meltdown.State
 {
     /// <summary>
     /// Interface for state transitions.
