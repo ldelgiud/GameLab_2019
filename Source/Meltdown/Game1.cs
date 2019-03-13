@@ -1,5 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using Meltdown.States;
 
 namespace Meltdown
 {
@@ -8,11 +12,19 @@ namespace Meltdown
     /// </summary>
     public class Game1 : Game
     {
+        public static Game1 Instance { get; private set; }
+
+        private Stack<State> stateStack = new Stack<State>();
+
+        public State ActiveState { get { return this.stateStack.Peek(); } }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         public Game1()
         {
+            Game1.Instance = this;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -25,8 +37,6 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -39,7 +49,6 @@ namespace Meltdown
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -48,7 +57,7 @@ namespace Meltdown
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
@@ -58,8 +67,47 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
+            IStateTransition transition = this.ActiveState.Update(gameTime);
+            switch (transition)
+            {
+                case PopStateTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
 
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Resume top state
+                    this.ActiveState.Resume();
+                    break;
+                case SwapTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
+
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+                    break;
+                case PushStateTransition t:
+                    // Suspend current state
+                    this.ActiveState.Suspend();
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+                    break;
+                case ExitTransition t:
+                    // Exit game
+                    this.Exit();
+                    break;
+            }
             base.Update(gameTime);
         }
 
@@ -70,9 +118,7 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            this.ActiveState.Draw(gameTime);
             base.Draw(gameTime);
         }
     }
