@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Meltdown.Components;
 using Meltdown.AI;
 using MonoGame.Extended.Entities;
+using MonoGame.Extended;
 
 namespace Meltdown.Game_Elements
 {
@@ -28,10 +29,13 @@ namespace Meltdown.Game_Elements
             int playerID)
         {
             var entity = world.CreateEntity();
+            Vector2 DL = new Vector2(0, 0);
+            Vector2 TR = new Vector2(100, 100);
             entity.Attach(new PositionComponent(new Vector2(0, 0)));
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(Content.Load<Texture2D>("player1 PLACEHOLDER")));
             entity.Attach(new PlayerComponent(playerID));
+            entity.Attach(new BoundingBoxComponent(new RectangleF(DL, TR)));
             return new PlayerInfo(new Vector2(0,0));
 
         }
