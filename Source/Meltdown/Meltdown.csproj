@@ -105,6 +105,7 @@
     <Compile Include="AI\Search.cs" />
     <Compile Include="AI\StandBy.cs" />
     <Compile Include="Components\AIComponent.cs" />
+    <Compile Include="Components\BatteryComponent.cs" />
     <Compile Include="Components\EnemyLifeComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />

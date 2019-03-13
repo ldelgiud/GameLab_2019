@@ -30,7 +30,7 @@ namespace Meltdown.Game_Elements
             var entity = world.CreateEntity();
             entity.Attach(new PositionComponent(new Vector2(0, 0)));
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
-            entity.Attach(new TextureComponent(Content.Load<Texture2D>("player")));
+            entity.Attach(new TextureComponent(Content.Load<Texture2D>("player1 PLACEHOLDER")));
             entity.Attach(new PlayerComponent(playerID));
             return new PlayerInfo(new Vector2(0,0));
 
