@@ -55,6 +55,19 @@ namespace Meltdown.Game_Elements
             plant.Position = position;
         }
 
+
+        public static void SpawnBattery(
+            World world, 
+            ContentManager Content, 
+            int size, 
+            Vector2 position)
+        {
+            var entity = world.CreateEntity();
+            entity.Attach(new BatteryComponent(size));
+            entity.Attach(new PositionComponent(position));
+            entity.Attach(new TextureComponent(Content.Load<Texture2D>("battery PLACEHOLDER")));
+        }
+
         /// <summary>
         /// Spawn an enemy entity at given position in standby
         /// </summary>

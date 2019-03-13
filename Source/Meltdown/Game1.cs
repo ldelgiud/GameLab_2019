@@ -77,6 +77,8 @@ namespace Meltdown
             //Spawn one enemy for testing purposes
             SpawnHelper.SpawEnemy(world, Content, new Vector2(50, 650));
             base.Initialize();
+            //Spawn one battery 
+            SpawnHelper.SpawnBattery(world, Content, Constants.BIG_BATTERY_SIZE, new Vector2(300, 300));
         }
 
         /// <summary>
