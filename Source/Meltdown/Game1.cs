@@ -14,9 +14,9 @@ namespace Meltdown
     {
         public static Game1 Instance { get; private set; }
 
-        private Stack<State> stateStack = new Stack<State>();
+        private Stack<IState> stateStack = new Stack<IState>();
 
-        public State ActiveState { get { return this.stateStack.Peek(); } }
+        public IState ActiveState { get { return this.stateStack.Peek(); } }
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;

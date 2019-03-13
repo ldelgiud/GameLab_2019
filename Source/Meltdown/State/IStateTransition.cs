@@ -13,9 +13,9 @@
         /// <summary>
         /// The state to be pushed
         /// </summary>
-        public State State;
+        public IState State;
 
-        public PushStateTransition(State state)
+        public PushStateTransition(IState state)
         {
             this.State = state;
         }
@@ -29,9 +29,9 @@
         /// <summary>
         /// The state to be swaped
         /// </summary>
-        public State State;
+        public IState State;
 
-        public SwapTransition(State state)
+        public SwapTransition(IState state)
         {
             this.State = state;
         }
