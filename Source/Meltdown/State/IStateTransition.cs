@@ -1,4 +1,6 @@
-﻿namespace Meltdown.State
+﻿using System;
+
+namespace Meltdown.State
 {
     /// <summary>
     /// Interface for state transitions.
@@ -42,6 +44,12 @@
     /// </summary>
     public class PopStateTransition : IStateTransition
     {
+        public Object Data;
+
+        public PopStateTransition(Object data)
+        {
+            this.Data = data;
+        }
     }
 
     /// <summary>

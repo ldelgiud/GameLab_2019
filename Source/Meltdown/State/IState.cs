@@ -13,7 +13,7 @@ namespace Meltdown.State
         /// <summary>
         /// Hook for when the state is resumed.
         /// </summary>
-        void Resume();
+        void Resume(object data);
 
         /// <summary>
         /// Hook for when the state is suspended.

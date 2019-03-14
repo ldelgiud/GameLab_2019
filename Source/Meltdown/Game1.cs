@@ -82,7 +82,7 @@ namespace Meltdown
                     this.stateStack.Pop();
 
                     // Resume top state
-                    this.ActiveState.Resume();
+                    this.ActiveState.Resume(t.Data);
                     break;
                 case SwapTransition t:
                     // Destroy current state

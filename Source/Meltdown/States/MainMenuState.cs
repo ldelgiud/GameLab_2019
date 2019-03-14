@@ -10,7 +10,7 @@ namespace Meltdown.States
         {
         }
 
-        public void Resume()
+        public void Resume(object data)
         {
         }
 
