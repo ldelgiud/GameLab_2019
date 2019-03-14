@@ -128,6 +128,9 @@
     <Compile Include="Systems\PlayerInfoSystem.cs" />
     <Compile Include="Systems\PlayerUpdateSystem.cs" />
     <Compile Include="Systems\TextureSystem.cs" />
+    <Compile Include="States\MainMenuState.cs" />
+    <Compile Include="State\IState.cs" />
+    <Compile Include="State\IStateTransition.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MonoGame.Extended.Entities;
@@ -11,6 +13,9 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using MonoGame.Extended.Collisions;
 
+using Meltdown.State;
+using Meltdown.States;
+
 namespace Meltdown
 {
     /// <summary>
@@ -19,6 +24,12 @@ namespace Meltdown
     public class Game1 : Game
     {
         Quadtree quadtree;
+        public static Game1 Instance { get; private set; }
+
+        private Stack<IState> stateStack = new Stack<IState>();
+
+        public IState ActiveState { get { return this.stateStack.Peek(); } }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         PowerPlant powerPlant;
@@ -27,6 +38,8 @@ namespace Meltdown
 
         public Game1()
         {
+            Game1.Instance = this;
+
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1000;  // set this value to the desired width of your window
             graphics.PreferredBackBufferHeight = 1000;   // set this value to the desired height of your window
@@ -90,6 +103,11 @@ namespace Meltdown
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            IState initialState = new MainMenuState();
+            initialState.Initialize(this);
+            this.stateStack.Push(initialState);
         }
 
         /// <summary>
@@ -113,6 +131,47 @@ namespace Meltdown
             if (state.IsKeyDown(Keys.Escape)) Exit();
 
             this.world.Update(gameTime);
+            IStateTransition transition = this.ActiveState.Update(gameTime);
+            switch (transition)
+            {
+                case PopStateTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
+
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Resume top state
+                    this.ActiveState.Resume();
+                    break;
+                case SwapTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
+
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+                    break;
+                case PushStateTransition t:
+                    // Suspend current state
+                    this.ActiveState.Suspend();
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+                    break;
+                case ExitTransition t:
+                    // Exit game
+                    this.Exit();
+                    break;
+            }
             base.Update(gameTime);
         }
 
@@ -123,10 +182,7 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            //TODO: understand where (what code section) to actually draw powerplant
-            
-
-            this.world.Draw(gameTime);
+            this.ActiveState.Draw(gameTime);
             base.Draw(gameTime);
         }
     }
