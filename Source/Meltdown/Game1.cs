@@ -1,6 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using MonoGame.Extended.Entities;
+
+using Meltdown.Game_Elements;
+using Meltdown.Components;
+using Meltdown.Systems;
+using System;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace Meltdown
 {
@@ -11,11 +19,16 @@ namespace Meltdown
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D splashScreen;
+        PowerPlant powerPlant;
+
+        World world;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1000;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = 1000;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -27,8 +40,40 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            
+            //Data to initialize playing field
+            int amountOfPlayers = 1;
+            List<PlayerInfo> playerInfos = new List<PlayerInfo>();
+            
+            //Generate Nuclear Plant object
+            powerPlant = new PowerPlant(this.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER"));
+            //Generate Shared Energy object
+            Energy energy = new Energy();
+            
+            //Create World
+            world = new WorldBuilder()
+                .AddSystem(new TextureSystem(this.spriteBatch))
+                .AddSystem(new PhysicsSystem())
+                .AddSystem(new EnergySystem(energy, powerPlant))
+                .AddSystem(new EnergyDrawSystem(energy, 
+                    this.Content.Load<Texture2D>("EnergyBar"), 
+                    spriteBatch,
+                    Content.Load<SpriteFont>("EnergyFont")))
+                .AddSystem(new PlayerUpdateSystem())
+                .AddSystem(new PlayerInfoSystem(playerInfos))
+                .AddSystem(new AISystem(playerInfos))
+                .Build();
+            
 
+            for (int i = 0; i < amountOfPlayers; ++i)
+            {
+                playerInfos.Add(
+                    SpawnHelper.SpawnPLayer(world, Content, i));
+            }
+
+            //Spawn one enemy for testing purposes
+            SpawnHelper.SpawEnemy(world, Content, new Vector2(300, 300), 100f);
             base.Initialize();
         }
 
@@ -39,9 +84,6 @@ namespace Meltdown
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            splashScreen = Content.Load<Texture2D>("splashscreen");
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -50,7 +92,7 @@ namespace Meltdown
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
@@ -60,13 +102,11 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
+            //Safety check
             KeyboardState state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
+            if (state.IsKeyDown(Keys.Escape)) Exit();
 
+            this.world.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -77,13 +117,12 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            //TODO: understand where (what code section) to actually draw powerplant
             spriteBatch.Begin();
-
-            spriteBatch.Draw(splashScreen, new Rectangle(0, 0, 800, 1000), Color.White);
-
+            spriteBatch.Draw(powerPlant.texture, powerPlant.Position, Color.White);
             spriteBatch.End();
-            // TODO: Add your drawing code here
 
+            this.world.Draw(gameTime);
             base.Draw(gameTime);
         }
     }
