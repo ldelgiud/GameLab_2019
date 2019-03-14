@@ -9,6 +9,11 @@ namespace Meltdown.State
     {
         protected Dictionary<Type, Object> data = new Dictionary<Type, Object>();
 
+        protected void SetInstance<T>(T instance)
+        {
+            data.Add(typeof(T), instance);
+        }
+
         public T GetInstance<T>()
         {
             return (T)this.data[typeof(T)];
