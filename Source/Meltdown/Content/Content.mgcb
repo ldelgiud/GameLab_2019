@@ -13,6 +13,18 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin battery PLACEHOLDER.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:battery PLACEHOLDER.png
+
 #begin EnemyPLACEHOLDER.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -56,7 +68,7 @@
 /processorParam:TextureFormat=Color
 /build:NuclearPlantPLACEHOLDER.jpg
 
-#begin player.png
+#begin player1 PLACEHOLDER.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -66,5 +78,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:player.png
+/build:player1 PLACEHOLDER.png
 

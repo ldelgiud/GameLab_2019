@@ -105,11 +105,15 @@
     <Compile Include="AI\Search.cs" />
     <Compile Include="AI\StandBy.cs" />
     <Compile Include="Components\AIComponent.cs" />
+    <Compile Include="Components\BatteryComponent.cs" />
+    <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\EnemyLifeComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="Game Elements\CollisionHandlers.cs" />
+    <Compile Include="Game Elements\Constants.cs" />
     <Compile Include="Game Elements\Energy.cs" />
     <Compile Include="Game Elements\PlayerInfo.cs" />
     <Compile Include="Game Elements\PowerPlant.cs" />
