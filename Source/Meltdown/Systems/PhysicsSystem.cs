@@ -20,6 +20,7 @@ namespace Meltdown.Systems
         ComponentMapper<PositionComponent> positionMapper;
         ComponentMapper<VelocityComponent> velocityMapper;
 
+        // TODO: Add CollisionSystem
         public PhysicsSystem() : base(Aspect.All(typeof(PositionComponent), typeof(VelocityComponent)))
         {
 
@@ -41,6 +42,9 @@ namespace Meltdown.Systems
                 // Add velocity to position, scaled to meters per second
                 position.position.X += velocity.velocity.X * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
                 position.position.Y += velocity.velocity.Y * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
+
+
+                // TODO: Perform collision logic and queue into this.CollisionSystem.EventQueue
             }
         }
     }
