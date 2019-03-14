@@ -9,6 +9,7 @@ using Meltdown.Systems;
 using System;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using MonoGame.Extended.Collisions;
 
 namespace Meltdown
 {
@@ -17,6 +18,7 @@ namespace Meltdown
     /// </summary>
     public class Game1 : Game
     {
+        Quadtree quadtree;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         PowerPlant powerPlant;
@@ -53,7 +55,7 @@ namespace Meltdown
             //Create World
             world = new WorldBuilder()
                 .AddSystem(new TextureSystem(this.spriteBatch))
-                .AddSystem(new PhysicsSystem())
+                .AddSystem(new PhysicsSystem(quadtree))
                 .AddSystem(new EnergySystem(energy, powerPlant))
                 .AddSystem(new EnergyDrawSystem(energy, 
                     this.Content.Load<Texture2D>("EnergyBar"), 

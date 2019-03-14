@@ -20,8 +20,9 @@ namespace Meltdown.Systems
         ComponentMapper<PositionComponent> positionMapper;
         ComponentMapper<VelocityComponent> velocityMapper;
 
-        public PhysicsSystem() : base(Aspect.All(typeof(PositionComponent), typeof(VelocityComponent)))
+        public PhysicsSystem(Quadtree quadtree) : base(Aspect.All(typeof(PositionComponent), typeof(VelocityComponent)))
         {
+            this.quadtree = quadtree;
 
         }
 
