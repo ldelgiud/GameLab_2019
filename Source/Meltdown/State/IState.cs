@@ -1,41 +1,51 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 
 namespace Meltdown.State
 {
-    public interface IState
+    public abstract class State
     {
+        protected Dictionary<Type, Object> data = new Dictionary<Type, Object>();
+
+        public T GetInstance<T>()
+        {
+            return (T)this.data[typeof(T)];
+        }
+
         /// <summary>
         /// Hook for when the state is first created.
         /// </summary>
         /// <param name="game"></param>
-        void Initialize(Game game);
+        public virtual void Initialize(Game game) { }
 
         /// <summary>
         /// Hook for when the state is resumed.
         /// </summary>
-        void Resume(object data);
+        public virtual void Resume(object data) { }
 
         /// <summary>
         /// Hook for when the state is suspended.
         /// </summary>
-        void Suspend();
+        public virtual void Suspend() { }
 
         /// <summary>
         /// Hook for when the state is destroyed.
         /// </summary>
-        void Destroy();
+        public virtual void Destroy() { }
 
         /// <summary>
         /// Update call for state
         /// </summary>
         /// <param name="gameTime"></param>
         /// <returns>Next state</returns>
-        IStateTransition Update(GameTime gameTime);
+        public abstract IStateTransition Update(GameTime gameTime);
 
         /// <summary>
         /// Draw call for state
         /// </summary>
         /// <param name="gameTime"></param>
-        void Draw(GameTime gameTime);
+        public abstract void Draw(GameTime gameTime);
     }
 }

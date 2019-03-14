@@ -15,9 +15,9 @@ namespace Meltdown.State
         /// <summary>
         /// The state to be pushed
         /// </summary>
-        public IState State;
+        public State State;
 
-        public PushStateTransition(IState state)
+        public PushStateTransition(State state)
         {
             this.State = state;
         }
@@ -31,9 +31,9 @@ namespace Meltdown.State
         /// <summary>
         /// The state to be swaped
         /// </summary>
-        public IState State;
+        public State State;
 
-        public SwapTransition(IState state)
+        public SwapTransition(State state)
         {
             this.State = state;
         }
