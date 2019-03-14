@@ -24,7 +24,7 @@ namespace Meltdown.States
 
         public IStateTransition Update(GameTime gameTime)
         {
-            return null;
+            return new PushStateTransition(new GameState());
         }
 
         public void Draw(GameTime gameTime)

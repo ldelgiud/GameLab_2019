@@ -23,18 +23,14 @@ namespace Meltdown
     /// </summary>
     public class Game1 : Game
     {
-        Quadtree quadtree;
         public static Game1 Instance { get; private set; }
 
         private Stack<IState> stateStack = new Stack<IState>();
 
         public IState ActiveState { get { return this.stateStack.Peek(); } }
 
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        PowerPlant powerPlant;
-
-        World world;
+        public GraphicsDeviceManager graphics;
+        public SpriteBatch spriteBatch;
 
         public Game1()
         {
@@ -55,45 +51,7 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            //Data to initialize playing field
-            int amountOfPlayers = 1;
-            List<PlayerInfo> playerInfos = new List<PlayerInfo>();
-            //Generate Nuclear Plant object
-            powerPlant = new PowerPlant();
-            //Generate Shared Energy object
-            Energy energy = new Energy();
-            
-            //Create World
-            world = new WorldBuilder()
-                .AddSystem(new TextureSystem(this.spriteBatch))
-                .AddSystem(new PhysicsSystem(quadtree))
-                .AddSystem(new EnergySystem(energy, powerPlant))
-                .AddSystem(new EnergyDrawSystem(energy, 
-                    this.Content.Load<Texture2D>("EnergyBar"), 
-                    spriteBatch,
-                    Content.Load<SpriteFont>("EnergyFont")))
-                .AddSystem(new PlayerUpdateSystem())
-                .AddSystem(new PlayerInfoSystem(playerInfos))
-                .AddSystem(new AISystem(playerInfos))
-                .Build();
-            
-
-            //Spawn player(s)
-            for (int i = 0; i < amountOfPlayers; ++i)
-            {
-                playerInfos.Add(
-                    SpawnHelper.SpawnPLayer(world, Content, i));
-            }
-
-            //Spawn powerplant
-            SpawnHelper.SpawnNuclearPowerPlant(world, Content, powerPlant);
-            //Spawn one enemy for testing purposes
-            SpawnHelper.SpawEnemy(world, Content, new Vector2(50, 650));
             base.Initialize();
-            //Spawn one battery 
-            SpawnHelper.SpawnBattery(world, Content, Constants.BIG_BATTERY_SIZE, new Vector2(300, 300));
         }
 
         /// <summary>
@@ -130,7 +88,7 @@ namespace Meltdown
             KeyboardState state = Keyboard.GetState();
             if (state.IsKeyDown(Keys.Escape)) Exit();
 
-            this.world.Update(gameTime);
+            
             IStateTransition transition = this.ActiveState.Update(gameTime);
             switch (transition)
             {
@@ -161,11 +119,11 @@ namespace Meltdown
                     // Suspend current state
                     this.ActiveState.Suspend();
 
-                    // Initialize new state
-                    t.State.Initialize(this);
-
                     // Add to stack
                     this.stateStack.Push(t.State);
+
+                    // Initialize new state
+                    t.State.Initialize(this);
                     break;
                 case ExitTransition t:
                     // Exit game
@@ -181,7 +139,7 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            this.GraphicsDevice.Clear(Color.CornflowerBlue);
             this.ActiveState.Draw(gameTime);
             base.Draw(gameTime);
         }
