@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Meltdown.State;
+using Meltdown.States;
 
 namespace Meltdown
 {
@@ -49,6 +50,9 @@ namespace Meltdown
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            IState initialState = new MainMenuState();
+            initialState.Initialize(this);
+            this.stateStack.Push(initialState);
         }
 
         /// <summary>
