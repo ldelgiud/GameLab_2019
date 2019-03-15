@@ -16,7 +16,10 @@ namespace Meltdown.AI
 
 
 
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
+        public override AIState UpdateState(
+            List<PlayerInfo> playerInfos, 
+            Vector2 pos, 
+            ref Vector2 velocity)
         {
             //Find closest player
             double minDist = Double.MaxValue;

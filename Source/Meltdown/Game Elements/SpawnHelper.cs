@@ -103,6 +103,7 @@ namespace Meltdown.Game_Elements
             entity.Attach(new TextureComponent(
                 SpawnHelper.Content.Load<Texture2D>("EnemyPLACEHOLDER")));
             entity.Attach(new AIComponent(new StandBy()));
+            entity.Attach(AABB);
             quadtree.Insert(new QuadtreeData(AABB));
         }
 
