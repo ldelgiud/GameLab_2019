@@ -9,10 +9,11 @@ namespace Meltdown.Components
     class PlayerComponent
     {
         public int Id { get; }
+
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id">starts at 0 and linearly increase, do not give random values</param>
+        /// <param name="id">starts at 0 and linearly increases, do not give random values</param>
         public PlayerComponent(int id)
         {
             this.Id = id;

@@ -16,20 +16,24 @@ namespace Meltdown.Systems
     class PhysicsSystem : EntityUpdateSystem
     {
         Quadtree quadtree;
-
         ComponentMapper<PositionComponent> positionMapper;
         ComponentMapper<VelocityComponent> velocityMapper;
+        ComponentMapper<BoundingBoxComponent> collisionMapper;
 
-        // TODO: Add CollisionSystem
-        public PhysicsSystem() : base(Aspect.All(typeof(PositionComponent), typeof(VelocityComponent)))
+
+        public PhysicsSystem(Quadtree quadtree) : base(Aspect.All(
+            typeof(PositionComponent),
+            typeof(VelocityComponent),
+            typeof(BoundingBoxComponent)))
         {
-
+            this.quadtree = quadtree;
         }
 
         public override void Initialize(IComponentMapperService mapperService)
         {
             this.positionMapper = mapperService.GetMapper<PositionComponent>();
             this.velocityMapper = mapperService.GetMapper<VelocityComponent>();
+            this.collisionMapper = mapperService.GetMapper<BoundingBoxComponent>();
         }
 
         public override void Update(GameTime gameTime)
@@ -38,13 +42,25 @@ namespace Meltdown.Systems
             {
                 PositionComponent position = this.positionMapper.Get(id);
                 VelocityComponent velocity = this.velocityMapper.Get(id);
-
+                BoundingBoxComponent boundingBox = this.collisionMapper.Get(id);
                 // Add velocity to position, scaled to meters per second
-                position.position.X += velocity.velocity.X * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
-                position.position.Y += velocity.velocity.Y * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
+                Vector2 newPos = position.position;
+                newPos.X += velocity.velocity.X * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
+                newPos.Y += velocity.velocity.Y * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
 
+                
+                quadtree.Remove(new QuadtreeData(boundingBox));
+                boundingBox.Bounds.Position = newPos;
+                List<QuadtreeData> collisions = quadtree.Query(boundingBox.Bounds);
+                if (collisions.Count == 0)
+                {
+                    position.position = newPos;
+                } else
+                {
+                    boundingBox.Bounds.Position = position.position;
+                }
+                quadtree.Insert(new QuadtreeData(boundingBox));
 
-                // TODO: Perform collision logic and queue into this.CollisionSystem.EventQueue
             }
         }
     }

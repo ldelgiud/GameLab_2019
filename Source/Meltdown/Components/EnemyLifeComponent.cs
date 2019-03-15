@@ -8,10 +8,17 @@ namespace Meltdown.Components
 {
     class EnemyLifeComponent
     {
-        public float Life { get; private set; }
-        public EnemyLifeComponent(float Life)
+        public float MaxLife { get; private set; }
+        public float Life { get; set; }
+
+        /// <summary>
+        /// Constructs object by setting life and MaxLife to the same value 
+        /// </summary>
+        /// <param name="life">value to set Life and MaxLife</param>
+        public EnemyLifeComponent(float life)
         {
-            this.Life = Life;
+            this.Life = life;
+            this.MaxLife = life;
         }
     }
 }

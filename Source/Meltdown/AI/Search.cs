@@ -16,10 +16,14 @@ namespace Meltdown.AI
 
 
 
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
+        public override AIState UpdateState(
+            List<PlayerInfo> playerInfos, 
+            Vector2 pos, 
+            ref Vector2 velocity)
         {
             //Find closest player
             double minDist = Double.MaxValue;
+            //default closest player at (0,0)
             PlayerInfo closestPlayer = new PlayerInfo(new Vector2(0, 0));
             foreach (PlayerInfo player in playerInfos)
             {
@@ -28,23 +32,21 @@ namespace Meltdown.AI
 
             }
             Vector2 distVector = closestPlayer.position - pos;
-
+            double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
             velocity = Vector2.Multiply(distVector, speed2Norm);
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            //TODO: Should nullcheck closestPlayer.position
-            if (distVector.Length() <= Search.distToAttack)
+            if (distance <= Search.distToAttack)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
                 return new Attack();
             }
-            if (distVector.Length() >= Search.distToStanby)
+            if (distance >= Search.distToStanby)
             {
-
                 velocity.X = 0;
                 velocity.Y = 0;
                 return new StandBy();
