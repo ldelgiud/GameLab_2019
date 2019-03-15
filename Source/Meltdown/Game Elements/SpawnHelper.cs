@@ -31,7 +31,7 @@ namespace Meltdown.Game_Elements
             }
         }
 
-        public static Quadtree quadtree { get
+        public static Quadtree Quadtree { get
             {
                 return ((GameState)Game1.Instance.ActiveState).quadtree;
             }
@@ -44,48 +44,71 @@ namespace Meltdown.Game_Elements
         public static PlayerInfo SpawnPLayer(
             int playerID)
         {
-            
-            var entity = SpawnHelper.World.CreateEntity();
+            //Generate position and bounding box and add to Quadtree
             Vector2 position = new Vector2(0, 0);
-            Vector2 TR = new Vector2(100, 100);
-            BoundingBoxComponent AABB = new BoundingBoxComponent(new RectangleF(position, TR));
+            Size2 size = new Size2(250, 280);
+            BoundingBoxComponent AABB = new BoundingBoxComponent(new RectangleF(position, size));
+            SpawnHelper.Quadtree.Insert(new QuadtreeData(AABB));
+
+            //Create entity and attach the components to it
+            var entity = SpawnHelper.World.CreateEntity();
             entity.Attach(new PositionComponent(position));
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(
                 SpawnHelper.Content.Load<Texture2D>("player1 PLACEHOLDER")));
             entity.Attach(new PlayerComponent(playerID));
             entity.Attach(AABB);
-            SpawnHelper.quadtree.Insert(new QuadtreeData(AABB));
-            return new PlayerInfo(new Vector2(0,0));
-
+            return new PlayerInfo(new Vector2(0, 0));
         }
 
+        /// <summary>
+        /// Spawn Nuclear Power Plant with all entities and attach respective components
+        /// </summary>
+        /// <param name="plant">Powerlplant object</param>
         public static void SpawnNuclearPowerPlant(PowerPlant plant)
         {
-            var entity = SpawnHelper.World.CreateEntity();
-            entity.Attach(new TextureComponent(
-                SpawnHelper.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER")));
-
-            
+            //Generate random position
             double angle = Constants.RANDOM.NextDouble() * Math.PI / 2.0;
             double x = Constants.PLANT_PLAYER_DISTANCE * Math.Cos(angle);
-           
             //TODO: change this once camera work is done
             double y = Constants.PLANT_PLAYER_DISTANCE * Math.Sin(angle);
             Vector2 position = new Vector2((float)x, (float)y);
-            entity.Attach(new PositionComponent(position));
             plant.Position = position;
+
+            //Generate Bounding box and insert into quadtree
+            Size2 size = new Size2(200, 200);
+            BoundingBoxComponent AABB = new BoundingBoxComponent(new RectangleF(position, size));
+            SpawnHelper.Quadtree.Insert(new QuadtreeData(AABB));
+
+            //Create entity and attach the components to it
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Attach(new TextureComponent(
+                SpawnHelper.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER")));
+            entity.Attach(new PositionComponent(position));
+            entity.Attach(AABB);
+
         }
 
-
-        public static void SpawnBattery(int size, 
+        /// <summary>
+        /// Spawns a battery entity with given position and size
+        /// </summary>
+        /// <param name="energy">Amount of regenrated life 
+        /// Please use the sizes given from Constants</param>
+        /// <param name="position">position to which battery will spawn</param>
+        public static void SpawnBattery(int energy, 
             Vector2 position)
         {
+            //Generate Bounding box and add to quadtree
+            BoundingBoxComponent AABB = new BoundingBoxComponent(new CircleF(position, 50f));
+            SpawnHelper.Quadtree.Insert(new QuadtreeData(AABB));
+
+            //Create entity and attach its components
             var entity = SpawnHelper.World.CreateEntity();
-            entity.Attach(new BatteryComponent(size));
+            entity.Attach(new BatteryComponent(energy));
             entity.Attach(new PositionComponent(position));
             entity.Attach(new TextureComponent(
                 SpawnHelper.Content.Load<Texture2D>("battery PLACEHOLDER")));
+            entity.Attach(AABB);
         }
 
         /// <summary>
@@ -94,19 +117,19 @@ namespace Meltdown.Game_Elements
         /// <param name="pos">Position to Spawn enemy at</param>
         public static void SpawEnemy(Vector2 pos)
         {
-            Vector2 TR = new Vector2(100, 100);
-            BoundingBoxComponent AABB = new BoundingBoxComponent(new RectangleF(pos, TR));
-            var entity = SpawnHelper.World.CreateEntity();
+            //Generate size and bounding box and add to Quadtree
+            Size2 size = new Size2(50, 50);
+            BoundingBoxComponent AABB = new BoundingBoxComponent(new RectangleF(pos, size));
+            Quadtree.Insert(new QuadtreeData(AABB));
 
+            //Create entity and attach its components
+            var entity = SpawnHelper.World.CreateEntity();
             entity.Attach(new PositionComponent(pos));
             entity.Attach(new VelocityComponent(new Vector2(0, 0)));
             entity.Attach(new TextureComponent(
                 SpawnHelper.Content.Load<Texture2D>("EnemyPLACEHOLDER")));
             entity.Attach(new AIComponent(new StandBy()));
             entity.Attach(AABB);
-            quadtree.Insert(new QuadtreeData(AABB));
         }
-
-        
     }
 }
