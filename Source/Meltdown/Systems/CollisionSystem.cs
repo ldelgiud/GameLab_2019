@@ -32,10 +32,17 @@ namespace Meltdown.Systems
             while (this.EventQueue.TryDequeue(out CollisionEvent collisionEvent))
             {
                 // Iterate all collision handlers
-                foreach (CollisionHandler collisionHandler in CollisionHandlers.COLLISION_HANDLERS)
+                foreach (var collisionHandlerTuple in CollisionHandlers.COLLISION_HANDLERS)
                 {
-                    // Handle collision
-                    collisionHandler(this.world, collisionEvent.collider, collisionEvent.collidee, collisionEvent.penetrationVector);
+                    var colliderAspect = collisionHandlerTuple.Item1;
+                    var collideeAspect = collisionHandlerTuple.Item2;
+                    var collisionHandler = collisionHandlerTuple.Item3;
+
+                    // Check if handler is interested
+                    if (colliderAspect.IsInterested(collisionEvent.collider.ComponentBits) && collideeAspect.IsInterested(collisionEvent.collidee.ComponentBits)) {
+                        // Handle collision
+                        collisionHandler(this.world, collisionEvent.collider, collisionEvent.collidee);
+                    }
                 }
             }
         }

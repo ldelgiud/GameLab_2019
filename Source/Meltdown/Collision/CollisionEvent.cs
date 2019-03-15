@@ -18,16 +18,10 @@ namespace Meltdown.Collision
         /// </summary>
         public Entity collidee;
 
-        /// <summary>
-        /// Penetration vector
-        /// </summary>
-        public Vector2 penetrationVector;
-
         public CollisionEvent(Entity collider, Entity collidee, Vector2 penetrationVector)
         {
             this.collider = collider;
             this.collidee = collidee;
-            this.penetrationVector = penetrationVector;
         }
     }
 }

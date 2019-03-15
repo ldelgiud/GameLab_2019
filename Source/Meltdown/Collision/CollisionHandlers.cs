@@ -16,12 +16,12 @@ namespace Meltdown.Collision
         /// <param name="collider"></param>
         /// <param name="collidee"></param>
         /// <param name="penetrationVector"></param>
-        public delegate void CollisionHandler(World world, Entity collider, Entity collidee, Vector2 penetrationVector);
+        public delegate void CollisionHandler(World world, Entity collider, Entity collidee);
 
         /// <summary>
         /// Const list of collision handlers
         /// </summary>
-        public static readonly CollisionHandler[] COLLISION_HANDLERS = {
+        public static readonly (Aspect, Aspect, CollisionHandler)[] COLLISION_HANDLERS = {
         };
 
     }
