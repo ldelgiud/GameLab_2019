@@ -140,10 +140,6 @@
     <None Include="Meltdown_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\ECS\roaring.dll">
-      <Link>roaring.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -190,12 +186,6 @@
     <PackageReference Include="MonoGame.Extended.Tweening">
       <Version>3.6.0-beta0001</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ECS\ECS.csproj">
-      <Project>{e34b5951-64aa-440a-a8ab-b14745294f6a}</Project>
-      <Name>ECS</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
