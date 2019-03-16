@@ -127,35 +127,11 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.3</Version>
     </PackageReference>
-    <PackageReference Include="MonoGame.Extended">
-      <Version>3.6.0-beta0001</Version>
+    <PackageReference Include="Nez">
+      <Version>0.9.2</Version>
     </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Animations">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Collisions">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Entities">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Graphics">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Gui">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Input">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Particles">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Tiled">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Tweening">
-      <Version>3.6.0-beta0001</Version>
+    <PackageReference Include="Nez.FarseerPhysics">
+      <Version>0.9.2</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
