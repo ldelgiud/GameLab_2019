@@ -5,25 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-using MonoGame.Extended.Entities;
-using MonoGame.Extended.Entities.Systems;
-
 using Meltdown.Components;
 using Microsoft.Xna.Framework.Input;
 
+using Nez;
 namespace Meltdown.Systems
 {
-    class PlayerUpdateSystem : EntityUpdateSystem
+    class PlayerUpdateSystem : EntityProcessingSystem
     {
-
-        ComponentMapper<PositionComponent> positionMapper;
-        ComponentMapper<VelocityComponent> velocityMapper;
-
-        public PlayerUpdateSystem() : base(Aspect.All(
-            typeof(PlayerComponent), 
-            typeof(PositionComponent),
-            typeof(VelocityComponent)
-            ))
+        
+        public PlayerUpdateSystem(Matcher matcher) : base( matcher )
         {
 
         }

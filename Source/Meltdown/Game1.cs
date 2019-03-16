@@ -3,7 +3,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended.Entities;
 
 using Meltdown.Game_Elements;
 using Meltdown.Components;
@@ -11,37 +10,26 @@ using Meltdown.Systems;
 using System;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using MonoGame.Extended.Collisions;
 
 using Meltdown.State;
 using Meltdown.States;
+
+using Nez;
 
 namespace Meltdown
 {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game1 : Core
     {
         public static Game1 Instance { get; private set; }
-
-        private Stack<IState> stateStack = new Stack<IState>();
-
-        public IState ActiveState { get { return this.stateStack.Peek(); } }
-
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
 
-        public Game1()
-        {
-            Game1.Instance = this;
+        public Game1() : base(width: 1280, height: 768, isFullScreen: false, enableEntitySystems: false)
+        { }
 
-            graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1000;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 1000;   // set this value to the desired height of your window
-            graphics.ApplyChanges();
-            Content.RootDirectory = "Content";
-        }
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -52,6 +40,62 @@ namespace Meltdown
         protected override void Initialize()
         {
             base.Initialize();
+            Window.AllowUserResizing = true;
+
+            // create our Scene with the DefaultRenderer and a clear color of CornflowerBlue
+            var myScene = Scene.createWithDefaultRenderer(Color.CornflowerBlue);
+
+            List<PlayerInfo> playerInfos = new List<PlayerInfo>();
+            //Generate Nuclear Plant object
+            PowerPlant powerPlant = new PowerPlant();
+            //Generate Shared Energy object
+            Energy energy = new Energy();
+
+            myScene.addEntityProcessor(new EnergySystem(
+                    energy,
+                    powerPlant,
+                    new Matcher().all(typeof(PlayerComponent), typeof(PositionComponent))));
+
+            myScene.addEntityProcessor(new PlayerUpdateSystem( new Matcher().all(
+            typeof(PlayerComponent),
+            typeof(PositionComponent),
+            typeof(VelocityComponent)
+            )));
+
+            myScene.addEntityProcessor(new PlayerInfoSystem(playerInfos,
+                new Matcher().all(typeof(PlayerComponent), typeof(PositionComponent))));
+
+
+
+            myScene.addEntityProcessor(new AISystem(
+                    playerInfos, new Matcher().all(
+                        typeof(AIComponent),
+                        typeof(PositionComponent),
+                        typeof(VelocityComponent))));
+            // set the scene so Nez can take over
+
+            //Data to initialize playing field
+            int amountOfPlayers = 1;
+
+
+
+            //Spawn player(s)
+            for (int i = 0; i < amountOfPlayers; ++i)
+            {
+                playerInfos.Add(
+                    SpawnHelper.SpawnPLayer(myScene, i));
+            }
+
+            //Spawn powerplant
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant, myScene);
+            //Spawn one enemy for testing purposes
+            SpawnHelper.SpawEnemy(new Vector2(50, 650), myScene);
+            //Spawn one battery 
+            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE,
+                new Vector2(300, 300), myScene);
+
+            scene = myScene;
+
         }
 
         /// <summary>
@@ -65,7 +109,6 @@ namespace Meltdown
 
             IState initialState = new MainMenuState();
             initialState.Initialize(this);
-            this.stateStack.Push(initialState);
         }
 
         /// <summary>
@@ -89,47 +132,6 @@ namespace Meltdown
             if (state.IsKeyDown(Keys.Escape)) Exit();
 
             
-            IStateTransition transition = this.ActiveState.Update(gameTime);
-            switch (transition)
-            {
-                case PopStateTransition t:
-                    // Destroy current state
-                    this.ActiveState.Destroy();
-
-                    // Remove from stack
-                    this.stateStack.Pop();
-
-                    // Resume top state
-                    this.ActiveState.Resume();
-                    break;
-                case SwapTransition t:
-                    // Destroy current state
-                    this.ActiveState.Destroy();
-
-                    // Remove from stack
-                    this.stateStack.Pop();
-
-                    // Initialize new state
-                    t.State.Initialize(this);
-
-                    // Add to stack
-                    this.stateStack.Push(t.State);
-                    break;
-                case PushStateTransition t:
-                    // Suspend current state
-                    this.ActiveState.Suspend();
-
-                    // Add to stack
-                    this.stateStack.Push(t.State);
-
-                    // Initialize new state
-                    t.State.Initialize(this);
-                    break;
-                case ExitTransition t:
-                    // Exit game
-                    this.Exit();
-                    break;
-            }
             base.Update(gameTime);
         }
 
@@ -140,7 +142,6 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             this.GraphicsDevice.Clear(Color.CornflowerBlue);
-            this.ActiveState.Draw(gameTime);
             base.Draw(gameTime);
         }
     }

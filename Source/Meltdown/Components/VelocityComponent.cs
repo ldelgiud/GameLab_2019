@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 
+using Nez;
 namespace Meltdown.Components
 {
-    class VelocityComponent
+    class VelocityComponent : Component
     {
         public Vector2 velocity;
 

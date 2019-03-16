@@ -2,11 +2,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended.Entities;
-using MonoGame.Extended.Entities.Systems;
 using System;
 
-class EnergyDrawSystem : DrawSystem {
+using Nez;
+class EnergyDrawSystem : EntityProcessingSystem {
 
     Energy energy;
     Texture2D texture;

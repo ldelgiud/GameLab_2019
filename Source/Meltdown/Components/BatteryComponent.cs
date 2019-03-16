@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Nez;
+
 namespace Meltdown.Components
 {
-    class BatteryComponent
+    class BatteryComponent : Component
     {
         public int Size { get; }
         

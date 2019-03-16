@@ -11,26 +11,22 @@ using MonoGame.Extended.Entities.Systems;
 
 using Meltdown.Components;
 using Microsoft.Xna.Framework;
+using Nez;
 
 namespace Meltdown.Systems
 {
+    //TODO : Change to entitydrawsystem
     class TextureSystem : EntityDrawSystem
     {
         SpriteBatch spriteBatch;
 
-        ComponentMapper<PositionComponent> positionMapper;
-        ComponentMapper<TextureComponent> textureMapper;
 
-        public TextureSystem(SpriteBatch spriteBatch) : base(Aspect.All(typeof(PositionComponent), typeof(TextureComponent)))
-        {
-            this.spriteBatch = spriteBatch;
-        }
 
-        public override void Initialize(IComponentMapperService mapperService)
+        public TextureSystem(Matcher matcher) : base ( matcher )
         {
-            this.positionMapper = mapperService.GetMapper<PositionComponent>();
-            this.textureMapper = mapperService.GetMapper<TextureComponent>();
+            
         }
+        
 
         public override void Draw(GameTime gameTime)
         {

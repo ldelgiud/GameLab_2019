@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 using Meltdown.AI;
 
+using Nez;
+
 namespace Meltdown.Components
 {
-    class AIComponent
+    class AIComponent : Component
     {
         public AIState State { get; set; }
 

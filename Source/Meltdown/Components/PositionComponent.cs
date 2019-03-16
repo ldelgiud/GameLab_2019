@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
+using Nez;
 
 namespace Meltdown.Components
 {
-    class PositionComponent
+    class PositionComponent : Component
     {
         public Vector2 position;
 
@@ -16,5 +17,6 @@ namespace Meltdown.Components
         {
             this.position = position;
         }
+
     }
 }

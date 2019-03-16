@@ -4,23 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using MonoGame.Extended.Entities;
-using MonoGame.Extended.Entities.Systems;
-
 using Meltdown.Components;
 using Microsoft.Xna.Framework;
 using Meltdown;
 
+using Nez;
 namespace Meltdown.Systems
 {
-    class EnergySystem : EntityUpdateSystem
+    class EnergySystem : EntityProcessingSystem
     {
-        ComponentMapper<PositionComponent> positionMapper;
         PowerPlant powerPlant;
         Energy energy;
         const int minDist = 100;
-        public EnergySystem(Energy energy, PowerPlant powerPlant) : base(Aspect.All(typeof(PositionComponent), 
-            typeof(PlayerComponent)))
+        public EnergySystem(Energy energy, PowerPlant powerPlant, Matcher matcher) 
+            : base( matcher)
         {
             this.energy = energy;
             this.powerPlant = powerPlant;
