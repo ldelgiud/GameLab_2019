@@ -5,14 +5,18 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 
 using Nez;
-class EnergyDrawSystem : EntityProcessingSystem {
+class EnergyDrawSystem : ProcessingSystem {
 
     Energy energy;
     Texture2D texture;
     SpriteBatch spriteBatch;
     private SpriteFont font;
 
-    public EnergyDrawSystem(Energy energy, Texture2D texture, SpriteBatch spriteBatch, SpriteFont font)
+    public EnergyDrawSystem(
+        Energy energy, 
+        Texture2D texture, 
+        SpriteBatch spriteBatch, 
+        SpriteFont font) 
     {
         this.energy = energy;
         this.texture = texture;
@@ -20,7 +24,7 @@ class EnergyDrawSystem : EntityProcessingSystem {
         this.font = font;
     }
 
-    public override void Draw(GameTime gameTime)
+    public override void process()
     {
         this.spriteBatch.Begin();
 

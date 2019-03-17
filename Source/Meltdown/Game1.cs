@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 using Meltdown.State;
-using Meltdown.States;
 
 using Nez;
 
@@ -55,30 +54,34 @@ namespace Meltdown
                     energy,
                     powerPlant,
                     new Matcher().all(typeof(PlayerComponent), typeof(PositionComponent))));
-
-            myScene.addEntityProcessor(new PlayerUpdateSystem( new Matcher().all(
-            typeof(PlayerComponent),
-            typeof(PositionComponent),
-            typeof(VelocityComponent)
-            )));
+            
+            myScene.addEntityProcessor(new PlayerUpdateSystem(
+                new Matcher().all(
+                    typeof(PlayerComponent),
+                    typeof(PositionComponent),
+                    typeof(VelocityComponent))));
 
             myScene.addEntityProcessor(new PlayerInfoSystem(playerInfos,
-                new Matcher().all(typeof(PlayerComponent), typeof(PositionComponent))));
+                new Matcher().all(
+                    typeof(PlayerComponent), 
+                    typeof(PositionComponent))));
+            
+            myScene.addEntityProcessor(new AISystem(playerInfos, 
+                new Matcher().all(
+                     typeof(AIComponent),
+                     typeof(PositionComponent),
+                     typeof(VelocityComponent))));
 
-
-
-            myScene.addEntityProcessor(new AISystem(
-                    playerInfos, new Matcher().all(
-                        typeof(AIComponent),
-                        typeof(PositionComponent),
-                        typeof(VelocityComponent))));
-            // set the scene so Nez can take over
+            myScene.addEntityProcessor(new PhysicsSystem(
+                new Matcher().all(
+                    typeof(PositionComponent),
+                    typeof(VelocityComponent),
+                    typeof(CollisionComponent))));
+            
 
             //Data to initialize playing field
             int amountOfPlayers = 1;
-
-
-
+            
             //Spawn player(s)
             for (int i = 0; i < amountOfPlayers; ++i)
             {
@@ -94,6 +97,7 @@ namespace Meltdown
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE,
                 new Vector2(300, 300), myScene);
 
+            // set the scene so Nez can take over
             scene = myScene;
 
         }
@@ -107,8 +111,7 @@ namespace Meltdown
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            IState initialState = new MainMenuState();
-            initialState.Initialize(this);
+            
         }
 
         /// <summary>

@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Meltdown.Components;
 using Meltdown.AI;
-using Meltdown.States;
 
 using Nez;
 namespace Meltdown.Game_Elements
@@ -39,7 +38,7 @@ namespace Meltdown.Game_Elements
             
             //Create entity and attach the components to it
             var entity = scene.createEntity("player" + playerID);
-            entity.addComponent(new PositionComponent(position));
+            entity.transform.position = position;
             entity.addComponent(new VelocityComponent(new Vector2(0, 0)));
             entity.addComponent(new TextureComponent(
                 SpawnHelper.Content.Load<Texture2D>("player1 PLACEHOLDER")));

@@ -9,6 +9,7 @@ using Meltdown.Components;
 using Microsoft.Xna.Framework.Input;
 
 using Nez;
+
 namespace Meltdown.Systems
 {
     class PlayerUpdateSystem : EntityProcessingSystem
@@ -19,32 +20,24 @@ namespace Meltdown.Systems
 
         }
 
-        public override void Initialize(IComponentMapperService mapperService)
+        public override void process(Entity entity)
         {
-            this.positionMapper = mapperService.GetMapper<PositionComponent>();
-            this.velocityMapper = mapperService.GetMapper<VelocityComponent>();
-        }
 
-        public override void Update(GameTime gameTime)
-        {
-            foreach (int id in this.ActiveEntities)
-            {
-                VelocityComponent velocity = this.velocityMapper.Get(id);
-                KeyboardState state = Keyboard.GetState();
-                bool A = state.IsKeyDown(Keys.A);
-                bool W = state.IsKeyDown(Keys.W);
-                bool S = state.IsKeyDown(Keys.S);
-                bool D = state.IsKeyDown(Keys.D);
+            var velocity = entity.getComponent<VelocityComponent>();
+            KeyboardState state = Keyboard.GetState();
+            bool A = state.IsKeyDown(Keys.A);
+            bool W = state.IsKeyDown(Keys.W);
+            bool S = state.IsKeyDown(Keys.S);
+            bool D = state.IsKeyDown(Keys.D);
 
-                Vector2 newVelocity = new Vector2(0, 0);
-                if (A) { newVelocity.X += -80; }
-                if (W) { newVelocity.Y += -80; }
-                if (S) { newVelocity.Y += 80; }
-                if (D) { newVelocity.X += 80; }
-                if (!(A||W||S||D)){ velocity.velocity = new Vector2(0, 0); }
+            Vector2 newVelocity = new Vector2(0, 0);
+            if (A) { newVelocity.X += -80; }
+            if (W) { newVelocity.Y += -80; }
+            if (S) { newVelocity.Y += 80; }
+            if (D) { newVelocity.X += 80; }
+            if (!(A||W||S||D)){ velocity.velocity = new Vector2(0, 0); }
 
-                velocity.velocity = newVelocity;
-            }
+            velocity.velocity = newVelocity;
         }
     }
 }
