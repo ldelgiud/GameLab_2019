@@ -12,6 +12,8 @@ using Meltdown.Components;
 using Meltdown.AI;
 
 using Nez;
+using Nez.Sprites;
+
 namespace Meltdown.Game_Elements
 {
     class SpawnHelper
@@ -35,13 +37,12 @@ namespace Meltdown.Game_Elements
         {
             //Generate position
             Vector2 position = new Vector2(0, 0);
-            
+            var texture = scene.content.Load<Texture2D>("player1 PLACEHOLDER");
             //Create entity and attach the components to it
             var entity = scene.createEntity("player" + playerID);
             entity.transform.position = position;
             entity.addComponent(new VelocityComponent(new Vector2(0, 0)));
-            entity.addComponent(new TextureComponent(
-                SpawnHelper.Content.Load<Texture2D>("player1 PLACEHOLDER")));
+            entity.addComponent(new Sprite(texture));
             entity.addComponent(new PlayerComponent(playerID));
             entity.addComponent(new BoxCollider());
             return new PlayerInfo(new Vector2(0, 0));
@@ -63,13 +64,13 @@ namespace Meltdown.Game_Elements
             Vector2 position = new Vector2((float)x, (float)y);
             plant.Position = position;
 
-            
+            var texture = scene.content.Load<Texture2D>("NuclearPlantPLACEHOLDER");
+
 
             //Create entity and attach the components to it
             var entity = scene.createEntity("powerPlant");
-            entity.addComponent(new TextureComponent(
-                SpawnHelper.Content.Load<Texture2D>("NuclearPlantPLACEHOLDER")));
-            entity.addComponent(new PositionComponent(position));
+            entity.addComponent(new Sprite(texture));
+            entity.transform.position = position;
             entity.addComponent(new BoxCollider());
 
         }
@@ -84,14 +85,14 @@ namespace Meltdown.Game_Elements
             Vector2 position,
             Scene scene)
         {
-            
 
+            var texture = scene.content.Load<Texture2D>("battery PLACEHOLDER");
+            
             //Create entity and attach its components
             var entity = scene.createEntity("battery");
             entity.addComponent(new BatteryComponent(energy));
-            entity.addComponent(new PositionComponent(position));
-            entity.addComponent(new TextureComponent(
-                SpawnHelper.Content.Load<Texture2D>("battery PLACEHOLDER")));
+            entity.transform.position = position;
+            entity.addComponent(new Sprite(texture));
             entity.addComponent(new CircleCollider());
         }
 
@@ -99,14 +100,15 @@ namespace Meltdown.Game_Elements
         /// Spawn an enemy entity at given position in standby
         /// </summary>
         /// <param name="pos">Position to Spawn enemy at</param>
-        public static void SpawEnemy(Vector2 pos, Scene scene)
+        public static void SpawEnemy(Vector2 position, Scene scene)
         {
+            var texture = scene.content.Load<Texture2D>("EnemyPLACEHOLDER");
+        
             //Create entity and attach its components
             var entity = scene.createEntity("enemy");
-            entity.addComponent(new PositionComponent(pos));
+            entity.transform.position = position;
             entity.addComponent(new VelocityComponent(new Vector2(0, 0)));
-            entity.addComponent(new TextureComponent(
-                SpawnHelper.Content.Load<Texture2D>("EnemyPLACEHOLDER")));
+            entity.addComponent(new Sprite(texture));
             entity.addComponent(new AIComponent(new StandBy()));
             entity.addComponent(new BoxCollider());
         }

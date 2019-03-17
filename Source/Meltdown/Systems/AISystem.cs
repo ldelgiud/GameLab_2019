@@ -22,11 +22,7 @@ namespace Meltdown.Systems
         {
             this.playerInfo = playerInfo;
         }
-
         
-        
-   
-
         public override void process(Entity entity)
         {
            

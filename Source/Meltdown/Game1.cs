@@ -50,6 +50,7 @@ namespace Meltdown
             //Generate Shared Energy object
             Energy energy = new Energy();
 
+            //TODO: order these adds for better dependencies
             myScene.addEntityProcessor(new EnergySystem(
                     energy,
                     powerPlant,
@@ -76,7 +77,7 @@ namespace Meltdown
                 new Matcher().all(
                     typeof(PositionComponent),
                     typeof(VelocityComponent),
-                    typeof(CollisionComponent))));
+                    typeof(Collider))));
             
 
             //Data to initialize playing field
