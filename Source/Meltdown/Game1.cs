@@ -20,7 +20,7 @@ namespace Meltdown
         public State.State ActiveState { get { return this.stateStack.Peek(); } }
 
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
 
         public Game1()
         {
@@ -50,7 +50,7 @@ namespace Meltdown
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var initialState = new MainMenuState();
+            var initialState = new GameState();
             initialState.Initialize(this);
             this.stateStack.Push(initialState);
         }
