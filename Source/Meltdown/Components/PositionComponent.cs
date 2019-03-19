@@ -1,8 +1,14 @@
-﻿namespace Meltdown.Components
+﻿using Microsoft.Xna.Framework;
+
+namespace Meltdown.Components
 {
     struct PositionComponent
     {
-        public float x;
-        public float y;
+        public Vector2 position;
+
+        public PositionComponent(Vector2 position)
+        {
+            this.position = position;
+        }
     }
 }

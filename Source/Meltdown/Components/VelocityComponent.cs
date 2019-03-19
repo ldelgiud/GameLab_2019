@@ -1,8 +1,14 @@
-﻿namespace Meltdown.Components
+﻿using Microsoft.Xna.Framework;
+
+namespace Meltdown.Components
 {
     struct VelocityComponent
     {
-        public float dx;
-        public float dy;
+        public Vector2 velocity;
+
+        public VelocityComponent(Vector2 velocity)
+        {
+            this.velocity = velocity;
+        }
     }
 }

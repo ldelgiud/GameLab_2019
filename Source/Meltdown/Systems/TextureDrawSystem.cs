@@ -31,7 +31,7 @@ namespace Meltdown.Systems
             ref PositionComponent position = ref entity.Get<PositionComponent>();
             ref TextureComponent texture = ref entity.Get<TextureComponent>();
 
-            this.spriteBatch.Draw(texture.texture, new Vector2(position.x, position.y), Color.White);
+            this.spriteBatch.Draw(texture.texture, position.position, Color.White);
         }
 
         protected override void PostUpdate(GameTime state)
