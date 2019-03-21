@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 
 using DefaultEcs;
@@ -6,6 +8,7 @@ using DefaultEcs.System;
 
 using tainicom.Aether.Physics2D.Collision;
 
+using Meltdown.Collision;
 using Meltdown.Components;
 
 namespace Meltdown.Systems
@@ -13,12 +16,14 @@ namespace Meltdown.Systems
     sealed class PhysicsSystem : AEntitySystem<GameTime>
     {
         public QuadTree<Entity> quadtree;
+        ICollisionSet collisionSet;
 
-        public PhysicsSystem(World world) : base(
+        public PhysicsSystem(World world, ICollisionSet collisionSet) : base(
             world.GetEntities()
             .With<PositionComponent>()
             .With<VelocityComponent>()
             .Build()) {
+            this.collisionSet = collisionSet;
             this.quadtree = new QuadTree<Entity>(
                 new AABB() {
                     LowerBound = new Vector2(-10000, -10000),
@@ -42,18 +47,22 @@ namespace Meltdown.Systems
                     UpperBound = element.Span.UpperBound + velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f)
                 };
 
+                List<Entity> collisions = new List<Entity>();
                 this.quadtree.QueryAABB((Element<Entity> collidee) =>
                 {
                     if (collidee == element)
                     {
-                        Debug.WriteLine("SELF COLLISION");
                         return true;
-                    } 
+                    }
+                    collisions.Add(collidee.Value);
                     collision = true;
-                    Debug.WriteLine("Collision: " + collidee.Span.LowerBound + " | " + collidee.Span.UpperBound);
                     return false;
                 }, ref target);
 
+                foreach(var collidee in collisions)
+                {
+                    this.collisionSet.AddCollision(entity, collidee);
+                }
 
                 if (!collision)
                 {

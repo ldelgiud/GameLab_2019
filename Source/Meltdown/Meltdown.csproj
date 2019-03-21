@@ -101,6 +101,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\CollisionHandler.cs" />
+    <Compile Include="Collision\CollisionType.cs" />
+    <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
+    <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
@@ -113,6 +117,7 @@
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
+    <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TextureDrawSystem.cs" />
   </ItemGroup>

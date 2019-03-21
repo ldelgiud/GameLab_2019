@@ -11,6 +11,8 @@ using tainicom.Aether.Physics2D.Collision;
 
 using Meltdown.State;
 using Meltdown.Systems;
+using Meltdown.Collision;
+using Meltdown.Collision.Handlers;
 using Meltdown.Components;
 using Meltdown.ResourceManagers;
 
@@ -31,9 +33,13 @@ namespace Meltdown.States
             this.world = new World();
             this.textureResourceManager = new TextureResourceManager(hazmat.Content);
 
-            PhysicsSystem physicsSystem = new PhysicsSystem(this.world);
+            CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
+                new DebugCollisionHandler(this.world)
+            });
+            PhysicsSystem physicsSystem = new PhysicsSystem(this.world, collisionSystem);
             this.updateSystem = new SequentialSystem<GameTime>(
-                physicsSystem
+                physicsSystem,
+                collisionSystem
                 );
 
             this.drawSystem = new SequentialSystem<GameTime>(
