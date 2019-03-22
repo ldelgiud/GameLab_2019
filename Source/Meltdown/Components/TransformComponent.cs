@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Meltdown.Utilities;
 using System.Diagnostics;
+using Meltdown.Utilities;
 
 
 namespace Meltdown.Components
@@ -37,6 +38,26 @@ namespace Meltdown.Components
         }
 
         /// <summary>
+        /// Position i world coordinate space.
+        /// </summary>
+        private Vector2 position;
+        public Vector2 Position
+        {
+            get
+            {
+                if (isDirty) position = TransformPoint(Vector2.Zero);
+                return position;
+            }
+            set
+            {
+                position = value;
+                SetDirty();
+                if (parentTransform != null) localPosition = parentTransform.InverseTransformPoint(position);
+                else localPosition = position;
+            }
+        }
+
+        /// <summary>
         /// Position relative to the parent.
         /// </summary>
         private Vector2 localPosition;
@@ -46,12 +67,29 @@ namespace Meltdown.Components
             set
             {
                 localPosition = value;
-                //foreach(TransformComponent child in childTransforms)
-                //{
-                //    child.LocalPosition = localPosition + child.localPosition;
-                //    Debug.WriteLine("Child " + child.LocalPosition);
-                //}
                 SetDirty();
+            }
+        }
+
+        /// <summary>
+        /// Rotation in world coordinate space.
+        /// </summary>
+        private float rotation;
+        public float Rotation
+        {
+            get
+            {
+                //rotation = MathF.Asin(GetLocalToWorldMatrix().M21);
+                if (parentTransform != null) rotation = localRotation + parentTransform.Rotation;
+                else rotation = localRotation;
+                return rotation;
+            }
+            set
+            {
+                rotation = value;
+                SetDirty();
+                if (parentTransform != null) localRotation = rotation - parentTransform.Rotation;
+                else localRotation = rotation;
             }
         }
 
@@ -66,6 +104,28 @@ namespace Meltdown.Components
             {
                 localRotation = value;
                 SetDirty();
+            }
+        }
+
+        /// <summary>
+        /// Scale in world coordinate space.
+        /// </summary>
+        private Vector2 scale;
+        public Vector2 Scale
+        {
+            get
+            {
+                //scale = new Vector2(GetLocalToWorldMatrix().M11/MathF.Cos(Rotation), GetLocalToWorldMatrix().M22 / MathF.Cos(Rotation));
+                if (parentTransform != null) scale = localScale * parentTransform.Scale;
+                else scale = localScale;
+                return scale;
+            }
+            set
+            {
+                scale = value;
+                SetDirty();
+                if (parentTransform != null) localScale = scale * parentTransform.Scale;
+                else localScale = scale;
             }
         }
 
@@ -162,12 +222,12 @@ namespace Meltdown.Components
         /// <returns></returns>
         public Matrix CalculateLocalToParentMatrix()
         {
-            //Debug.WriteLine("Local Position: " + localPosition + ". Translation Matrix: " + Matrix.CreateTranslation(localPosition.X, localPosition.Y, 0));
-            Matrix temp = Matrix.Transpose(Matrix.CreateTranslation(localPosition.X, localPosition.Y, 0) *
+            Matrix temp = Matrix.Transpose(
+                   Matrix.CreateScale(localScale.X, localScale.Y, 1) *
                    Matrix.CreateRotationZ(localRotation) *
-                   Matrix.CreateScale(localScale.X, localScale.Y, 0));
-            //Debug.WriteLine("Local Position: " + localPosition + ". Translation Matrix: " + temp);
-
+                   Matrix.CreateTranslation(localPosition.X, localPosition.Y, 0)
+                   );
+            
             return temp;
         }
 
@@ -186,12 +246,11 @@ namespace Meltdown.Components
                 }
                 else
                 {
-                    //Debug.WriteLine("Local Position CHILD: " + localPosition + ", ParentMatrix: " + ParentTransform.GetLocalToWorldMatrix());
                     localToWorldMatrix = ParentTransform.GetLocalToWorldMatrix() * CalculateLocalToParentMatrix();
                 }
                 isDirty = false;
             }
-            //Debug.WriteLine("Local Position: " + localPosition + ". GetLocalToWorldMatrix: " + localToWorldMatrix);
+           
             return localToWorldMatrix;
         }
 
@@ -246,8 +305,23 @@ namespace Meltdown.Components
             parentTransform = null;
             localToWorldMatrix = Matrix.Identity;
             worldToLocalMatrix = Matrix.Identity;
-            isDirty = false;
-            isInverseDirty = false;
+            SetDirty();
+        }
+
+        /// <summary>
+        /// Give localPosition, rotation and scale.
+        /// </summary>
+        public TransformComponent(Vector2 localPosition, float localRotation, Vector2 localScale)
+        {
+            this.localPosition = localPosition;
+            this.localRotation = localRotation;
+            this.localScale = localScale;
+
+            childTransforms = new List<TransformComponent>();
+            parentTransform = null;
+            localToWorldMatrix = Matrix.Identity;
+            worldToLocalMatrix = Matrix.Identity;
+            SetDirty();
         }
 
         /// <summary>
@@ -263,8 +337,23 @@ namespace Meltdown.Components
             SetParent(parent);
             localToWorldMatrix = Matrix.Identity;
             worldToLocalMatrix = Matrix.Identity;
-            isDirty = false;
-            isInverseDirty = false;
+            SetDirty();
+        }
+
+        /// <summary>
+        /// Give localPosition, rotation and scale.
+        /// </summary>
+        public TransformComponent(TransformComponent parent, Vector2 localPosition, float localRotation, Vector2 localScale)
+        {
+            this.localPosition = localPosition;
+            this.localRotation = localRotation;
+            this.localScale = localScale;
+
+            childTransforms = new List<TransformComponent>();
+            SetParent(parent);
+            localToWorldMatrix = Matrix.Identity;
+            worldToLocalMatrix = Matrix.Identity;
+            SetDirty();
         }
     }
 }

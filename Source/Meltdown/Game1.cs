@@ -50,7 +50,8 @@ namespace Meltdown
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var initialState = new GameState();
+            //var initialState = new GameState();
+            var initialState = new TransformsTestGameState();
             initialState.Initialize(this);
             this.stateStack.Push(initialState);
         }

@@ -74,7 +74,7 @@ namespace Meltdown.Systems
 
             if (!collision)
             {
-                position.LocalPosition += velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f);
+                position.Position += velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f);
             }
         }
     }

@@ -116,11 +116,13 @@
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
+    <Compile Include="States\TransformsTestGameState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TextureDrawSystem.cs" />
+    <Compile Include="Utilities\DebugUtil.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
   </ItemGroup>
   <ItemGroup>
