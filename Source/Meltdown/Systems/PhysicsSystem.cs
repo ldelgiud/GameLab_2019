@@ -20,7 +20,7 @@ namespace Meltdown.Systems
 
         public PhysicsSystem(World world, ICollisionSet collisionSet) : base(
             world.GetEntities()
-            .With<PositionComponent>()
+            .With<TransformComponent>()
             .With<VelocityComponent>()
             .Build()) {
             this.collisionSet = collisionSet;
@@ -33,7 +33,7 @@ namespace Meltdown.Systems
 
         protected override void Update(GameTime state, in Entity entity)
         {
-            ref PositionComponent position = ref entity.Get<PositionComponent>();
+            ref TransformComponent position = ref entity.Get<TransformComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             bool collision = false;
@@ -74,7 +74,7 @@ namespace Meltdown.Systems
 
             if (!collision)
             {
-                position.position += velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f);
+                position.LocalPosition += velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f);
             }
         }
     }

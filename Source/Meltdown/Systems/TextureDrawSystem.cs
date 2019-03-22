@@ -14,7 +14,7 @@ namespace Meltdown.Systems
 
         public TextureDrawSystem(World world, SpriteBatch spriteBatch) : base(
             world.GetEntities()
-            .With<PositionComponent>()
+            .With<TransformComponent>()
             .With<TextureComponent>()
             .Build())
         {
@@ -28,10 +28,10 @@ namespace Meltdown.Systems
 
         protected override void Update(GameTime state, in Entity entity)
         {
-            ref PositionComponent position = ref entity.Get<PositionComponent>();
+            ref TransformComponent position = ref entity.Get<TransformComponent>();
             ref TextureComponent texture = ref entity.Get<TextureComponent>();
 
-            this.spriteBatch.Draw(texture.texture, position.position, Color.White);
+            this.spriteBatch.Draw(texture.texture, position.TransformPoint(Vector2.Zero), Color.White);
         }
 
         protected override void PostUpdate(GameTime state)

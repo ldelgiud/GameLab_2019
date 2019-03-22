@@ -52,50 +52,68 @@ namespace Meltdown.States
 
             // Create player
             {
+                //1
                 var entity = this.world.CreateEntity();
 
                 Vector2 position = new Vector2(0, 0);
                 Vector2 velocity = new Vector2(30, 30);
 
-                AABB aabb = new AABB()
-                {
-                    LowerBound = new Vector2(0, -100),
-                    UpperBound = new Vector2(100, 0)
-                };
-                Element<Entity> element = new Element<Entity>(aabb);
-                element.Span.LowerBound += position;
-                element.Span.UpperBound += position;
-                element.Value = entity;
-                
-                entity.Set(new PositionComponent(position));
+                TransformComponent pTr = new TransformComponent(position);
+
+                entity.Set(pTr);
                 entity.Set(new VelocityComponent(velocity));
-                entity.Set(new AABBComponent(aabb, element));
                 entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
-                physicsSystem.quadtree.AddNode(element);
+
+                //2
+                var entity2 = this.world.CreateEntity();
+
+                Vector2 position2 = new Vector2(300, 50);
+                //Vector2 velocity = new Vector2(30, 30);
+
+                entity2.Set(new TransformComponent(pTr, position2));
+                //entity2.Set(new VelocityComponent(velocity));
+                entity2.Set(new ManagedResource<string, Texture2D>("placeholder"));
+
+                //AABB aabb = new AABB()
+                //{
+                //    LowerBound = new Vector2(0, -100),
+                //    UpperBound = new Vector2(100, 0)
+                //};
+                //Element<Entity> element = new Element<Entity>(aabb);
+                //element.Span.LowerBound += position;
+                //element.Span.UpperBound += position;
+                //element.Value = entity;
+
+                //entity.Set(new PositionComponent(position));
+                //entity.Set(new VelocityComponent(velocity));
+                //entity.Set(new AABBComponent(aabb, element));
+                //entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
+
+                //physicsSystem.quadtree.AddNode(element);
             }
 
             // Create obstacle
-            {
-                var entity = this.world.CreateEntity();
+            //{
+            //    var entity = this.world.CreateEntity();
 
-                Vector2 position = new Vector2(300, 300);
-                AABB aabb = new AABB()
-                {
-                    LowerBound = new Vector2(0, -100),
-                    UpperBound = new Vector2(100, 0)
-                };
-                Element<Entity> element = new Element<Entity>(aabb);
-                element.Span.LowerBound += position;
-                element.Span.UpperBound += position;
-                element.Value = entity;
+            //    Vector2 position = new Vector2(300, 300);
+            //    AABB aabb = new AABB()
+            //    {
+            //        LowerBound = new Vector2(0, -100),
+            //        UpperBound = new Vector2(100, 0)
+            //    };
+            //    Element<Entity> element = new Element<Entity>(aabb);
+            //    element.Span.LowerBound += position;
+            //    element.Span.UpperBound += position;
+            //    element.Value = entity;
 
-                entity.Set(new PositionComponent(position));
-                entity.Set(new AABBComponent(aabb, element));
-                entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
+            //    entity.Set(new PositionComponent(position));
+            //    entity.Set(new AABBComponent(aabb, element));
+            //    entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
-                physicsSystem.quadtree.AddNode(element);
-            }
+            //    physicsSystem.quadtree.AddNode(element);
+            //}
         }
 
         public override IStateTransition Update(GameTime gameTime)
