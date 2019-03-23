@@ -38,6 +38,7 @@ namespace Meltdown.States
             });
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, collisionSystem);
             this.updateSystem = new SequentialSystem<GameTime>(
+                new InputSystem(this.world),
                 physicsSystem,
                 collisionSystem
                 );
@@ -56,7 +57,7 @@ namespace Meltdown.States
                 var entity = this.world.CreateEntity();
 
                 Vector2 position = new Vector2(0, 0);
-                Vector2 velocity = new Vector2(30, 30);
+                Vector2 velocity = new Vector2(0, 0);
 
                 AABB aabb = new AABB()
                 {
@@ -70,6 +71,7 @@ namespace Meltdown.States
 
                 entity.Set(new TransformComponent(position));
                 entity.Set(new VelocityComponent(velocity));
+                entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
                 entity.Set(new AABBComponent(aabb, element));
                 entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
