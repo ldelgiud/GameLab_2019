@@ -15,36 +15,36 @@ using Meltdown.Collision;
 using Meltdown.Collision.Handlers;
 using Meltdown.Components;
 using Meltdown.ResourceManagers;
+using Meltdown.Utilities;
 
 namespace Meltdown.States
 {
     class GameState : State.State
     {
         World world;
-        ISystem<GameTime> updateSystem;
-        ISystem<GameTime> drawSystem;
+        ISystem<Time> updateSystem;
+        ISystem<Time> drawSystem;
 
         TextureResourceManager textureResourceManager;
 
-        public override void Initialize(Game game)
+        public override void Initialize(Game1 game)
         {
-            Game1 hazmat = (Game1)game;
-
             this.world = new World();
-            this.textureResourceManager = new TextureResourceManager(hazmat.Content);
+            this.textureResourceManager = new TextureResourceManager(game.Content);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world)
             });
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, collisionSystem);
-            this.updateSystem = new SequentialSystem<GameTime>(
-                new InputSystem(this.world),
+            InputSystem inputSystem = new InputSystem(this.world);
+            this.updateSystem = new SequentialSystem<Time>(
+                inputSystem,
                 physicsSystem,
                 collisionSystem
                 );
 
-            this.drawSystem = new SequentialSystem<GameTime>(
-                new TextureDrawSystem(this.world, hazmat.spriteBatch)
+            this.drawSystem = new SequentialSystem<Time>(
+                new TextureDrawSystem(this.world, game.spriteBatch)
                 );
 
 
@@ -69,7 +69,7 @@ namespace Meltdown.States
                 element.Span.UpperBound += position;
                 element.Value = entity;
 
-                entity.Set(new TransformComponent(position));
+                entity.Set(new WorldTransformComponent(position));
                 entity.Set(new VelocityComponent(velocity));
                 entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
                 entity.Set(new AABBComponent(aabb, element));
@@ -93,7 +93,7 @@ namespace Meltdown.States
                 element.Span.UpperBound += position;
                 element.Value = entity;
 
-                entity.Set(new TransformComponent(position));
+                entity.Set(new WorldTransformComponent(position));
                 entity.Set(new AABBComponent(aabb, element));
                 entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
@@ -101,15 +101,15 @@ namespace Meltdown.States
             }
         }
 
-        public override IStateTransition Update(GameTime gameTime)
+        public override IStateTransition Update(Time time)
         {
-            this.updateSystem.Update(gameTime);
+            this.updateSystem.Update(time);
             return null;
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(Time time)
         {
-            this.drawSystem.Update(gameTime);
+            this.drawSystem.Update(time);
         }
     }
 }

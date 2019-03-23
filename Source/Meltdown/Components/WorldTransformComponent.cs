@@ -8,17 +8,17 @@ using Meltdown.Utilities;
 
 namespace Meltdown.Components
 {
-    class TransformComponent
+    class WorldTransformComponent
     {
 
         //___________________________________
         //              Fields
         //___________________________________
-        private TransformComponent parentTransform;
+        private WorldTransformComponent parentTransform;
         /// <summary>
         /// Parent transform. If null the parent is the world.
         /// </summary>
-        public TransformComponent ParentTransform
+        public WorldTransformComponent ParentTransform
         {
             get { return parentTransform; }
             set
@@ -27,13 +27,13 @@ namespace Meltdown.Components
             }
         }
 
-        private List<TransformComponent> childTransforms;
+        private List<WorldTransformComponent> childTransforms;
         /// <summary>
         /// Children of this transform.
         /// </summary>
-        public List<TransformComponent> ChildTransforms
+        public List<WorldTransformComponent> ChildTransforms
         {
-            get { return new List<TransformComponent>(childTransforms); }
+            get { return new List<WorldTransformComponent>(childTransforms); }
             private set { }
         }
 
@@ -183,7 +183,7 @@ namespace Meltdown.Components
                 isInverseDirty = true;
 
                 // also children are dirty
-                foreach (TransformComponent child in childTransforms)
+                foreach (WorldTransformComponent child in childTransforms)
                 {
                     child.SetDirty();
                 }
@@ -198,7 +198,7 @@ namespace Meltdown.Components
         /// <summary>
         /// Set the parent transform.
         /// </summary>
-        public void SetParent(TransformComponent parent)
+        public void SetParent(WorldTransformComponent parent)
         {
             // Remove this object from child of old parent
             if (parentTransform != null)
@@ -295,13 +295,13 @@ namespace Meltdown.Components
         /// <summary>
         /// Simple constructor. Parent is world.
         /// </summary>
-        public TransformComponent(Vector2 localPosition)
+        public WorldTransformComponent(Vector2 localPosition)
         {
             this.localPosition = localPosition;
             this.localRotation = 0.0f;
             this.localScale = Vector2.One;
 
-            childTransforms = new List<TransformComponent>();
+            childTransforms = new List<WorldTransformComponent>();
             parentTransform = null;
             localToWorldMatrix = Matrix.Identity;
             worldToLocalMatrix = Matrix.Identity;
@@ -311,13 +311,13 @@ namespace Meltdown.Components
         /// <summary>
         /// Give localPosition, rotation and scale.
         /// </summary>
-        public TransformComponent(Vector2 localPosition, float localRotation, Vector2 localScale)
+        public WorldTransformComponent(Vector2 localPosition, float localRotation, Vector2 localScale)
         {
             this.localPosition = localPosition;
             this.localRotation = localRotation;
             this.localScale = localScale;
 
-            childTransforms = new List<TransformComponent>();
+            childTransforms = new List<WorldTransformComponent>();
             parentTransform = null;
             localToWorldMatrix = Matrix.Identity;
             worldToLocalMatrix = Matrix.Identity;
@@ -327,13 +327,13 @@ namespace Meltdown.Components
         /// <summary>
         /// Constructor with a given parent.
         /// </summary>
-        public TransformComponent(TransformComponent parent, Vector2 localPosition)
+        public WorldTransformComponent(WorldTransformComponent parent, Vector2 localPosition)
         {
             this.localPosition = localPosition;
             this.localRotation = 0.0f;
             this.localScale = Vector2.One;
 
-            childTransforms = new List<TransformComponent>();
+            childTransforms = new List<WorldTransformComponent>();
             SetParent(parent);
             localToWorldMatrix = Matrix.Identity;
             worldToLocalMatrix = Matrix.Identity;
@@ -343,13 +343,13 @@ namespace Meltdown.Components
         /// <summary>
         /// Give localPosition, rotation and scale.
         /// </summary>
-        public TransformComponent(TransformComponent parent, Vector2 localPosition, float localRotation, Vector2 localScale)
+        public WorldTransformComponent(WorldTransformComponent parent, Vector2 localPosition, float localRotation, Vector2 localScale)
         {
             this.localPosition = localPosition;
             this.localRotation = localRotation;
             this.localScale = localScale;
 
-            childTransforms = new List<TransformComponent>();
+            childTransforms = new List<WorldTransformComponent>();
             SetParent(parent);
             localToWorldMatrix = Matrix.Identity;
             worldToLocalMatrix = Matrix.Identity;
