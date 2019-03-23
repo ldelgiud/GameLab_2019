@@ -10,10 +10,11 @@ using tainicom.Aether.Physics2D.Collision;
 
 using Meltdown.Collision;
 using Meltdown.Components;
+using Meltdown.Utilities;
 
 namespace Meltdown.Systems
 {
-    sealed class PhysicsSystem : AEntitySystem<GameTime>
+    sealed class PhysicsSystem : AEntitySystem<Time>
     {
         public QuadTree<Entity> quadtree;
         ICollisionSet collisionSet;
@@ -31,9 +32,9 @@ namespace Meltdown.Systems
                 10, 7);
         }
 
-        protected override void Update(GameTime state, in Entity entity)
+        protected override void Update(Time time, in Entity entity)
         {
-            ref TransformComponent position = ref entity.Get<TransformComponent>();
+            ref TransformComponent transform = ref entity.Get<TransformComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             bool collision = false;
@@ -43,8 +44,8 @@ namespace Meltdown.Systems
                 Element<Entity> element = aabb.element;
 
                 AABB target = new AABB {
-                    LowerBound = element.Span.LowerBound + velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f),
-                    UpperBound = element.Span.UpperBound + velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f)
+                    LowerBound = element.Span.LowerBound + velocity.velocity * time.Delta,
+                    UpperBound = element.Span.UpperBound + velocity.velocity * time.Delta
                 };
 
                 List<Entity> collisions = new List<Entity>();
@@ -74,7 +75,7 @@ namespace Meltdown.Systems
 
             if (!collision)
             {
-                position.Position += velocity.velocity * (state.ElapsedGameTime.Milliseconds / 1000f);
+                transform.Position += velocity.velocity * time.Delta;
             }
         }
     }

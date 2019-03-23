@@ -124,6 +124,7 @@
     <Compile Include="Systems\TextureDrawSystem.cs" />
     <Compile Include="Utilities\DebugUtil.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
+    <Compile Include="Utilities\Time.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

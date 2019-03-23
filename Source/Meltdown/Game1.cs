@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Meltdown.State;
 using Meltdown.States;
+using Meltdown.Utilities;
 
 namespace Meltdown
 {
@@ -18,6 +19,9 @@ namespace Meltdown
         private Stack<State.State> stateStack = new Stack<State.State>();
 
         public State.State ActiveState { get { return this.stateStack.Peek(); } }
+
+        Time updateTime;
+        Time drawTime;
 
         GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
@@ -38,6 +42,8 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
+            this.updateTime = new Time();
+            this.drawTime = new Time();
             base.Initialize();
         }
 
@@ -72,7 +78,8 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            IStateTransition transition = this.ActiveState.Update(gameTime);
+            this.updateTime.Update(gameTime);
+            IStateTransition transition = this.ActiveState.Update(this.updateTime);
             switch (transition)
             {
                 case PopStateTransition t:
@@ -122,8 +129,9 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            this.drawTime.Update(gameTime);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            this.ActiveState.Draw(gameTime);
+            this.ActiveState.Draw(this.drawTime);
             base.Draw(gameTime);
         }
     }

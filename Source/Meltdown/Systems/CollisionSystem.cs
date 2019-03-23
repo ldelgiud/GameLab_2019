@@ -8,13 +8,14 @@ using DefaultEcs;
 using DefaultEcs.System;
 
 using Meltdown.Collision;
+using Meltdown.Utilities;
 
 namespace Meltdown.Systems
 {
     /// <summary>
     /// System to run a set of collision handlers
     /// </summary>
-    class CollisionSystem : ISystem<GameTime>, IDisposable, ICollisionSet
+    class CollisionSystem : ISystem<Time>, IDisposable, ICollisionSet
     {
         HashSet<(Entity, Entity)> start = new HashSet<(Entity, Entity)>();
         HashSet<(Entity, Entity)> ongoing = new HashSet<(Entity, Entity)>();
@@ -34,7 +35,7 @@ namespace Meltdown.Systems
             this.start.Add((collider, collidee));
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(Time gameTime)
         {
             // Stop all ongoing collisions
             this.stop.UnionWith(this.ongoing);
