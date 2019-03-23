@@ -14,6 +14,7 @@ using Meltdown.Systems;
 using Meltdown.Collision;
 using Meltdown.Collision.Handlers;
 using Meltdown.Components;
+using Meltdown.Components.InputHandlers;
 using Meltdown.ResourceManagers;
 using Meltdown.Utilities;
 

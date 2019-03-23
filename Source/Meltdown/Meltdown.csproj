@@ -109,6 +109,7 @@
     <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\WorldTransformComponent.cs" />
