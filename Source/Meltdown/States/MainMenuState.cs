@@ -1,5 +1,7 @@
-﻿using Meltdown.State;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+
+using Meltdown.State;
+using Meltdown.Utilities;
 
 namespace Meltdown.States
 {
@@ -10,12 +12,12 @@ namespace Meltdown.States
         {
         }
 
-        public override IStateTransition Update(GameTime gameTime)
+        public override IStateTransition Update(Time time)
         {
             return null;
         }
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw(Time time)
         {
 
         }

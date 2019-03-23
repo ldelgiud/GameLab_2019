@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Microsoft.Xna.Framework;
+using Meltdown.Utilities;
 
 namespace Meltdown.State
 {
@@ -43,14 +43,14 @@ namespace Meltdown.State
         /// <summary>
         /// Update call for state
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="time"></param>
         /// <returns>Next state</returns>
-        public abstract IStateTransition Update(GameTime gameTime);
+        public abstract IStateTransition Update(Time time);
 
         /// <summary>
         /// Draw call for state
         /// </summary>
-        /// <param name="gameTime"></param>
-        public abstract void Draw(GameTime gameTime);
+        /// <param name="time"></param>
+        public abstract void Draw(Time time);
     }
 }
