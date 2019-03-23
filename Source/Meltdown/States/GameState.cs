@@ -67,7 +67,7 @@ namespace Meltdown.States
                 element.Span.UpperBound += position;
                 element.Value = entity;
 
-                entity.Set(new TransformComponent(position));
+                entity.Set(new WorldTransformComponent(position));
                 entity.Set(new VelocityComponent(velocity));
                 entity.Set(new AABBComponent(aabb, element));
                 entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
@@ -90,7 +90,7 @@ namespace Meltdown.States
                 element.Span.UpperBound += position;
                 element.Value = entity;
 
-                entity.Set(new TransformComponent(position));
+                entity.Set(new WorldTransformComponent(position));
                 entity.Set(new AABBComponent(aabb, element));
                 entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
 

@@ -74,14 +74,14 @@ namespace Meltdown.States
             var entity = this.world.CreateEntity();
             Vector2 position = new Vector2(200, 200);
 
-            TransformComponent pTr = new TransformComponent(position, MathHelper.Pi / 4, Vector2.One * 2);
+            WorldTransformComponent pTr = new WorldTransformComponent(position, MathHelper.Pi / 4, Vector2.One * 2);
             entity.Set(pTr);
             entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
             //2
             var entity2 = this.world.CreateEntity();
             Vector2 position2 = new Vector2(100, 0);
-            entity2.Set(new TransformComponent(pTr, position2, MathHelper.Pi / 6, Vector2.One / 2));
+            entity2.Set(new WorldTransformComponent(pTr, position2, MathHelper.Pi / 6, Vector2.One / 2));
             entity2.Set(new ManagedResource<string, Texture2D>("placeholder"));
         }
 
@@ -91,7 +91,7 @@ namespace Meltdown.States
             var entity = this.world.CreateEntity();
             Vector2 position = new Vector2(500, 500);
             Vector2 velocity = new Vector2(30, 30);
-            TransformComponent pTr = new TransformComponent(position, MathHelper.Pi/4, Vector2.One);
+            WorldTransformComponent pTr = new WorldTransformComponent(position, MathHelper.Pi/4, Vector2.One);
             entity.Set(pTr);
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
@@ -99,7 +99,7 @@ namespace Meltdown.States
             //2
             var entity2 = this.world.CreateEntity();
             Vector2 position2 = new Vector2(-200, 0);
-            entity2.Set(new TransformComponent(pTr, position2, MathHelper.Pi / 6, Vector2.One));
+            entity2.Set(new WorldTransformComponent(pTr, position2, MathHelper.Pi / 6, Vector2.One));
             entity2.Set(new ManagedResource<string, Texture2D>("placeholder"));
         }
 
@@ -111,7 +111,7 @@ namespace Meltdown.States
             Vector2 position = new Vector2(0, 0);
             Vector2 velocity = new Vector2(30, 30);
 
-            TransformComponent pTr = new TransformComponent(position, MathHelper.Pi/8, Vector2.One * 1.05f);
+            WorldTransformComponent pTr = new WorldTransformComponent(position, MathHelper.Pi/8, Vector2.One * 1.05f);
             entity.Set(pTr);
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
@@ -119,19 +119,19 @@ namespace Meltdown.States
             //2
             var entity2 = this.world.CreateEntity();
             Vector2 position2 = new Vector2(200, 0);
-            entity2.Set(new TransformComponent(pTr, position2, 0, Vector2.One));
+            entity2.Set(new WorldTransformComponent(pTr, position2, 0, Vector2.One));
             entity2.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
             //3
             var entity3 = this.world.CreateEntity();
             Vector2 position3 = new Vector2(400, 100);
-            entity3.Set(new TransformComponent(entity2.Get<TransformComponent>(), position3, MathHelper.Pi / 6, Vector2.One /2));
+            entity3.Set(new WorldTransformComponent(entity2.Get<WorldTransformComponent>(), position3, MathHelper.Pi / 6, Vector2.One /2));
             entity3.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
             //3
             var entity4 = this.world.CreateEntity();
             Vector2 position4 = new Vector2(200, 100);
-            entity4.Set(new TransformComponent(entity3.Get<TransformComponent>(), position4, MathHelper.Pi / 6, Vector2.One * 3));
+            entity4.Set(new WorldTransformComponent(entity3.Get<WorldTransformComponent>(), position4, MathHelper.Pi / 6, Vector2.One * 3));
             entity4.Set(new ManagedResource<string, Texture2D>("placeholder"));
 
         }

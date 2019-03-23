@@ -21,7 +21,7 @@ namespace Meltdown.Systems
 
         public PhysicsSystem(World world, ICollisionSet collisionSet) : base(
             world.GetEntities()
-            .With<TransformComponent>()
+            .With<WorldTransformComponent>()
             .With<VelocityComponent>()
             .Build()) {
             this.collisionSet = collisionSet;
@@ -34,7 +34,7 @@ namespace Meltdown.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            ref TransformComponent transform = ref entity.Get<TransformComponent>();
+            ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             bool collision = false;

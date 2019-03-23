@@ -108,7 +108,7 @@
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
-    <Compile Include="Components\TransformComponent.cs" />
+    <Compile Include="Components\WorldTransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
