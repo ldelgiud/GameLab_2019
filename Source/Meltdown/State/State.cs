@@ -23,7 +23,7 @@ namespace Meltdown.State
         /// Hook for when the state is first created.
         /// </summary>
         /// <param name="game"></param>
-        public virtual void Initialize(Game game) { }
+        public virtual void Initialize(Game1 game) { }
 
         /// <summary>
         /// Hook for when the state is resumed.

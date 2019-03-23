@@ -6,7 +6,7 @@ namespace Meltdown.States
     public class MainMenuState : State.State
     {
 
-        public override void Initialize(Game game)
+        public override void Initialize(Game1 game)
         {
         }
 
