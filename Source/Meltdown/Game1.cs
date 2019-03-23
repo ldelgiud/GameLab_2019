@@ -24,7 +24,6 @@ namespace Meltdown
         Time drawTime;
 
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
 
         public Game1()
         {
@@ -53,9 +52,6 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             var initialState = new MainMenuState();
             initialState.Initialize(this);
             this.stateStack.Push(initialState);
