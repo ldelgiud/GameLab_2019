@@ -111,6 +111,7 @@
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
     <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\WorldTransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
@@ -138,11 +139,11 @@
     <None Include="Meltdown_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\placeholder2.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
