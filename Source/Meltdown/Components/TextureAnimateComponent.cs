@@ -6,7 +6,7 @@ namespace Meltdown.Components
     {
         public Texture2D texture;
         public bool animated { get; private set; }
-        public int timeChangeSprite { get; private set; }
+        public float timeChangeSprite { get; private set; }
         public int nrFrames { get; private set; }
         public int frameWidth { get; private set; }
         public int frameHeight { get; private set; }
@@ -14,11 +14,11 @@ namespace Meltdown.Components
         public float timeWithCurrentSprite;
 
 
-        public TextureAnimateComponent(Texture2D tex, bool anim, int timeChangeSprite, int nrFrames, int width, int height)
+        public TextureAnimateComponent(Texture2D tex, bool anim, float timeChangeSprite, int nrFrames, int width, int height)
         {
             this.texture = tex;
             this.animated = anim;
-            this.timeChangeSprite = timeChangeSprite;
+            this.timeChangeSprite = timeChangeSprite / 1000;
             this.nrFrames = nrFrames;
             this.frameWidth = width;
             this.frameHeight = height;
@@ -31,7 +31,7 @@ namespace Meltdown.Components
         {
             timeWithCurrentSprite += passedTime;
 
-            if (timeWithCurrentSprite >= timeChangeSprite/1000)
+            if (timeWithCurrentSprite >= timeChangeSprite)
             {
                 currentFrame++;
                 currentFrame = currentFrame % nrFrames;

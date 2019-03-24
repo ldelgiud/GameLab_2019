@@ -74,7 +74,7 @@ namespace Meltdown.States
                 entity.Set(new VelocityComponent(velocity));
                 entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
                 entity.Set(new AABBComponent(aabb, element));
-                entity.Set(new ManagedResource<string, Texture2D>("animIdle*400*13*84*94"));
+                entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
                 physicsSystem.quadtree.AddNode(element);
             }
 

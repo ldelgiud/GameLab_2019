@@ -31,26 +31,29 @@ namespace Meltdown.Systems
         protected override void Update(Time time, in Entity entity)
         {
             ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
-            try
+
+            if (entity.Has<TextureComponent>())
             {
                 ref TextureComponent texture = ref entity.Get<TextureComponent>();
-                this.spriteBatch.Draw(texture: texture.texture, position: transform.Position, 
+                this.spriteBatch.Draw(texture: texture.texture, position: transform.Position,
                                       rotation: transform.Rotation, scale: transform.Scale);
-
             }
-            catch (System.Exception){ }
-
-            try
+            else
             {
                 ref TextureAnimateComponent textureAnim = ref entity.Get<TextureAnimateComponent>();
                 textureAnim.UpdateAnimation(time.Delta);
-                this.spriteBatch.Draw(texture: textureAnim.texture, 
-                    sourceRectangle: new Rectangle(textureAnim.currentFrame*textureAnim.frameWidth + 1, 0, textureAnim.frameWidth, textureAnim.frameHeight),
+                this.spriteBatch.Draw(texture: textureAnim.texture,
+                    sourceRectangle: new Rectangle(textureAnim.currentFrame * textureAnim.frameWidth + 1, 0, textureAnim.frameWidth, textureAnim.frameHeight),
                     position: transform.Position, rotation: transform.Rotation, scale: transform.Scale);
-             
-            }
-            catch (System.Exception) { }
-            
+
+                //Debug.WriteLine("Animate frames: " + textureAnim.nrFrames +
+                //    ", timeToChangeSprite: " + textureAnim.timeChangeSprite +
+                //    ", timeWithCurrentSprite: " + textureAnim.timeWithCurrentSprite +
+                //    ", width: " + textureAnim.frameWidth +
+                //    ", height " + textureAnim.frameHeight +
+                //    ", currentFrame: " + textureAnim.currentFrame
+                //    );
+            }       
         }
 
         protected override void PostUpdate(Time time)
