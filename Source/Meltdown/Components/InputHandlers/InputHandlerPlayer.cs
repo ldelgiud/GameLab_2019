@@ -60,6 +60,8 @@ namespace Meltdown.Components.InputHandlers
                 Debug.WriteLine("Shoulder");
             }
 
+            //Debug.WriteLine("ThumbstickLeft: " + gState.ThumbSticks.Left);
+            //Debug.WriteLine("ThumbstickRight: " + gState.ThumbSticks.Right);
 
             ////Dpad
             //if (gState.IsButtonDown(Buttons.DPadRight))

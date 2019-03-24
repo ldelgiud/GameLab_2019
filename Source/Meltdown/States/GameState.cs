@@ -48,7 +48,7 @@ namespace Meltdown.States
                 );
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world)
+                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world, game) //added the game object just for debug
                 );
 
 
@@ -81,6 +81,17 @@ namespace Meltdown.States
                 entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
                 entity.Set(new BoundingBoxComponent(100f, 100f, 0f));
                 physicsSystem.quadtree.AddNode(element);
+
+                var gunEntity = this.world.CreateEntity();
+                Vector2 localPosition = new Vector2(0, 0);
+                
+                WorldTransformComponent gunTransform = new WorldTransformComponent(entity.Get<WorldTransformComponent>(), localPosition, 0, Vector2.One);
+                gunEntity.Set(gunTransform);
+                gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/SmallGun"));
+                TextureComponent tex = gunEntity.Get<TextureComponent>();
+                gunEntity.Set(new BoundingBoxComponent(tex.texture.Width * gunTransform.Scale.X, tex.texture.Height * gunTransform.Scale.Y, 0));
+
+
             }
 
             // Create obstacle

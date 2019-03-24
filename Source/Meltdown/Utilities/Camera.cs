@@ -52,10 +52,20 @@ namespace Meltdown.Utilities
             Vector2 relativeTranslation = translation - this.Translation;
 
             return new Rectangle(
-                (int)((relativeTranslation.X - bounds.Width() / 2) * this.WidthRatio) + window.ClientBounds.Width / 2,
-                (int)((-relativeTranslation.Y - bounds.Height() / 2) * this.HeightRatio) + window.ClientBounds.Height / 2,
+                (int)((relativeTranslation.X ) * this.WidthRatio) + window.ClientBounds.Width / 2,
+                (int)((-relativeTranslation.Y) * this.HeightRatio) + window.ClientBounds.Height / 2,
                 (int)(bounds.Width() * this.WidthRatio),
                 (int)(bounds.Height() * this.HeightRatio)
+                );
+        }
+
+        public Vector2 CenterOfProjectedRectangle(Vector2 translation, BoundingBox bounds)
+        {
+            Vector2 relativeTranslation = translation - this.Translation;
+
+            return new Vector2(
+                (int)((relativeTranslation.X - bounds.Width() / 2) * this.WidthRatio) + window.ClientBounds.Width / 2,
+                (int)((-relativeTranslation.Y - bounds.Height() / 2) * this.HeightRatio) + window.ClientBounds.Height / 2
                 );
         }
     }

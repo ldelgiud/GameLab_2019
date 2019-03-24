@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:animIdle.png
 
+#begin debug_point.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:debug_point.png
+
 #begin placeholder.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -48,4 +60,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:placeholders/battery.png
+
+#begin shooting/SmallGun.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:shooting/SmallGun.png
 
