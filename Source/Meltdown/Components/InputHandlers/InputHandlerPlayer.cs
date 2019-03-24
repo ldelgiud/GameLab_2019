@@ -41,12 +41,12 @@ namespace Meltdown.Components.InputHandlers
 
             if (gState.IsButtonDown(Buttons.LeftThumbstickUp))
             {
-                velComp.velocity.Y = -100;
+                velComp.velocity.Y = 100;
             }
 
             if (gState.IsButtonDown(Buttons.LeftThumbstickDown))
             {
-                velComp.velocity.Y = 100;
+                velComp.velocity.Y = -100;
             }
 
             if (gState.IsButtonDown(Buttons.LeftTrigger)) //L2
@@ -90,11 +90,29 @@ namespace Meltdown.Components.InputHandlers
             }
             if (kState.IsKeyDown(Keys.Down))
             {
-                velComp.velocity.Y = 100;
+                velComp.velocity.Y = -100;
             }
             if (kState.IsKeyDown(Keys.Up))
             {
+                velComp.velocity.Y = 100;
+            }
+            
+            // Keyboard WASD test
+            if (kState.IsKeyDown(Keys.D))
+            {
+                velComp.velocity.X = 100;
+            }
+            if (kState.IsKeyDown(Keys.A))
+            {
+                velComp.velocity.X = -100;
+            }
+            if (kState.IsKeyDown(Keys.S))
+            {
                 velComp.velocity.Y = -100;
+            }
+            if (kState.IsKeyDown(Keys.W))
+            {
+                velComp.velocity.Y = 100;
             }
 
         }

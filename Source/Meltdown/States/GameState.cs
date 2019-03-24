@@ -22,6 +22,7 @@ namespace Meltdown.States
 {
     class GameState : State.State
     {
+        Camera camera;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -30,11 +31,13 @@ namespace Meltdown.States
 
         public override void Initialize(Game1 game)
         {
+            this.camera = new Camera(game.Window, 1920, 1080);
             this.world = new World();
             this.textureResourceManager = new TextureResourceManager(game.Content);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
-                new DebugCollisionHandler(this.world)
+                new DebugCollisionHandler(this.world),
+                new EnergyPickupCollisionHandler(this.world),
             });
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, collisionSystem);
             InputSystem inputSystem = new InputSystem(this.world);
@@ -45,7 +48,7 @@ namespace Meltdown.States
                 );
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(this.world, game.spriteBatch)
+                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world)
                 );
 
 
@@ -62,19 +65,21 @@ namespace Meltdown.States
 
                 AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(0, -100),
-                    UpperBound = new Vector2(100, 0)
+                    LowerBound = new Vector2(-50, -50),
+                    UpperBound = new Vector2(50, 50)
                 };
                 Element<Entity> element = new Element<Entity>(aabb);
                 element.Span.LowerBound += position;
                 element.Span.UpperBound += position;
                 element.Value = entity;
 
+                entity.Set(new PlayerComponent());
                 entity.Set(new WorldTransformComponent(position));
                 entity.Set(new VelocityComponent(velocity));
                 entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
-                entity.Set(new AABBComponent(aabb, element));
+                entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, true));
                 entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
+                entity.Set(new BoundingBoxComponent(100f, 100f, 0f));
                 physicsSystem.quadtree.AddNode(element);
             }
 
@@ -85,8 +90,8 @@ namespace Meltdown.States
                 Vector2 position = new Vector2(300, 300);
                 AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(0, -100),
-                    UpperBound = new Vector2(100, 0)
+                    LowerBound = new Vector2(-50, -50),
+                    UpperBound = new Vector2(50, 50)
                 };
                 Element<Entity> element = new Element<Entity>(aabb);
                 element.Span.LowerBound += position;
@@ -94,8 +99,32 @@ namespace Meltdown.States
                 element.Value = entity;
 
                 entity.Set(new WorldTransformComponent(position));
-                entity.Set(new AABBComponent(aabb, element));
+                entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, true));
                 entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
+                entity.Set(new BoundingBoxComponent(100, 100, 0));
+
+                physicsSystem.quadtree.AddNode(element);
+            }
+
+            // Create energy pickup
+            {
+                var entity = this.world.CreateEntity();
+
+                Vector2 position = new Vector2(-300, 300);
+                AABB aabb = new AABB()
+                {
+                    LowerBound = new Vector2(-10, -10),
+                    UpperBound = new Vector2(10, 10)
+                };
+                Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+                element.Span.LowerBound += position;
+                element.Span.UpperBound += position;
+
+                entity.Set(new WorldTransformComponent(position));
+                entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
+                entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\battery"));
+                entity.Set(new BoundingBoxComponent(20, 20, 0));
+                entity.Set(new EnergyPickupComponent(10));
 
                 physicsSystem.quadtree.AddNode(element);
             }

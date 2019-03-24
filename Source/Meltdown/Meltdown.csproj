@@ -106,10 +106,14 @@
     <Compile Include="Collision\CollisionHandler.cs" />
     <Compile Include="Collision\CollisionType.cs" />
     <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\EnergyPickupCollisionHandler.cs" />
     <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
+    <Compile Include="Components\BoundingBoxComponent.cs" />
+    <Compile Include="Components\EnergyPickupComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
+    <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
@@ -128,7 +132,10 @@
     <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TextureDrawSystem.cs" />
+    <Compile Include="Utilities\Camera.cs" />
     <Compile Include="Utilities\DebugUtil.cs" />
+    <Compile Include="Utilities\Extensions\BoundingBoxExtensions.cs" />
+    <Compile Include="Utilities\Extensions\EntityExtensions.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
     <Compile Include="Utilities\Time.cs" />
   </ItemGroup>

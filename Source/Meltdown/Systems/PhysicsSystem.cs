@@ -48,16 +48,25 @@ namespace Meltdown.Systems
                     UpperBound = element.Span.UpperBound + velocity.velocity * time.Delta
                 };
 
+                bool solid = aabb.solid;
                 List<Entity> collisions = new List<Entity>();
                 this.quadtree.QueryAABB((Element<Entity> collidee) =>
                 {
+                    AABBComponent collideeAABB = collidee.Value.Get<AABBComponent>();
                     if (collidee == element)
                     {
-                        return true;
                     }
-                    collisions.Add(collidee.Value);
-                    collision = true;
-                    return false;
+                    else if(!solid || !collideeAABB.solid)
+                    {
+                        collisions.Add(collidee.Value);
+                    }
+                    else
+                    {
+                        collisions.Add(collidee.Value);
+                        collision = true;
+                    }
+                    return true;
+                    
                 }, ref target);
 
                 foreach(var collidee in collisions)

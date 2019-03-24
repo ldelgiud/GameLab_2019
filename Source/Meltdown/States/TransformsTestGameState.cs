@@ -21,6 +21,7 @@ namespace Meltdown.States
 {
     class TransformsTestGameState : State.State
     {
+        Camera camera;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -29,6 +30,7 @@ namespace Meltdown.States
 
         public override void Initialize(Game1 game)
         {
+            this.camera = new Camera(game.Window, 1920, 1080);
             this.world = new World();
             this.textureResourceManager = new TextureResourceManager(game.Content);
 
@@ -42,7 +44,7 @@ namespace Meltdown.States
                 );
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(this.world, game.spriteBatch)
+                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world)
                 );
 
 
