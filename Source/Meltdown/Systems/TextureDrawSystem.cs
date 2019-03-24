@@ -45,8 +45,8 @@ namespace Meltdown.Systems
             {
                 ref TextureComponent texture = ref entity.Get<TextureComponent>();
                 this.spriteBatch.Draw(
-                    texture: texture.texture,
-                    destinationRectangle: this.camera.Project(transform.Position, texture.texture.Bounds),
+                    texture: texture.value,
+                    destinationRectangle: this.camera.Project(transform.Position, texture.value.Bounds),
                     rotation: transform.Rotation,
                     scale: transform.Scale
                     );

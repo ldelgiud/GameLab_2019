@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Meltdown.Utilities;
 using System.Diagnostics;
-using Meltdown.Utilities;
-
 
 namespace Meltdown.Components
 {
