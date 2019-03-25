@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Graphics.PackedVector;
 
@@ -13,11 +14,16 @@ using Meltdown.Components;
 using Meltdown.Systems;
 using Meltdown.ResourceManagers;
 using Meltdown.Utilities;
+using Meltdown.Input;
 
 namespace Meltdown.States
 {
     public class MainMenuState : State.State
     {
+        StateTransition transition;
+
+        InputManager inputManager;
+
         World world;
         Screen screen;
 
@@ -28,6 +34,11 @@ namespace Meltdown.States
 
         public override void Initialize(Game1 game)
         {
+            this.transition = new StateTransition();
+
+            this.inputManager = new InputManager();
+            this.inputManager.Register(Keys.Enter);
+
             this.world = new World();
             this.screen = new Screen(game.Window, 1920, 1080);
 
@@ -35,6 +46,7 @@ namespace Meltdown.States
             this.textureResourceManager.Manage(this.world);
 
             this.updateSystem = new SequentialSystem<Time>(
+                new MenuInputSystem(this.world, this.inputManager, this.transition),
                 new MenuPulseSystem(this.world)
                 );
             this.drawSystem = new SequentialSystem<Time>(
@@ -77,14 +89,13 @@ namespace Meltdown.States
                 }
 
             }
-
-
         }
 
         public override IStateTransition Update(Time time)
         {
+            this.inputManager.Update(time);
             this.updateSystem.Update(time);
-            return null;
+            return this.transition.Transition;
         }
 
         public override void Draw(Time time)

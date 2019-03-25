@@ -137,6 +137,8 @@
     <Compile Include="States\TransformsTestGameState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
+    <Compile Include="State\StateTransition.cs" />
+    <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Utilities\Screen.cs" />
