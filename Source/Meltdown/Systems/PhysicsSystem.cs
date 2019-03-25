@@ -19,17 +19,13 @@ namespace Meltdown.Systems
         public QuadTree<Entity> quadtree;
         ICollisionSet collisionSet;
 
-        public PhysicsSystem(World world, ICollisionSet collisionSet) : base(
+        public PhysicsSystem(World world, QuadTree<Entity> quadtree, ICollisionSet collisionSet) : base(
             world.GetEntities()
             .With<WorldTransformComponent>()
             .With<VelocityComponent>()
             .Build()) {
+            this.quadtree = quadtree;
             this.collisionSet = collisionSet;
-            this.quadtree = new QuadTree<Entity>(
-                new AABB() {
-                    LowerBound = new Vector2(-10000, -10000),
-                    UpperBound = new Vector2(10000, 10000) },
-                10, 7);
         }
 
         protected override void Update(Time time, in Entity entity)

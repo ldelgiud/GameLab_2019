@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:animIdle.png
 
+#begin gui/EnergyFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:gui/EnergyFont.spritefont
+
 #begin gui/story/intro1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -121,7 +128,7 @@
 /processorParam:TextureFormat=Color
 /build:placeholders/battery.png
 
-#begin shooting/bullet.png
+#begin placeholders/EnergyBar PLACEHOLDER.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,9 +138,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:shooting/bullet.png
+/build:placeholders/EnergyBar PLACEHOLDER.jpg
 
-#begin shooting/smallGun.png
+#begin placeholders/NuclearPlantPLACEHOLDER.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,5 +150,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:shooting/smallGun.png
+/build:placeholders/NuclearPlantPLACEHOLDER.jpg
 
