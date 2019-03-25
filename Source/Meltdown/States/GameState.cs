@@ -32,6 +32,9 @@ namespace Meltdown.States
 
         public override void Initialize(Game1 game)
         {
+            Energy energy = new Energy();
+            PowerPlant powerPlant = new PowerPlant();
+
             this.SetInstance(new QuadTree<Entity>(
                 new AABB()
                 {
@@ -47,23 +50,36 @@ namespace Meltdown.States
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world),
-                new EnergyPickupCollisionHandler(this.world),
+                new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
             });
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
             InputSystem inputSystem = new InputSystem(this.world);
             EventSystem eventSystem = new EventSystem(this.world);
             AISystem aISystem = new AISystem(this.world);
+            PowerplantSystem powerplantSystem =
+                new PowerplantSystem(this.world, energy, powerPlant);
+            
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
                 collisionSystem,
                 eventSystem,
-                aISystem
+                aISystem,
+                powerplantSystem
                 );
+            
+            EnergyDrawSystem energyDrawSystem =
+                new EnergyDrawSystem(
+                    energy,
+                    game.Content.Load<Texture2D>("placeholders/EnergyBar PLACEHOLDER"),
+                    game.GraphicsDevice,
+                    game.Content.Load<SpriteFont >("gui/EnergyFont")
+                    );
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world)
+                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world),
+                energyDrawSystem
                 );
 
 
@@ -71,12 +87,14 @@ namespace Meltdown.States
             this.textureResourceManager.Manage(this.world);
 
             // Create player
-            SpawnHelper.SpawnPLayer(1, physicsSystem.quadtree);
+            SpawnHelper.SpawnPLayer(1);
 
-
+            //Crete Powerplant
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            //Spawn enemy
             SpawnHelper.SpawEnemy(new Vector2(250, 250), physicsSystem.quadtree);
-            // Create obstacle 
-            /*
+
+            /* Create obstacle 
             {
                 var entity = this.world.CreateEntity();
 
@@ -100,11 +118,8 @@ namespace Meltdown.States
             }*/
 
             // Create energy pickup
-            {
-                Vector2 position = new Vector2(-300, 300);
-                SpawnHelper.SpawnBattery(
-                    Constants.BIG_BATTERY_SIZE, position, physicsSystem.quadtree);
-            }   
+            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-300, 300));
+
 
             // Event trigger
             {
@@ -128,6 +143,7 @@ namespace Meltdown.States
 
                 physicsSystem.quadtree.AddNode(element);
             }
+
         }
 
         public override IStateTransition Update(Time time)

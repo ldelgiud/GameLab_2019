@@ -25,6 +25,13 @@
 /processorParam:TextureFormat=Color
 /build:animIdle.png
 
+#begin gui/EnergyFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:gui/EnergyFont.spritefont
+
 #begin gui/story/intro1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -121,7 +128,7 @@
 /processorParam:TextureFormat=Color
 /build:placeholders/battery.png
 
-#begin placeholders/battery.png
+#begin placeholders/EnergyBar PLACEHOLDER.jpg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,5 +138,17 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:placeholders/battery.png
+/build:placeholders/EnergyBar PLACEHOLDER.jpg
+
+#begin placeholders/NuclearPlantPLACEHOLDER.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:placeholders/NuclearPlantPLACEHOLDER.jpg
 

@@ -18,7 +18,7 @@ namespace Meltdown.Utilities
 
             set
             {
-                this.currentEnergy = Math.Min(value, Energy.maxEnergy);
+                this.currentEnergy = Math.Max(0, Math.Min(value, Energy.maxEnergy));
             }
         }
         public const double maxEnergy = 1000;

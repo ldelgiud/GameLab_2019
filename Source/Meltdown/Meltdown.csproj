@@ -143,6 +143,7 @@
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="Systems\AISystem.cs" />
+    <Compile Include="Systems\EnergyDrawSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />

@@ -8,7 +8,7 @@ namespace Meltdown.Utilities
 {
     static class Constants
     {
-        public static double PLANT_PLAYER_DISTANCE = 900.0;
+        public static double PLANT_PLAYER_DISTANCE = 500.0;
         public static Random RANDOM = new Random();
         public static uint SMALL_BATTERY_SIZE = 25;
         public static uint MEDIUM_BATTERY_SIZE = 50;

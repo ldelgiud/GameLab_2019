@@ -29,14 +29,19 @@ namespace Meltdown.Utilities
             }
         }
         
+        public static QuadTree<Entity> quadtree
+        {
+            get
+            {
+                return Game1.Instance.ActiveState.GetInstance<QuadTree<Entity>>();
+            }
+        }
 
         /// <summary>
         /// Helper function, spawns player at position (0,0) with zero velocity
         /// </summary>
         /// <param name="playerID">starts at 0, and linearly increase, NO RANDOM VARIABLES</param>
-        public static void SpawnPLayer(
-            int playerID,
-            QuadTree<Entity> quadtree)
+        public static void SpawnPLayer(int playerID)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
@@ -57,19 +62,17 @@ namespace Meltdown.Utilities
             entity.Set(new WorldTransformComponent(position));
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
-            entity.Set(new AABBComponent(quadtree, aabb, element, true));
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
             entity.Set(new BoundingBoxComponent(100f, 100f, 0f));
-            quadtree.AddNode(element);
+            SpawnHelper.quadtree.AddNode(element);
         }
 
         /// <summary>
         /// Spawn Nuclear Power Plant with all entities and attach respective components
         /// </summary>
         /// <param name="plant">Powerlplant object</param>
-        public static void SpawnNuclearPowerPlant(
-            PowerPlant plant,
-            QuadTree<Entity> quadtree)
+        public static void SpawnNuclearPowerPlant(PowerPlant plant)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
@@ -93,11 +96,11 @@ namespace Meltdown.Utilities
 
             //Create entity and attach the components to it
             entity.Set(new WorldTransformComponent(position));
-            entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\battery"));
-            entity.Set(new AABBComponent(quadtree, aabb, element, false));
+            entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\NuclearPlantPLACEHOLDER"));
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new BoundingBoxComponent(200, 200, 0));
-            
-            quadtree.AddNode(element);
+
+            SpawnHelper.quadtree.AddNode(element);
         }
 
         /// <summary>
@@ -106,10 +109,7 @@ namespace Meltdown.Utilities
         /// <param name="energy">Amount of regenrated life 
         /// Please use the sizes given from Constants</param>
         /// <param name="position">position to which battery will spawn</param>
-        public static void SpawnBattery(
-            uint energy, 
-            Vector2 position, 
-            QuadTree<Entity> quadtree)
+        public static void SpawnBattery(uint energy, Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
@@ -123,12 +123,12 @@ namespace Meltdown.Utilities
             element.Span.UpperBound += position;
 
             entity.Set(new WorldTransformComponent(position));
-            entity.Set(new AABBComponent(quadtree, aabb, element, false));
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\battery"));
             entity.Set(new BoundingBoxComponent(20, 20, 0));
             entity.Set(new EnergyPickupComponent(energy));
 
-            quadtree.AddNode(element);
+            SpawnHelper.quadtree.AddNode(element);
         }
 
         /// <summary>
@@ -151,11 +151,11 @@ namespace Meltdown.Utilities
             //Create entity and attach its components
             entity.Set(new WorldTransformComponent(position));
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
-            entity.Set(new AABBComponent(quadtree, aabb, element, true));
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
             entity.Set(new BoundingBoxComponent(50, 50, 0));
             entity.Set(new AIComponent(new StandbyState()));
-            quadtree.AddNode(element);
+            SpawnHelper.quadtree.AddNode(element);
 
         }
     }
