@@ -57,8 +57,9 @@ namespace Meltdown
         {
             //var initialState = new MainMenuState();
             var initialState = new GameState();
-            initialState.Initialize(this);
             this.stateStack.Push(initialState);
+            initialState.Initialize(this);
+
         }
 
         /// <summary>

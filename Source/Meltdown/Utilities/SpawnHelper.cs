@@ -66,8 +66,26 @@ namespace Meltdown.Utilities
             entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
             entity.Set(new BoundingBoxComponent(100f, 100f, 0f));
             SpawnHelper.quadtree.AddNode(element);
-        }
 
+            // Gun entity
+            var gunEntity = SpawnHelper.World.CreateEntity();
+            Vector2 localPosition = new Vector2(0, 0);
+
+            WorldTransformComponent gunTransform = new WorldTransformComponent(
+                entity.Get<WorldTransformComponent>(),
+                localPosition,
+                0f,
+                Vector2.One / 5
+                );
+
+            Texture2D bulletTexture = Game1.Instance.Content.Load<Texture2D>("shooting/bullet");
+            gunEntity.Set(gunTransform);
+            gunEntity.Set(new SmallGunComponent(300f, -1f, 0.3f, bulletTexture));
+            gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
+            gunEntity.Set(new BoundingBoxComponent(100f, 100f, 0f));
+
+        }
+        
         /// <summary>
         /// Spawn Nuclear Power Plant with all entities and attach respective components
         /// </summary>

@@ -53,18 +53,22 @@ namespace Meltdown.States
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
             });
+
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
             InputSystem inputSystem = new InputSystem(this.world);
             EventSystem eventSystem = new EventSystem(this.world);
             AISystem aISystem = new AISystem(this.world);
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
-            
+
+            ShootingSystem shootingSystem = new ShootingSystem(world);
+
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
                 collisionSystem,
                 eventSystem,
+                shootingSystem,
                 aISystem,
                 powerplantSystem
                 );
@@ -91,32 +95,10 @@ namespace Meltdown.States
 
             //Crete Powerplant
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+
             //Spawn enemy
             SpawnHelper.SpawEnemy(new Vector2(250, 250), physicsSystem.quadtree);
-
-            /* Create obstacle 
-            {
-                var entity = this.world.CreateEntity();
-
-                Vector2 position = new Vector2(300, 300);
-                AABB aabb = new AABB()
-                {
-                    LowerBound = new Vector2(-50, -50),
-                    UpperBound = new Vector2(50, 50)
-                };
-                Element<Entity> element = new Element<Entity>(aabb);
-                element.Span.LowerBound += position;
-                element.Span.UpperBound += position;
-                element.Value = entity;
-
-                entity.Set(new WorldTransformComponent(position));
-                entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, true));
-                entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
-                entity.Set(new BoundingBoxComponent(100, 100, 0));
-
-                physicsSystem.quadtree.AddNode(element);
-            }*/
-
+            
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-300, 300));
 

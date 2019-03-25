@@ -45,15 +45,15 @@ namespace Meltdown.Utilities
             return this.Bounds.Intersects(relativeBounds);
         }
 
-        public Rectangle Project(Vector2 translation, Rectangle bounds)
+        public Rectangle Project(Vector2 translation, Vector2 Scale, Rectangle bounds)
         {
             Vector2 relativeTranslation = translation - this.Translation;
 
             return new Rectangle(
-                (int)((relativeTranslation.X - bounds.Width / 2) * this.WidthRatio) + window.ClientBounds.Width / 2,
-                (int)((-relativeTranslation.Y - bounds.Height / 2) * this.HeightRatio) + window.ClientBounds.Height / 2,
-                (int)(bounds.Width * this.WidthRatio),
-                (int)(bounds.Height * this.HeightRatio)
+                (int)((relativeTranslation.X - (bounds.Width / 2) * Scale.X) * this.WidthRatio) + window.ClientBounds.Width / 2,
+                (int)((-relativeTranslation.Y - (bounds.Height / 2) * Scale.X) * this.HeightRatio) + window.ClientBounds.Height / 2,
+                (int)(bounds.Width * this.WidthRatio * Scale.X),
+                (int)(bounds.Height * this.HeightRatio * Scale.Y)
                 );
         }
     }

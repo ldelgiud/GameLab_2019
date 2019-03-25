@@ -123,6 +123,7 @@
     <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\SmallGunComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\WorldTransformComponent.cs" />
@@ -132,6 +133,8 @@
     <Compile Include="Components\MenuPulseComponent.cs" />
     <Compile Include="Components\BoundingRectangleComponent.cs" />
     <Compile Include="Components\ScreenTransformComponent.cs" />
+    <Compile Include="GameElements\Shooting\AGun.cs" />
+    <Compile Include="GameElements\Shooting\Projectile.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
@@ -147,6 +150,7 @@
     <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
+    <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Energy.cs" />
     <Compile Include="Utilities\PlayerInfo.cs" />
