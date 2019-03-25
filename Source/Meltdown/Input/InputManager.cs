@@ -198,22 +198,22 @@ namespace Meltdown.Input
 
         public IInputEvent GetEvent(Keys key)
         {
-            return this.keyboardEvents[key];
+            return this.keyboardEvents.TryGetValue(key, out IInputEvent _event) ? _event : null;
         }
 
         public IInputEvent GetEvent(int index, Buttons button)
         {
-            return this.buttonEvents[index][button];
+            return this.buttonEvents[index].TryGetValue(button, out IInputEvent _event) ? _event : null;
         }
 
         public IInputEvent GetEvent(int index, ThumbSticks thumbStick)
         {
-            return this.thumbStickEvents[index][thumbStick];
+            return this.thumbStickEvents[index].TryGetValue(thumbStick, out IInputEvent _event) ? _event : null;
         }
 
         public IInputEvent GetEvent(int index, Triggers trigger)
         {
-            return this.triggerEvents[index][trigger];
+            return this.triggerEvents[index].TryGetValue(trigger, out IInputEvent _event) ? _event : null;
         }
 
         public void RemoveEvent(Keys key)
