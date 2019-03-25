@@ -103,6 +103,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AIState.cs" />
+    <Compile Include="AI\AttackState.cs" />
+    <Compile Include="AI\SearchState.cs" />
+    <Compile Include="AI\StandbyState.cs" />
     <Compile Include="Collision\CollisionHandler.cs" />
     <Compile Include="Collision\CollisionType.cs" />
     <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
@@ -110,6 +114,7 @@
     <Compile Include="Collision\Handlers\EventTriggerCollisionHandler.cs" />
     <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
+    <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\EnergyPickupComponent.cs" />
     <Compile Include="Components\EventComponent.cs" />
@@ -136,8 +141,14 @@
     <Compile Include="States\TransformsTestGameState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
+    <Compile Include="Systems\AISystem.cs" />
+    <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
+    <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\Energy.cs" />
+    <Compile Include="Utilities\PlayerInfo.cs" />
+    <Compile Include="Utilities\PowerPlant.cs" />
     <Compile Include="Utilities\Screen.cs" />
     <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\EventSystem.cs" />
@@ -149,6 +160,7 @@
     <Compile Include="Utilities\Extensions\BoundingBoxExtensions.cs" />
     <Compile Include="Utilities\Extensions\EntityExtensions.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
+    <Compile Include="Utilities\SpawnHelper.cs" />
     <Compile Include="Utilities\Time.cs" />
   </ItemGroup>
   <ItemGroup>

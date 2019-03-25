@@ -8,5 +8,11 @@ namespace Meltdown.Components
 {
     public struct PlayerComponent
     {
+        public int Id { get; } 
+
+        public PlayerComponent(int id)
+        {
+            this.Id = id;
+        }
     }
 }

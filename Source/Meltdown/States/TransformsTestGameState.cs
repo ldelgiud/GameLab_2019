@@ -25,6 +25,7 @@ namespace Meltdown.States
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
+        
 
         TextureResourceManager textureResourceManager;
 
@@ -37,7 +38,7 @@ namespace Meltdown.States
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world)
             });
-            PhysicsSystem physicsSystem = new PhysicsSystem(this.world, collisionSystem);
+            PhysicsSystem physicsSystem = null;
             this.updateSystem = new SequentialSystem<Time>(
                 physicsSystem,
                 collisionSystem

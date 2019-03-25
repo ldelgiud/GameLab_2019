@@ -52,9 +52,10 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            var initialState = new MainMenuState();
-            initialState.Initialize(this);
+            var initialState = new GameState();
             this.stateStack.Push(initialState);
+            initialState.Initialize(this);
+
         }
 
         /// <summary>
