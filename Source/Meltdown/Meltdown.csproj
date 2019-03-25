@@ -127,6 +127,7 @@
     <Compile Include="Components\MenuPulseComponent.cs" />
     <Compile Include="Components\BoundingRectangleComponent.cs" />
     <Compile Include="Components\ScreenTransformComponent.cs" />
+    <Compile Include="Input\InputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
