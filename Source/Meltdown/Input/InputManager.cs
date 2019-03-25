@@ -216,6 +216,26 @@ namespace Meltdown.Input
             return this.triggerEvents[index][trigger];
         }
 
+        public void RemoveEvent(Keys key)
+        {
+            this.keyboardEvents.Remove(key);
+        }
+
+        public void RemoveEvent(int index, Buttons button)
+        {
+            this.buttonEvents[index].Remove(button);
+        }
+
+        public void RemoveEvent(int index, ThumbSticks thumbStick)
+        {
+            this.thumbStickEvents[index].Remove(thumbStick);
+        }
+
+        public void RemoveEvent(int index, Triggers trigger)
+        {
+            this.triggerEvents[index].Remove(trigger);
+        }
+
         public void Update(Time time)
         {
             // Keyboard events
