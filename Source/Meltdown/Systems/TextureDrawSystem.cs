@@ -17,9 +17,8 @@ namespace Meltdown.Systems
     {
         Camera camera;
         SpriteBatch spriteBatch;
-        Game1 game;
 
-        public TextureDrawSystem(GraphicsDevice graphicsDevice, Camera camera, World world, Game1 game) : base(
+        public TextureDrawSystem(GraphicsDevice graphicsDevice, Camera camera, World world) : base(
             world.GetEntities()
             .With<WorldTransformComponent>()
             .With<BoundingBoxComponent>()
@@ -28,7 +27,6 @@ namespace Meltdown.Systems
         {
             this.camera = camera;
             this.spriteBatch = new SpriteBatch(graphicsDevice);
-            this.game = game;
         }
 
         protected override void PreUpdate(Time time)
@@ -51,31 +49,23 @@ namespace Meltdown.Systems
                 ref TextureComponent texture = ref entity.Get<TextureComponent>();
                // transform.Rotation += 0.01f;
                 this.spriteBatch.Draw(
-                    texture: texture.texture,
-                    destinationRectangle: this.camera.Project(transform.Position, bounds.value),
+                    texture: texture.value,
+                    destinationRectangle: this.camera.Project(transform.Position, texture.value.Bounds),
                     rotation: transform.Rotation,
                     scale: transform.Scale,
                     origin: new Vector2((bounds.value.Width() / 2) * camera.WidthRatio, (bounds.value.Height() / 2) * camera.HeightRatio)
                     );
 
-                this.spriteBatch.Draw(
-                    texture: game.Content.Load<Texture2D>("debug_point"),
-                    //destinationRectangle: this.camera.Project(transform.Position, bounds.value),
-                    position: this.camera.CenterOfProjectedRectangle(transform.Position, new BoundingBox(Vector3.Zero, Vector3.Zero)),
-                    color: Color.Red,
-                    scale: Vector2.One * 0.05f,
-                    rotation: transform.Rotation
-                    //origin: texture.texture.Bounds.Center.ToVector2() 
-                    );
             }
             else
             {
                 ref TextureAnimateComponent textureAnim = ref entity.Get<TextureAnimateComponent>();
                 textureAnim.UpdateAnimation(time.Delta);
+                var source = new Rectangle(textureAnim.currentFrame * textureAnim.frameWidth + 1, 0, textureAnim.frameWidth, textureAnim.frameHeight);
                 this.spriteBatch.Draw(
                     texture: textureAnim.texture,
-                    sourceRectangle: new Rectangle(textureAnim.currentFrame * textureAnim.frameWidth + 1, 0, textureAnim.frameWidth, textureAnim.frameHeight),
-                    destinationRectangle: this.camera.Project(transform.Position, bounds.value),
+                    sourceRectangle: source,
+                    destinationRectangle: this.camera.Project(transform.Position, source),
                     rotation: transform.Rotation,
                     scale: transform.Scale,
                     origin: new Vector2(bounds.value.Max.X * transform.Scale.X, bounds.value.Max.Y * transform.Scale.X)

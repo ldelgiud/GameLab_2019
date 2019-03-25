@@ -44,7 +44,7 @@ namespace Meltdown.States
                 );
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world, game)
+                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world)
                 );
 
 

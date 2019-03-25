@@ -107,10 +107,13 @@
     <Compile Include="Collision\CollisionType.cs" />
     <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EnergyPickupCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\EventTriggerCollisionHandler.cs" />
     <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\BoundingBoxComponent.cs" />
     <Compile Include="Components\EnergyPickupComponent.cs" />
+    <Compile Include="Components\EventComponent.cs" />
+    <Compile Include="Components\EventTriggerComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
@@ -119,6 +122,11 @@
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\WorldTransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
+    <Compile Include="Event\Event.cs" />
+    <Compile Include="Event\StoryIntroEvent.cs" />
+    <Compile Include="Components\MenuPulseComponent.cs" />
+    <Compile Include="Components\BoundingRectangleComponent.cs" />
+    <Compile Include="Components\ScreenTransformComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -128,7 +136,11 @@
     <Compile Include="States\TransformsTestGameState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
+    <Compile Include="Systems\MenuPulseSystem.cs" />
+    <Compile Include="Systems\ScreenTextureSystem.cs" />
+    <Compile Include="Utilities\Screen.cs" />
     <Compile Include="Systems\CollisionSystem.cs" />
+    <Compile Include="Systems\EventSystem.cs" />
     <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TextureDrawSystem.cs" />
@@ -169,9 +181,10 @@
       <Version>0.9.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.3</Version>
+      <Version>6.2.8</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

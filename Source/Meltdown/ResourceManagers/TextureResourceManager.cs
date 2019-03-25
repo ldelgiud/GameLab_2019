@@ -54,7 +54,7 @@ namespace Meltdown.ResourceManagers
             {
                 entity.Set(new TextureAnimateComponent(resource, animated, (float)timeChangeSprite, nrFrames, frameWidth, frameHeight));
             }
-            else entity.Set(new TextureComponent() { texture = resource });
+            else entity.Set(new TextureComponent() { value = resource });
         }
     }
 }

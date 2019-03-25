@@ -24,7 +24,6 @@ namespace Meltdown
         Time drawTime;
 
         GraphicsDeviceManager graphics;
-        public SpriteBatch spriteBatch;
 
         public Game1()
         {
@@ -44,6 +43,9 @@ namespace Meltdown
         {
             this.updateTime = new Time();
             this.drawTime = new Time();
+
+            this.IsMouseVisible = true; // it is fucking visible OK!
+
             base.Initialize();
         }
 
@@ -53,11 +55,8 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            //var initialState = new MainMenuState();
             var initialState = new GameState();
-            //var initialState = new TransformsTestGameState();
             initialState.Initialize(this);
             this.stateStack.Push(initialState);
         }
