@@ -21,7 +21,7 @@ namespace Meltdown.Utilities
 
         public void Update(GameTime gameTime)
         {
-            this.Absolute = (float)gameTime.TotalGameTime.TotalMilliseconds;
+            this.Absolute = (float)gameTime.TotalGameTime.TotalMilliseconds / 1000.0f;
             this.Delta = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f;
         }
     }
