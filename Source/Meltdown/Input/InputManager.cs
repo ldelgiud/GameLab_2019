@@ -196,6 +196,26 @@ namespace Meltdown.Input
             }
         }
 
+        public IInputEvent GetEvent(Keys key)
+        {
+            return this.keyboardEvents[key];
+        }
+
+        public IInputEvent GetEvent(int index, Buttons button)
+        {
+            return this.buttonEvents[index][button];
+        }
+
+        public IInputEvent GetEvent(int index, ThumbSticks thumbStick)
+        {
+            return this.thumbStickEvents[index][thumbStick];
+        }
+
+        public IInputEvent GetEvent(int index, Triggers trigger)
+        {
+            return this.triggerEvents[index][trigger];
+        }
+
         public void Update(Time time)
         {
             // Keyboard events
