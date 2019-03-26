@@ -35,8 +35,8 @@ namespace Meltdown.Systems
         {
             KeyboardState kState = Keyboard.GetState();
             MouseState mState = Mouse.GetState();
-
-            if (kState.IsKeyDown(Keys.F))
+            
+            if (kState.IsKeyDown(Keys.F) || mState.LeftButton == ButtonState.Pressed)
             {
                 ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
                 ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();

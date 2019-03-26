@@ -59,8 +59,9 @@ namespace Meltdown.States
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world),
+                new ProjectileCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
-                new EventTriggerCollisionHandler(this.world),
+                new EventTriggerCollisionHandler(this.world)
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);

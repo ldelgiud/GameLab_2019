@@ -63,8 +63,9 @@ namespace Meltdown.Utilities
         {
             Vector2 relativeTranslation = point - this.Translation;
 
-            return new Point((int)((relativeTranslation.X) * this.WidthRatio) - window.ClientBounds.Width / 2,
-                (int)((-relativeTranslation.Y) * this.HeightRatio) + window.ClientBounds.Height / 2
+            return new Point(
+                (int)((relativeTranslation.X)) - window.ClientBounds.Width / 2,
+                (int)((-relativeTranslation.Y)) + window.ClientBounds.Height / 2
                 );
         }
     }

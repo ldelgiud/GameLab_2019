@@ -80,7 +80,7 @@ namespace Meltdown.Utilities
 
             Texture2D bulletTexture = Game1.Instance.Content.Load<Texture2D>("shooting/bullet");
             gunEntity.Set(gunTransform);
-            gunEntity.Set(new SmallGunComponent(500f, -1f, 0.1f, bulletTexture));
+            gunEntity.Set(new SmallGunComponent(35f, 500f, -1f, 0.1f, bulletTexture));
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
             gunEntity.Set(new BoundingBoxComponent(100f, 100f, 0f));
 
@@ -169,6 +169,7 @@ namespace Meltdown.Utilities
             //Create entity and attach its components
             entity.Set(new WorldTransformComponent(position));
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
+            entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
             entity.Set(new BoundingBoxComponent(50, 50, 0));
