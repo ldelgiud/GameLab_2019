@@ -39,7 +39,7 @@ namespace Meltdown.Systems
                 ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
                 ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
 
-                Vector2 dir = mState.Position.ToVector2() - transform.Position; // not really needed?
+                Vector2 dir = mState.Position.ToVector2() - transform.value.position.ToVector2(); // not really needed?
 
                 smallGun.Shoot(time.Absolute, transform, dir, world);
             }

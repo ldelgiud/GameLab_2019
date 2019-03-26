@@ -135,6 +135,7 @@
     <Compile Include="Components\ScreenTransformComponent.cs" />
     <Compile Include="GameElements\Shooting\AGun.cs" />
     <Compile Include="GameElements\Shooting\Projectile.cs" />
+    <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
@@ -142,7 +143,6 @@
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
-    <Compile Include="States\TransformsTestGameState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="State\StateTransition.cs" />
@@ -153,8 +153,11 @@
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
+    <Compile Include="Graphics\Transform.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Energy.cs" />
+    <Compile Include="Utilities\Extensions\MatrixExtensions.cs" />
+    <Compile Include="Utilities\Extensions\VectorExtensions.cs" />
     <Compile Include="Utilities\PlayerInfo.cs" />
     <Compile Include="Utilities\PowerPlant.cs" />
     <Compile Include="Utilities\Screen.cs" />
@@ -163,7 +166,6 @@
     <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TextureDrawSystem.cs" />
-    <Compile Include="Utilities\Camera.cs" />
     <Compile Include="Utilities\DebugUtil.cs" />
     <Compile Include="Utilities\Extensions\BoundingBoxExtensions.cs" />
     <Compile Include="Utilities\Extensions\EntityExtensions.cs" />

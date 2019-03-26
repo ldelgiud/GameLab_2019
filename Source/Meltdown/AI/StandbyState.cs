@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.AI
 {
@@ -22,7 +23,7 @@ namespace Meltdown.AI
 
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Position - pos;
+                Vector2 dist = player.transform.value.position.ToVector2() - pos;
 
                 if (dist.Length() <= StandbyState.distToAttack) return new AttackState();
                 if (dist.Length() <= StandbyState.distToSearch) return new SearchState();

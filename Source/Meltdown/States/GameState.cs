@@ -15,19 +15,19 @@ using Meltdown.Systems;
 using Meltdown.Collision;
 using Meltdown.Collision.Handlers;
 using Meltdown.Components;
-using Meltdown.Components.InputHandlers;
 using Meltdown.ResourceManagers;
 using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
+using Meltdown.Graphics;
 
 namespace Meltdown.States
 {
     class GameState : State.State
     {
         InputManager inputManager;
-        Camera camera;
-        Screen screen;
+        Camera worldCamera;
+        Camera screenCamera;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -51,8 +51,16 @@ namespace Meltdown.States
                 },
                 10, 7));
 
-            this.camera = new Camera(game.Window, 1920, 1080);
-            this.screen = new Screen(game.Window, 1920, 1080);
+            this.screenCamera = new Camera(
+                new Transform(new Vector3(game.Window.ClientBounds.Center.ToVector2(), -1)),
+                Matrix.CreateOrthographic(1, 1, 0, 2)
+                );
+
+            this.worldCamera = new Camera(
+                new Transform(new Vector3(0, 0, -1)),
+                Matrix.CreateOrthographic(100, 100, 0, 2)
+                );
+
             this.world = new World();
             this.SetInstance(this.world);
             this.textureResourceManager = new TextureResourceManager(game.Content);
@@ -91,8 +99,8 @@ namespace Meltdown.States
                     );
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world),
-                new ScreenTextureSystem(game.GraphicsDevice, this.world, this.screen),
+                new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
+                new ScreenTextureSystem(game.Window, game.GraphicsDevice, this.screenCamera, this.world),
                 energyDrawSystem
                 );
 
@@ -127,7 +135,7 @@ namespace Meltdown.States
                 element.Span.LowerBound += position;
                 element.Span.UpperBound += position;
 
-                entity.Set(new WorldTransformComponent(position));
+                entity.Set(new WorldTransformComponent(new Transform(new Vector3(position, 0))));
                 entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
                 entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
                 entity.Set(new BoundingBoxComponent(100, 20, 0));

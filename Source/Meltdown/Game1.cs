@@ -55,8 +55,8 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            //var initialState = new MainMenuState();
-            var initialState = new GameState();
+            var initialState = new MainMenuState();
+            //var initialState = new GameState();
             this.stateStack.Push(initialState);
             initialState.Initialize(this);
 

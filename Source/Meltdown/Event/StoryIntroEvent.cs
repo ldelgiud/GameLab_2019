@@ -33,44 +33,44 @@ namespace Meltdown.Event
         {
 
 
-            switch(this.state)
-            {
-                case 0:
-                    this.intro1Entity = world.CreateEntity();
-                    this.intro1Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro1"));
-                    this.intro1Entity.Set(new ScreenTransformComponent(null, Matrix.Transpose(Matrix.CreateTranslation(960, 360, 0)), Matrix.Identity, Matrix.Identity));
-                    this.intro1Entity.Set(new BoundingRectangleComponent(900, 320));
-                    this.state = 1;
-                    break;
-                case 1:
-                    switch(this.inputManager.GetEvent(Keys.E))
-                    {
-                        case PressEvent _:
-                        case ReleaseEvent _:
-                            this.intro1Entity.Delete();
+            //switch(this.state)
+            //{
+            //    case 0:
+            //        this.intro1Entity = world.CreateEntity();
+            //        this.intro1Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro1"));
+            //        this.intro1Entity.Set(new ScreenTransformComponent(null, Matrix.Transpose(Matrix.CreateTranslation(960, 360, 0)), Matrix.Identity, Matrix.Identity));
+            //        this.intro1Entity.Set(new BoundingRectangleComponent(900, 320));
+            //        this.state = 1;
+            //        break;
+            //    case 1:
+            //        switch(this.inputManager.GetEvent(Keys.E))
+            //        {
+            //            case PressEvent _:
+            //            case ReleaseEvent _:
+            //                this.intro1Entity.Delete();
 
-                            this.intro2Entity = world.CreateEntity();
-                            this.intro2Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro2"));
-                            this.intro2Entity.Set(new ScreenTransformComponent(null, Matrix.Transpose(Matrix.CreateTranslation(960, 360, 0)), Matrix.Identity, Matrix.Identity));
-                            this.intro2Entity.Set(new BoundingRectangleComponent(900, 320));
+            //                this.intro2Entity = world.CreateEntity();
+            //                this.intro2Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro2"));
+            //                this.intro2Entity.Set(new ScreenTransformComponent(null, Matrix.Transpose(Matrix.CreateTranslation(960, 360, 0)), Matrix.Identity, Matrix.Identity));
+            //                this.intro2Entity.Set(new BoundingRectangleComponent(900, 320));
 
-                            this.inputManager.RemoveEvent(Keys.E);
-                            this.state = 2;
-                            break;
-                    }
-                    break;
-                case 2:
-                    switch(this.inputManager.GetEvent(Keys.E))
-                    {
-                        case PressEvent _:
-                        case ReleaseEvent _:
-                            this.intro2Entity.Delete();
-                            this.eventEntity.Delete();
-                            break;
-                    }
-                    break;
+            //                this.inputManager.RemoveEvent(Keys.E);
+            //                this.state = 2;
+            //                break;
+            //        }
+            //        break;
+            //    case 2:
+            //        switch(this.inputManager.GetEvent(Keys.E))
+            //        {
+            //            case PressEvent _:
+            //            case ReleaseEvent _:
+            //                this.intro2Entity.Delete();
+            //                this.eventEntity.Delete();
+            //                break;
+            //        }
+            //        break;
                 
-            }
+            //}
         }
     }
 }
