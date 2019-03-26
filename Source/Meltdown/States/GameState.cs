@@ -93,10 +93,13 @@ namespace Meltdown.States
                     game.Content.Load<SpriteFont >("gui/EnergyFont")
                     );
 
+            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, camera, game.Content.Load<Texture2D>("boxColliders"));
+
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.world, this.screen),
-                energyDrawSystem
+                energyDrawSystem,
+                aabbDebugDrawSystem
                 );
 
 
