@@ -153,7 +153,7 @@ namespace Meltdown.Utilities
         /// Spawn an enemy entity at given position in standby
         /// </summary>
         /// <param name="pos">Position to Spawn enemy at</param>
-        public static void SpawEnemy(Vector2 position, QuadTree<Entity> quadtree)
+        public static void SpawEnemyDrone(Vector2 position, QuadTree<Entity> quadtree)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
@@ -170,7 +170,7 @@ namespace Meltdown.Utilities
             entity.Set(new WorldTransformComponent(position));
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
+            entity.Set(new ManagedResource<string, Texture2D>("placeholders/enemies/drone"));
             entity.Set(new BoundingBoxComponent(50, 50, 0));
             entity.Set(new AIComponent(new StandbyState()));
             SpawnHelper.quadtree.AddNode(element);

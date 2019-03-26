@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace Meltdown.AI
 {
-    class AttackState : AIState
+    class DroneAttack : AIState
     {
 
         const double distToStanby = 650;
@@ -34,8 +34,8 @@ namespace Meltdown.AI
 
 
             //UPDATE STATE
-            if (distVector.Length() >= AttackState.distToSearch) return new SearchState();
-            if (distVector.Length() >= AttackState.distToStanby) return new StandbyState();
+            if (distVector.Length() >= DroneAttack.distToSearch) return new DroneSearch();
+            if (distVector.Length() >= DroneAttack.distToStanby) return new StandbyState();
             return this;
         }
     }

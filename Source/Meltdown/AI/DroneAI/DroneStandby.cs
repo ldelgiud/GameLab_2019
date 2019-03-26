@@ -14,7 +14,6 @@ namespace Meltdown.AI
     {
 
         const double distToSearch = 600;
-        const double distToAttack = 200;
 
 
         public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
@@ -24,8 +23,7 @@ namespace Meltdown.AI
             {
                 Vector2 dist = player.transform.Position - pos;
 
-                if (dist.Length() <= StandbyState.distToAttack) return new AttackState();
-                if (dist.Length() <= StandbyState.distToSearch) return new SearchState();
+                if (dist.Length() <= StandbyState.distToSearch) return new DroneSearch();
             }
             return this;
         }
