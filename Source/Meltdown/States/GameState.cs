@@ -107,8 +107,10 @@ namespace Meltdown.States
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
 
             //Spawn enemy
-            SpawnHelper.SpawEnemyDrone(new Vector2(250, 250), physicsSystem.quadtree);
-            
+            SpawnHelper.SpawEnemyDrone(new Vector2(250, 250), physicsSystem.quadtree, true);
+
+            SpawnHelper.SpawEnemyDrone(new Vector2(-250, -250), physicsSystem.quadtree, false);
+
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-300, 300));
 

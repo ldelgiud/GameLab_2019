@@ -10,10 +10,9 @@ using Meltdown.Utilities;
 
 namespace Meltdown.AI
 {
-    class DroneSearch : AIState
+    class ShooterSearch : AIState
     {
-        const double distToStanby = 650;
-        const float speed2Norm = 20;
+        const double distToAttack = 250.0;
 
 
 
@@ -36,15 +35,21 @@ namespace Meltdown.AI
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
-            velocity = Vector2.Multiply(distVector, speed2Norm);
+            velocity = Vector2.Multiply(distVector, Constants.SHOOTER_SPEED);
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            if (distance >= DroneSearch.distToStanby)
+            if (distance <= distToAttack)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
-                return new DroneStandby();
+                return new ShooterAttack();
+            }
+            if (distance >= Constants.DIST_TO_STANDBY)
+            {
+                velocity.X = 0;
+                velocity.Y = 0;
+                return new ShooterAttack();
             }
             return this;
         }

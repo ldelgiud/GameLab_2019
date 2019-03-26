@@ -8,11 +8,10 @@ using Microsoft.Xna.Framework;
 
 namespace Meltdown.AI
 {
-    class DroneAttack : AIState
+    class ShooterAttack : AIState
     {
 
-        const double distToStanby = 650;
-        const double distToSearch = 250;
+        const double distToSearch = 300;
 
         
         public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
@@ -34,8 +33,8 @@ namespace Meltdown.AI
 
 
             //UPDATE STATE
-            if (distVector.Length() >= DroneAttack.distToSearch) return new DroneSearch();
-            if (distVector.Length() >= DroneAttack.distToStanby) return new StandbyState();
+            if (distVector.Length() >= distToSearch) return new ShooterSearch();
+            if (distVector.Length() >= Constants.DIST_TO_STANDBY) return new ShooterStandby();
             return this;
         }
     }

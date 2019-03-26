@@ -104,7 +104,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AIState.cs" />
-    <Compile Include="AI\DroneAI\DroneAttack.cs" />
+    <Compile Include="AI\ShooterAI\ShooterSearch.cs" />
+    <Compile Include="AI\ShooterAI\ShooterStandby.cs" />
+    <Compile Include="AI\ShooterAI\ShooterAttack.cs" />
     <Compile Include="AI\DroneAI\DroneSearch.cs" />
     <Compile Include="AI\DroneAI\DroneStandby.cs" />
     <Compile Include="Collision\CollisionHandler.cs" />
