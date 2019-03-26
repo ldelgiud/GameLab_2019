@@ -7,6 +7,8 @@ using Meltdown.Collision;
 using Meltdown.Components;
 using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
+using Microsoft.Xna.Framework;
+
 namespace Meltdown.Collision.Handlers
 {
     class ProjectileCollisionHandler : CollisionHandler
@@ -27,14 +29,17 @@ namespace Meltdown.Collision.Handlers
         {
             ref HealthComponent health = ref collidee.Get<HealthComponent>();
             ref ProjectileComponent projectile = ref collider.Get<ProjectileComponent>();
-
+            Vector2 collideePos = collidee.Get<AABBComponent>().aabb.Center;
             health.DealDamage(projectile.damage);
 
             if (health.isDead())
             {
+                bool drop = Constants.RANDOM.Next(5) == 1;
+                if (drop) SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, collideePos);
                 collidee.Delete();
+
             }
-            
+
             collider.Delete();
         }
 

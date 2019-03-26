@@ -13,7 +13,6 @@ namespace Meltdown.AI
     class DroneSearch : AIState
     {
         const double distToStanby = 650;
-        const float speed2Norm = 20;
 
 
 
@@ -36,7 +35,7 @@ namespace Meltdown.AI
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
-            velocity = Vector2.Multiply(distVector, speed2Norm);
+            velocity = Vector2.Multiply(distVector, Constants.DRONE_SPEED);
             //TODO: Implement pathfinding method
 
             //UPDATE STATE

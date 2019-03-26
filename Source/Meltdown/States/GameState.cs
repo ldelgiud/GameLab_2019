@@ -73,7 +73,7 @@ namespace Meltdown.States
                 new PowerplantSystem(this.world, energy, powerPlant);
 
             ShootingSystem shootingSystem = new ShootingSystem(world, camera);
-
+            EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem();
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -81,7 +81,8 @@ namespace Meltdown.States
                 eventSystem,
                 shootingSystem,
                 aISystem,
-                powerplantSystem
+                powerplantSystem,
+                enemySpawnSystem
                 );
             
             EnergyDrawSystem energyDrawSystem =
@@ -109,9 +110,9 @@ namespace Meltdown.States
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
 
             //Spawn enemy
-            SpawnHelper.SpawnEnemy(new Vector2(250, -250), true);
+            //SpawnHelper.SpawnEnemy(new Vector2(250, -250), true);
 
-            SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
+            //SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
 
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-300, 300));
