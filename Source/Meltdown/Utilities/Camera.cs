@@ -56,5 +56,17 @@ namespace Meltdown.Utilities
                 (int)(bounds.Height * this.HeightRatio * Scale.Y)
                 );
         }
+
+
+        // Used for Gun -> temporary -> make direction work (mouse point projection)
+        public Point ProjectPoint(Vector2 point)
+        {
+            Vector2 relativeTranslation = point - this.Translation;
+
+            return new Point(
+                (int)((relativeTranslation.X)) - window.ClientBounds.Width / 2,
+                (int)((-relativeTranslation.Y)) + window.ClientBounds.Height / 2
+                );
+        }
     }
 }

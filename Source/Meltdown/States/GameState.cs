@@ -59,6 +59,7 @@ namespace Meltdown.States
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world),
+                new ProjectileCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
                 new PlayerDroneCollisionHandler(this.world, energy)
@@ -71,7 +72,7 @@ namespace Meltdown.States
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
 
-            ShootingSystem shootingSystem = new ShootingSystem(world);
+            ShootingSystem shootingSystem = new ShootingSystem(world, camera);
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
