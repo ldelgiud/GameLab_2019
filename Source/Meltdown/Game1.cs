@@ -55,8 +55,8 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            //var initialState = new MainMenuState();
-            var initialState = new GameState();
+            var initialState = new MainMenuState();
+            //var initialState = new GameState();
             this.stateStack.Push(initialState);
             initialState.Initialize(this);
 
@@ -99,21 +99,24 @@ namespace Meltdown
                     // Remove from stack
                     this.stateStack.Pop();
 
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+
                     // Initialize new state
                     t.State.Initialize(this);
 
-                    // Add to stack
-                    this.stateStack.Push(t.State);
                     break;
                 case PushStateTransition t:
                     // Suspend current state
                     this.ActiveState.Suspend();
 
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+
                     // Initialize new state
                     t.State.Initialize(this);
 
-                    // Add to stack
-                    this.stateStack.Push(t.State);
+                   
                     break;
                 case ExitTransition t:
                     // Exit game
