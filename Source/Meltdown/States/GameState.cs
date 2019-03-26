@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 
 using DefaultEcs;
@@ -18,12 +19,15 @@ using Meltdown.Components.InputHandlers;
 using Meltdown.ResourceManagers;
 using Meltdown.Event;
 using Meltdown.Utilities;
+using Meltdown.Input;
 
 namespace Meltdown.States
 {
     class GameState : State.State
     {
+        InputManager inputManager;
         Camera camera;
+        Screen screen;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -32,6 +36,10 @@ namespace Meltdown.States
 
         public override void Initialize(Game1 game)
         {
+            this.inputManager = new InputManager();
+            this.inputManager.Register(Keys.E);
+            this.SetInstance(this.inputManager);
+
             Energy energy = new Energy();
             PowerPlant powerPlant = new PowerPlant();
 
@@ -44,6 +52,7 @@ namespace Meltdown.States
                 10, 7));
 
             this.camera = new Camera(game.Window, 1920, 1080);
+            this.screen = new Screen(game.Window, 1920, 1080);
             this.world = new World();
             this.SetInstance(this.world);
             this.textureResourceManager = new TextureResourceManager(game.Content);
@@ -83,6 +92,7 @@ namespace Meltdown.States
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world),
+                new ScreenTextureSystem(game.GraphicsDevice, this.world, this.screen),
                 energyDrawSystem
                 );
 
@@ -130,6 +140,7 @@ namespace Meltdown.States
 
         public override IStateTransition Update(Time time)
         {
+            this.inputManager.Update(time);
             this.updateSystem.Update(time);
             return null;
         }

@@ -30,7 +30,7 @@ namespace Meltdown.Collision.Handlers
             var entity = this.world.CreateEntity();
 
             var _event = eventTrigger._event;
-            _event.Initialize(this.world);
+            _event.Initialize(this.world, entity);
             entity.Set(new EventComponent(_event));
 
             collidee.Delete();
