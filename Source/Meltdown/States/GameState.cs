@@ -61,6 +61,7 @@ namespace Meltdown.States
                 new DebugCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
+                new PlayerDroneCollisionHandler(this.world, energy)
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
@@ -101,15 +102,15 @@ namespace Meltdown.States
             this.textureResourceManager.Manage(this.world);
 
             // Create player
-            SpawnHelper.SpawnPLayer(1);
+            SpawnHelper.SpawnPlayer(1);
 
             //Crete Powerplant
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
 
             //Spawn enemy
-            SpawnHelper.SpawEnemyDrone(new Vector2(250, 250), physicsSystem.quadtree, true);
+            SpawnHelper.SpawnEnemy(new Vector2(250, -250), true);
 
-            SpawnHelper.SpawEnemyDrone(new Vector2(-250, -250), physicsSystem.quadtree, false);
+            SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
 
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-300, 300));

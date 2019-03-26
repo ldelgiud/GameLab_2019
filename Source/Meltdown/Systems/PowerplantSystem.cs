@@ -19,7 +19,7 @@ namespace Meltdown.Systems
         Energy energy;
         EntitySet players;
         PowerPlant powerPlant;
-        const int minDist = 100;
+        const int minDist = 400;
 
         public bool IsEnabled { get; set; } = true;
 
@@ -41,7 +41,7 @@ namespace Meltdown.Systems
             }
             center /= players.Count;
             Vector2 distVec = center - powerPlant.Position;
-            double dist = distVec.Length();
+            double dist = Math.Max(distVec.Length(), minDist);
 
             this.energy.CurrentEnergy -= (1 / dist) * gameTime.Delta * 10000;
 

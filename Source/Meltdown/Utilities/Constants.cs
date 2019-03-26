@@ -16,6 +16,8 @@ namespace Meltdown.Utilities
         public static float DRONE_SPEED = 30;
         public static float SHOOTER_SPEED = 20; 
         public static double DIST_TO_STANDBY = 650.0;
+        public static double MAX_ENERGY = 1000;
+        
 
 
     }
