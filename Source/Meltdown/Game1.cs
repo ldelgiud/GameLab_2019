@@ -43,6 +43,9 @@ namespace Meltdown
         {
             this.updateTime = new Time();
             this.drawTime = new Time();
+
+            this.IsMouseVisible = true; // it is fucking visible OK!
+
             base.Initialize();
         }
 
@@ -52,9 +55,11 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            var initialState = new MainMenuState();
-            initialState.Initialize(this);
+            //var initialState = new MainMenuState();
+            var initialState = new GameState();
             this.stateStack.Push(initialState);
+            initialState.Initialize(this);
+
         }
 
         /// <summary>
