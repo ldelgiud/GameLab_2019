@@ -18,14 +18,16 @@ namespace Meltdown.Systems
     {
 
         World world;
+        Camera cam;
 
-        public ShootingSystem(World world) : base(
+        public ShootingSystem(World world, Camera cam) : base(
             world.GetEntities()
             .With<WorldTransformComponent>()
             .With<SmallGunComponent>()
             .Build())
         {
             this.world = world;
+            this.cam = cam;
         }
 
         // Check for shoot button and shoot
@@ -39,8 +41,12 @@ namespace Meltdown.Systems
                 ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
                 ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
 
-                Vector2 dir = mState.Position.ToVector2() - transform.Position; // not really needed?
+                //Debug.WriteLine("Mouse position screen: " + mState.Position + ", mouse position world: " + cam.ProjectPoint(mState.Position.ToVector2()).ToVector2());
+                //Debug.WriteLine("Gun position: " + transform.Position);
 
+
+                Vector2 dir = cam.ProjectPoint(mState.Position.ToVector2()).ToVector2() - transform.Position; 
+                
                 smallGun.Shoot(time.Absolute, transform, dir, world);
             }
 

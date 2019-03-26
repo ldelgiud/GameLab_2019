@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,8 +26,11 @@ namespace Meltdown.Components
 
             direction.Normalize();
 
+            float rotation = MathF.Atan2(direction.Y, direction.X);
+            Debug.WriteLine("Rotation: " + rotation + ", direction: " + direction);
+
             var entity = world.CreateEntity();
-            entity.Set(new WorldTransformComponent(transform.Position, 0f, Vector2.One * 0.1f));
+            entity.Set(new WorldTransformComponent(transform.Position, MathHelper.PiOver2 - rotation, Vector2.One * 0.03f));
             entity.Set(new VelocityComponent(direction * projectile.speed));
             entity.Set(new TextureComponent { value = projectile.projTex });
             entity.Set(new BoundingBoxComponent(50, 50, 0));

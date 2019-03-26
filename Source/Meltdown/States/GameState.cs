@@ -70,7 +70,7 @@ namespace Meltdown.States
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
 
-            ShootingSystem shootingSystem = new ShootingSystem(world);
+            ShootingSystem shootingSystem = new ShootingSystem(world, camera);
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
