@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Meltdown.Components
 {
-    class PlayerComponent
+    public struct PlayerComponent
     {
-        public int Id { get; }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id">starts at 0 and linearly increase, do not give random values</param>
+        public int Id { get; } 
+
         public PlayerComponent(int id)
         {
             this.Id = id;

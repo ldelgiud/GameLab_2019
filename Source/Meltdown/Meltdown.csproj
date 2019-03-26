@@ -54,6 +54,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <WarningLevel>0</WarningLevel>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\WindowsUniversal\$(Platform)\$(Configuration)\</OutputPath>
@@ -77,6 +79,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\WindowsUniversal\$(Platform)\$(Configuration)\</OutputPath>
@@ -101,31 +104,72 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AIState.cs" />
-    <Compile Include="AI\Attack.cs" />
-    <Compile Include="AI\Search.cs" />
-    <Compile Include="AI\StandBy.cs" />
+    <Compile Include="AI\AttackState.cs" />
+    <Compile Include="AI\SearchState.cs" />
+    <Compile Include="AI\StandbyState.cs" />
+    <Compile Include="Collision\CollisionHandler.cs" />
+    <Compile Include="Collision\CollisionType.cs" />
+    <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\EnergyPickupCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\EventTriggerCollisionHandler.cs" />
+    <Compile Include="Collision\ICollisionSet.cs" />
+    <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\AIComponent.cs" />
-    <Compile Include="Components\BatteryComponent.cs" />
-    <Compile Include="Components\EnemyLifeComponent.cs" />
+    <Compile Include="Components\BoundingBoxComponent.cs" />
+    <Compile Include="Components\EnergyPickupComponent.cs" />
+    <Compile Include="Components\EventComponent.cs" />
+    <Compile Include="Components\EventTriggerComponent.cs" />
+    <Compile Include="Components\InputComponent.cs" />
+    <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\SmallGunComponent.cs" />
+    <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
+    <Compile Include="Components\WorldTransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
-    <Compile Include="Game Elements\Constants.cs" />
-    <Compile Include="Game Elements\Energy.cs" />
-    <Compile Include="Game Elements\PlayerInfo.cs" />
-    <Compile Include="Game Elements\PowerPlant.cs" />
-    <Compile Include="Game Elements\SpawnHelper.cs" />
+    <Compile Include="Event\Event.cs" />
+    <Compile Include="Event\StoryIntroEvent.cs" />
+    <Compile Include="Components\MenuPulseComponent.cs" />
+    <Compile Include="Components\BoundingRectangleComponent.cs" />
+    <Compile Include="Components\ScreenTransformComponent.cs" />
+    <Compile Include="GameElements\Shooting\AGun.cs" />
+    <Compile Include="GameElements\Shooting\Projectile.cs" />
+    <Compile Include="Input\InputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManagers\TextureResourceManager.cs" />
+    <Compile Include="States\GameState.cs" />
+    <Compile Include="States\MainMenuState.cs" />
+    <Compile Include="States\TransformsTestGameState.cs" />
+    <Compile Include="State\State.cs" />
+    <Compile Include="State\IStateTransition.cs" />
+    <Compile Include="State\StateTransition.cs" />
+    <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
-    <Compile Include="Systems\EnergySystem.cs" />
+    <Compile Include="Systems\PowerplantSystem.cs" />
+    <Compile Include="Systems\MenuPulseSystem.cs" />
+    <Compile Include="Systems\ScreenTextureSystem.cs" />
+    <Compile Include="Systems\ShootingSystem.cs" />
+    <Compile Include="Utilities\Constants.cs" />
+    <Compile Include="Utilities\Energy.cs" />
+    <Compile Include="Utilities\PlayerInfo.cs" />
+    <Compile Include="Utilities\PowerPlant.cs" />
+    <Compile Include="Utilities\Screen.cs" />
+    <Compile Include="Systems\CollisionSystem.cs" />
+    <Compile Include="Systems\EventSystem.cs" />
+    <Compile Include="Systems\InputSystem.cs" />
     <Compile Include="Systems\PhysicsSystem.cs" />
-    <Compile Include="Systems\PlayerInfoSystem.cs" />
-    <Compile Include="Systems\PlayerUpdateSystem.cs" />
-    <Compile Include="Systems\TextureSystem.cs" />
+    <Compile Include="Systems\TextureDrawSystem.cs" />
+    <Compile Include="Utilities\Camera.cs" />
+    <Compile Include="Utilities\DebugUtil.cs" />
+    <Compile Include="Utilities\Extensions\BoundingBoxExtensions.cs" />
+    <Compile Include="Utilities\Extensions\EntityExtensions.cs" />
+    <Compile Include="Utilities\MathUtil.cs" />
+    <Compile Include="Utilities\SpawnHelper.cs" />
+    <Compile Include="Utilities\Time.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -134,11 +178,11 @@
     <None Include="Meltdown_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\placeholder2.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
@@ -147,40 +191,20 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Aether.Physics2D">
+      <Version>1.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="Aether.Physics2D.Diagnostics">
+      <Version>1.4.0</Version>
+    </PackageReference>
+    <PackageReference Include="DefaultEcs">
+      <Version>0.9.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.3</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Animations">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Collisions">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Entities">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Graphics">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Gui">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Input">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Particles">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Tiled">
-      <Version>3.6.0-beta0001</Version>
-    </PackageReference>
-    <PackageReference Include="MonoGame.Extended.Tweening">
-      <Version>3.6.0-beta0001</Version>
+      <Version>6.2.8</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

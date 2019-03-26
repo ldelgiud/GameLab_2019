@@ -1,46 +1,86 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using MonoGame.Extended.Entities;
-using MonoGame.Extended.Entities.Systems;
-using MonoGame.Extended.Collisions;
-
-using Meltdown.Components;
 using Microsoft.Xna.Framework;
+
+using DefaultEcs;
+using DefaultEcs.System;
+
+using tainicom.Aether.Physics2D.Collision;
+
+using Meltdown.Collision;
+using Meltdown.Components;
+using Meltdown.Utilities;
 
 namespace Meltdown.Systems
 {
-    class PhysicsSystem : EntityUpdateSystem
+    sealed class PhysicsSystem : AEntitySystem<Time>
     {
-        Quadtree quadtree;
+        public QuadTree<Entity> quadtree;
+        ICollisionSet collisionSet;
 
-        ComponentMapper<PositionComponent> positionMapper;
-        ComponentMapper<VelocityComponent> velocityMapper;
-
-        public PhysicsSystem() : base(Aspect.All(typeof(PositionComponent), typeof(VelocityComponent)))
-        {
-
+        public PhysicsSystem(World world, QuadTree<Entity> quadtree, ICollisionSet collisionSet) : base(
+            world.GetEntities()
+            .With<WorldTransformComponent>()
+            .With<VelocityComponent>()
+            .Build()) {
+            this.quadtree = quadtree;
+            this.collisionSet = collisionSet;
         }
 
-        public override void Initialize(IComponentMapperService mapperService)
+        protected override void Update(Time time, in Entity entity)
         {
-            this.positionMapper = mapperService.GetMapper<PositionComponent>();
-            this.velocityMapper = mapperService.GetMapper<VelocityComponent>();
-        }
+            ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
+            ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
-        public override void Update(GameTime gameTime)
-        {
-            foreach (int id in this.ActiveEntities)
+            bool collision = false;
+            if (entity.Has<AABBComponent>())
             {
-                PositionComponent position = this.positionMapper.Get(id);
-                VelocityComponent velocity = this.velocityMapper.Get(id);
+                ref AABBComponent aabb = ref entity.Get<AABBComponent>();
+                Element<Entity> element = aabb.element;
 
-                // Add velocity to position, scaled to meters per second
-                position.position.X += velocity.velocity.X * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
-                position.position.Y += velocity.velocity.Y * ((float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000f) ;
+                AABB target = new AABB {
+                    LowerBound = element.Span.LowerBound + velocity.velocity * time.Delta,
+                    UpperBound = element.Span.UpperBound + velocity.velocity * time.Delta
+                };
+
+                bool solid = aabb.solid;
+                List<Entity> collisions = new List<Entity>();
+                this.quadtree.QueryAABB((Element<Entity> collidee) =>
+                {
+                    AABBComponent collideeAABB = collidee.Value.Get<AABBComponent>();
+                    if (collidee == element)
+                    {
+                    }
+                    else if(!solid || !collideeAABB.solid)
+                    {
+                        collisions.Add(collidee.Value);
+                    }
+                    else
+                    {
+                        collisions.Add(collidee.Value);
+                        collision = true;
+                    }
+                    return true;
+                    
+                }, ref target);
+
+                foreach(var collidee in collisions)
+                {
+                    this.collisionSet.AddCollision(entity, collidee);
+                }
+
+                if (!collision)
+                {
+                    quadtree.RemoveNode(element);
+                    element.Span = target;
+                    quadtree.AddNode(element);
+                }
+            }
+
+            if (!collision)
+            {
+                transform.Position += velocity.velocity * time.Delta;
             }
         }
     }

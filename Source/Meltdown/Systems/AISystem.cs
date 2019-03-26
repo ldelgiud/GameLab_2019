@@ -1,51 +1,54 @@
-﻿using Meltdown.Components;
-using Meltdown.Game_Elements;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended.Entities;
-using MonoGame.Extended.Entities.Systems;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using DefaultEcs;
+using DefaultEcs.System;
+
+using Meltdown.Components;
+using Meltdown.Utilities;
 namespace Meltdown.Systems
 {
-    class AISystem : EntityUpdateSystem
+    class AISystem : AEntitySystem<Time>
     {
 
-        List<PlayerInfo> playerInfo;
-        ComponentMapper<PositionComponent> positionMapper;
-        ComponentMapper<VelocityComponent> velocityMapper;
-        ComponentMapper<AIComponent> aiMapper;
+        EntitySet players;
 
-        public AISystem(List<PlayerInfo> playerInfo) :
-            base(Aspect.All(typeof(AIComponent), typeof(VelocityComponent), typeof(PositionComponent)))
+        public AISystem(World world) : base(
+            world.GetEntities()
+            .With<VelocityComponent>()
+            .With<WorldTransformComponent>()
+            .With<AIComponent>()
+            .Build())
         {
-            this.playerInfo = playerInfo;
+            this.players = world.GetEntities().With<PlayerComponent>().Build();
         }
 
-        public override void Initialize(IComponentMapperService mapperService)
+        protected override void Update(Time state, ReadOnlySpan<Entity> entities)
         {
-            this.positionMapper = mapperService.GetMapper<PositionComponent>();
-            this.velocityMapper = mapperService.GetMapper<VelocityComponent>();
-            this.aiMapper = mapperService.GetMapper<AIComponent>();
-        }
+            List<PlayerInfo> playerInfos = new List<PlayerInfo>();
 
-
-        
-        public override void Update(GameTime gameTime)
-        {
-            foreach (int id in this.ActiveEntities)
+            foreach(Entity entity in this.players.GetEntities())
             {
-                AIComponent aiComponent = this.aiMapper.Get(id);
-                PositionComponent position = this.positionMapper.Get(id);
-                VelocityComponent velocity = this.velocityMapper.Get(id);
-                
-                aiComponent.State = 
-                    aiComponent.State.UpdateState(playerInfo, position.position, ref velocity.velocity);
-
+                playerInfos.Add(new PlayerInfo(
+                    entity.Get<WorldTransformComponent>(),
+                    entity.Get<PlayerComponent>().Id));
             }
+
+            foreach(Entity entity in entities)
+            {
+                ref AIComponent aIState = ref entity.Get<AIComponent>();
+                ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
+                ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
+
+                aIState.State =
+                    aIState.State.UpdateState(playerInfos, transform.Position, ref velocity.velocity);
+            }
+            
+
         }
     }
 }

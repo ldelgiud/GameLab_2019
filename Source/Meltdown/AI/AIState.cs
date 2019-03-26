@@ -1,12 +1,13 @@
-﻿using Meltdown.Game_Elements;
-using Microsoft.Xna.Framework;
-using MonoGame.Extended.Entities;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using DefaultEcs;
+
+using Meltdown.Utilities;
 
 namespace Meltdown.AI
 {

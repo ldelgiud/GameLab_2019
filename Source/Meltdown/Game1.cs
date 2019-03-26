@@ -1,14 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using MonoGame.Extended.Entities;
-
-using Meltdown.Game_Elements;
-using Meltdown.Components;
-using Meltdown.Systems;
-using System;
-using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
+using Meltdown.State;
+using Meltdown.States;
+using Meltdown.Utilities;
 
 namespace Meltdown
 {
@@ -17,18 +14,22 @@ namespace Meltdown
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        PowerPlant powerPlant;
+        public static Game1 Instance { get; private set; }
 
-        World world;
+        private Stack<State.State> stateStack = new Stack<State.State>();
+
+        public State.State ActiveState { get { return this.stateStack.Peek(); } }
+
+        Time updateTime;
+        Time drawTime;
+
+        GraphicsDeviceManager graphics;
 
         public Game1()
         {
+            Game1.Instance = this;
+
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1000;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = 1000;   // set this value to the desired height of your window
-            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
         }
 
@@ -40,45 +41,12 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            //Data to initialize playing field
-            int amountOfPlayers = 1;
-            List<PlayerInfo> playerInfos = new List<PlayerInfo>();
-            //Generate Nuclear Plant object
-            powerPlant = new PowerPlant();
-            //Generate Shared Energy object
-            Energy energy = new Energy();
-            
-            //Create World
-            world = new WorldBuilder()
-                .AddSystem(new TextureSystem(this.spriteBatch))
-                .AddSystem(new PhysicsSystem())
-                .AddSystem(new EnergySystem(energy, powerPlant))
-                .AddSystem(new EnergyDrawSystem(energy, 
-                    this.Content.Load<Texture2D>("EnergyBar"), 
-                    spriteBatch,
-                    Content.Load<SpriteFont>("EnergyFont")))
-                .AddSystem(new PlayerUpdateSystem())
-                .AddSystem(new PlayerInfoSystem(playerInfos))
-                .AddSystem(new AISystem(playerInfos))
-                .Build();
-            
+            this.updateTime = new Time();
+            this.drawTime = new Time();
 
-            //Spawn player(s)
-            for (int i = 0; i < amountOfPlayers; ++i)
-            {
-                playerInfos.Add(
-                    SpawnHelper.SpawnPLayer(world, Content, i));
-            }
+            this.IsMouseVisible = true; // it is fucking visible OK!
 
-            //Spawn powerplant
-            SpawnHelper.SpawnNuclearPowerPlant(world, Content, powerPlant);
-            //Spawn one enemy for testing purposes
-            SpawnHelper.SpawEnemy(world, Content, new Vector2(50, 650));
             base.Initialize();
-            //Spawn one battery 
-            SpawnHelper.SpawnBattery(world, Content, Constants.BIG_BATTERY_SIZE, new Vector2(300, 300));
         }
 
         /// <summary>
@@ -87,7 +55,11 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            //var initialState = new MainMenuState();
+            var initialState = new GameState();
+            this.stateStack.Push(initialState);
+            initialState.Initialize(this);
+
         }
 
         /// <summary>
@@ -106,11 +78,48 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            //Safety check
-            KeyboardState state = Keyboard.GetState();
-            if (state.IsKeyDown(Keys.Escape)) Exit();
+            this.updateTime.Update(gameTime);
+            IStateTransition transition = this.ActiveState.Update(this.updateTime);
+            switch (transition)
+            {
+                case PopStateTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
 
-            this.world.Update(gameTime);
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Resume top state
+                    this.ActiveState.Resume(t.Data);
+                    break;
+                case SwapTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
+
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+                    break;
+                case PushStateTransition t:
+                    // Suspend current state
+                    this.ActiveState.Suspend();
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+                    break;
+                case ExitTransition t:
+                    // Exit game
+                    this.Exit();
+                    break;
+            }
             base.Update(gameTime);
         }
 
@@ -120,11 +129,9 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            this.drawTime.Update(gameTime);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            //TODO: understand where (what code section) to actually draw powerplant
-            
-
-            this.world.Draw(gameTime);
+            this.ActiveState.Draw(this.drawTime);
             base.Draw(gameTime);
         }
     }
