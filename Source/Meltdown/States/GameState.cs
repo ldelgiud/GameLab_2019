@@ -79,6 +79,7 @@ namespace Meltdown.States
                 new PowerplantSystem(this.world, energy, powerPlant);
 
             ShootingSystem shootingSystem = new ShootingSystem(world);
+            CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
@@ -87,7 +88,8 @@ namespace Meltdown.States
                 eventSystem,
                 shootingSystem,
                 aISystem,
-                powerplantSystem
+                powerplantSystem,
+                cameraSystem
                 );
             
             EnergyDrawSystem energyDrawSystem =
@@ -98,7 +100,9 @@ namespace Meltdown.States
                     game.Content.Load<SpriteFont >("gui/EnergyFont")
                     );
 
+            
             this.drawSystem = new SequentialSystem<Time>(
+
                 new TextureDrawSystem(game.Window, game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.Window, game.GraphicsDevice, this.screenCamera, this.world),
                 energyDrawSystem

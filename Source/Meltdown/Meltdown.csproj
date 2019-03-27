@@ -146,6 +146,7 @@
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="State\StateTransition.cs" />
+    <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
