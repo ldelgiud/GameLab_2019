@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,9 @@ namespace Meltdown.Systems
                 ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
                 aIState.State =
-                    aIState.State.UpdateState(playerInfos, transform.value.position.ToVector2(), ref velocity.velocity);
+                    aIState.State.UpdateState(playerInfos, transform.Position, ref velocity.velocity);
+
+                transform.Rotation = MathF.Atan2(velocity.velocity.X, velocity.velocity.Y) + MathHelper.Pi;
             }
             
 

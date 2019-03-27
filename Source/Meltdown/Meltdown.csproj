@@ -155,6 +155,7 @@
     <Compile Include="State\StateTransition.cs" />
     <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
+    <Compile Include="Systems\AABBDebugDrawSystem.cs" />
     <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
