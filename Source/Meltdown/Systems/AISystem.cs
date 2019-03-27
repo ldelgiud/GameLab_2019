@@ -10,6 +10,8 @@ using DefaultEcs.System;
 
 using Meltdown.Components;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
+
 namespace Meltdown.Systems
 {
     class AISystem : AEntitySystem<Time>
@@ -45,7 +47,7 @@ namespace Meltdown.Systems
                 ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
                 aIState.State =
-                    aIState.State.UpdateState(playerInfos, transform.Position, ref velocity.velocity);
+                    aIState.State.UpdateState(playerInfos, transform.value.position.ToVector2(), ref velocity.velocity);
             }
             
 

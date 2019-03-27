@@ -15,19 +15,19 @@ using Meltdown.Systems;
 using Meltdown.Collision;
 using Meltdown.Collision.Handlers;
 using Meltdown.Components;
-using Meltdown.Components.InputHandlers;
 using Meltdown.ResourceManagers;
 using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
+using Meltdown.Graphics;
 
 namespace Meltdown.States
 {
     class GameState : State.State
     {
         InputManager inputManager;
-        Camera camera;
-        Screen screen;
+        Camera worldCamera;
+        Camera screenCamera;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -51,8 +51,16 @@ namespace Meltdown.States
                 },
                 10, 7));
 
-            this.camera = new Camera(game.Window, 1920, 1080);
-            this.screen = new Screen(game.Window, 1920, 1080);
+            this.screenCamera = new Camera(
+                new Transform(new Vector3(0, 0, -1)),
+                Matrix.CreateOrthographic(1920, 1080, 0, 2)
+                );
+
+            this.worldCamera = new Camera(
+                new Transform(new Vector3(0, 0, -1)),
+                Matrix.CreateOrthographic(100, 100, 0, 2)
+                );
+
             this.world = new World();
             this.SetInstance(this.world);
             this.textureResourceManager = new TextureResourceManager(game.Content);
@@ -72,7 +80,8 @@ namespace Meltdown.States
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
 
-            ShootingSystem shootingSystem = new ShootingSystem(world, camera);
+            ShootingSystem shootingSystem = new ShootingSystem(world);
+            CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
             EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem();
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
@@ -83,6 +92,7 @@ namespace Meltdown.States
                 aISystem,
                 powerplantSystem,
                 enemySpawnSystem
+                cameraSystem
                 );
             
             EnergyDrawSystem energyDrawSystem =
@@ -93,9 +103,11 @@ namespace Meltdown.States
                     game.Content.Load<SpriteFont >("gui/EnergyFont")
                     );
 
+            
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(game.GraphicsDevice, this.camera, this.world),
-                new ScreenTextureSystem(game.GraphicsDevice, this.world, this.screen),
+
+                new TextureDrawSystem(game.Window, game.GraphicsDevice, this.worldCamera, this.world),
+                new ScreenTextureSystem(game.Window, game.GraphicsDevice, this.screenCamera, this.world),
                 energyDrawSystem
                 );
 
@@ -115,27 +127,27 @@ namespace Meltdown.States
             //SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
 
             // Create energy pickup
-            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-300, 300));
+            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
 
             // Event trigger
             {
                 var entity = this.world.CreateEntity();
 
-                Vector2 position = new Vector2(0, -200);
+                Vector2 position = new Vector2(0, -20);
                 AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(-50, -10),
-                    UpperBound = new Vector2(50, 10)
+                    LowerBound = new Vector2(-5, -5),
+                    UpperBound = new Vector2(5, 5)
                 };
                 Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
                 element.Span.LowerBound += position;
                 element.Span.UpperBound += position;
 
-                entity.Set(new WorldTransformComponent(position));
+                entity.Set(new WorldTransformComponent(new Transform(new Vector3(position, 0))));
                 entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
                 entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
-                entity.Set(new BoundingBoxComponent(100, 20, 0));
+                entity.Set(new BoundingBoxComponent(10, 10, 0));
                 entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
 
                 physicsSystem.quadtree.AddNode(element);

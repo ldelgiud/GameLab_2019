@@ -41,12 +41,8 @@ namespace Meltdown.Systems
                 ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
                 ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
 
-                //Debug.WriteLine("Mouse position screen: " + mState.Position + ", mouse position world: " + cam.ProjectPoint(mState.Position.ToVector2()).ToVector2());
-                //Debug.WriteLine("Gun position: " + transform.Position);
+                Vector2 dir = mState.Position.ToVector2() - transform.value.position.ToVector2(); // not really needed?
 
-
-                Vector2 dir = cam.ProjectPoint(mState.Position.ToVector2()).ToVector2() - transform.Position; 
-                
                 smallGun.Shoot(time.Absolute, transform, dir, world);
             }
 

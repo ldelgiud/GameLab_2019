@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Microsoft.Xna.Framework;
 
 using DefaultEcs;
 
 using Meltdown.Components;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
 
 using DefaultEcs.System;
 
@@ -37,7 +35,7 @@ namespace Meltdown.Systems
             Vector2 center = new Vector2(0,0); 
             foreach (Entity entity in this.players.GetEntities())
             {
-                center += entity.Get<WorldTransformComponent>().Position;
+                center += entity.Get<WorldTransformComponent>().value.position.ToVector2();
             }
             center /= players.Count;
             Vector2 distVec = center - powerPlant.Position;
