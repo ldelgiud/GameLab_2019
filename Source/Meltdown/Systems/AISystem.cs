@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using DefaultEcs.System;
 
 using Meltdown.Components;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
+
 namespace Meltdown.Systems
 {
     class AISystem : AEntitySystem<Time>
@@ -46,6 +49,8 @@ namespace Meltdown.Systems
 
                 aIState.State =
                     aIState.State.UpdateState(playerInfos, transform.Position, ref velocity.velocity);
+
+                transform.Rotation = MathF.Atan2(velocity.velocity.X, velocity.velocity.Y) + MathHelper.Pi;
             }
             
 

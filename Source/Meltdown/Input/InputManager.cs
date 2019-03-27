@@ -143,19 +143,19 @@ namespace Meltdown.Input
 
         // States
         Dictionary<Keys, BooleanInputState<Keys>> keyboardStates = new Dictionary<Keys, BooleanInputState<Keys>>();
-        Dictionary<Buttons, BooleanInputState<Buttons>>[] buttonStates = new Dictionary<Buttons, BooleanInputState<Buttons>>[4];
-        Dictionary<ThumbSticks, ValueInputState<ThumbSticks, Vector2>>[] thumbStickStates = new Dictionary<ThumbSticks, ValueInputState<ThumbSticks, Vector2>>[4];
-        Dictionary<Triggers, ValueInputState<Triggers, float>>[] triggerStates = new Dictionary<Triggers, ValueInputState<Triggers, float>>[4];
+        Dictionary<Buttons, BooleanInputState<Buttons>>[] buttonStates = new Dictionary<Buttons, BooleanInputState<Buttons>>[GamePad.MaximumGamePadCount];
+        Dictionary<ThumbSticks, ValueInputState<ThumbSticks, Vector2>>[] thumbStickStates = new Dictionary<ThumbSticks, ValueInputState<ThumbSticks, Vector2>>[GamePad.MaximumGamePadCount];
+        Dictionary<Triggers, ValueInputState<Triggers, float>>[] triggerStates = new Dictionary<Triggers, ValueInputState<Triggers, float>>[GamePad.MaximumGamePadCount];
 
         // Events
         public Dictionary<Keys, IInputEvent> keyboardEvents = new Dictionary<Keys, IInputEvent>();
-        Dictionary<Buttons, IInputEvent>[] buttonEvents = new Dictionary<Buttons, IInputEvent>[4];
-        Dictionary<ThumbSticks, IInputEvent>[] thumbStickEvents = new Dictionary<ThumbSticks, IInputEvent>[4];
-        Dictionary<Triggers, IInputEvent>[] triggerEvents = new Dictionary<Triggers, IInputEvent>[4];
+        Dictionary<Buttons, IInputEvent>[] buttonEvents = new Dictionary<Buttons, IInputEvent>[GamePad.MaximumGamePadCount];
+        Dictionary<ThumbSticks, IInputEvent>[] thumbStickEvents = new Dictionary<ThumbSticks, IInputEvent>[GamePad.MaximumGamePadCount];
+        Dictionary<Triggers, IInputEvent>[] triggerEvents = new Dictionary<Triggers, IInputEvent>[GamePad.MaximumGamePadCount];
 
         public InputManager()
         {
-            for (uint i = 0; i < 4; ++i)
+            for (uint i = 0; i < GamePad.MaximumGamePadCount; ++i)
             {
                 this.buttonStates[i] = new Dictionary<Buttons, BooleanInputState<Buttons>>();
                 this.thumbStickStates[i] = new Dictionary<ThumbSticks, ValueInputState<ThumbSticks, Vector2>>();
@@ -251,13 +251,20 @@ namespace Meltdown.Input
 
             // Controller events
             {
-                for (int i = 0; i < 4; ++i)
+                for (int i = 0; i < GamePad.MaximumGamePadCount; ++i)
                 {
                     this.buttonEvents[i].Clear();
                     this.thumbStickEvents[i].Clear();
                     this.triggerEvents[i].Clear();
 
                     GamePadState state = GamePad.GetState(i);
+
+                    // Skip if controller is not connected
+                    if (!state.IsConnected)
+                    {
+                        continue;
+                    }
+
                     foreach (var entry in this.buttonStates[i])
                     {
                         bool active = state.IsButtonDown(entry.Key);

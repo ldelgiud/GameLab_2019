@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,16 +9,19 @@ using DefaultEcs.System;
 
 using Meltdown.Components;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
+using Meltdown.Graphics;
 
 namespace Meltdown.Systems
 {
     class ScreenTextureSystem : AEntitySystem<Time>
     {
+        GameWindow window;   
         GraphicsDevice graphicsDevice;
-        Screen screen;
+        Camera camera;
         SpriteBatch spriteBatch;
 
-        public ScreenTextureSystem(GraphicsDevice graphicsDevice, World world, Screen screen) : base(
+        public ScreenTextureSystem(GameWindow window, GraphicsDevice graphicsDevice, Camera camera, World world) : base(
             world.GetEntities()
             .With<ScreenTransformComponent>()
             .With<TextureComponent>()
@@ -26,8 +29,9 @@ namespace Meltdown.Systems
             .Build()
             )
         {
+            this.window = window;
             this.graphicsDevice = graphicsDevice;
-            this.screen = screen;
+            this.camera = camera;
             this.spriteBatch = new SpriteBatch(graphicsDevice);
         }
 
@@ -42,10 +46,18 @@ namespace Meltdown.Systems
             ref ScreenTransformComponent transform = ref entity.Get<ScreenTransformComponent>();
             ref BoundingRectangleComponent bounds = ref entity.Get<BoundingRectangleComponent>();
 
-            this.spriteBatch.Draw(texture.value,
-                destinationRectangle: this.screen.Project(transform.Translation, transform.Scaling, bounds.value),
-                color: Color.White
-                //rotation: rotation
+            var (position, rotation, scale, origin) = this.camera.ToScreenCoordinates(this.window.ClientBounds, transform.value.GlobalTransform, texture.value.Bounds);
+
+            // Override scaling to ignore shear from projection
+            scale = transform.value.scale.ToVector2();
+
+            this.spriteBatch.Draw(
+                texture: texture.value,
+                position: position,
+                color: Color.White,
+                rotation: rotation,
+                scale: scale,
+                origin: origin
                 );
         }
 

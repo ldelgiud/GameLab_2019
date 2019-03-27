@@ -12,6 +12,7 @@ using Meltdown.Utilities;
 using tainicom.Aether.Physics2D.Collision;
 
 using Meltdown.GameElements.Shooting;
+using Meltdown.Graphics;
 
 namespace Meltdown.Components
 {
@@ -34,18 +35,14 @@ namespace Meltdown.Components
             //Debug.WriteLine("Rotation: " + rotation + ", direction: " + direction);
             
             var entity = world.CreateEntity();
-
-            //Bounding box stuff
-            AABB aabb = new AABB()
-            {
-                LowerBound = new Vector2(-10, -10),
-                UpperBound = new Vector2(10, 10)
-            };
-            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
-            element.Span.LowerBound += transform.Position;
-            element.Span.UpperBound += transform.Position;
-
-            entity.Set(new WorldTransformComponent(transform.Position, MathHelper.PiOver2 - rotation, Vector2.One * 0.03f));
+            entity.Set(new WorldTransformComponent(
+                new Transform(
+                    transform.value.position,
+                    Vector3.Zero,
+                    Vector3.One * 0.1f
+                    )
+                )
+            );
             entity.Set(new VelocityComponent(direction * projectile.speed));
             entity.Set(projectile); // added for collision handling
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));

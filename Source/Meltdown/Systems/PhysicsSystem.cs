@@ -11,6 +11,7 @@ using tainicom.Aether.Physics2D.Collision;
 using Meltdown.Collision;
 using Meltdown.Components;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Systems
 {
@@ -80,7 +81,7 @@ namespace Meltdown.Systems
 
             if (!collision)
             {
-                transform.Position += velocity.velocity * time.Delta;
+                transform.value.Translate(velocity.velocity.ToVector3() * time.Delta);
             }
         }
     }
