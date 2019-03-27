@@ -29,13 +29,20 @@ namespace Meltdown.Graphics
             this.Projection = projection;
         }
 
-        public Vector2 ToScreenCoordinates(Rectangle screen, Matrix mvp, Rectangle bounds)
+        public (Vector2, float, Vector2, Vector2) ToScreenCoordinates(Rectangle screen, Matrix model, Rectangle bounds)
         {
-            Vector2 center = (Vector2.One + mvp.Translation().ToVector2()) * 0.5f * // Normalize to [0, 1]
-                screen.Size.ToVector2(); // Scale to screen size
-            Matrix rotation = Matrix.Transpose(Matrix.CreateRotationZ(mvp.RotationZ())) * Matrix.Transpose(Matrix.CreateTranslation(mvp.Scale() * new Vector3(bounds.Size.ToVector2(), 0) * new Vector3(-bounds.Width / 2, -bounds.Height / 2, 0)));
+            var mvp = this.Projection * this.View * model;
 
-            return center + rotation.Translation().ToVector2();
+            return (
+                // position
+                (Vector2.One + mvp.Translation().ToVector2() * new Vector2(1, -1)) * 0.5f * screen.Size.ToVector2(),
+                // rotation
+                mvp.RotationZ(),
+                // scale
+                mvp.Scale().ToVector2() * screen.Size.ToVector2() / 2,
+                // origin
+                bounds.Size.ToVector2() / 2
+            );
         }
     }
 }

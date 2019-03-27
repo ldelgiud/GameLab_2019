@@ -136,7 +136,7 @@ namespace Meltdown.Graphics
 
         public void Scale(Vector3 vector)
         {
-            this.scale += vector;
+            this.scale *= vector;
             this.dirty = true;
         }
 

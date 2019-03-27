@@ -17,7 +17,7 @@ namespace Meltdown.Systems
         Energy energy;
         EntitySet players;
         PowerPlant powerPlant;
-        const int minDist = 100;
+        const int minDist = 20;
 
         public bool IsEnabled { get; set; } = true;
 

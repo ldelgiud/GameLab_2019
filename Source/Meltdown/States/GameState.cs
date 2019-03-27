@@ -52,8 +52,8 @@ namespace Meltdown.States
                 10, 7));
 
             this.screenCamera = new Camera(
-                new Transform(new Vector3(game.Window.ClientBounds.Center.ToVector2(), -1)),
-                Matrix.CreateOrthographic(1, 1, 0, 2)
+                new Transform(new Vector3(0, 0, -1)),
+                Matrix.CreateOrthographic(1920, 1080, 0, 2)
                 );
 
             this.worldCamera = new Camera(
@@ -99,7 +99,7 @@ namespace Meltdown.States
                     );
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
+                new TextureDrawSystem(game.Window, game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.Window, game.GraphicsDevice, this.screenCamera, this.world),
                 energyDrawSystem
                 );
@@ -115,21 +115,21 @@ namespace Meltdown.States
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
 
             //Spawn enemy
-            SpawnHelper.SpawEnemy(new Vector2(250, 250), physicsSystem.quadtree);
+            SpawnHelper.SpawEnemy(new Vector2(20, 20), physicsSystem.quadtree);
             
             // Create energy pickup
-            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-300, 300));
+            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
 
             // Event trigger
             {
                 var entity = this.world.CreateEntity();
 
-                Vector2 position = new Vector2(0, -200);
+                Vector2 position = new Vector2(0, -20);
                 AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(-50, -10),
-                    UpperBound = new Vector2(50, 10)
+                    LowerBound = new Vector2(-5, -5),
+                    UpperBound = new Vector2(5, 5)
                 };
                 Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
                 element.Span.LowerBound += position;
@@ -138,7 +138,7 @@ namespace Meltdown.States
                 entity.Set(new WorldTransformComponent(new Transform(new Vector3(position, 0))));
                 entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
                 entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
-                entity.Set(new BoundingBoxComponent(100, 20, 0));
+                entity.Set(new BoundingBoxComponent(10, 10, 0));
                 entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
 
                 physicsSystem.quadtree.AddNode(element);

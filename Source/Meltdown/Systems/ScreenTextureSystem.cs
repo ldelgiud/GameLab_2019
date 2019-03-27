@@ -46,17 +46,18 @@ namespace Meltdown.Systems
             ref ScreenTransformComponent transform = ref entity.Get<ScreenTransformComponent>();
             ref BoundingRectangleComponent bounds = ref entity.Get<BoundingRectangleComponent>();
 
-            var rotation = transform.value.rotation.Z;
-            var scale = new Vector2(transform.value.scale.X, transform.value.scale.Y);
+            var (position, rotation, scale, origin) = this.camera.ToScreenCoordinates(this.window.ClientBounds, transform.value.GlobalTransform, texture.value.Bounds);
 
-            var mvp = camera.Projection * camera.View * transform.value.GlobalTransform;
+            // Override scaling to ignore shear from projection
+            scale = transform.value.scale.ToVector2();
 
             this.spriteBatch.Draw(
                 texture: texture.value,
-                position: this.camera.ToScreenCoordinates(this.window.ClientBounds, mvp, texture.value.Bounds),
+                position: position,
                 color: Color.White,
                 rotation: rotation,
-                scale: scale
+                scale: scale,
+                origin: origin
                 );
         }
 

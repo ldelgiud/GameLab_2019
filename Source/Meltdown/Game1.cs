@@ -99,21 +99,21 @@ namespace Meltdown
                     // Remove from stack
                     this.stateStack.Pop();
 
-                    // Initialize new state
-                    t.State.Initialize(this);
-
                     // Add to stack
                     this.stateStack.Push(t.State);
+
+                    // Initialize new state
+                    t.State.Initialize(this);
                     break;
                 case PushStateTransition t:
                     // Suspend current state
                     this.ActiveState.Suspend();
 
-                    // Initialize new state
-                    t.State.Initialize(this);
-
                     // Add to stack
                     this.stateStack.Push(t.State);
+
+                    // Initialize new state
+                    t.State.Initialize(this);
                     break;
                 case ExitTransition t:
                     // Exit game

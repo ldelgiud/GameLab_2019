@@ -47,8 +47,8 @@ namespace Meltdown.Utilities
 
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-50, -50),
-                UpperBound = new Vector2(50, 50)
+                LowerBound = new Vector2(-1, -1),
+                UpperBound = new Vector2(1, 1)
             };
             Element<Entity> element = new Element<Entity>(aabb);
             element.Span.LowerBound += position;
@@ -61,7 +61,7 @@ namespace Meltdown.Utilities
             entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
-            entity.Set(new BoundingBoxComponent(100f, 100f, 0f));
+            entity.Set(new BoundingBoxComponent(2, 2, 0f));
             SpawnHelper.quadtree.AddNode(element);
 
             // Gun entity
@@ -81,7 +81,7 @@ namespace Meltdown.Utilities
             gunEntity.Set(gunTransform);
             gunEntity.Set(new SmallGunComponent(300f, -1f, 0.3f, bulletTexture));
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
-            gunEntity.Set(new BoundingBoxComponent(100f, 100f, 0f));
+            gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
 
         }
         
@@ -104,8 +104,8 @@ namespace Meltdown.Utilities
             //Bounding box stuff
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-100, -100),
-                UpperBound = new Vector2(100, 100)
+                LowerBound = new Vector2(-5, -5),
+                UpperBound = new Vector2(5, 5)
             };
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
@@ -115,7 +115,7 @@ namespace Meltdown.Utilities
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
             entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\NuclearPlantPLACEHOLDER"));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new BoundingBoxComponent(200, 200, 0));
+            entity.Set(new BoundingBoxComponent(10, 10, 0));
 
             SpawnHelper.quadtree.AddNode(element);
         }
@@ -132,8 +132,8 @@ namespace Meltdown.Utilities
 
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-10, -10),
-                UpperBound = new Vector2(10, 10)
+                LowerBound = new Vector2(-0.5f, -0.5f),
+                UpperBound = new Vector2(0.5f, 0.5f)
             };
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
@@ -142,7 +142,7 @@ namespace Meltdown.Utilities
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\battery"));
-            entity.Set(new BoundingBoxComponent(20, 20, 0));
+            entity.Set(new BoundingBoxComponent(1, 1, 0));
             entity.Set(new EnergyPickupComponent(energy));
 
             SpawnHelper.quadtree.AddNode(element);
@@ -158,8 +158,8 @@ namespace Meltdown.Utilities
 
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-50, -50),
-                UpperBound = new Vector2(50, 50)
+                LowerBound = new Vector2(-1, -1),
+                UpperBound = new Vector2(1, 1)
             };
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
@@ -170,7 +170,7 @@ namespace Meltdown.Utilities
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
-            entity.Set(new BoundingBoxComponent(50, 50, 0));
+            entity.Set(new BoundingBoxComponent(2, 2, 0));
             entity.Set(new AIComponent(new StandbyState()));
             SpawnHelper.quadtree.AddNode(element);
 
