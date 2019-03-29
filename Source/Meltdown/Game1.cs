@@ -1,5 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using Meltdown.State;
+using Meltdown.States;
+using Meltdown.Utilities;
 
 namespace Meltdown
 {
@@ -8,11 +14,21 @@ namespace Meltdown
     /// </summary>
     public class Game1 : Game
     {
+        public static Game1 Instance { get; private set; }
+
+        private Stack<State.State> stateStack = new Stack<State.State>();
+
+        public State.State ActiveState { get { return this.stateStack.Peek(); } }
+
+        Time updateTime;
+        Time drawTime;
+
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
 
         public Game1()
         {
+            Game1.Instance = this;
+
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -25,7 +41,10 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            this.updateTime = new Time();
+            this.drawTime = new Time();
+
+            this.IsMouseVisible = true; // it is fucking visible OK!
 
             base.Initialize();
         }
@@ -36,10 +55,11 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            var initialState = new MainMenuState();
+            //var initialState = new GameState();
+            this.stateStack.Push(initialState);
+            initialState.Initialize(this);
 
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -48,7 +68,7 @@ namespace Meltdown
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+
         }
 
         /// <summary>
@@ -58,8 +78,51 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // TODO: Add your update logic here
+            this.updateTime.Update(gameTime);
+            IStateTransition transition = this.ActiveState.Update(this.updateTime);
+            switch (transition)
+            {
+                case PopStateTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
 
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Resume top state
+                    this.ActiveState.Resume(t.Data);
+                    break;
+                case SwapTransition t:
+                    // Destroy current state
+                    this.ActiveState.Destroy();
+
+                    // Remove from stack
+                    this.stateStack.Pop();
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                    break;
+                case PushStateTransition t:
+                    // Suspend current state
+                    this.ActiveState.Suspend();
+
+                    // Add to stack
+                    this.stateStack.Push(t.State);
+
+                    // Initialize new state
+                    t.State.Initialize(this);
+
+                   
+                    break;
+                case ExitTransition t:
+                    // Exit game
+                    this.Exit();
+                    break;
+            }
             base.Update(gameTime);
         }
 
@@ -69,10 +132,9 @@ namespace Meltdown
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            this.drawTime.Update(gameTime);
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            this.ActiveState.Draw(this.drawTime);
             base.Draw(gameTime);
         }
     }
