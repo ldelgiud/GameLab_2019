@@ -33,6 +33,7 @@ namespace Meltdown.Utilities
         public static float TOP_BORDER = 2000;
         public static float BOTTOM_BORDER = -300;
 
+        public static float HOLD_THRESHOLD = 0.25f;
 
 
     }

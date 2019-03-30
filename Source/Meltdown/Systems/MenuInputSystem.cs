@@ -38,7 +38,6 @@ namespace Meltdown.Systems
             switch (this.inputManager.GetEvent(Keys.Enter))
             {
                 case PressEvent _:
-                case ReleaseEvent _:
                     this.transition.Transition = new PushStateTransition(new GameState());
                     break;
                 

@@ -20,7 +20,6 @@ namespace Meltdown.Systems
         public TextureDrawSystem(GraphicsDevice graphicsDevice, Camera camera, World world) : base(
             world.GetEntities()
             .With<WorldTransformComponent>()
-            .With<BoundingBoxComponent>()
             .WithAny<TextureAnimateComponent, TextureComponent>()
             .Build())
         {
@@ -36,7 +35,6 @@ namespace Meltdown.Systems
         protected override void Update(Time time, in Entity entity)
         {
             ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
-            ref BoundingBoxComponent bounds = ref entity.Get<BoundingBoxComponent>();
 
             var transformMatrix = transform.value.GlobalTransform;
 

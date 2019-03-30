@@ -47,7 +47,6 @@ namespace Meltdown.Event
                     switch (this.inputManager.GetEvent(Keys.E))
                     {
                         case PressEvent _:
-                        case ReleaseEvent _:
                             this.intro1Entity.Delete();
 
                             this.intro2Entity = world.CreateEntity();
@@ -64,7 +63,6 @@ namespace Meltdown.Event
                     switch (this.inputManager.GetEvent(Keys.E))
                     {
                         case PressEvent _:
-                        case ReleaseEvent _:
                             this.intro2Entity.Delete();
                             this.eventEntity.Delete();
                             break;
