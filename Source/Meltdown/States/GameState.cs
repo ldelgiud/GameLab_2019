@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -33,6 +34,7 @@ namespace Meltdown.States
         ISystem<Time> drawSystem;
 
         TextureResourceManager textureResourceManager;
+        ModelResourceManager modelResourceManager;
 
         public override void Initialize(Game1 game)
         {
@@ -59,13 +61,19 @@ namespace Meltdown.States
 
             this.worldCamera = new Camera(
                 game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(100, 100, 0, 2)
+                new Transform(new Vector3(0, 0, 50)),
+                Matrix.CreateOrthographic(160f, 90f, 0f, 100f)
                 );
 
             this.world = new World();
             this.SetInstance(this.world);
+            
+            // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
+            this.textureResourceManager.Manage(this.world);
+
+            this.modelResourceManager = new ModelResourceManager(game.Content);
+            this.modelResourceManager.Manage(this.world);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world),
@@ -104,18 +112,20 @@ namespace Meltdown.States
                     game.Content.Load<SpriteFont >("gui/EnergyFont")
                     );
 
+            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
+
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
+                modelDrawSystem,
                 energyDrawSystem,
                 aabbDebugDrawSystem
                 );
 
 
-            // Resource Managers
-            this.textureResourceManager.Manage(this.world);
+            
 
             // Create player
             SpawnHelper.SpawnPlayer(1);
