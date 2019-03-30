@@ -24,7 +24,6 @@ namespace Meltdown.Systems
             world.GetEntities()
             .With<ScreenTransformComponent>()
             .With<TextureComponent>()
-            .With<BoundingRectangleComponent>()
             .Build()
             )
         {
@@ -42,7 +41,6 @@ namespace Meltdown.Systems
         {
             ref TextureComponent texture = ref entity.Get<TextureComponent>();
             ref ScreenTransformComponent transform = ref entity.Get<ScreenTransformComponent>();
-            ref BoundingRectangleComponent bounds = ref entity.Get<BoundingRectangleComponent>();
 
             var (position, rotation, scale, origin) = this.camera.ToScreenCoordinates(transform.value.GlobalTransform, texture.value.Bounds);
 
