@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Meltdown.Components
+{
+    class DroneComponent
+    {
+        public uint Damage { get; }
+
+        public DroneComponent(uint damage)
+        {
+            this.Damage = damage;
+        }
+    }
+}
