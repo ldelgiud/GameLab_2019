@@ -118,6 +118,8 @@ namespace Meltdown.States
             Texture2D tile = game.Content.Load<Texture2D>("tiles/forest PLACEHOLDER");
             SpriteBatch spriteBatch = new SpriteBatch(game.GraphicsDevice);
             ProcGen.BuildBackground();
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            ProcGen.BuildStreet(powerPlant);
             // Resource Managers
             this.textureResourceManager.Manage(this.world);
 
@@ -125,7 +127,6 @@ namespace Meltdown.States
             SpawnHelper.SpawnPlayer(1);
 
             //Crete Powerplant
-            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
 
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
