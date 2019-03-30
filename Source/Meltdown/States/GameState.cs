@@ -93,7 +93,8 @@ namespace Meltdown.States
                 eventSystem,
                 aISystem,
                 powerplantSystem,
-                cameraSystem
+                cameraSystem,
+                enemySpawnSystem
                 );
             
             EnergyDrawSystem energyDrawSystem =
@@ -123,10 +124,6 @@ namespace Meltdown.States
             //Crete Powerplant
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
 
-            //Spawn enemy
-            SpawnHelper.SpawnEnemy(new Vector2(25, -25), true);
-
-            //SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
 
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));

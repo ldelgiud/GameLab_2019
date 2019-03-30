@@ -47,8 +47,8 @@ namespace Meltdown.Utilities
 
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-1, -1),
-                UpperBound = new Vector2(1, 1)
+                LowerBound = new Vector2(-5f, -5f),
+                UpperBound = new Vector2(5f, 5f)
             };
             Element<Entity> element = new Element<Entity>(aabb);
             element.Span.LowerBound += position;
@@ -158,8 +158,8 @@ namespace Meltdown.Utilities
 
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-1, -1),
-                UpperBound = new Vector2(1, 1)
+                LowerBound = new Vector2(-1f, -1f),
+                UpperBound = new Vector2(1f, 1f)
             };
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
@@ -171,7 +171,7 @@ namespace Meltdown.Utilities
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new BoundingBoxComponent(100, 100, 0));
+            entity.Set(new BoundingBoxComponent(2, 2, 0));
             if (drone)
             {
                 entity.Set(new AIComponent(new DroneStandby()));
@@ -191,25 +191,25 @@ namespace Meltdown.Utilities
         public static void SpawnRandomEnemy(bool drone)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            AABB aabb;
             bool collides;
+            int sanityCheck = 0;
             Vector2 position;
-            Element<Entity> element;
-            /*do
-            {*/
+            do
+            {
                 collides = false;
                 position = new Vector2(
-                Constants.RANDOM.Next(-600, 600),
-                Constants.RANDOM.Next(-500, 500));
-                aabb = new AABB()
+                Constants.RANDOM.Next(-100, 100),
+                Constants.RANDOM.Next(-100, 100));
+
+                AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(-50, -50),
-                    UpperBound = new Vector2(50, 50)
+                    LowerBound = new Vector2(-1f, -1f),
+                    UpperBound = new Vector2(1f, 1f)
                 };
-                element = new Element<Entity>(aabb) { Value = entity };
+                Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
                 element.Span.LowerBound += position;
                 element.Span.UpperBound += position;
-                /*
+
                 SpawnHelper.quadtree.QueryAABB((Element<Entity> collidee) =>
                 {
                     if (collidee == element)
@@ -223,29 +223,11 @@ namespace Meltdown.Utilities
                     }
                 }, ref aabb);
 
-            } while (collides);*/
-            
+            } while (collides || (++sanityCheck == 10));
 
-            //Create entity and attach its components
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
-            entity.Set(new VelocityComponent(new Vector2(0, 0)));
-            entity.Set(new HealthComponent(100));
-            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new BoundingBoxComponent(100, 100, 0));
-            if (drone)
-            {
-                entity.Set(new AIComponent(new DroneStandby()));
-                entity.Set(new ManagedResource<string,
-                    Texture2D>("placeholders/enemies/drone"));
-                entity.Set(new DroneComponent(200));
-            }
-            else
-            {
-                entity.Set(new AIComponent(new ShooterStandby()));
-                entity.Set(new ManagedResource<string,
-                    Texture2D>("placeholder"));
-            }
-            SpawnHelper.quadtree.AddNode(element);
+            if (collides) return;
+
+            SpawnHelper.SpawnEnemy(position, drone);
 
         }
     }

@@ -26,7 +26,7 @@ namespace Meltdown.Systems
         {
             if (enemyCount < Constants.MAX_AMOUNT_OF_ENEMIES)
             {
-                bool generate = Constants.RANDOM.NextDouble() < 0.4*state.Delta;
+                bool generate = Constants.RANDOM.NextDouble() < 0.1*state.Delta;
                 if (generate)
                 {
                     bool drone = Constants.RANDOM.Next(2) == 1;

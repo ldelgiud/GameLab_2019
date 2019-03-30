@@ -13,7 +13,6 @@ namespace Meltdown.AI
 {
     class DroneSearch : AIState
     {
-        const double distToStanby = 650;
 
 
 
@@ -40,7 +39,7 @@ namespace Meltdown.AI
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            if (distance >= DroneSearch.distToStanby)
+            if (distance >= Constants.SEARCH_TO_ATTACK_DIST)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
