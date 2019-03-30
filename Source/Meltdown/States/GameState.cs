@@ -19,6 +19,8 @@ using Meltdown.ResourceManagers;
 using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
+using Meltdown.Interaction;
+using Meltdown.Interaction.Handlers;
 using Meltdown.Graphics;
 
 namespace Meltdown.States
@@ -38,6 +40,7 @@ namespace Meltdown.States
         {
             this.inputManager = new InputManager();
             this.inputManager.Register(Keys.E);
+            this.inputManager.Register(Buttons.X);
             this.SetInstance(this.inputManager);
 
             Energy energy = new Energy();
@@ -85,10 +88,16 @@ namespace Meltdown.States
             ShootingSystem shootingSystem = new ShootingSystem(world);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
             EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem();
+            InteractionSystem interactionSystem = new InteractionSystem(
+                this.inputManager,
+                this.world, new InteractionHandler[] {
+                 new LootableInteractionHandler(this.world)
+            });
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
                 shootingSystem,
+                interactionSystem,
                 collisionSystem,
                 eventSystem,
                 aISystem,
@@ -131,6 +140,8 @@ namespace Meltdown.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
+            // Create lootbox
+            SpawnHelper.SpawnLootBox(new Vector2(30, 0));
 
             // Event trigger
             {

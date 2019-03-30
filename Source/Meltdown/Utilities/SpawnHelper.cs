@@ -188,6 +188,18 @@ namespace Meltdown.Utilities
             SpawnHelper.quadtree.AddNode(element);
         }
 
+        public static void SpawnLootBox(Vector2 position)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
+            entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\lootbox"));
+            entity.Set(new InteractableComponent());
+            entity.Set(new LootableComponent());
+            entity.Set(new BoundingBoxComponent(100, 100, 0));
+            SpawnHelper.AddAABB(entity, position, new Vector2(-1, -1), new Vector2(1, 1), true);
+        }
+
         public static void SpawnRandomEnemy(bool drone)
         {
             var entity = SpawnHelper.World.CreateEntity();
@@ -247,6 +259,18 @@ namespace Meltdown.Utilities
             }
             SpawnHelper.quadtree.AddNode(element);
 
+        }
+
+
+        public static void AddAABB(Entity entity, Vector2 position, Vector2 lowerBound, Vector2 upperBound, bool solid)
+        {
+            AABB aabb = new AABB(lowerBound, upperBound);
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+
+            SpawnHelper.quadtree.AddNode(element);
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, solid));
         }
     }
 }
