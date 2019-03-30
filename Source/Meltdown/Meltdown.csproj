@@ -169,6 +169,7 @@
     <Compile Include="Utilities\Extensions\VectorExtensions.cs" />
     <Compile Include="Utilities\PlayerInfo.cs" />
     <Compile Include="Utilities\PowerPlant.cs" />
+    <Compile Include="Utilities\ProcGen.cs" />
     <Compile Include="Utilities\Screen.cs" />
     <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\EventSystem.cs" />

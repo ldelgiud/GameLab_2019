@@ -2,17 +2,17 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Meltdown.Components;
 using Meltdown.AI;
 using Meltdown.States;
 using Meltdown.Graphics;
 using Meltdown.Utilities.Extensions;
+using Meltdown.Components.InputHandlers;
 
 using DefaultEcs;
-using tainicom.Aether.Physics2D.Collision;
-using Meltdown.Components.InputHandlers;
 using DefaultEcs.Resource;
+
+using tainicom.Aether.Physics2D.Collision;
 
 namespace Meltdown.Utilities
 {
