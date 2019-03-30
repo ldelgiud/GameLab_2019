@@ -12,9 +12,11 @@ namespace Meltdown.Input
     interface IInputEvent { }
 
     struct PressEvent : IInputEvent {
+        public float start;
+
         public override string ToString()
         {
-            return String.Format("PressEvent {{ }}");
+            return String.Format("PressEvent {{ start: {0} }}", this.start);
         }
     }
 
@@ -23,12 +25,6 @@ namespace Meltdown.Input
         public float start;
         public float duration;
 
-        public HoldEvent(float start, float duration)
-        {
-            this.start = start;
-            this.duration = duration;
-        }
-
         public override string ToString()
         {
             return String.Format("HoldEvent {{ start: {0}, duration: {1} }}", this.start, this.duration);
@@ -36,9 +32,17 @@ namespace Meltdown.Input
     }
 
     struct ReleaseEvent : IInputEvent {
+        public float start;
+        public float duration;
+
+        public bool IsHold()
+        {
+            return this.duration < Constants.HOLD_THRESHOLD;
+        }
+
         public override string ToString()
         {
-            return String.Format("ReleaseEvent {{ }}");
+            return String.Format("ReleaseEvent {{ start: {0}, duration: {1} }}", this.start, this.duration);
         }
     }
 
@@ -67,8 +71,6 @@ namespace Meltdown.Input
 
     class BooleanInputState<T> : IInputState<T, bool>
     {
-        static readonly float PRESS_THRESHOLD = 0.25f;
-
         Nullable<float> timestamp;
 
         public void Update(Time time, T type, ref bool active, Dictionary<T, IInputEvent> events)
@@ -79,25 +81,12 @@ namespace Meltdown.Input
                 if (active)
                 {
                     // Still active
-                    if (time.Absolute - this.timestamp >= PRESS_THRESHOLD)
-                    {
-                        // Above press threshold, is hold
-                        events[type] = new HoldEvent(this.timestamp.Value, time.Absolute);
-                    }
+                    events[type] = new HoldEvent() { start = this.timestamp.Value, duration = time.Absolute - this.timestamp.Value };
                 }
                 else
                 {
                     // No longer active
-                    if (time.Absolute - this.timestamp >= PRESS_THRESHOLD)
-                    {
-                        // Above press threshold, is hold
-                        events[type] = new ReleaseEvent();
-                    }
-                    else
-                    {
-                        events[type] = new PressEvent();
-                    }
-
+                    events[type] = new ReleaseEvent() { start = this.timestamp.Value, duration = time.Absolute - this.timestamp.Value };
                     this.timestamp = null;
                 }
             }
@@ -106,9 +95,9 @@ namespace Meltdown.Input
                 // Not active
                 if (active)
                 {
-                    
                     // Become active
                     this.timestamp = time.Absolute;
+                    events[type] = new PressEvent() { start = this.timestamp.Value };
                 }
             }
         }
