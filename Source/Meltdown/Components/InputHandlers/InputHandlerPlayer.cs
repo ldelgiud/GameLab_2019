@@ -64,22 +64,22 @@ namespace Meltdown.Components.InputHandlers
             //Debug.WriteLine("ThumbstickRight: " + gState.ThumbSticks.Right);
 
             ////Dpad
-            //if (gState.IsButtonDown(Buttons.DPadRight))
-            //{
-            //    velComp.velocity.X = 100;
-            //}
-            //if (gState.IsButtonDown(Buttons.DPadLeft))
-            //{
-            //    velComp.velocity.X = -100;
-            //}
-            //if (gState.IsButtonDown(Buttons.DPadDown))
-            //{
-            //    velComp.velocity.Y = 100;
-            //}
-            //if (gState.IsButtonDown(Buttons.DPadUp))
-            //{
-            //    velComp.velocity.Y = -100;
-            //}
+            if (gState.IsButtonDown(Buttons.DPadRight))
+            {
+                velComp.velocity.X = 100;
+            }
+            if (gState.IsButtonDown(Buttons.DPadLeft))
+            {
+                velComp.velocity.X = -100;
+            }
+            if (gState.IsButtonDown(Buttons.DPadDown))
+            {
+                velComp.velocity.Y = 100;
+            }
+            if (gState.IsButtonDown(Buttons.DPadUp))
+            {
+                velComp.velocity.Y = -100;
+            }
 
             // Keyboard test
             if (kState.IsKeyDown(Keys.Right))

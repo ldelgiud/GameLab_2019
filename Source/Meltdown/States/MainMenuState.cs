@@ -40,7 +40,10 @@ namespace Meltdown.States
             this.transition = new StateTransition();
 
             this.inputManager = new InputManager();
+            // Input set up ->
             this.inputManager.Register(Keys.Enter);
+            this.inputManager.Register(Buttons.A);
+            // <- Input set up
 
             var window = game.Window.ClientBounds;
 
