@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Microsoft.Xna.Framework;
 
 using DefaultEcs;
 
 using Meltdown.Components;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
 
 using DefaultEcs.System;
 
@@ -19,7 +17,7 @@ namespace Meltdown.Systems
         Energy energy;
         EntitySet players;
         PowerPlant powerPlant;
-        const int minDist = 100;
+        const int minDist = 400;
 
         public bool IsEnabled { get; set; } = true;
 
@@ -37,11 +35,11 @@ namespace Meltdown.Systems
             Vector2 center = new Vector2(0,0); 
             foreach (Entity entity in this.players.GetEntities())
             {
-                center += entity.Get<WorldTransformComponent>().Position;
+                center += entity.Get<WorldTransformComponent>().value.position.ToVector2();
             }
             center /= players.Count;
             Vector2 distVec = center - powerPlant.Position;
-            double dist = distVec.Length();
+            double dist = Math.Max(distVec.Length(), minDist);
 
             this.energy.CurrentEnergy -= (1 / dist) * gameTime.Delta * 10000;
 

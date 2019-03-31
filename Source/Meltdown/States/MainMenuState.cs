@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -14,7 +15,9 @@ using Meltdown.Components;
 using Meltdown.Systems;
 using Meltdown.ResourceManagers;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
 using Meltdown.Input;
+using Meltdown.Graphics;
 
 namespace Meltdown.States
 {
@@ -25,7 +28,7 @@ namespace Meltdown.States
         InputManager inputManager;
 
         World world;
-        Screen screen;
+        Camera screenCamera;
 
         TextureResourceManager textureResourceManager;
 
@@ -39,8 +42,14 @@ namespace Meltdown.States
             this.inputManager = new InputManager();
             this.inputManager.Register(Keys.Enter);
 
+            var window = game.Window.ClientBounds;
+
             this.world = new World();
-            this.screen = new Screen(game.Window, 1920, 1080);
+            this.screenCamera = new Camera(
+                game.Window,
+                new Transform(new Vector3(0, 0, -1)),
+                Matrix.CreateOrthographic(1920, 1080, 0, 2)
+                );
 
             this.textureResourceManager = new TextureResourceManager(game.Content);
             this.textureResourceManager.Manage(this.world);
@@ -50,24 +59,24 @@ namespace Meltdown.States
                 new MenuPulseSystem(this.world)
                 );
             this.drawSystem = new SequentialSystem<Time>(
-                new ScreenTextureSystem(game.GraphicsDevice, this.world, this.screen)
+                new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world)
                 );
 
             // Main menu
             {
                 // Logo
-                var logoTransform = new ScreenTransformComponent(null, Matrix.Transpose(Matrix.CreateTranslation(960, 360, 0)), Matrix.Identity, Matrix.Identity);
+                var logoTransform = new Transform(new Vector3(0, 180, 0));
 
                 var logoEntity = this.world.CreateEntity();
                 logoEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\logo"));
-                logoEntity.Set(logoTransform);
+                logoEntity.Set(new ScreenTransformComponent(logoTransform));
                 logoEntity.Set(new BoundingRectangleComponent(959, 227));
 
                 // Start
                 {
                     var startEntity = this.world.CreateEntity();
                     startEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\start"));
-                    startEntity.Set(new ScreenTransformComponent(logoTransform, Matrix.Transpose(Matrix.CreateTranslation(-360, 360, 0)), Matrix.Identity, Matrix.CreateScale(0.75f)));
+                    startEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(-360, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
                     startEntity.Set(new BoundingRectangleComponent(290, 46));
                     startEntity.Set(new MenuPulseComponent(true, 0.1f));
                 }
@@ -76,7 +85,7 @@ namespace Meltdown.States
                 {
                     var creditsEntity = this.world.CreateEntity();
                     creditsEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\credits"));
-                    creditsEntity.Set(new ScreenTransformComponent(logoTransform, Matrix.Transpose(Matrix.CreateTranslation(0, 360, 0)), Matrix.Identity, Matrix.Identity));
+                    creditsEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(0, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
                     creditsEntity.Set(new BoundingRectangleComponent(191, 46));
                 }
 
@@ -84,7 +93,7 @@ namespace Meltdown.States
                 {
                     var quitEntity = this.world.CreateEntity();
                     quitEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\quit"));
-                    quitEntity.Set(new ScreenTransformComponent(logoTransform, Matrix.Transpose(Matrix.CreateTranslation(360, 360, 0)), Matrix.Identity, Matrix.Identity));
+                    quitEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(360, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
                     quitEntity.Set(new BoundingRectangleComponent(111, 46));
                 }
 

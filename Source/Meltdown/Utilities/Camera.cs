@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
@@ -54,6 +55,28 @@ namespace Meltdown.Utilities
                 (int)((-relativeTranslation.Y - (bounds.Height / 2) * Scale.X) * this.HeightRatio) + window.ClientBounds.Height / 2,
                 (int)(bounds.Width * this.WidthRatio * Scale.X),
                 (int)(bounds.Height * this.HeightRatio * Scale.Y)
+                );
+        }
+
+
+        // Used for Gun -> temporary -> make direction work (mouse point projection)
+        public Point ProjectPoint(Vector2 point)
+        {
+            Vector2 relativeTranslation = point - this.Translation;
+
+            return new Point(
+                (int)((relativeTranslation.X)) - window.ClientBounds.Width / 2,
+                (int)((-relativeTranslation.Y)) + window.ClientBounds.Height / 2
+                );
+        }
+
+        public Point InverseProjectPoint(Vector2 point)
+        {
+            Vector2 relativeTranslation = point - this.Translation;
+
+            return new Point(
+                (int)((relativeTranslation.X)) + window.ClientBounds.Width / 2,
+                (int)((-relativeTranslation.Y)) + window.ClientBounds.Height / 2
                 );
         }
     }

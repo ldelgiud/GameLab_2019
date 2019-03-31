@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 using Meltdown.Components;
 using Meltdown.Utilities;
+using Meltdown.Input;
 using Meltdown.Utilities.Extensions;
 
 
@@ -18,6 +19,7 @@ namespace Meltdown.Systems
     {
 
         World world;
+        //InputManager inputManager;
 
         public ShootingSystem(World world) : base(
             world.GetEntities()
@@ -26,6 +28,7 @@ namespace Meltdown.Systems
             .Build())
         {
             this.world = world;
+            //this.inputManager = inputManager;
         }
 
         // Check for shoot button and shoot
@@ -33,13 +36,15 @@ namespace Meltdown.Systems
         {
             KeyboardState kState = Keyboard.GetState();
             MouseState mState = Mouse.GetState();
+            
+            // TODO: use InputManager 
 
-            if (kState.IsKeyDown(Keys.F))
+            if (kState.IsKeyDown(Keys.F) || mState.LeftButton == ButtonState.Pressed)
             {
                 ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
                 ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
 
-                Vector2 dir = mState.Position.ToVector2() - transform.Position; // not really needed?
+                Vector2 dir = new Vector2(1, 0);
 
                 smallGun.Shoot(time.Absolute, transform, dir, world);
             }

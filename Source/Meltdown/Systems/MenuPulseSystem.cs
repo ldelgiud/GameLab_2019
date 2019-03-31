@@ -36,7 +36,7 @@ namespace Meltdown.Systems
             var scale = 1 + ((pulse.grow) ? pulse.speed : -pulse.speed) * time.Delta;
             pulse.scale *= scale;
 
-            transform.Scale(scale, scale, 1);
+            transform.value.Scale(scale, scale, 1);
         }
     }
 }

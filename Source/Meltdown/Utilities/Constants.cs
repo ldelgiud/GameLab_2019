@@ -13,5 +13,13 @@ namespace Meltdown.Utilities
         public static uint SMALL_BATTERY_SIZE = 25;
         public static uint MEDIUM_BATTERY_SIZE = 50;
         public static uint BIG_BATTERY_SIZE = 100;
+        public static float DRONE_SPEED = 3;
+        public static float SHOOTER_SPEED = 3; 
+        public static double DIST_TO_STANDBY = 650.0;
+        public static double MAX_ENERGY = 1000;
+        public static uint MAX_AMOUNT_OF_ENEMIES = 15;
+        
+
+
     }
 }

@@ -12,7 +12,7 @@ namespace Meltdown.Collision.Handlers
 
         public override void HandleCollision(CollisionType type, Entity collider, Entity collidee)
         {
-            Debug.WriteLine(string.Format("Collision of type {0} between entity {1} and entity {2}", type.ToNameString(), collider, collidee));
+           // Debug.WriteLine(string.Format("Collision of type {0} between entity {1} and entity {2}", type.ToNameString(), collider, collidee));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Meltdown.GameElements.Shooting
 {
     abstract class AGun
     {
-        public Projectile projectile;
+        public ProjectileComponent projectile;
         public float reloadTime;
         public float timeLastShot;
 
