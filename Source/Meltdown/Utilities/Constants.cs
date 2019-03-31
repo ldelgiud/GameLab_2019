@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,10 @@ namespace Meltdown.Utilities
         public static float RIGHT_BORDER = 2000;
         public static float TOP_BORDER = 2000;
         public static float BOTTOM_BORDER = -300;
+        public static Vector2 TOP_RIGHT_CORNER =
+            new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
+        public static Vector2 BOTTOM_LEFT_CORNER =
+    new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
         public static float HOLD_THRESHOLD = 0.25f;
 

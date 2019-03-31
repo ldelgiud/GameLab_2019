@@ -155,7 +155,6 @@
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="State\StateTransition.cs" />
-    <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\AABBDebugDrawSystem.cs" />
     <Compile Include="Systems\MenuInputSystem.cs" />
@@ -167,6 +166,7 @@
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform.cs" />
+    <Compile Include="Utilities\HelperFunctions.cs" />
     <Compile Include="Utilities\Wrappers.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Energy.cs" />

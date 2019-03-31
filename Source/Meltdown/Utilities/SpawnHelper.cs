@@ -65,16 +65,20 @@ namespace Meltdown.Utilities
             entity.Set(new BoundingBoxComponent(2, 2, 0f));
             SpawnHelper.quadtree.AddNode(element);
 
+            SpawnHelper.SpawnGun(entity);
+        }
+
+        public static Entity SpawnGun(Entity parent) {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
             Vector2 localPosition = new Vector2(0, 0);
 
             WorldTransformComponent gunTransform = new WorldTransformComponent(
                 new Transform(
-                    position : localPosition.ToVector3(),
-                    rotation : Vector3.Zero,
-                    scale : Vector3.One / 5,
-                    parent : entity.Get<WorldTransformComponent>().value
+                    position: localPosition.ToVector3(),
+                    rotation: Vector3.Zero,
+                    scale: Vector3.One / 5,
+                    parent: parent.Get<WorldTransformComponent>().value
                     )
                 );
 
@@ -84,6 +88,7 @@ namespace Meltdown.Utilities
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
             gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
 
+            return gunEntity;
         }
         
         /// <summary>
@@ -184,6 +189,8 @@ namespace Meltdown.Utilities
             entity.Set(new AIComponent(new ShooterStandby()));
             entity.Set(new ManagedResource<string,
                 Texture2D>("placeholder"));
+
+            SpawnHelper.SpawnGun(entity);
         }
 
         public static void SpawnDrone (Vector2 position)
@@ -196,7 +203,7 @@ namespace Meltdown.Utilities
             entity.Set(new DroneComponent(200));
         }
 
-        public static void SpawnRandomEnemy(bool drone, Vector2 seed)
+        public static void SpawnRandomEnemy(bool drone, Vector2 seed, int range)
         {
             bool collides;
             int sanityCheck = 0;
@@ -205,8 +212,8 @@ namespace Meltdown.Utilities
             {
                 collides = false;
                 position = seed + new Vector2(
-                Constants.RANDOM.Next(-100, 100),
-                Constants.RANDOM.Next(-100, 100));
+                Constants.RANDOM.Next(-range, range),
+                Constants.RANDOM.Next(-range, range));
 
                 AABB aabb = new AABB()
                 {
@@ -237,6 +244,16 @@ namespace Meltdown.Utilities
             if (drone) SpawnHelper.SpawnDrone(position);
             else SpawnHelper.SpawnShooter(position);
 
+        }
+
+        public static void SpawnEnemyCamp(Vector2 position) 
+        {
+            int enemyCount = Constants.RANDOM.Next(5, 8);
+
+            for (int i = 0; i < enemyCount; ++i)
+            {
+                SpawnHelper.SpawnRandomEnemy(false, position, 10);
+            }
         }
     }
 }

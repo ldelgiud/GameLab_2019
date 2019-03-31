@@ -60,8 +60,8 @@ namespace Meltdown.Utilities
             Vector2 curr = new Vector2(0);
             Vector3 scale = new Vector3(0.2f, 0.2f, 1);
             //Target position is diagonally previous tile of plants tile
-            int x = ((int) (plant.Position.X / Constants.TILE_SIZE));
-            int y = ((int) (plant.Position.Y / Constants.TILE_SIZE)) ;
+            int x = (int) (plant.Position.X / Constants.TILE_SIZE);
+            int y = (int) (plant.Position.Y / Constants.TILE_SIZE) ;
 
             Vector2 target = new Vector2(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE);
             //0 means right, 1 means top;
@@ -89,7 +89,6 @@ namespace Meltdown.Utilities
                         curr.X += Constants.TILE_SIZE;
                     }
                     currentDir = 1 - currentDir;
-
                 }
                 else
                 {
@@ -102,9 +101,7 @@ namespace Meltdown.Utilities
                         entity.Set(new ManagedResource<string, Texture2D>(@"tiles/top"));
                         curr.Y += Constants.TILE_SIZE;
                     }
-
                 }
-                 
             }
 
             while (curr.X <= target.X)
@@ -124,7 +121,6 @@ namespace Meltdown.Utilities
                 }
                 curr.X += Constants.TILE_SIZE;
                 currentDir = 0;
-
             }
 
             while (curr.Y <= target.Y)
@@ -146,10 +142,23 @@ namespace Meltdown.Utilities
                 currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
             }
-
-
         }
 
-
+        public static void SpawnHotspots()
+        {
+            for (float y = Constants.BOTTOM_BORDER; y < Constants.TOP_BORDER; y += Constants.TILE_SIZE)
+            {
+                for (float x = Constants.LEFT_BORDER; x < Constants.RIGHT_BORDER; x += Constants.TILE_SIZE) 
+                {
+                    Vector2 curr = new Vector2(x, y);
+                    bool gen = 
+                        Constants.RANDOM.NextDouble() < HelperFunctions.SpawnRate(curr);
+                    if (gen)
+                    {
+                        SpawnHelper.SpawnEnemyCamp(curr);
+                    }
+                }
+            }
+        }
     }
 }

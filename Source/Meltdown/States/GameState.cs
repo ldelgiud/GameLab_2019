@@ -92,7 +92,6 @@ namespace Meltdown.States
 
             ShootingSystem shootingSystem = new ShootingSystem(world);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
-            EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem(this.world);
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -101,8 +100,7 @@ namespace Meltdown.States
                 eventSystem,
                 aISystem,
                 powerplantSystem,
-                cameraSystem,
-                enemySpawnSystem
+                cameraSystem
                 );
             
             EnergyDrawSystem energyDrawSystem =
@@ -129,6 +127,8 @@ namespace Meltdown.States
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
+            ProcGen.SpawnHotspots();
+
             // Resource Managers
             this.textureResourceManager.Manage(this.world);
 
