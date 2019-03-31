@@ -26,30 +26,32 @@ namespace Meltdown.Components
             this.timeLastShot = 0f;
         }
 
-        public override void Shoot(float absoluteTime, WorldTransformComponent transform, Vector2 direction, World world)
+        public override void Shoot(float absoluteTime, WorldTransformComponent gunTransform, Vector2 direction, World world)
         {
             if (absoluteTime - timeLastShot < reloadTime) { return; }
 
-            direction.Normalize();
+            float rotation = MathF.Atan2(-direction.Y, direction.X);
 
-            float rotation = MathF.Atan2(direction.Y, direction.X);
-            //Debug.WriteLine("Rotation: " + rotation + ", direction: " + direction);
+            var globalTransform = gunTransform.value.GlobalTransform;
             
+            var position = globalTransform.Translation();
             var entity = world.CreateEntity();
-            entity.Set(new WorldTransformComponent(
+            var projectileTransform = new WorldTransformComponent(
                 new Transform(
-                    transform.value.position,
+                    position,
                     Vector3.Zero,
-                    Vector3.One * 0.1f
+                    Vector3.One * 0.05f
                     )
-                )
-            );
+                );
+
+            entity.Set(projectileTransform);
+            projectileTransform.value.Rotate(0, 0, rotation + MathHelper.PiOver2);
 
             var aabb = new AABB(new Vector2(-0.1f, -0.1f), new Vector2(0.1f, 0.1f));
 
             var element = new Element<Entity>(aabb);
-            element.Span.LowerBound += transform.value.position.ToVector2();
-            element.Span.UpperBound += transform.value.position.ToVector2();
+            element.Span.LowerBound += position.ToVector2();
+            element.Span.UpperBound += position.ToVector2();
             element.Value = entity;
 
             entity.Set(new VelocityComponent(direction * this.projectile.speed));

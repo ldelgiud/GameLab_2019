@@ -60,8 +60,9 @@ namespace Meltdown.States
             this.worldCamera = new Camera(
                 game.Window,
                 new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(100, 100, 0, 2)
+                Matrix.CreateOrthographic(160, 90, 0, 2)
                 );
+            
 
             this.world = new World();
             this.SetInstance(this.world);

@@ -9,7 +9,6 @@ namespace Meltdown.Utilities.Extensions
 {
     public static class EntityExtensions
     {
-
         public static void Delete(this Entity entity)
         {
             if (entity.Has<AABBComponent>())

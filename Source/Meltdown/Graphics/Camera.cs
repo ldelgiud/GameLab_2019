@@ -48,5 +48,6 @@ namespace Meltdown.Graphics
                 bounds.Size.ToVector2() / 2
             );
         }
+
     }
 }

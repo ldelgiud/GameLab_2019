@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System.Diagnostics;
+
 using DefaultEcs;
 using DefaultEcs.System;
 
@@ -8,7 +10,7 @@ using Meltdown.Components;
 using Meltdown.Utilities;
 using Meltdown.Graphics;
 using Meltdown.Utilities.Extensions;
-
+using Microsoft.Xna.Framework.Input;
 
 namespace Meltdown.Systems
 {
@@ -43,9 +45,7 @@ namespace Meltdown.Systems
             if (entity.Has<TextureComponent>())
             {
                 ref TextureComponent texture = ref entity.Get<TextureComponent>();
-
                 
-
                 var (position, rotation, scale, origin) = this.camera.ToScreenCoordinates(transformMatrix, texture.value.Bounds);
 
                 // Override scale to correct shear
@@ -58,6 +58,16 @@ namespace Meltdown.Systems
                     scale: scale,
                     origin: origin
                     );
+
+                // DEBUG: draw origin
+                var circleScale = Vector2.One * 0.15f;
+                this.spriteBatch.Draw(
+                    texture: Game1.Instance.Content.Load<Texture2D>("circle-64"),
+                    position:  position,
+                    scale: circleScale,
+                    origin: Vector2.One * 32,
+                    color: Color.DeepPink
+                    ); 
 
             }
             else

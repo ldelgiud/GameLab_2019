@@ -34,6 +34,15 @@ namespace Meltdown.Utilities
             }
         }
 
+        // World Camera
+        public static Camera WorldCamera
+        {
+            get
+            {
+                return Game1.Instance.ActiveState.GetInstance<Camera>();
+            }
+        }
+
         /// <summary>
         /// Helper function, spawns player at position (0,0) with zero velocity
         /// </summary>
