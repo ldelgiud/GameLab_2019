@@ -28,7 +28,7 @@ namespace Meltdown.Systems
         {
             foreach (Entity entity in this.players.GetEntities())
             {
-                bool generate = Constants.RANDOM.NextDouble() < 0.1 * state.Delta;
+                bool generate = Constants.RANDOM.NextDouble() < state.Delta;
                 if (generate)
                 {
                     bool drone = Constants.RANDOM.Next(2) == 1;
@@ -40,7 +40,6 @@ namespace Meltdown.Systems
 
         public void Dispose()
         {
-
         }
     }
 }

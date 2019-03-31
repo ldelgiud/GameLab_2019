@@ -16,6 +16,7 @@ namespace Meltdown.Utilities
         public static float DRONE_SPEED = 4;
         public static float SHOOTER_SPEED = 3;
         public static int PLAYER_SPEED = 40;
+
         //AI values for FSM transitions
         public static double STANDBY_TO_SEARCH_DIST = 80;
         public static double SEARCH_TO_STANDBY_DIST = 90;
@@ -34,7 +35,6 @@ namespace Meltdown.Utilities
         public static float BOTTOM_BORDER = -300;
 
         public static float HOLD_THRESHOLD = 0.25f;
-
 
     }
 }

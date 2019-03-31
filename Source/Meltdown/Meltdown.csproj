@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AIState.cs" />
+    <Compile Include="AI\EnemyType.cs" />
     <Compile Include="AI\ShooterAI\ShooterSearch.cs" />
     <Compile Include="AI\ShooterAI\ShooterStandby.cs" />
     <Compile Include="AI\ShooterAI\ShooterAttack.cs" />

@@ -198,7 +198,6 @@ namespace Meltdown.Utilities
 
         public static void SpawnRandomEnemy(bool drone, Vector2 seed)
         {
-            var entity = SpawnHelper.World.CreateEntity();
             bool collides;
             int sanityCheck = 0;
             Vector2 position;
@@ -214,7 +213,7 @@ namespace Meltdown.Utilities
                     LowerBound = new Vector2(-1f, -1f),
                     UpperBound = new Vector2(1f, 1f)
                 };
-                Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+                Element<Entity> element = new Element<Entity>(aabb);
                 element.Span.LowerBound += position;
                 element.Span.UpperBound += position;
 
@@ -231,7 +230,7 @@ namespace Meltdown.Utilities
                     }
                 }, ref aabb);
 
-            } while (collides || (++sanityCheck == 10));
+            } while (collides && (++sanityCheck < 10));
 
             if (collides) return;
 

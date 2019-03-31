@@ -39,7 +39,7 @@ namespace Meltdown.AI
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            if (distance >= Constants.SEARCH_TO_ATTACK_DIST)
+            if (distance >= Constants.SEARCH_TO_STANDBY_DIST)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
