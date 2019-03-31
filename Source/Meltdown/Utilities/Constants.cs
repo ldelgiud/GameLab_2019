@@ -18,7 +18,7 @@ namespace Meltdown.Utilities
         public static double DIST_TO_STANDBY = 650.0;
         public static double MAX_ENERGY = 1000;
         public static uint MAX_AMOUNT_OF_ENEMIES = 15;
-        
+        public static float HOLD_THRESHOLD = 0.25f;
 
 
     }
