@@ -31,6 +31,28 @@ namespace Meltdown.Components.InputHandlers
             Vector2 direction = (mState.Position.ToVector2() - Game1.Instance.Window.ClientBounds.Center.ToVector2()) * new Vector2(1, -1);
             direction.Normalize();
 
+            //GamePadState d = GamePad.GetState();
+            //d.ThumbSticks.Left.
+
+           switch(inputManager.GetEvent(0, ThumbSticks.Right))
+           {
+                case ValueEvent<Vector2> v:
+                    direction = v.current;
+                    if (direction.LengthSquared() == 0)
+                    {
+                        direction = Vector2.UnitX;
+                    }
+                    break;
+           }
+
+            switch (inputManager.GetEvent(0, Buttons.RightTrigger))
+            {
+                case HoldEvent _: 
+                case PressEvent _:
+                    smallGun.Shoot(time.Absolute, gunTransform, direction, world);
+                    break;
+            }
+
             switch (inputManager.GetEvent(Keys.F))
             {
                 case ReleaseEvent _: break;

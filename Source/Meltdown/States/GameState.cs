@@ -201,6 +201,8 @@ namespace Meltdown.States
             // Shooting - Gamepad
             this.inputManager.Register(Buttons.RightTrigger);
 
+            this.inputManager.Register(ThumbSticks.Right);
+
             // Event - Keyboard
             this.inputManager.Register(Buttons.B);
         }
