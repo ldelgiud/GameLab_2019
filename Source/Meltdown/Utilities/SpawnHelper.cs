@@ -56,11 +56,12 @@ namespace Meltdown.Utilities
             element.Value = entity;
 
             entity.Set(new PlayerComponent(playerID));
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
+            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3(), Vector3.Zero, new Vector3(0.1f, 0.1f, 0.1f))));
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
+            //entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
+            entity.Set(new ManagedResource<string, ModelWrapper>(@"test\player"));
             entity.Set(new BoundingBoxComponent(2, 2, 0f));
             SpawnHelper.quadtree.AddNode(element);
 

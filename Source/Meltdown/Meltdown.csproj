@@ -127,6 +127,7 @@
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
     <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
+    <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManagers\ModelResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
@@ -158,11 +160,13 @@
     <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
+    <Compile Include="Systems\ModelDrawSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform.cs" />
+    <Compile Include="Utilities\Wrappers.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Energy.cs" />
     <Compile Include="Utilities\Extensions\MatrixExtensions.cs" />
