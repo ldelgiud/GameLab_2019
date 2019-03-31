@@ -12,8 +12,6 @@ namespace Meltdown.AI
     class ShooterAttack : AIState
     {
 
-        const double distToSearch = 300;
-
         
         public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
         {
@@ -34,8 +32,7 @@ namespace Meltdown.AI
 
 
             //UPDATE STATE
-            if (distVector.Length() >= distToSearch) return new ShooterSearch();
-            if (distVector.Length() >= Constants.DIST_TO_STANDBY) return new ShooterStandby();
+            if (distVector.Length() >= Constants.ATTACK_TO_SEARCH_DIST) return new ShooterSearch();
             return this;
         }
     }

@@ -8,6 +8,7 @@ using DefaultEcs;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Meltdown.Utilities;
 
 namespace Meltdown.Components.InputHandlers
 {
@@ -64,22 +65,22 @@ namespace Meltdown.Components.InputHandlers
             //Debug.WriteLine("ThumbstickRight: " + gState.ThumbSticks.Right);
 
             ////Dpad
-            //if (gState.IsButtonDown(Buttons.DPadRight))
-            //{
-            //    velComp.velocity.X = 100;
-            //}
-            //if (gState.IsButtonDown(Buttons.DPadLeft))
-            //{
-            //    velComp.velocity.X = -100;
-            //}
-            //if (gState.IsButtonDown(Buttons.DPadDown))
-            //{
-            //    velComp.velocity.Y = 100;
-            //}
-            //if (gState.IsButtonDown(Buttons.DPadUp))
-            //{
-            //    velComp.velocity.Y = -100;
-            //}
+            if (gState.IsButtonDown(Buttons.DPadRight))
+            {
+                velComp.velocity.X = 100;
+            }
+            if (gState.IsButtonDown(Buttons.DPadLeft))
+            {
+                velComp.velocity.X = -100;
+            }
+            if (gState.IsButtonDown(Buttons.DPadDown))
+            {
+                velComp.velocity.Y = 100;
+            }
+            if (gState.IsButtonDown(Buttons.DPadUp))
+            {
+                velComp.velocity.Y = -100;
+            }
 
             // Keyboard test
             if (kState.IsKeyDown(Keys.Right))
@@ -102,19 +103,19 @@ namespace Meltdown.Components.InputHandlers
             // Keyboard WASD test
             if (kState.IsKeyDown(Keys.D))
             {
-                velComp.velocity.X = 5;
+                velComp.velocity.X = Constants.PLAYER_SPEED;
             }
             if (kState.IsKeyDown(Keys.A))
             {
-                velComp.velocity.X = -5;
+                velComp.velocity.X = -Constants.PLAYER_SPEED;
             }
             if (kState.IsKeyDown(Keys.S))
             {
-                velComp.velocity.Y = -5;
+                velComp.velocity.Y = -Constants.PLAYER_SPEED;
             }
             if (kState.IsKeyDown(Keys.W))
             {
-                velComp.velocity.Y = 5;
+                velComp.velocity.Y = Constants.PLAYER_SPEED;
             }
 
         }

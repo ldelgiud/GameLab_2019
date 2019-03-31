@@ -20,7 +20,7 @@ namespace Meltdown.Graphics
         {
             get
             {
-                return Matrix.Transpose(Matrix.CreateTranslation(-this.Transform.position));
+                return this.Transform.GlobalTransform.NegateTranslation();
             }
         }
 
