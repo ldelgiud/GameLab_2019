@@ -43,6 +43,14 @@ namespace Meltdown.Utilities.Extensions
             return new Vector3(matrix.TranslationX(), matrix.TranslationY(), matrix.TranslationZ());
         }
 
+        public static Matrix NegateTranslation(this Matrix matrix)
+        {
+            matrix.M14 *= -1;
+            matrix.M24 *= -1;
+            matrix.M34 *= -1;
+            return matrix;
+        }
+
         public static float RotationX(this ref Matrix matrix)
         {
             return MathF.Asin(-matrix.M23 / matrix.ScaleZ());
@@ -56,6 +64,11 @@ namespace Meltdown.Utilities.Extensions
         public static float RotationZ(this ref Matrix matrix)
         {
             return MathF.Atan2(matrix.M21 / matrix.ScaleX(), matrix.M22 / matrix.ScaleY());
+        }
+
+        public static Vector3 Rotation(this ref Matrix matrix)
+        {
+            return new Vector3(matrix.RotationX(), matrix.RotationY(), matrix.RotationZ());
         }
 
         public static float ScaleX(this ref Matrix matrix)
@@ -76,6 +89,15 @@ namespace Meltdown.Utilities.Extensions
         public static Vector3 Scale(this ref Matrix matrix)
         {
             return new Vector3(matrix.ScaleX(), matrix.ScaleY(), matrix.ScaleZ());
+        }
+
+        public static String Debug(this Matrix matrix)
+        {
+            return String.Format("[ {0} {1} {2} {3} ]\n[ {4} {5} {6} {7} ]\n[ {8} {9} {10} {11} ]\n[ {12} {13} {14} {15} ]",
+                matrix.M11, matrix.M12, matrix.M13, matrix.M14,
+                matrix.M21, matrix.M22, matrix.M23, matrix.M24,
+                matrix.M31, matrix.M32, matrix.M33, matrix.M34,
+                matrix.M41, matrix.M42, matrix.M43, matrix.M44);
         }
 
     }

@@ -45,7 +45,6 @@ namespace Meltdown.Systems
             if (entity.Has<TextureComponent>())
             {
                 ref TextureComponent texture = ref entity.Get<TextureComponent>();
-                
                 var (position, rotation, scale, origin) = this.camera.ToScreenCoordinates(transformMatrix, texture.value.Bounds);
 
                 // Override scale to correct shear

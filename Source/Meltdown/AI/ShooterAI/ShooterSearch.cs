@@ -10,9 +10,6 @@ namespace Meltdown.AI
 {
     class ShooterSearch : AIState
     {
-        const double distToAttack = 250.0;
-
-
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
@@ -37,17 +34,17 @@ namespace Meltdown.AI
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            if (distance <= distToAttack)
+            if (distance <= Constants.SEARCH_TO_ATTACK_DIST)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
                 return new ShooterAttack();
             }
-            if (distance >= Constants.DIST_TO_STANDBY)
+            if (distance >= Constants.SEARCH_TO_STANDBY_DIST + 10)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
-                return new ShooterAttack();
+                return new ShooterSearch();
             }
             return this;
         }

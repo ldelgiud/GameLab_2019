@@ -32,8 +32,8 @@ namespace Meltdown.Systems
             {
                 var player = players[0];
                 var transform = player.Get<WorldTransformComponent>();
-                this.worldCamera.Transform.SetPosition(transform.value.position);
-                
+                this.worldCamera.Transform.SetPositionX(transform.value.position.X);
+                this.worldCamera.Transform.SetPositionY(transform.value.position.Y);
             }
         }
 

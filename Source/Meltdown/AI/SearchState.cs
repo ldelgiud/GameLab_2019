@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
-using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.AI
 {
-    class DroneSearch : AIState
+    class SearchState : AIState
     {
+        const double distToStanby = 650;
+        const double distToAttack = 200;
+        const float speed2Norm = 20;
 
 
 
@@ -27,23 +29,29 @@ namespace Meltdown.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
+                Vector2 dist = player.transform.Position - pos;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = Pathfinder(closestPlayer.transform.value.position.ToVector2(), pos);
+            Vector2 distVector = closestPlayer.transform.Position - pos;
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
-            velocity = Vector2.Multiply(distVector, Constants.DRONE_SPEED);
+            velocity = Vector2.Multiply(distVector, speed2Norm);
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            if (distance >= Constants.SEARCH_TO_STANDBY_DIST)
+            if (distance <= SearchState.distToAttack)
             {
                 velocity.X = 0;
                 velocity.Y = 0;
-                return new DroneStandby();
+                return new AttackState();
+            }
+            if (distance >= SearchState.distToStanby)
+            {
+                velocity.X = 0;
+                velocity.Y = 0;
+                return new StandbyState();
             }
             return this;
         }

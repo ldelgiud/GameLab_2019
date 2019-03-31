@@ -7,21 +7,25 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
-using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.AI
 {
-    class ShooterStandby : AIState
+    class StandbyState : AIState
     {
+
+        const double distToSearch = 600;
+        const double distToAttack = 200;
+
 
         public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
         {
 
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
+                Vector2 dist = player.transform.Position - pos;
 
-                if (dist.Length() <= Constants.STANDBY_TO_SEARCH_DIST) return new ShooterSearch();
+                if (dist.Length() <= StandbyState.distToAttack) return new AttackState();
+                if (dist.Length() <= StandbyState.distToSearch) return new SearchState();
             }
             return this;
         }

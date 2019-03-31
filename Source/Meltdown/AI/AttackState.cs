@@ -1,16 +1,18 @@
 ﻿﻿using System;
 using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
-
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Meltdown.Utilities;
-using Meltdown.Utilities.Extensions;
-
+using Microsoft.Xna.Framework;
 
 namespace Meltdown.AI
 {
-    class ShooterAttack : AIState
+    class AttackState : AIState
     {
+
+        const double distToStanby = 650;
+        const double distToSearch = 250;
 
         
         public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
@@ -21,18 +23,19 @@ namespace Meltdown.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
+                Vector2 dist = player.transform.Position - pos;
                 if (dist.Length() < minDist) closestPlayer = player;
                 
             }
-            Vector2 distVector = closestPlayer.transform.value.position.ToVector2() - pos;
+            Vector2 distVector = closestPlayer.transform.Position - pos;
             //ATTACK!
             //TODO: implement attack
 
 
 
             //UPDATE STATE
-            if (distVector.Length() >= Constants.ATTACK_TO_SEARCH_DIST) return new ShooterSearch();
+            if (distVector.Length() >= AttackState.distToSearch) return new SearchState();
+            if (distVector.Length() >= AttackState.distToStanby) return new StandbyState();
             return this;
         }
     }

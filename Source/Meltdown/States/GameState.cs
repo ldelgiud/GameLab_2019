@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -33,6 +34,7 @@ namespace Meltdown.States
         ISystem<Time> drawSystem;
 
         TextureResourceManager textureResourceManager;
+        ModelResourceManager modelResourceManager;
 
         public override void Initialize(Game1 game)
         {
@@ -59,14 +61,20 @@ namespace Meltdown.States
 
             this.worldCamera = new Camera(
                 game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(160, 90, 0, 2)
+                new Transform(new Vector3(0, 0, 50)),
+                Matrix.CreateOrthographic(160f, 90f, 0f, 100f)
                 );
             
 
             this.world = new World();
             this.SetInstance(this.world);
+            
+            // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
+            this.textureResourceManager.Manage(this.world);
+
+            this.modelResourceManager = new ModelResourceManager(game.Content);
+            this.modelResourceManager.Manage(this.world);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world),
@@ -85,7 +93,6 @@ namespace Meltdown.States
 
             ShootingSystem shootingSystem = new ShootingSystem(this.world, this.inputManager);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
-            EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem();
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -105,29 +112,29 @@ namespace Meltdown.States
                     game.Content.Load<SpriteFont >("gui/EnergyFont")
                     );
 
+            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
+
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
+                modelDrawSystem,
                 energyDrawSystem,
                 aabbDebugDrawSystem
                 );
 
+            //PROCGEN
+            ProcGen.BuildBackground();
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            ProcGen.BuildStreet(powerPlant);
+            ProcGen.SpawnHotspots();
 
             // Resource Managers
             this.textureResourceManager.Manage(this.world);
 
             // Create player
             SpawnHelper.SpawnPlayer(1);
-
-            //Crete Powerplant
-            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
-
-            //Spawn enemy
-            SpawnHelper.SpawnEnemy(new Vector2(25, -25), true);
-
-            //SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
 
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
@@ -155,6 +162,7 @@ namespace Meltdown.States
 
                 physicsSystem.quadtree.AddNode(element);
             }
+
 
         }
 
