@@ -64,12 +64,10 @@ namespace Meltdown.Utilities
             int y = ((int) (plant.Position.Y / Constants.TILE_SIZE)) ;
 
             Vector2 target = new Vector2(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE);
-            Debug.WriteLine("going to: " + target);
             //0 means right, 1 means top;
             int currentDir = Constants.RANDOM.Next(2);
-            while (curr.X <= target.X && curr.Y <= target.Y)
+            while (curr.X < target.X && curr.Y < target.Y)
             {
-                Debug.WriteLine("rn am at: " + curr);
 
                 var entity = ProcGen.World.CreateEntity();
                 entity.Set(new WorldTransformComponent(
@@ -109,7 +107,7 @@ namespace Meltdown.Utilities
                  
             }
 
-            while (curr.X < target.X)
+            while (curr.X <= target.X)
             {
                 var entity = ProcGen.World.CreateEntity();
                 entity.Set(new WorldTransformComponent(
@@ -117,11 +115,19 @@ namespace Meltdown.Utilities
                         position: curr.ToVector3(),
                         scale: scale)));
                 entity.Set(new BoundingBoxComponent(15, 15, 0));
-                entity.Set(new ManagedResource<string, Texture2D>(@"tiles/right"));
+                if (currentDir == 0)
+                {
+                    entity.Set(new ManagedResource<string, Texture2D>(@"tiles/right"));
+                } else
+                {
+                    entity.Set(new ManagedResource<string, Texture2D>(@"tiles/right turn"));
+                }
                 curr.X += Constants.TILE_SIZE;
+                currentDir = 0;
+
             }
 
-            while (curr.Y < target.Y)
+            while (curr.Y <= target.Y)
             {
                 var entity = ProcGen.World.CreateEntity();
                 entity.Set(new WorldTransformComponent(
@@ -129,7 +135,15 @@ namespace Meltdown.Utilities
                         position: curr.ToVector3(),
                         scale: scale)));
                 entity.Set(new BoundingBoxComponent(15, 15, 0));
-                entity.Set(new ManagedResource<string, Texture2D>(@"tiles/top"));
+                if (currentDir == 0)
+                {
+                    entity.Set(new ManagedResource<string, Texture2D>(@"tiles/left turn"));
+                }
+                else
+                {
+                    entity.Set(new ManagedResource<string, Texture2D>(@"tiles/top"));
+                }
+                currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
             }
 
