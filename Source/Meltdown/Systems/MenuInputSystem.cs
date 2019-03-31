@@ -37,6 +37,15 @@ namespace Meltdown.Systems
                     break;
                 
             }
+
+            switch (this.inputManager.GetEvent(0, Buttons.A))
+            {
+                case PressEvent _:
+                case ReleaseEvent _:
+                    this.transition.Transition = new PushStateTransition(new GameState());
+                    break;
+            }
+
         }
 
     }

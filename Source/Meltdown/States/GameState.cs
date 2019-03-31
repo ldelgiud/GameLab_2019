@@ -37,7 +37,7 @@ namespace Meltdown.States
         public override void Initialize(Game1 game)
         {
             this.inputManager = new InputManager();
-            this.inputManager.Register(Keys.E);
+            this.SetUpInputManager();
             this.SetInstance(this.inputManager);
 
             Energy energy = new Energy();
@@ -76,13 +76,13 @@ namespace Meltdown.States
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
-            InputSystem inputSystem = new InputSystem(this.world);
+            InputSystem inputSystem = new InputSystem(this.world, this.inputManager);
             EventSystem eventSystem = new EventSystem(this.world);
             AISystem aISystem = new AISystem(this.world);
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
 
-            ShootingSystem shootingSystem = new ShootingSystem(world);
+            ShootingSystem shootingSystem = new ShootingSystem(this.world, this.inputManager);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
             EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem();
             this.updateSystem = new SequentialSystem<Time>(
@@ -168,5 +168,41 @@ namespace Meltdown.States
         {
             this.drawSystem.Update(time);
         }
+
+        // Helper Methods
+        private void SetUpInputManager()
+        {
+            // KEYBOARD
+            // Player - Keyboard
+            this.inputManager.Register(Keys.Up);
+            this.inputManager.Register(Keys.Down);
+            this.inputManager.Register(Keys.Left);
+            this.inputManager.Register(Keys.Right);
+
+            this.inputManager.Register(Keys.D);
+            this.inputManager.Register(Keys.A);
+            this.inputManager.Register(Keys.S);
+            this.inputManager.Register(Keys.W);
+
+            // Shooting - Keyboard 
+            this.inputManager.Register(Keys.F);
+
+            // Event - Keyboard
+            this.inputManager.Register(Keys.E);
+
+            // GAMEPAD
+            // Player - Gamepad 
+            this.inputManager.Register(Buttons.LeftThumbstickDown);
+            this.inputManager.Register(Buttons.LeftThumbstickUp);
+            this.inputManager.Register(Buttons.LeftThumbstickLeft);
+            this.inputManager.Register(Buttons.LeftThumbstickRight);
+
+            // Shooting - Gamepad
+            this.inputManager.Register(Buttons.RightTrigger);
+
+            // Event - Keyboard
+            this.inputManager.Register(Buttons.B);
+        }
+
     }
 }

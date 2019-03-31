@@ -19,35 +19,24 @@ namespace Meltdown.Systems
     {
 
         World world;
-        //InputManager inputManager;
+        InputManager inputManager;
 
-        public ShootingSystem(World world) : base(
+        public ShootingSystem(World world, InputManager inputManager) : base(
             world.GetEntities()
             .With<WorldTransformComponent>()
+            .With<InputComponent>()
             .With<SmallGunComponent>()
             .Build())
         {
             this.world = world;
-            //this.inputManager = inputManager;
+            this.inputManager = inputManager;
         }
 
         // Check for shoot button and shoot
         protected override void Update(Time time, in Entity entity)
         {
-            KeyboardState kState = Keyboard.GetState();
-            MouseState mState = Mouse.GetState();
-            
-            // TODO: use InputManager 
-
-            if (kState.IsKeyDown(Keys.F) || mState.LeftButton == ButtonState.Pressed)
-            {
-                ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
-                ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
-
-                Vector2 dir = new Vector2(1, 0);
-
-                smallGun.Shoot(time.Absolute, transform, dir, world);
-            }
+            ref InputComponent inputComponent = ref entity.Get<InputComponent>();
+            inputComponent.HandleInput(inputManager, time, entity);
 
         }
     }

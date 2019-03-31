@@ -58,7 +58,7 @@ namespace Meltdown.Utilities
             entity.Set(new PlayerComponent(playerID));
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
             entity.Set(new VelocityComponent(velocity));
-            entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
+            entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
             entity.Set(new BoundingBoxComponent(2, 2, 0f));
@@ -80,6 +80,7 @@ namespace Meltdown.Utilities
             Texture2D bulletTexture = Game1.Instance.Content.Load<Texture2D>("shooting/bullet");
             gunEntity.Set(gunTransform);
             gunEntity.Set(new SmallGunComponent(35f, 25f, -1f, 0.1f, bulletTexture));
+            gunEntity.Set(new InputComponent(new ShootingInputHandler(World)));
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
             gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
 

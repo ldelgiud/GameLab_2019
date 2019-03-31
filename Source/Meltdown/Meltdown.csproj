@@ -126,7 +126,8 @@
     <Compile Include="Components\EventTriggerComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
-    <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
+    <Compile Include="Components\InputHandlers\PlayerInputHandler.cs" />
+    <Compile Include="Components\InputHandlers\ShootingInputHandler.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
