@@ -15,14 +15,8 @@ namespace Meltdown.Collision.Handlers
         Energy energy;
 
         public PlayerDroneCollisionHandler(World world, Energy energy) : base(
-            world.GetEntities()
-            .With<PlayerComponent>()
-            .With<AABBComponent>()
-            .Build(),
-            world.GetEntities()
-            .With<DroneComponent>()
-            .With<AABBComponent>()
-            .Build(),
+            new Type[] {typeof(PlayerComponent), typeof(AABBComponent)},
+            new Type[] {typeof(DroneComponent), typeof(AABBComponent)},
             true
             )
         {

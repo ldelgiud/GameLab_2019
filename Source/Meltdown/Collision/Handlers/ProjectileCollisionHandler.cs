@@ -14,14 +14,8 @@ namespace Meltdown.Collision.Handlers
     class ProjectileCollisionHandler : CollisionHandler
     {
         public ProjectileCollisionHandler(World world) : base(
-            world.GetEntities()
-            .With<ProjectileComponent>()
-            .With<AABBComponent>()
-            .Build(),
-            world.GetEntities()
-            .With<HealthComponent>()
-            .With<AABBComponent>()
-            .Build()
+            new Type[] { typeof(ProjectileComponent), typeof(AABBComponent) },
+            new Type[] { typeof(HealthComponent), typeof(AABBComponent)}
             )
         { }
 
