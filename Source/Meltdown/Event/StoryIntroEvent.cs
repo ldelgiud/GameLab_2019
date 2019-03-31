@@ -41,6 +41,7 @@ namespace Meltdown.Event
                     this.intro1Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro1"));
                     this.intro1Entity.Set(new ScreenTransformComponent(new Transform(new Vector3(0, 180, 0))));
                     this.intro1Entity.Set(new BoundingRectangleComponent(900, 320));
+                    this.intro1Entity.Set(new NameComponent() { name = "intro1" });
                     this.state = 1;
                     break;
                 case 1:
@@ -53,6 +54,7 @@ namespace Meltdown.Event
                             this.intro2Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro2"));
                             this.intro2Entity.Set(new ScreenTransformComponent(new Transform(new Vector3(0, 180, 0))));
                             this.intro2Entity.Set(new BoundingRectangleComponent(900, 320));
+                            this.intro2Entity.Set(new NameComponent() { name = "intro2" });
 
                             this.inputManager.RemoveEvent(Keys.E);
                             this.state = 2;

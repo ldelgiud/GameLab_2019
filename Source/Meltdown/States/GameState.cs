@@ -159,6 +159,7 @@ namespace Meltdown.States
                 entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
                 entity.Set(new BoundingBoxComponent(10, 10, 0));
                 entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
+                entity.Set(new NameComponent() { name = "intro_event_trigger" });
 
                 physicsSystem.quadtree.AddNode(element);
             }

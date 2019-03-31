@@ -16,6 +16,8 @@ namespace Meltdown.Components.InputHandlers
         public void HandleInput(InputManager inputManager, Time time, Entity entity)
         {
             ref VelocityComponent velComp = ref entity.Get<VelocityComponent>();
+            ref PlayerComponent player = ref entity.Get<PlayerComponent>();
+
             velComp.velocity = Vector2.Zero;
 
             // KeyBoard
@@ -24,58 +26,90 @@ namespace Meltdown.Components.InputHandlers
                 case ReleaseEvent _: break;
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.X = -5;
+                    velComp.velocity.X = -player.Speed;
                     break;
             }
             switch (inputManager.GetEvent(Keys.Right))
             {
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.X = 5;
+                    velComp.velocity.X = player.Speed;
                     break;
             }
             switch (inputManager.GetEvent(Keys.Up))
             {
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.Y = 5;
+                    velComp.velocity.Y = player.Speed;
                     break;
             }
             switch (inputManager.GetEvent(Keys.Down))
             {
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.Y = -5;
+                    velComp.velocity.Y = -player.Speed;
                     break;
             }
+
+            // KeyBoard - WASD
+            switch (inputManager.GetEvent(Keys.A))
+            {
+                case ReleaseEvent _: break;
+                case HoldEvent _:
+                case PressEvent _:
+                    velComp.velocity.X = -player.Speed;
+                    break;
+            }
+            switch (inputManager.GetEvent(Keys.D))
+            {
+                case HoldEvent _:
+                case PressEvent _:
+                    velComp.velocity.X = player.Speed;
+                    break;
+            }
+            switch (inputManager.GetEvent(Keys.W))
+            {
+                case HoldEvent _:
+                case PressEvent _:
+                    velComp.velocity.Y = player.Speed;
+                    break;
+            }
+            switch (inputManager.GetEvent(Keys.S))
+            {
+                case HoldEvent _:
+                case PressEvent _:
+                    velComp.velocity.Y = -player.Speed;
+                    break;
+            }
+
 
             // GamePad
             switch (inputManager.GetEvent(0, Buttons.LeftThumbstickLeft))
             {
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.X = -5;
+                    velComp.velocity.X = -player.Speed;
                     break;
             }
             switch (inputManager.GetEvent(0, Buttons.LeftThumbstickRight))
             {
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.X = 5;
+                    velComp.velocity.X = player.Speed;
                     break;
             }
             switch (inputManager.GetEvent(0, Buttons.LeftThumbstickUp))
             {
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.Y = 5;
+                    velComp.velocity.Y = player.Speed;
                 break;
             }
             switch (inputManager.GetEvent(0, Buttons.LeftThumbstickDown))
             {
                 case HoldEvent _:
                 case PressEvent _:
-                    velComp.velocity.Y = -5;
+                    velComp.velocity.Y = -player.Speed;
                     break;
             }
 

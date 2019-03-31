@@ -47,6 +47,7 @@ namespace Meltdown.Utilities
                             scale : scale)));
                     entity.Set(new ManagedResource<string, Texture2D>(@"tiles/forest PLACEHOLDER"));
                     entity.Set(new BoundingBoxComponent(Constants.TILE_SIZE, Constants.TILE_SIZE, 0));
+                    entity.Set(new NameComponent() { name = "background" });
                     x += Constants.TILE_SIZE;
 
                 }
@@ -75,6 +76,7 @@ namespace Meltdown.Utilities
                         position: curr.ToVector3(),
                         scale: scale)));
                 entity.Set(new BoundingBoxComponent(15, 15, 0));
+                entity.Set(new NameComponent() { name = "streetsign" });
                 //dir decides if we change the direction or if we keep going the current direction
                 bool changeDir = Constants.RANDOM.Next(3) == 1;
                 if (changeDir)
@@ -119,6 +121,7 @@ namespace Meltdown.Utilities
                 {
                     entity.Set(new ManagedResource<string, Texture2D>(@"tiles/right turn"));
                 }
+                entity.Set(new NameComponent() { name = "street" });
                 curr.X += Constants.TILE_SIZE;
                 currentDir = 0;
             }
@@ -139,6 +142,7 @@ namespace Meltdown.Utilities
                 {
                     entity.Set(new ManagedResource<string, Texture2D>(@"tiles/top"));
                 }
+                entity.Set(new NameComponent() { name = "street" });
                 currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
             }

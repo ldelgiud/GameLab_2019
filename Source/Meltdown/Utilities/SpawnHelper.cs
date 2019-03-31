@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,7 +65,7 @@ namespace Meltdown.Utilities
             element.Span.UpperBound += position;
             element.Value = entity;
 
-            entity.Set(new PlayerComponent(playerID));
+            entity.Set(new PlayerComponent(playerID, 20));
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3(), Vector3.Zero, new Vector3(0.1f, 0.1f, 0.1f))));
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
@@ -72,6 +73,7 @@ namespace Meltdown.Utilities
             //entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
             entity.Set(new ManagedResource<string, ModelWrapper>(@"test\player"));
             entity.Set(new BoundingBoxComponent(2, 2, 0f));
+            entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 
             SpawnHelper.SpawnGun(entity);
@@ -97,6 +99,7 @@ namespace Meltdown.Utilities
             gunEntity.Set(new InputComponent(new ShootingInputHandler(World)));
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
             gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
+            gunEntity.Set(new NameComponent() { name = "gun" });
 
             return gunEntity;
         }
@@ -108,6 +111,7 @@ namespace Meltdown.Utilities
         public static void SpawnNuclearPowerPlant(PowerPlant plant)
         {
             var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = "powerplant" });
 
             //Generate random position
             double angle = Constants.RANDOM.NextDouble() * MathHelper.PiOver2;
@@ -160,6 +164,7 @@ namespace Meltdown.Utilities
             entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\battery"));
             entity.Set(new BoundingBoxComponent(1, 1, 0));
             entity.Set(new EnergyPickupComponent(energy));
+            entity.Set(new NameComponent() { name = "battery" });
 
             SpawnHelper.quadtree.AddNode(element);
         }
@@ -188,6 +193,7 @@ namespace Meltdown.Utilities
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new BoundingBoxComponent(2, 2, 0));
+            entity.Set(new NameComponent() { name = "enemy" });
 
             return entity;
         }
@@ -197,10 +203,10 @@ namespace Meltdown.Utilities
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
             entity.Set(new AIComponent(new ShooterStandby()));
-            entity.Set(new ManagedResource<string,
-                Texture2D>("placeholder"));
+            entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
+            entity.Set(new NameComponent() { name = "shooter" });
 
-            SpawnHelper.SpawnGun(entity);
+            //SpawnHelper.SpawnGun(entity);
         }
 
         public static void SpawnDrone (Vector2 position)
@@ -211,6 +217,7 @@ namespace Meltdown.Utilities
             entity.Set(new ManagedResource<string,
                 Texture2D>("placeholders/enemies/drone"));
             entity.Set(new DroneComponent(200));
+            entity.Set(new NameComponent() { name = "drone" });
         }
 
         public static void SpawnRandomEnemy(bool drone, Vector2 seed, int range)
@@ -262,7 +269,7 @@ namespace Meltdown.Utilities
 
             for (int i = 0; i < enemyCount; ++i)
             {
-                SpawnHelper.SpawnRandomEnemy(false, position, 10);
+                SpawnHelper.SpawnRandomEnemy(false, position, 50);
             }
         }
     }

@@ -34,7 +34,7 @@ namespace Meltdown.Components
 
     interface IInputHandler
     {
-       void HandleInput(InputManager inputManager, Time time, Entity entity); // TODO: add time and entity
+       void HandleInput(InputManager inputManager, Time time, Entity entity); 
     }
     
 }

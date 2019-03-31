@@ -59,7 +59,8 @@ namespace Meltdown.Components
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             entity.Set(new TextureComponent { value = projectile.projTex });
             entity.Set(new BoundingBoxComponent(20, 20, 0));
-            
+            entity.Set(new NameComponent() { name = "bullet" });
+
             SpawnHelper.quadtree.AddNode(element);
 
 

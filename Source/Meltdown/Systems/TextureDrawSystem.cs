@@ -10,6 +10,7 @@ using Meltdown.Components;
 using Meltdown.Utilities;
 using Meltdown.Graphics;
 using Meltdown.Utilities.Extensions;
+using Meltdown.States;
 using Microsoft.Xna.Framework.Input;
 
 namespace Meltdown.Systems
@@ -57,7 +58,6 @@ namespace Meltdown.Systems
                     scale: scale,
                     origin: origin
                     );
-
                 // DEBUG: draw origin
                 var circleScale = Vector2.One * 0.15f;
                 this.spriteBatch.Draw(
@@ -67,7 +67,7 @@ namespace Meltdown.Systems
                     origin: Vector2.One * 32,
                     color: Color.DeepPink
                     ); 
-
+                
             }
             else
             {
