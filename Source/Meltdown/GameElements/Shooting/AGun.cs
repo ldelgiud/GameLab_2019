@@ -11,12 +11,16 @@ namespace Meltdown.GameElements.Shooting
 {
     abstract class AGun
     {
-        public ProjectileComponent projectile;
+        public float damage;
+        public float projectileSpeed;
+        public float radiusRange;
         public float reloadTime;
+        public Texture2D projectileTexture;
         public float timeLastShot;
+        public Alliance alliance;
 
         //public abstract void Shoot(float absoluteValue, Vector2 position, Vector2 direction, World world);
-        public abstract void Shoot(float absoluteValue, WorldTransformComponent transform, Vector2 direction, World world);
+        public abstract void Shoot(float absoluteValue, WorldTransformComponent transform, Vector2 direction);
 
     }
 }

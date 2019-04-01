@@ -66,6 +66,7 @@ namespace Meltdown.Utilities
             element.Value = entity;
 
             entity.Set(new PlayerComponent(playerID, 20));
+            entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3(), Vector3.Zero, new Vector3(0.1f, 0.1f, 0.1f))));
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
@@ -75,11 +76,10 @@ namespace Meltdown.Utilities
             entity.Set(new BoundingBoxComponent(2, 2, 0f));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
-
-            SpawnHelper.SpawnGun(entity);
+            SpawnHelper.SpawnGun(entity, Alliance.Player);
         }
 
-        public static Entity SpawnGun(Entity parent) {
+        public static Entity SpawnGun(Entity parent, Alliance alliance) {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
             Vector2 localPosition = new Vector2(0, 0);
@@ -95,7 +95,7 @@ namespace Meltdown.Utilities
 
             Texture2D bulletTexture = Game1.Instance.Content.Load<Texture2D>("shooting/bullet");
             gunEntity.Set(gunTransform);
-            gunEntity.Set(new SmallGunComponent(35f, 25f, -1f, 0.1f, bulletTexture));
+            gunEntity.Set(new SmallGunComponent(35f, 25f, -1f, 0.1f, bulletTexture, alliance));
             gunEntity.Set(new InputComponent(new ShootingInputHandler(World)));
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
             gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
@@ -188,6 +188,7 @@ namespace Meltdown.Utilities
             SpawnHelper.quadtree.AddNode(element);
 
             //Create entity and attach its components
+            entity.Set(new AllianceMaskComponent(Alliance.Hostile));
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
             entity.Set(new HealthComponent(100));
@@ -216,7 +217,7 @@ namespace Meltdown.Utilities
             entity.Set(new AIComponent(new DroneStandby()));
             entity.Set(new ManagedResource<string,
                 Texture2D>("placeholders/enemies/drone"));
-            entity.Set(new DroneComponent(200));
+            entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });
         }
 
@@ -269,6 +270,44 @@ namespace Meltdown.Utilities
             {
                 SpawnHelper.SpawnRandomEnemy(false, position, 50);
             }
+        }
+
+        public static void SpawnBullet(
+            Vector3 position, 
+            Vector2 direction, 
+            float projectileSpeed, 
+            float damage,
+            Alliance alliance)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            float rotation = MathF.Atan2(-direction.Y, direction.X);
+            var projectileTransform = new WorldTransformComponent(
+                new Transform(
+                    position,
+                    Vector3.Zero,
+                    Vector3.One * 0.05f
+                    )
+                );
+            projectileTransform.value.Rotate(0, 0, rotation + MathHelper.PiOver2);
+            entity.Set(projectileTransform);
+
+            var aabb = new AABB(new Vector2(-0.1f, -0.1f), new Vector2(0.1f, 0.1f));
+            var element = new Element<Entity>(aabb);
+            element.Span.LowerBound += position.ToVector2();
+            element.Span.UpperBound += position.ToVector2();
+            element.Value = entity;
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
+            SpawnHelper.quadtree.AddNode(element);
+            entity.Set(new ManagedResource<string, Texture2D>("shooting/bullet"));
+            entity.Set(new VelocityComponent(direction * projectileSpeed));
+            entity.Set(new DamageComponent(damage)); // added for collision handling
+            entity.Set(new BoundingBoxComponent(20, 20, 0));
+            entity.Set(new NameComponent() { name = "bullet" });
+            entity.Set(new TTLComponent(Constants.TTL_BULLET));
+            entity.Set(new AllianceMaskComponent(alliance));
+
+
         }
     }
 }

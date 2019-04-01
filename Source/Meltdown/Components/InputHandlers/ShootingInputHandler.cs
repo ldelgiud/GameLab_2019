@@ -49,7 +49,7 @@ namespace Meltdown.Components.InputHandlers
             {
                 case HoldEvent _: 
                 case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform, direction, world);
+                    smallGun.Shoot(time.Absolute, gunTransform, direction);
                     break;
             }
 
@@ -58,7 +58,7 @@ namespace Meltdown.Components.InputHandlers
                 case ReleaseEvent _: break;
                 case HoldEvent _: break;
                 case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform, direction, world); 
+                    smallGun.Shoot(time.Absolute, gunTransform, direction); 
                     break;
             }
         }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Meltdown.Components
 {
-    class DroneComponent
+    class DamageComponent
     {
-        public uint Damage { get; }
+        public float Damage { get; }
 
-        public DroneComponent(uint damage)
+        public DamageComponent(float damage)
         {
             this.Damage = damage;
         }
