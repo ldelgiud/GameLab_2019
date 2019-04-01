@@ -13,7 +13,7 @@ namespace Meltdown.Utilities
         {
 
             if (position.Length() <= 100) return 0;
-            else return 0.4;
+            else return 0.1;
         }
     }
 }

@@ -224,11 +224,11 @@ namespace Meltdown.Utilities
         {
             bool collides;
             int sanityCheck = 0;
-            Vector2 position = seed;
+            Vector2 position;
             do
             {
                 collides = false;
-                position += new Vector2(
+                position = seed + new Vector2(
                 Constants.RANDOM.Next(-range, range),
                 Constants.RANDOM.Next(-range, range));
 
@@ -250,9 +250,9 @@ namespace Meltdown.Utilities
                     }
                     collides = true;
                     return false;
-                }, ref aabb);
+                }, ref element.Span);
 
-            } while (collides);
+            } while (collides && (++sanityCheck < 20));
 
             if (collides) return;
 
