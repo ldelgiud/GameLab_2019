@@ -93,6 +93,7 @@ namespace Meltdown.States
 
             ShootingSystem shootingSystem = new ShootingSystem(this.world, this.inputManager);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
+            TTLSystem TTLSystem = new TTLSystem(world);
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -101,7 +102,8 @@ namespace Meltdown.States
                 eventSystem,
                 aISystem,
                 powerplantSystem,
-                cameraSystem
+                cameraSystem,
+                TTLSystem
                 );
             
             EnergyDrawSystem energyDrawSystem =

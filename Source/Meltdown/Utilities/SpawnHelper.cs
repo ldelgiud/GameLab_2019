@@ -208,7 +208,7 @@ namespace Meltdown.Utilities
 
             //SpawnHelper.SpawnGun(entity);
         }
-
+        
         public static void SpawnDrone (Vector2 position)
         {
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
@@ -224,18 +224,18 @@ namespace Meltdown.Utilities
         {
             bool collides;
             int sanityCheck = 0;
-            Vector2 position;
+            Vector2 position = seed;
             do
             {
                 collides = false;
-                position = seed + new Vector2(
+                position += new Vector2(
                 Constants.RANDOM.Next(-range, range),
                 Constants.RANDOM.Next(-range, range));
 
                 AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(-1f, -1f),
-                    UpperBound = new Vector2(1f, 1f)
+                    LowerBound = new Vector2(-3f, -3f),
+                    UpperBound = new Vector2(3f, 3f)
                 };
                 Element<Entity> element = new Element<Entity>(aabb);
                 element.Span.LowerBound += position;
@@ -243,18 +243,16 @@ namespace Meltdown.Utilities
 
                 SpawnHelper.quadtree.QueryAABB((Element<Entity> collidee) =>
                 {
-                    if (collidee == element)
+                    AABBComponent collideeAABB = collidee.Value.Get<AABBComponent>();
+                    if (!collideeAABB.solid)
                     {
                         return true;
                     }
-                    else
-                    {
-                        collides = true;
-                        return false;
-                    }
+                    collides = true;
+                    return false;
                 }, ref aabb);
 
-            } while (collides && (++sanityCheck < 10));
+            } while (collides);
 
             if (collides) return;
 
