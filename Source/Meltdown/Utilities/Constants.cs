@@ -18,7 +18,7 @@ namespace Meltdown.Utilities
         public static float SHOOTER_SPEED = 3;
         public static int PLAYER_SPEED = 40;
         public static float TTL_BULLET = 5f;
-
+        public static float NODE_RADIUS = 1f;
         //AI values for FSM transitions
         public static double STANDBY_TO_SEARCH_DIST = 80;
         public static double SEARCH_TO_STANDBY_DIST = 90;

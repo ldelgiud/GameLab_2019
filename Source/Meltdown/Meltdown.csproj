@@ -156,6 +156,9 @@
     <Compile Include="GameElements\Shooting\AGun.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Pathfinding\Grid.cs" />
+    <Compile Include="Pathfinding\Node.cs" />
+    <Compile Include="Pathfinding\PathFinder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
