@@ -279,7 +279,8 @@ namespace Meltdown.Utilities
 
             for (int i = 0; i < enemyCount; ++i)
             {
-                SpawnHelper.SpawnRandomEnemy(false, position, 50);
+                bool drone = Constants.RANDOM.Next(3) == 0;
+                SpawnHelper.SpawnRandomEnemy(drone, position, 50);
             }
         }
 
