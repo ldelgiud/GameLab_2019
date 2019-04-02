@@ -62,11 +62,34 @@ namespace Meltdown.Pathfinding
                         return false;
                     }, ref aabb);
 
-                    nodes[y,x] = new Node(walkable, worldPos);
+                    nodes[y,x] = new Node(walkable, worldPos, x, y);
                 }
             }
         }
 
+        public List<Node> Neighbours(Node node)
+        {
+            List<Node> neighbours = new List<Node>();
+
+            for (int x = -1; x <= 1; ++x)
+            {
+                for (int y = -1; y <= 1; ++y)
+                {
+                    if (x == 0 && y == 0) continue;
+
+                    int checkX = node.gridX + x;
+                    int checkY = node.gridY + y;
+
+                    if (checkX >= 0 && checkX < this.gridSizeX && 
+                        checkY >= 0 && checkY < this.gridSizeX)
+                    {
+                        neighbours.Add(nodes[checkY, checkX]);
+                    }
+                }
+            }
+
+            return neighbours;
+        }
         public Node VectorToNode(Vector2 worldPosition)
         {
             Debug.Assert(

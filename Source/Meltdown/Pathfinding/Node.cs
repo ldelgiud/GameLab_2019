@@ -8,15 +8,51 @@ using System.Threading.Tasks;
 
 namespace Meltdown.Pathfinding
 {
-    class Node
+    class Node : IHeapItem<Node>
     {
-        bool walkable;
+        public bool walkable;
         Vector2 worldPosition;
+        public int gridX, gridY;
 
-        public Node(bool walkable, Vector2 worldPosition)
+        public int gCost, hCost;
+        public Node parent;
+        int heapIndex;
+
+        public int HeapIndex
+        {
+            get
+            {
+                return heapIndex;
+            }
+            set
+            {
+                heapIndex = value;
+            }
+        }
+        public Node(bool walkable, Vector2 worldPosition, int gridX, int gridY)
         {
             this.walkable = walkable;
             this.worldPosition = worldPosition;
+            this.gridX = gridX;
+            this.gridY = gridY;
+        }
+
+        public int fCost
+        {
+            get
+            {
+                return gCost + hCost;
+            }
+        }
+
+        public int CompareTo(Node obj)
+        {
+            int compare = this.fCost.CompareTo(obj.fCost);
+            if (compare == 0)
+            {
+                compare = this.hCost.CompareTo(obj.hCost);
+            }
+            return -compare;
         }
     }
 }
