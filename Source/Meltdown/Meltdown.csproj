@@ -139,6 +139,8 @@
     <Compile Include="Components\InputHandlers\ShootingInputHandler.cs" />
     <Compile Include="Components\ModelComponent.cs" />
     <Compile Include="Components\NameComponent.cs" />
+    <Compile Include="Components\InteractableComponent.cs" />
+    <Compile Include="Components\LootableComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
@@ -156,6 +158,8 @@
     <Compile Include="GameElements\Shooting\AGun.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Interaction\Handlers\LootableInteractionHandler.cs" />
+    <Compile Include="Interaction\InteractionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -168,6 +172,7 @@
     <Compile Include="State\StateTransition.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\AABBDebugDrawSystem.cs" />
+    <Compile Include="Systems\InteractionSystem.cs" />
     <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
