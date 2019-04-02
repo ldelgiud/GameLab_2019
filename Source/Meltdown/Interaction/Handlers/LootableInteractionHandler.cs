@@ -12,6 +12,8 @@ using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Interaction.Handlers
 {
+    // ADD INTERACTION COMP
+    // ADD CUSTOM COMP => used for handling interactionHandlers
     class LootableInteractionHandler : InteractionHandler
     {
         World world;
