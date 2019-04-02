@@ -44,13 +44,11 @@ namespace Meltdown.Systems
             foreach(Entity entity in entities)
             {
                 ref AIComponent aIState = ref entity.Get<AIComponent>();
-                ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
-                ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
+                
 
                 aIState.State =
-                    aIState.State.UpdateState(playerInfos, transform.value.position.ToVector2(), ref velocity.velocity);
+                    aIState.State.UpdateState(playerInfos, entity, state);
 
-                transform.value.SetRotationZ(MathF.Atan2(velocity.velocity.X, velocity.velocity.Y) + MathHelper.Pi);
             }
             
 

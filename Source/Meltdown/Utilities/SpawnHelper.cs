@@ -76,10 +76,17 @@ namespace Meltdown.Utilities
             entity.Set(new BoundingBoxComponent(2, 2, 0f));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
-            SpawnHelper.SpawnGun(entity, Alliance.Player);
-        }
 
-        public static Entity SpawnGun(Entity parent, Alliance alliance) {
+            Entity gun = SpawnHelper.SpawnGun(entity);
+            gun.Set(new InputComponent(new ShootingInputHandler(World)));
+
+        }
+        /// <summary>
+        /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public static Entity SpawnGun(Entity parent) {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
             Vector2 localPosition = new Vector2(0, 0);
@@ -92,15 +99,21 @@ namespace Meltdown.Utilities
                     parent: parent.Get<WorldTransformComponent>().value
                     )
                 );
-
-            Texture2D bulletTexture = Game1.Instance.Content.Load<Texture2D>("shooting/bullet");
             gunEntity.Set(gunTransform);
-            gunEntity.Set(new SmallGunComponent(35f, 25f, -1f, 0.1f, bulletTexture, alliance));
-            gunEntity.Set(new InputComponent(new ShootingInputHandler(World)));
+
+            Alliance alliance = parent.Get<AllianceMaskComponent>().alliance;
+            gunEntity.Set(new SmallGunComponent(
+                damage : 35f, 
+                projectileSpeed : 25f, 
+                radiusRange : -1f, 
+                reloadTime : 0.5f, 
+                projTex : "shooting/bullet", 
+                alliance : alliance));
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
             gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
             gunEntity.Set(new NameComponent() { name = "gun" });
-
+            gunEntity.SetAsChildOf(parent);
+            parent.Set(new WeaponComponent(gunEntity));
             return gunEntity;
         }
         
@@ -195,7 +208,6 @@ namespace Meltdown.Utilities
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new BoundingBoxComponent(2, 2, 0));
             entity.Set(new NameComponent() { name = "enemy" });
-
             return entity;
         }
 
@@ -206,8 +218,7 @@ namespace Meltdown.Utilities
             entity.Set(new AIComponent(new ShooterStandby()));
             entity.Set(new ManagedResource<string, Texture2D>("placeholder"));
             entity.Set(new NameComponent() { name = "shooter" });
-
-            //SpawnHelper.SpawnGun(entity);
+            SpawnHelper.SpawnGun(entity);
         }
         
         public static void SpawnDrone (Vector2 position)
@@ -272,12 +283,7 @@ namespace Meltdown.Utilities
             }
         }
 
-        public static void SpawnBullet(
-            Vector3 position, 
-            Vector2 direction, 
-            float projectileSpeed, 
-            float damage,
-            Alliance alliance)
+        public static Entity SpawnBullet(Vector3 position, Vector2 direction)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
@@ -299,15 +305,8 @@ namespace Meltdown.Utilities
             element.Value = entity;
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             SpawnHelper.quadtree.AddNode(element);
-            entity.Set(new ManagedResource<string, Texture2D>("shooting/bullet"));
-            entity.Set(new VelocityComponent(direction * projectileSpeed));
-            entity.Set(new DamageComponent(damage)); // added for collision handling
-            entity.Set(new BoundingBoxComponent(20, 20, 0));
-            entity.Set(new NameComponent() { name = "bullet" });
-            entity.Set(new TTLComponent(Constants.TTL_BULLET));
-            entity.Set(new AllianceMaskComponent(alliance));
 
-
+            return entity;
         }
     }
 }

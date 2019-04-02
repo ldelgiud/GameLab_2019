@@ -25,7 +25,7 @@ namespace Meltdown.Components
             float projectileSpeed, 
             float radiusRange,
             float reloadTime, 
-            Texture2D projTex,
+            string projTex,
             Alliance alliance)
         {
             this.damage = damage;
@@ -40,18 +40,20 @@ namespace Meltdown.Components
 
         public override void Shoot(float absoluteTime, WorldTransformComponent gunTransform, Vector2 direction)
         {
+            direction.Normalize();
             if ((absoluteTime - timeLastShot) < reloadTime) { return; }
             var globalTransform = gunTransform.value.GlobalTransform;
             Vector3 position = globalTransform.Translation();
 
-            SpawnHelper.SpawnBullet(
-                position, 
-                direction, 
-                this.projectileSpeed, 
-                this.damage, 
-                this.alliance);
+            Entity entity = SpawnHelper.SpawnBullet(position, direction);
 
-            
+            entity.Set(new VelocityComponent(direction * this.projectileSpeed));
+            entity.Set(new ManagedResource<string, Texture2D>(this.projectileTexture));
+            entity.Set(new DamageComponent(this.damage)); // added for collision handling
+            entity.Set(new BoundingBoxComponent(20, 20, 0));
+            entity.Set(new NameComponent() { name = "bullet" });
+            entity.Set(new TTLComponent(Constants.TTL_BULLET));
+            entity.Set(new AllianceMaskComponent(this.alliance));
             timeLastShot = absoluteTime;
         }
         

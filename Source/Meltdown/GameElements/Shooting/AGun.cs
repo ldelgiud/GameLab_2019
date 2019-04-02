@@ -15,7 +15,7 @@ namespace Meltdown.GameElements.Shooting
         public float projectileSpeed;
         public float radiusRange;
         public float reloadTime;
-        public Texture2D projectileTexture;
+        public string projectileTexture;
         public float timeLastShot;
         public Alliance alliance;
 

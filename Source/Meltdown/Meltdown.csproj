@@ -145,6 +145,7 @@
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
     <Compile Include="Components\TTLComponent.cs" />
+    <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="Components\WorldTransformComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Event\Event.cs" />
