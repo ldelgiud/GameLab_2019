@@ -25,13 +25,20 @@ namespace Meltdown.Collision.Handlers
         public override void HandleCollision(CollisionType type, Entity collider, Entity collidee)
         {
             //TODO: change this check to a mask
-            Alliance playerAlliance = collider.Get<AllianceMaskComponent>().alliance;
-            Alliance collideeAlliance = collidee.Get<AllianceMaskComponent>().alliance;
-            if (playerAlliance != collideeAlliance)
-            {
-                energy.CurrentEnergy -= collidee.Get<DamageComponent>().Damage;
-                collidee.Delete();
+
+            switch(type) {
+                case CollisionType.Start:
+                    Alliance playerAlliance = collider.Get<AllianceMaskComponent>().alliance;
+                    Alliance collideeAlliance = collidee.Get<AllianceMaskComponent>().alliance;
+                    if (((int)playerAlliance | (int)collideeAlliance) != (int)playerAlliance)
+                    {
+                        energy.CurrentEnergy -= collidee.Get<DamageComponent>().Damage;
+                        collidee.Delete();
+                    }
+                    break;
             }
+
+            
             
         }
     }

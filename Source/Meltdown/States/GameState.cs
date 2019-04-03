@@ -80,7 +80,7 @@ namespace Meltdown.States
             this.modelResourceManager.Manage(this.world);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
-                new DebugCollisionHandler(this.world),
+                //new DebugCollisionHandler(this.world),
                 new DamageHealthCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
