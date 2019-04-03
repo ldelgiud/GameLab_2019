@@ -22,7 +22,8 @@ namespace Meltdown.Systems
 
         public PhysicsSystem(World world, QuadTree<Entity> quadtree, ICollisionSet collisionSet) : base(
             world.GetEntities()
-            .With<WorldTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .With<VelocityComponent>()
             .Build()) {
             this.quadtree = quadtree;
@@ -31,7 +32,7 @@ namespace Meltdown.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
+            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             bool collision = false;
@@ -81,7 +82,7 @@ namespace Meltdown.Systems
 
             if (!collision)
             {
-                transform.value.Translate(velocity.velocity.ToVector3() * time.Delta);
+                transform.value.LocalTranslation += velocity.velocity * time.Delta;
             }
         }
     }

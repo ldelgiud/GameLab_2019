@@ -56,32 +56,31 @@ namespace Meltdown.Utilities
             element.Value = entity;
 
             entity.Set(new PlayerComponent(playerID));
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
+            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<string, Texture2D>("animIdle*100*13*84*94"));
-            entity.Set(new BoundingBoxComponent(2, 2, 0f));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"player1 PLACEHOLDER", null, null, 2.0f, 2.0f)));
             SpawnHelper.quadtree.AddNode(element);
 
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
             Vector2 localPosition = new Vector2(0, 0);
 
-            WorldTransformComponent gunTransform = new WorldTransformComponent(
-                new Transform(
-                    localPosition.ToVector3(),
-                    Vector3.Zero,
-                    Vector3.One / 5,
-                    entity.Get<WorldTransformComponent>().value
+            var gunTransform = new Transform2DComponent(
+                new Transform2D(
+                    localPosition,
+                    0,
+                    Vector2.One / 5,
+                    entity.Get<Transform2DComponent>().value
                     )
                 );
 
-            Texture2D bulletTexture = Game1.Instance.Content.Load<Texture2D>("shooting/bullet");
             gunEntity.Set(gunTransform);
-            gunEntity.Set(new SmallGunComponent(35f, 25f, -1f, 0.1f, bulletTexture));
-            gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
-            gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
+            gunEntity.Set(new WorldSpaceComponent());
+            gunEntity.Set(new SmallGunComponent(35f, 25f, -1f, 0.1f));
+            gunEntity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo("shooting/smallGun", null, null, 0.5f, 0.2f)));
 
         }
         
@@ -112,10 +111,10 @@ namespace Meltdown.Utilities
             element.Span.UpperBound += position;
 
             //Create entity and attach the components to it
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
-            entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\NuclearPlantPLACEHOLDER"));
+            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"placeholders\NuclearPlantPLACEHOLDER", null, null, 10f, 10f)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new BoundingBoxComponent(10, 10, 0));
 
             SpawnHelper.quadtree.AddNode(element);
         }
@@ -139,10 +138,10 @@ namespace Meltdown.Utilities
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;
 
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
+            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
-            entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\battery"));
-            entity.Set(new BoundingBoxComponent(1, 1, 0));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"placeholders\battery", null, null, 1.0f, 1.0f)));
             entity.Set(new EnergyPickupComponent(energy));
 
             SpawnHelper.quadtree.AddNode(element);
@@ -167,23 +166,23 @@ namespace Meltdown.Utilities
 
             
             //Create entity and attach its components
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
+            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new BoundingBoxComponent(100, 100, 0));
             if (drone)
             {
                 entity.Set(new AIComponent(new DroneStandby()));
-                entity.Set(new ManagedResource<string,
-                    Texture2D>("placeholders/enemies/drone"));
+                entity.Set(new ManagedResource<Texture2DInfo,
+                    Texture2D>(new Texture2DInfo(@"placeholders/enemies/drone", null, null, 2.0f, 2.0f)));
                 entity.Set(new DroneComponent(200));
             }
             else
             {
                 entity.Set(new AIComponent(new ShooterStandby()));
-                entity.Set(new ManagedResource<string,
-                    Texture2D>("placeholder"));
+                entity.Set(new ManagedResource<Texture2DInfo,
+                    Texture2D>(new Texture2DInfo(@"placeholder", null, null, 2.0f, 2.0f)));
             }
             SpawnHelper.quadtree.AddNode(element);
         }
@@ -227,23 +226,23 @@ namespace Meltdown.Utilities
             
 
             //Create entity and attach its components
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
+            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new BoundingBoxComponent(100, 100, 0));
             if (drone)
             {
                 entity.Set(new AIComponent(new DroneStandby()));
-                entity.Set(new ManagedResource<string,
-                    Texture2D>("placeholders/enemies/drone"));
+                entity.Set(new ManagedResource<Texture2DInfo,
+                    Texture2D>(new Texture2DInfo(@"placeholders/enemies/drone", null, null, 2.0f, 2.0f)));
                 entity.Set(new DroneComponent(200));
             }
             else
             {
                 entity.Set(new AIComponent(new ShooterStandby()));
-                entity.Set(new ManagedResource<string,
-                    Texture2D>("placeholder"));
+                entity.Set(new ManagedResource<Texture2DInfo,
+                    Texture2D>(new Texture2DInfo(@"placeholder", null, null, 2.0f, 2.0f)));
             }
             SpawnHelper.quadtree.AddNode(element);
 

@@ -7,17 +7,15 @@ namespace Meltdown.Components
 {
     public class ProjectileComponent
     {
-        public Texture2D projTex;
         public float speed;
         public float radiusRange;
         public float damage;
 
-        public ProjectileComponent(float damage, float speed, float radiusRange, Texture2D projTex)
+        public ProjectileComponent(float damage, float speed, float radiusRange)
         {
             this.speed = speed;
             this.damage = damage;
             this.radiusRange = radiusRange;
-            this.projTex = projTex;
         }
 
     }

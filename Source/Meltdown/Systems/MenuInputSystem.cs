@@ -12,6 +12,11 @@ using Meltdown.Input;
 
 namespace Meltdown.Systems
 {
+    enum Alliance {
+        Player = 0,
+
+    }
+
     class MenuInputSystem : AEntitySystem<Time>
     {
         InputManager inputManager;

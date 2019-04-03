@@ -25,9 +25,10 @@ namespace Meltdown.States
 {
     class GameState : State.State
     {
+        GameWindow window;
         InputManager inputManager;
-        Camera worldCamera;
-        Camera screenCamera;
+        Camera2D worldCamera;
+        Camera2D screenCamera;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -40,6 +41,8 @@ namespace Meltdown.States
             this.inputManager.Register(Keys.E);
             this.SetInstance(this.inputManager);
 
+            this.window = game.Window;
+
             Energy energy = new Energy();
             PowerPlant powerPlant = new PowerPlant();
 
@@ -51,21 +54,24 @@ namespace Meltdown.States
                 },
                 10, 7));
 
-            this.screenCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(1920, 1080, 0, 2)
+            this.screenCamera = new Camera2D(
+                new Transform2D(),
+                1920,
+                1080
                 );
 
-            this.worldCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(100, 100, 0, 2)
+            this.worldCamera = new Camera2D(
+                new Transform2D(),
+                80,
+                45
                 );
 
             this.world = new World();
             this.SetInstance(this.world);
+
+            // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
+            this.textureResourceManager.Manage(this.world);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world),
@@ -101,21 +107,20 @@ namespace Meltdown.States
                     energy,
                     game.Content.Load<Texture2D>("placeholders/EnergyBar PLACEHOLDER"),
                     game.GraphicsDevice,
-                    game.Content.Load<SpriteFont >("gui/EnergyFont")
+                    game.Content.Load<SpriteFont>("gui/EnergyFont")
                     );
 
-            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
+            //AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
-                energyDrawSystem,
-                aabbDebugDrawSystem
+                energyDrawSystem
+                //aabbDebugDrawSystem
                 );
 
 
-            // Resource Managers
-            this.textureResourceManager.Manage(this.world);
+
 
             // Create player
             SpawnHelper.SpawnPlayer(1);
@@ -137,19 +142,15 @@ namespace Meltdown.States
                 var entity = this.world.CreateEntity();
 
                 Vector2 position = new Vector2(0, -20);
-                AABB aabb = new AABB()
-                {
-                    LowerBound = new Vector2(-5, -5),
-                    UpperBound = new Vector2(5, 5)
-                };
+                AABB aabb = new AABB(new Vector2(-5, -5), new Vector2(5, 5));
                 Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
                 element.Span.LowerBound += position;
                 element.Span.UpperBound += position;
 
-                entity.Set(new WorldTransformComponent(new Transform(new Vector3(position, 0))));
+                entity.Set(new Transform2DComponent() { value = new Transform2D(position) });
+                entity.Set(new WorldSpaceComponent());
                 entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
-                entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
-                entity.Set(new BoundingBoxComponent(10, 10, 0));
+                entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"placeholder", null, null, new Vector2(0.1f, 0.1f))));
                 entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
 
                 physicsSystem.quadtree.AddNode(element);
@@ -166,6 +167,8 @@ namespace Meltdown.States
 
         public override void Draw(Time time)
         {
+            this.screenCamera.Update(this.window);
+            this.worldCamera.Update(this.window);
             this.drawSystem.Update(time);
         }
     }

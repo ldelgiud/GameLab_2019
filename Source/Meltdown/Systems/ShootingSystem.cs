@@ -23,7 +23,8 @@ namespace Meltdown.Systems
 
         public ShootingSystem(World world) : base(
             world.GetEntities()
-            .With<WorldTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .With<SmallGunComponent>()
             .Build())
         {
@@ -41,12 +42,12 @@ namespace Meltdown.Systems
 
             if (kState.IsKeyDown(Keys.F) || mState.LeftButton == ButtonState.Pressed)
             {
-                ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
+                ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
                 ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
 
                 Vector2 dir = new Vector2(1, 0);
 
-                smallGun.Shoot(time.Absolute, transform, dir, world);
+                smallGun.Shoot(time.Absolute, transform.value, dir, world);
             }
 
         }

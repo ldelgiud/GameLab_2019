@@ -22,7 +22,7 @@ namespace Meltdown.AI
 
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
+                Vector2 dist = player.transform.Translation - pos;
 
                 if (dist.Length() <= distToAttack) return new ShooterAttack();
                 if (dist.Length() <= distToSearch) return new ShooterSearch();

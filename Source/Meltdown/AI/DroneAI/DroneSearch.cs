@@ -28,11 +28,11 @@ namespace Meltdown.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
+                Vector2 dist = player.transform.Translation - pos;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = Pathfinder(closestPlayer.transform.value.position.ToVector2(), pos);
+            Vector2 distVector = Pathfinder(closestPlayer.transform.Translation, pos);
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();

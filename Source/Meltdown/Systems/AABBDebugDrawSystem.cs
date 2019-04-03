@@ -15,11 +15,11 @@ namespace Meltdown.Systems
     class AABBDebugDrawSystem : AEntitySystem<Time>
     {
         SpriteBatch spriteBatch;
-        Camera camera;
+        Camera2D camera;
 
         Texture2D debugBoxTex;
 
-        public AABBDebugDrawSystem(World world, GraphicsDevice graphicsDevice, Camera camera, Texture2D debugBoxTex) : base(
+        public AABBDebugDrawSystem(World world, GraphicsDevice graphicsDevice, Camera2D camera, Texture2D debugBoxTex) : base(
             world.GetEntities()
             .With<AABBComponent>()
             .Build())
@@ -41,20 +41,20 @@ namespace Meltdown.Systems
             
             var worldPosition = aabbComponent.element.Span.Center;
 
-            var transform = new Transform(worldPosition.ToVector3());
+            var transform = new Transform3D(worldPosition.ToVector3());
 
-            var (position, rotation, scale, origin) = camera.ToScreenCoordinates(transform.GlobalTransform, this.debugBoxTex.Bounds);
+            //var (position, rotation, scale, origin) = camera.ToScreenCoordinates(transform.TransformMatrix, this.debugBoxTex.Bounds);
 
             // Override scale
-            scale = transform.scale.ToVector2();
+            //scale = transform.scale.ToVector2();
 
-            spriteBatch.Draw(
-                texture: this.debugBoxTex,
-                position: position,
-                rotation: rotation,
-                scale: scale,
-                origin: origin
-                );
+            //spriteBatch.Draw(
+            //    texture: this.debugBoxTex,
+            //    position: position,
+            //    rotation: rotation,
+            //    scale: scale,
+            //    origin: origin
+            //    );
 
 
         }
