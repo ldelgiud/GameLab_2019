@@ -14,6 +14,7 @@ using DefaultEcs;
 using DefaultEcs.Resource;
 
 using tainicom.Aether.Physics2D.Collision;
+using Meltdown.Event;
 
 namespace Meltdown.Utilities
 {
@@ -81,6 +82,7 @@ namespace Meltdown.Utilities
             gun.Set(new InputComponent(new ShootingInputHandler(World)));
 
         }
+
         /// <summary>
         /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
         /// </summary>
@@ -305,6 +307,31 @@ namespace Meltdown.Utilities
             element.Span.UpperBound += position.ToVector2();
             element.Value = entity;
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
+            SpawnHelper.quadtree.AddNode(element);
+
+            return entity;
+        }
+
+        public static Entity SpawnEvent(Vector2 position)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            AABB aabb = new AABB()
+            {
+                LowerBound = new Vector2(-5, -5),
+                UpperBound = new Vector2(5, 5)
+            };
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+
+            entity.Set(new WorldTransformComponent(new Transform(new Vector3(position, 0))));
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
+            entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
+            entity.Set(new BoundingBoxComponent(10, 10, 0));
+            entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
+            entity.Set(new NameComponent() { name = "intro_event_trigger" });
+
             SpawnHelper.quadtree.AddNode(element);
 
             return entity;

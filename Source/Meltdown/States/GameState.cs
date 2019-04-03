@@ -147,28 +147,8 @@ namespace Meltdown.States
 
 
             // Event trigger
-            {
-                var entity = this.world.CreateEntity();
-
-                Vector2 position = new Vector2(0, -20);
-                AABB aabb = new AABB()
-                {
-                    LowerBound = new Vector2(-5, -5),
-                    UpperBound = new Vector2(5, 5)
-                };
-                Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
-                element.Span.LowerBound += position;
-                element.Span.UpperBound += position;
-
-                entity.Set(new WorldTransformComponent(new Transform(new Vector3(position, 0))));
-                entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
-                entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
-                entity.Set(new BoundingBoxComponent(10, 10, 0));
-                entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
-                entity.Set(new NameComponent() { name = "intro_event_trigger" });
-
-                physicsSystem.quadtree.AddNode(element);
-            }
+            Vector2 position = new Vector2(0, -20);
+            SpawnHelper.SpawnEvent(position);
 
 
         }

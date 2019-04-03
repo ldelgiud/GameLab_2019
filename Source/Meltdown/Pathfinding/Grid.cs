@@ -22,24 +22,25 @@ namespace Meltdown.Pathfinding
             }
         }
 
-        Node[,] nodes;
+        public Node[,] Nodes { get; private set; }
         float nodeRadius = Constants.NODE_RADIUS;
         Vector2 gridWorldSize = Constants.TOP_RIGHT_CORNER - Constants.BOTTOM_LEFT_CORNER;
-        int gridSizeX; 
-        int gridSizeY;
+        public int GridSizeX { get; private set; }
+        public int GridSizeY { get; private set; }
+
 
         public Grid()
         {
             float nodeDiameter = 2 * this.nodeRadius;
-            this.gridSizeX = (int)Math.Round(gridWorldSize.X / nodeDiameter);
-            this.gridSizeY = (int)Math.Round(gridWorldSize.Y / nodeDiameter);
-            nodes = new Node[this.gridSizeY, gridSizeX];
+            this.GridSizeX = (int)Math.Round(gridWorldSize.X / nodeDiameter);
+            this.GridSizeY = (int)Math.Round(gridWorldSize.Y / nodeDiameter);
+            Nodes = new Node[this.GridSizeY, GridSizeX];
 
-            for (int y = 0; y < gridSizeY; y++)
+            for (int y = 0; y < GridSizeY; y++)
             {
                 Vector2 worldPos = Constants.BOTTOM_LEFT_CORNER;
                 worldPos.Y += (y * nodeDiameter) + nodeRadius;
-                for (int x = 0; x < gridSizeX; x++)
+                for (int x = 0; x < GridSizeX; x++)
                 {
                     worldPos.X += (x * nodeDiameter) + nodeRadius;
                     bool walkable = true;
@@ -62,7 +63,7 @@ namespace Meltdown.Pathfinding
                         return false;
                     }, ref aabb);
 
-                    nodes[y,x] = new Node(walkable, worldPos, x, y);
+                    Nodes[y,x] = new Node(walkable, worldPos, x, y);
                 }
             }
         }
@@ -80,10 +81,10 @@ namespace Meltdown.Pathfinding
                     int checkX = node.gridX + x;
                     int checkY = node.gridY + y;
 
-                    if (checkX >= 0 && checkX < this.gridSizeX && 
-                        checkY >= 0 && checkY < this.gridSizeX)
+                    if (checkX >= 0 && checkX < this.GridSizeX && 
+                        checkY >= 0 && checkY < this.GridSizeX)
                     {
-                        neighbours.Add(nodes[checkY, checkX]);
+                        neighbours.Add(Nodes[checkY, checkX]);
                     }
                 }
             }
@@ -100,10 +101,10 @@ namespace Meltdown.Pathfinding
             Vector2 relativePos = worldPosition - Constants.BOTTOM_LEFT_CORNER;
             float xPercent = relativePos.X / this.gridWorldSize.X;
             float yPercent = relativePos.Y / this.gridWorldSize.Y;
-            int x = (this.gridSizeX - 1) * this.gridSizeX;
-            int y = (this.gridSizeY - 1) * this.gridSizeY;
+            int x = (this.GridSizeX - 1) * this.GridSizeX;
+            int y = (this.GridSizeY - 1) * this.GridSizeY;
 
-            return nodes[y, x];
+            return Nodes[y, x];
         }
 
     }
