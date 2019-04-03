@@ -215,7 +215,8 @@ namespace Meltdown.Utilities
         {
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
-            entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\lootbox"));
+            //entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\lootbox"));
+            entity.Set(new TextureEffectComponent() { value = Game1.Instance.Content.Load<Texture2D>(@"placeholders\lootbox") });
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
             entity.Set(new BoundingBoxComponent(100, 100, 0));

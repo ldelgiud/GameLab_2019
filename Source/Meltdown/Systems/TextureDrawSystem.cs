@@ -19,7 +19,7 @@ namespace Meltdown.Systems
     {
         Camera camera;
         SpriteBatch spriteBatch;
-
+        
         public TextureDrawSystem(GraphicsDevice graphicsDevice, Camera camera, World world) : base(
             world.GetEntities()
             .With<WorldTransformComponent>()
@@ -40,9 +40,7 @@ namespace Meltdown.Systems
             ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
 
             var transformMatrix = transform.value.GlobalTransform;
-
-            // Invert 
-
+            
             if (entity.Has<TextureComponent>())
             {
                 ref TextureComponent texture = ref entity.Get<TextureComponent>();

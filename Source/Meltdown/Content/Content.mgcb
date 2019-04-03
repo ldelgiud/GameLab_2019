@@ -200,6 +200,18 @@
 /processorParam:TextureFormat=Color
 /build:placeholders/NuclearPlantPLACEHOLDER.jpg
 
+#begin shaders/blackAndWhite.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/blackAndWhite.fx
+
+#begin shaders/chrome.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/chrome.fx
+
 #begin shooting/bullet.png
 /importer:TextureImporter
 /processor:TextureProcessor

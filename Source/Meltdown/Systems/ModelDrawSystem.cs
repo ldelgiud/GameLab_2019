@@ -39,7 +39,8 @@ namespace Meltdown.Systems
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.World = Matrix.Transpose(transform.value.GlobalTransform);
+                    effect.EnableDefaultLighting();
+                    effect.World = Matrix.Transpose(transform.value.GlobalTransform * Matrix.CreateRotationX(MathHelper.PiOver2));
                     effect.View = Matrix.Transpose(this.worldCamera.View);
                     effect.Projection = Matrix.Transpose(this.worldCamera.Projection);
                 }

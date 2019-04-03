@@ -131,6 +131,12 @@ namespace Meltdown.States
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
+                new TextureEffectsDrawSystem(
+                    game.GraphicsDevice, 
+                    this.worldCamera, 
+                    this.world,
+                    Game1.Instance.Content.Load<Effect>(@"shaders\chrome")
+                    ),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
                 energyDrawSystem,
