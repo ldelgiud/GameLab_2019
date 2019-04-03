@@ -21,6 +21,7 @@ using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
 using Meltdown.Graphics;
+using Meltdown.Pathfinding;
 
 namespace Meltdown.States
 {
@@ -132,6 +133,9 @@ namespace Meltdown.States
             ProcGen.BuildStreet(powerPlant);
             ProcGen.SpawnHotspots();
 
+            //Only once the Terrain generation is complete!!!
+            Grid grid = new Grid();
+            PathFinder pathFinder = new PathFinder(grid);
             // Resource Managers
             this.textureResourceManager.Manage(this.world);
 

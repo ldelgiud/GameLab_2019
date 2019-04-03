@@ -11,8 +11,11 @@ namespace Meltdown.Pathfinding
     class PathFinder
     {
         Grid grid;
-
-        public PathFinder(Vector2 start, Vector2 end)
+        public PathFinder(Grid grid)
+        {
+            this.grid = grid;
+        }
+        public void FindPath(Vector2 start, Vector2 end)
         {
             this.grid = new Grid();
             Node source = grid.VectorToNode(start);
