@@ -45,13 +45,11 @@ namespace Meltdown.Systems
             foreach(Entity entity in entities)
             {
                 ref AIComponent aIState = ref entity.Get<AIComponent>();
-                ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
-                ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
+                
 
                 aIState.State =
-                    aIState.State.UpdateState(playerInfos, transform.value.Translation, ref velocity.velocity);
+                    aIState.State.UpdateState(playerInfos, entity, state);
 
-                transform.value.LocalRotation = velocity.velocity.ToRotation();
             }
             
 

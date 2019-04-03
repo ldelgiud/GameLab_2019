@@ -8,59 +8,35 @@ namespace Meltdown.Graphics
 {
     class Transform2D
     {
-        Transform2D parent;
-        public Transform2D Parent { get { return this.parent; } set { this.dirty = true; this.parent = value; } }
+        public Transform2D Parent { get; set; }
 
-        bool dirty = true;
+        bool LocalDirty { get; set; }
+        bool GlobalDirty { get { return this.LocalDirty || this.Parent.LocalDirty; } }
 
         Vector2 translation;
-        public Vector2 LocalTranslation { get { return this.translation; } set { this.dirty = true;  this.translation = value; } }
+        public Vector2 LocalTranslation { get { return this.translation; } set { this.LocalDirty = true;  this.translation = value; } }
 
         float rotation;
-        public float LocalRotation { get { return this.rotation; } set { this.dirty = true; this.rotation = value; } }
+        public float LocalRotation { get { return this.rotation; } set { this.LocalDirty = true; this.rotation = value; } }
 
         Vector2 scale;
-        public Vector2 LocalScale { get { return this.scale; } set { this.dirty = true; this.scale = value; } }
+        public Vector2 LocalScale { get { return this.scale; } set { this.LocalDirty = true; this.scale = value; } }
 
         Matrix3 localTransform;
         public Matrix3 LocalTransformMatrix
         {
             get
             {
-                if (this.dirty)
+                if (this.LocalDirty)
                 {
                     this.localTransform =
                         Matrix3.CreateScaling(this.LocalScale) *
                         Matrix3.CreateRotation(this.LocalRotation) *
                         Matrix3.CreateTranslation(this.LocalTranslation);
 
-                    this.dirty = false;
+                    this.LocalDirty = false;
                 }
                 return this.localTransform;
-            }
-        }
-
-        public Matrix3 LocalTranslationMatrix
-        {
-            get
-            {
-                return Matrix3.CreateTranslation(this.LocalTranslation);
-            }
-        }
-
-        public Matrix3 LocalRotationMatrix
-        {
-            get
-            {
-                return Matrix3.CreateRotation(this.LocalRotation);
-            }
-        }
-
-        public Matrix3 LocalScaleMatrix
-        {
-            get
-            {
-                return Matrix3.CreateScaling(this.LocalScale);
             }
         }
 
@@ -68,7 +44,14 @@ namespace Meltdown.Graphics
         {
             get
             {
-                return this.parent == null ? this.LocalTransformMatrix : this.LocalTransformMatrix * this.Parent.TransformMatrix;
+                if (this.Parent == null)
+                {
+                    return this.LocalTransformMatrix;
+                }
+                else
+                {
+                    return this.LocalTransformMatrix * this.Parent.TransformMatrix;
+                }
             }
         }
 
@@ -78,13 +61,23 @@ namespace Meltdown.Graphics
             {
                 return this.TransformMatrix.Translation();
             }
+
+            set
+            {
+                this.Translation = this.Parent == null ? value : value - this.Parent.TransformMatrix.Translation();
+            }
         }
 
         public float Rotation
         {
             get
             {
-                return this.TransformMatrix.Rotation();
+                return this.Parent == null ? this.LocalRotation : this.LocalRotation + this.Parent.Rotation;
+            }
+
+            set
+            {
+                this.LocalRotation = this.Parent == null ? value : value - this.Parent.Rotation;
             }
         }
 
@@ -92,7 +85,12 @@ namespace Meltdown.Graphics
         {
             get
             {
-                return this.TransformMatrix.Scaling();
+                return this.Parent == null ? this.LocalScale : this.LocalScale * this.Parent.Scale;
+            }
+
+            set
+            {
+                this.LocalScale = this.Parent == null ? value : scale / this.Parent.Scale;
             }
         }
 

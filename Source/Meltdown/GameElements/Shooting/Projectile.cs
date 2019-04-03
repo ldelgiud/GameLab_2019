@@ -3,18 +3,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Meltdown.Components
+namespace Meltdown.GameElements.Shooting
 {
-    public class ProjectileComponent
+    public class Projectile
     {
         public float speed;
         public float radiusRange;
-        public float damage;
 
         public ProjectileComponent(float damage, float speed, float radiusRange)
         {
             this.speed = speed;
-            this.damage = damage;
             this.radiusRange = radiusRange;
         }
 

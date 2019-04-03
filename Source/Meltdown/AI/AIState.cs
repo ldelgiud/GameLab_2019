@@ -13,7 +13,7 @@ namespace Meltdown.AI
 {
     abstract class AIState
     {
-        abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity);
+        abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Entity entity, Time time);
 
 
         /// <summary>

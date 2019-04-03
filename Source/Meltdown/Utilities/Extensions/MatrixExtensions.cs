@@ -43,12 +43,14 @@ namespace Meltdown.Utilities.Extensions
         public static float RotationZ(this Matrix matrix)
         {
             return MathF.Atan2(matrix.M12 / matrix.ScaleX(), matrix.M22 / matrix.ScaleY());
+
         }
 
         public static Vector3 Rotation(this Matrix matrix)
         {
             return new Vector3(matrix.RotationX(), matrix.RotationY(), matrix.RotationZ());
         }
+
 
         public static float ScaleX(this Matrix matrix)
         {
@@ -68,6 +70,15 @@ namespace Meltdown.Utilities.Extensions
         public static Vector3 Scale(this Matrix matrix)
         {
             return new Vector3(matrix.ScaleX(), matrix.ScaleY(), matrix.ScaleZ());
+        }
+
+        public static String Debug(this Matrix matrix)
+        {
+            return String.Format("[ {0} {1} {2} {3} ]\n[ {4} {5} {6} {7} ]\n[ {8} {9} {10} {11} ]\n[ {12} {13} {14} {15} ]",
+                matrix.M11, matrix.M12, matrix.M13, matrix.M14,
+                matrix.M21, matrix.M22, matrix.M23, matrix.M24,
+                matrix.M31, matrix.M32, matrix.M33, matrix.M34,
+                matrix.M41, matrix.M42, matrix.M43, matrix.M44);
         }
 
     }

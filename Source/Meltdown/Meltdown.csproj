@@ -20,6 +20,12 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>Meltdown_TemporaryKey.pfx</PackageCertificateKeyFile>
     <MonoGamePlatform>WindowsStoreApp</MonoGamePlatform>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -68,6 +74,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -104,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\AIState.cs" />
+    <Compile Include="AI\EnemyType.cs" />
     <Compile Include="AI\ShooterAI\ShooterSearch.cs" />
     <Compile Include="AI\ShooterAI\ShooterStandby.cs" />
     <Compile Include="AI\ShooterAI\ShooterAttack.cs" />
@@ -111,21 +119,25 @@
     <Compile Include="AI\DroneAI\DroneStandby.cs" />
     <Compile Include="Collision\CollisionHandler.cs" />
     <Compile Include="Collision\CollisionType.cs" />
+    <Compile Include="Collision\Handlers\DamageHealthCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EnergyPickupCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EventTriggerCollisionHandler.cs" />
-    <Compile Include="Collision\Handlers\PlayerDroneCollisionHandler.cs" />
-    <Compile Include="Collision\Handlers\ProjectileCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\PlayerDamageCollisionHandler.cs" />
     <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\AIComponent.cs" />
-    <Compile Include="Components\DroneComponent.cs" />
+    <Compile Include="Components\AllianceMaskComponent.cs" />
+    <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\EnergyPickupComponent.cs" />
     <Compile Include="Components\EventComponent.cs" />
     <Compile Include="Components\EventTriggerComponent.cs" />
     <Compile Include="Components\HealthComponent.cs" />
     <Compile Include="Components\InputComponent.cs" />
-    <Compile Include="Components\InputHandlers\InputHandlerPlayer.cs" />
+    <Compile Include="Components\InputHandlers\PlayerInputHandler.cs" />
+    <Compile Include="Components\InputHandlers\ShootingInputHandler.cs" />
+    <Compile Include="Components\ModelComponent.cs" />
+    <Compile Include="Components\NameComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\ScreenSpaceComponent.cs" />
@@ -135,36 +147,41 @@
     <Compile Include="Components\Transform2DComponent.cs" />
     <Compile Include="Components\Transform3DComponent.cs" />
     <Compile Include="Components\WorldSpaceComponent.cs" />
+    <Compile Include="Components\TTLComponent.cs" />
+    <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Event\Event.cs" />
     <Compile Include="Event\StoryIntroEvent.cs" />
     <Compile Include="Components\MenuPulseComponent.cs" />
     <Compile Include="GameElements\Shooting\AGun.cs" />
     <Compile Include="Graphics\Camera2D.cs" />
-    <Compile Include="Components\ProjectileComponent.cs" />
     <Compile Include="Graphics\Matrix3.cs" />
     <Compile Include="Graphics\Transform2D.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManagers\ModelResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="State\StateTransition.cs" />
-    <Compile Include="Systems\EnemySpawnSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\AABBDebugDrawSystem.cs" />
     <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
+    <Compile Include="Systems\ModelDrawSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
+    <Compile Include="Systems\TTLSystem.cs" />
+    <Compile Include="Utilities\HelperFunctions.cs" />
+    <Compile Include="Utilities\Aliases.cs" />
     <Compile Include="Utilities\Constants.cs" />
     <Compile Include="Utilities\Energy.cs" />
     <Compile Include="Utilities\Extensions\MatrixExtensions.cs" />
@@ -172,6 +189,7 @@
     <Compile Include="Utilities\Infos.cs" />
     <Compile Include="Utilities\PlayerInfo.cs" />
     <Compile Include="Utilities\PowerPlant.cs" />
+    <Compile Include="Utilities\ProcGen.cs" />
     <Compile Include="Utilities\Screen.cs" />
     <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\EventSystem.cs" />
@@ -192,7 +210,11 @@
     <None Include="Meltdown_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Logo.scale-200.jpg" />
+    <Content Include="Assets\Logo.scale-200.png" />
     <Content Include="Assets\placeholder2.png" />
+    <Content Include="Assets\SmallLogo.scale-200.jpg" />
+    <Content Include="Assets\SmallLogo.scale-200.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

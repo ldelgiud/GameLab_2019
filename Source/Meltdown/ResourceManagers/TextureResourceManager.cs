@@ -13,7 +13,7 @@ using Meltdown.Utilities;
 
 namespace Meltdown.ResourceManagers
 {
-    sealed class TextureResourceManager : AResourceManager<Texture2DInfo, Texture2D>
+    sealed class TextureResourceManager : AResourceManager<Texture2DInfo, Texture2DAlias>
     {
         ContentManager contentManager;
 
@@ -28,7 +28,7 @@ namespace Meltdown.ResourceManagers
             this.contentManager = contentManager;
         }
 
-        protected override Texture2D Load(Texture2DInfo info)
+        protected override Texture2DAlias Load(Texture2DInfo info)
         {
             string[] infos = info.name.Split('*');
             if (infos.Length == 1) animated = false;
@@ -47,10 +47,10 @@ namespace Meltdown.ResourceManagers
                         " is in milliseconds.");
                 }
             }
-            return this.contentManager.Load<Texture2D>(infos[0]);
+            return new Texture2DAlias() { value = this.contentManager.Load<Texture2D>(infos[0]) };
         }
 
-        protected override void OnResourceLoaded(in Entity entity, Texture2DInfo info, Texture2D resource)
+        protected override void OnResourceLoaded(in Entity entity, Texture2DInfo info, Texture2DAlias resource)
         {
             //if (animated)
             //{
@@ -60,10 +60,10 @@ namespace Meltdown.ResourceManagers
             // Set scale from width/height
             if (info.scale.X < 0 && info.scale.Y < 0)
             {
-                info.scale = new Vector2(info.width / resource.Bounds.Width, info.height / resource.Bounds.Height);
+                info.scale = new Vector2(info.width / resource.value.Bounds.Width, info.height / resource.value.Bounds.Height);
             }
 
-            entity.Set(new Texture2DComponent() { value = resource, info = info });
+            entity.Set(new Texture2DComponent() { value = resource.value, info = info });
         }
     }
 }

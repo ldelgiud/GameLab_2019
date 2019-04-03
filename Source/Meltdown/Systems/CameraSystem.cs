@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Diagnostics;
 using DefaultEcs;
 using DefaultEcs.System;
 
 using Meltdown.Graphics;
 using Meltdown.Components;
 using Meltdown.Utilities;
+
+using Microsoft.Xna.Framework.Input;
 
 namespace Meltdown.Systems
 {

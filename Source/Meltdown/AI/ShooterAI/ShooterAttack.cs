@@ -5,37 +5,45 @@ using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
-
+using Meltdown.GameElements.Shooting;
+using DefaultEcs;
+using Meltdown.Components;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
     class ShooterAttack : AIState
     {
 
-        const double distToSearch = 300;
-
         
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
+        public override AIState UpdateState(
+            List<PlayerInfo> playerInfos, 
+            Entity entity,
+            Time time) 
+            
         {
+            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
             //Find closest player
             double minDist = Double.MaxValue;
             //TODO: Nullcheck next line!!
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - pos;
+                Vector2 dist = player.transform.Translation - position;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = closestPlayer.transform.Translation - pos;
-            //ATTACK!
-            //TODO: implement attack
-
-
+            Vector2 distVector = closestPlayer.transform.Translation - position;
+            //ATTACK LOGIC
+            Entity weapon = entity.Get<WeaponComponent>().weapon;
+            Debug.Assert(weapon.Get<SmallGunComponent>() != null);
+            weapon.Get<SmallGunComponent>().Shoot(
+                time.Absolute, 
+                weapon.Get<Transform2DComponent>().value,
+                distVector);
 
             //UPDATE STATE
-            if (distVector.Length() >= distToSearch) return new ShooterSearch();
-            if (distVector.Length() >= Constants.DIST_TO_STANDBY) return new ShooterStandby();
+            if (distVector.Length() >= Constants.ATTACK_TO_SEARCH_DIST) return new ShooterSearch();
             return this;
         }
     }

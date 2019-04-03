@@ -14,9 +14,9 @@ namespace Meltdown.Utilities
         public float width;
         public float height;
         
-        public Texture2DInfo(String name, Vector2? translation, float? rotation, float width, float height)
+        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null)
         {
-            this.name = name;
+            this.name = name ?? "";
             this.translation = translation ?? Vector2.Zero;
             this.rotation = rotation ?? 0;
             this.scale = new Vector2(-1, -1);

@@ -8,23 +8,27 @@ using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
+using DefaultEcs;
+using Meltdown.Components;
 
 namespace Meltdown.AI
 {
     class DroneStandby : AIState
     {
 
-        const double distToSearch = 600;
 
 
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
+        public override AIState UpdateState(
+            List<PlayerInfo> playerInfos, 
+            Entity entity,
+            Time time)
         {
-
+            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - pos;
+                Vector2 dist = player.transform.Translation - position;
 
-                if (dist.Length() <= distToSearch) return new DroneSearch();
+                if (dist.Length() <= Constants.STANDBY_TO_SEARCH_DIST) return new DroneSearch();
             }
             return this;
         }

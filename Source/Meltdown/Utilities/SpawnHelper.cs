@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Meltdown.Components;
 using Meltdown.AI;
 using Meltdown.States;
 using Meltdown.Graphics;
 using Meltdown.Utilities.Extensions;
+using Meltdown.Components.InputHandlers;
 
 using DefaultEcs;
-using tainicom.Aether.Physics2D.Collision;
-using Meltdown.Components.InputHandlers;
 using DefaultEcs.Resource;
+
+using tainicom.Aether.Physics2D.Collision;
 
 namespace Meltdown.Utilities
 {
@@ -47,41 +48,58 @@ namespace Meltdown.Utilities
 
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-1, -1),
-                UpperBound = new Vector2(1, 1)
+                LowerBound = new Vector2(-1f, -1f),
+                UpperBound = new Vector2(1f, 1f)
             };
             Element<Entity> element = new Element<Entity>(aabb);
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;
             element.Value = entity;
 
-            entity.Set(new PlayerComponent(playerID));
+            entity.Set(new PlayerComponent(playerID, 20));
+            entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent(velocity));
-            entity.Set(new InputComponent(new InputHandlerPlayer(entity)));
+            entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"player1 PLACEHOLDER", null, null, 2.0f, 2.0f)));
+            entity.Set(new ManagedResource<string, ModelAlias>(@"test\player"));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("player1 PLACEHOLDER", 2f, 2f)));
+            entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 
+            Entity gun = SpawnHelper.SpawnGun(entity);
+            gun.Set(new InputComponent(new ShootingInputHandler(World)));
+
+        }
+        /// <summary>
+        /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <returns></returns>
+        public static Entity SpawnGun(Entity parent) {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
             Vector2 localPosition = new Vector2(0, 0);
 
-            var gunTransform = new Transform2DComponent(
-                new Transform2D(
-                    localPosition,
-                    0,
-                    Vector2.One / 5,
-                    entity.Get<Transform2DComponent>().value
-                    )
-                );
+            var gunTransform = new Transform2DComponent(new Transform2D(localPosition, parent: parent.Get<Transform2DComponent>().value));
 
             gunEntity.Set(gunTransform);
             gunEntity.Set(new WorldSpaceComponent());
-            gunEntity.Set(new SmallGunComponent(35f, 25f, -1f, 0.1f));
-            gunEntity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo("shooting/smallGun", null, null, 0.5f, 0.2f)));
 
+            Alliance alliance = parent.Get<AllianceMaskComponent>().alliance;
+            gunEntity.Set(new SmallGunComponent(
+                damage : 35f, 
+                projectileSpeed : 25f, 
+                radiusRange : -1f, 
+                reloadTime : 0.5f, 
+                projTex : "shooting/bullet", 
+                alliance : alliance));
+            gunEntity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("shooting/smallGun", 1f, 0.4f)));
+            gunEntity.Set(new NameComponent() { name = "gun" });
+            gunEntity.SetAsChildOf(parent);
+            parent.Set(new WeaponComponent(gunEntity));
+            return gunEntity;
         }
         
         /// <summary>
@@ -91,6 +109,7 @@ namespace Meltdown.Utilities
         public static void SpawnNuclearPowerPlant(PowerPlant plant)
         {
             var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = "powerplant" });
 
             //Generate random position
             double angle = Constants.RANDOM.NextDouble() * MathHelper.PiOver2;
@@ -113,7 +132,7 @@ namespace Meltdown.Utilities
             //Create entity and attach the components to it
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"placeholders\NuclearPlantPLACEHOLDER", null, null, 10f, 10f)));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\NuclearPlantPLACEHOLDER", 10f, 10f)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
 
             SpawnHelper.quadtree.AddNode(element);
@@ -141,8 +160,9 @@ namespace Meltdown.Utilities
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"placeholders\battery", null, null, 1.0f, 1.0f)));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\battery", 1.0f, 1.0f)));
             entity.Set(new EnergyPickupComponent(energy));
+            entity.Set(new NameComponent() { name = "battery" });
 
             SpawnHelper.quadtree.AddNode(element);
         }
@@ -151,101 +171,120 @@ namespace Meltdown.Utilities
         /// Spawn an enemy entity at given position in standby
         /// </summary>
         /// <param name="pos">Position to Spawn enemy at</param>
-        public static void SpawnEnemy(Vector2 position, bool drone)
+        private static Entity SpawnBasicEnemy(Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
             AABB aabb = new AABB()
             {
-                LowerBound = new Vector2(-1, -1),
-                UpperBound = new Vector2(1, 1)
+                LowerBound = new Vector2(-1f, -1f),
+                UpperBound = new Vector2(1f, 1f)
             };
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;
+            SpawnHelper.quadtree.AddNode(element);
 
-            
             //Create entity and attach its components
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
+            entity.Set(new AllianceMaskComponent(Alliance.Hostile));
             entity.Set(new VelocityComponent(new Vector2(0, 0)));
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            if (drone)
-            {
-                entity.Set(new AIComponent(new DroneStandby()));
-                entity.Set(new ManagedResource<Texture2DInfo,
-                    Texture2D>(new Texture2DInfo(@"placeholders/enemies/drone", null, MathF.PI / 2, 2.0f, 2.0f)));
-                entity.Set(new DroneComponent(200));
-            }
-            else
-            {
-                entity.Set(new AIComponent(new ShooterStandby()));
-                entity.Set(new ManagedResource<Texture2DInfo,
-                    Texture2D>(new Texture2DInfo(@"placeholder", null, null, 2.0f, 2.0f)));
-            }
-            SpawnHelper.quadtree.AddNode(element);
+            entity.Set(new NameComponent() { name = "enemy" });
+            return entity;
         }
 
-        public static void SpawnRandomEnemy(bool drone)
+        public static void SpawnShooter(Vector2 position)
         {
-            var entity = SpawnHelper.World.CreateEntity();
-            AABB aabb;
+            Entity entity = SpawnHelper.SpawnBasicEnemy(position);
+
+            entity.Set(new AIComponent(new ShooterStandby()));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("placeholder", 2, 2)));
+            entity.Set(new NameComponent() { name = "shooter" });
+            SpawnHelper.SpawnGun(entity);
+        }
+        
+        public static void SpawnDrone (Vector2 position)
+        {
+            Entity entity = SpawnHelper.SpawnBasicEnemy(position);
+
+            entity.Set(new AIComponent(new DroneStandby()));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("placeholders/enemies/drone", 2, 2, rotation: MathF.PI / 2)));
+            entity.Set(new DamageComponent(200f));
+            entity.Set(new NameComponent() { name = "drone" });
+        }
+
+        public static void SpawnRandomEnemy(bool drone, Vector2 seed, int range)
+        {
             bool collides;
+            int sanityCheck = 0;
             Vector2 position;
-            Element<Entity> element;
-            /*do
-            {*/
+            do
+            {
                 collides = false;
-                position = new Vector2(
-                Constants.RANDOM.Next(-600, 600),
-                Constants.RANDOM.Next(-500, 500));
-                aabb = new AABB()
+                position = seed + new Vector2(
+                Constants.RANDOM.Next(-range, range),
+                Constants.RANDOM.Next(-range, range));
+
+                AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(-50, -50),
-                    UpperBound = new Vector2(50, 50)
+                    LowerBound = new Vector2(-3f, -3f),
+                    UpperBound = new Vector2(3f, 3f)
                 };
-                element = new Element<Entity>(aabb) { Value = entity };
+                Element<Entity> element = new Element<Entity>(aabb);
                 element.Span.LowerBound += position;
                 element.Span.UpperBound += position;
-                /*
+
                 SpawnHelper.quadtree.QueryAABB((Element<Entity> collidee) =>
                 {
-                    if (collidee == element)
+                    AABBComponent collideeAABB = collidee.Value.Get<AABBComponent>();
+                    if (!collideeAABB.solid)
                     {
                         return true;
                     }
-                    else
-                    {
-                        collides = true;
-                        return false;
-                    }
-                }, ref aabb);
+                    collides = true;
+                    return false;
+                }, ref element.Span);
 
-            } while (collides);*/
-            
+            } while (collides && (++sanityCheck < 20));
 
-            //Create entity and attach its components
-            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            if (collides) return;
+
+            if (drone) SpawnHelper.SpawnDrone(position);
+            else SpawnHelper.SpawnShooter(position);
+
+        }
+
+        public static void SpawnEnemyCamp(Vector2 position) 
+        {
+            int enemyCount = Constants.RANDOM.Next(5, 8);
+
+            for (int i = 0; i < enemyCount; ++i)
+            {
+                bool drone = Constants.RANDOM.Next(3) == 0;
+                SpawnHelper.SpawnRandomEnemy(drone, position, 50);
+            }
+        }
+
+        public static Entity SpawnBullet(Vector2 position, Vector2 direction)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            var projectileTransform = new Transform2DComponent(new Transform2D(position, direction.ToRotation()));
+            entity.Set(projectileTransform);
             entity.Set(new WorldSpaceComponent());
-            entity.Set(new VelocityComponent(new Vector2(0, 0)));
-            entity.Set(new HealthComponent(100));
-            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            if (drone)
-            {
-                entity.Set(new AIComponent(new DroneStandby()));
-                entity.Set(new ManagedResource<Texture2DInfo,
-                    Texture2D>(new Texture2DInfo(@"placeholders/enemies/drone", null, null, 2.0f, 2.0f)));
-                entity.Set(new DroneComponent(200));
-            }
-            else
-            {
-                entity.Set(new AIComponent(new ShooterStandby()));
-                entity.Set(new ManagedResource<Texture2DInfo,
-                    Texture2D>(new Texture2DInfo(@"placeholder", null, null, 2.0f, 2.0f)));
-            }
+
+            var aabb = new AABB(new Vector2(-0.2f, -0.2f), new Vector2(0.2f, 0.2f));
+            var element = new Element<Entity>(aabb);
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+            element.Value = entity;
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             SpawnHelper.quadtree.AddNode(element);
 
+            return entity;
         }
     }
 }

@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace Meltdown.Components
 {
-    class DroneComponent
+    struct NameComponent
     {
-        public uint Damage { get; }
-
-        public DroneComponent(uint damage)
-        {
-            this.Damage = damage;
-        }
+        public string name;
     }
 }

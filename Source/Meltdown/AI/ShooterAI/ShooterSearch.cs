@@ -5,49 +5,49 @@ using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
+using DefaultEcs;
+using Meltdown.Components;
 
 namespace Meltdown.AI
 {
     class ShooterSearch : AIState
     {
-        const double distToAttack = 250.0;
-
-
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
-            Vector2 pos,
-            ref Vector2 velocity)
+            Entity entity,
+            Time time)
         {
+            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
+            ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
+
             //Find closest player
             double minDist = Double.MaxValue;
             //TODO: NullCheck next line!!
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - pos;
+                Vector2 dist = player.transform.Translation - position;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = Pathfinder(closestPlayer.transform.Translation, pos);
+            Vector2 distVector = this.Pathfinder(closestPlayer.transform.Translation, position);
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
-            velocity = Vector2.Multiply(distVector, Constants.SHOOTER_SPEED);
+            velocity.velocity = Vector2.Multiply(distVector, Constants.SHOOTER_SPEED);
             //TODO: Implement pathfinding method
 
             //UPDATE STATE
-            if (distance <= distToAttack)
+            if (distance <= Constants.SEARCH_TO_ATTACK_DIST)
             {
-                velocity.X = 0;
-                velocity.Y = 0;
+                velocity.velocity = new Vector2(0);
                 return new ShooterAttack();
             }
-            if (distance >= Constants.DIST_TO_STANDBY)
+            if (distance >= Constants.SEARCH_TO_STANDBY_DIST + 10)
             {
-                velocity.X = 0;
-                velocity.Y = 0;
-                return new ShooterAttack();
+                velocity.velocity = new Vector2(0);
+                return new ShooterSearch();
             }
             return this;
         }

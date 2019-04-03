@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -34,11 +35,12 @@ namespace Meltdown.States
         ISystem<Time> drawSystem;
 
         TextureResourceManager textureResourceManager;
+        ModelResourceManager modelResourceManager;
 
         public override void Initialize(Game1 game)
         {
             this.inputManager = new InputManager();
-            this.inputManager.Register(Keys.E);
+            this.SetUpInputManager();
             this.SetInstance(this.inputManager);
 
             this.window = game.Window;
@@ -62,9 +64,10 @@ namespace Meltdown.States
 
             this.worldCamera = new Camera2D(
                 new Transform2D(),
-                80,
+                90,
                 45
                 );
+            
 
             this.world = new World();
             this.SetInstance(this.world);
@@ -73,24 +76,27 @@ namespace Meltdown.States
             this.textureResourceManager = new TextureResourceManager(game.Content);
             this.textureResourceManager.Manage(this.world);
 
+            this.modelResourceManager = new ModelResourceManager(game.Content);
+            this.modelResourceManager.Manage(this.world);
+
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 new DebugCollisionHandler(this.world),
-                new ProjectileCollisionHandler(this.world),
+                new DamageHealthCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
-                new PlayerDroneCollisionHandler(this.world, energy)
+                new PlayerDamageCollisionHandler(this.world, energy)
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
-            InputSystem inputSystem = new InputSystem(this.world);
+            InputSystem inputSystem = new InputSystem(this.world, this.inputManager);
             EventSystem eventSystem = new EventSystem(this.world);
             AISystem aISystem = new AISystem(this.world);
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
 
-            ShootingSystem shootingSystem = new ShootingSystem(world);
+            ShootingSystem shootingSystem = new ShootingSystem(this.world, this.inputManager);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
-            EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem();
+            TTLSystem TTLSystem = new TTLSystem(world);
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -99,7 +105,8 @@ namespace Meltdown.States
                 eventSystem,
                 aISystem,
                 powerplantSystem,
-                cameraSystem
+                cameraSystem,
+                TTLSystem
                 );
             
             EnergyDrawSystem energyDrawSystem =
@@ -110,28 +117,28 @@ namespace Meltdown.States
                     game.Content.Load<SpriteFont>("gui/EnergyFont")
                     );
 
+            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
+
             //AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
+                modelDrawSystem,
                 energyDrawSystem
                 //aabbDebugDrawSystem
                 );
 
+            //PROCGEN
+            ProcGen.BuildBackground();
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            ProcGen.BuildStreet(powerPlant);
+            ProcGen.SpawnHotspots();
 
 
 
             // Create player
             SpawnHelper.SpawnPlayer(1);
-
-            //Crete Powerplant
-            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
-
-            //Spawn enemy
-            SpawnHelper.SpawnEnemy(new Vector2(25, -25), true);
-
-            //SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
 
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
@@ -150,11 +157,13 @@ namespace Meltdown.States
                 entity.Set(new Transform2DComponent() { value = new Transform2D(position) });
                 entity.Set(new WorldSpaceComponent());
                 entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
-                entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"placeholder", null, null, new Vector2(0.1f, 0.1f))));
+                entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholder", 10, 10)));
                 entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
+                entity.Set(new NameComponent() { name = "intro_event_trigger" });
 
                 physicsSystem.quadtree.AddNode(element);
             }
+
 
         }
 
@@ -171,5 +180,43 @@ namespace Meltdown.States
             this.worldCamera.Update(this.window);
             this.drawSystem.Update(time);
         }
+
+        // Helper Methods
+        private void SetUpInputManager()
+        {
+            // KEYBOARD
+            // Player - Keyboard
+            this.inputManager.Register(Keys.Up);
+            this.inputManager.Register(Keys.Down);
+            this.inputManager.Register(Keys.Left);
+            this.inputManager.Register(Keys.Right);
+
+            this.inputManager.Register(Keys.D);
+            this.inputManager.Register(Keys.A);
+            this.inputManager.Register(Keys.S);
+            this.inputManager.Register(Keys.W);
+
+            // Shooting - Keyboard 
+            this.inputManager.Register(Keys.F);
+
+            // Event - Keyboard
+            this.inputManager.Register(Keys.E);
+
+            // GAMEPAD
+            // Player - Gamepad 
+            this.inputManager.Register(Buttons.LeftThumbstickDown);
+            this.inputManager.Register(Buttons.LeftThumbstickUp);
+            this.inputManager.Register(Buttons.LeftThumbstickLeft);
+            this.inputManager.Register(Buttons.LeftThumbstickRight);
+
+            // Shooting - Gamepad
+            this.inputManager.Register(Buttons.RightTrigger);
+
+            this.inputManager.Register(ThumbSticks.Right);
+
+            // Event - Keyboard
+            this.inputManager.Register(Buttons.B);
+        }
+
     }
 }
