@@ -135,7 +135,7 @@ namespace Meltdown.States
                     game.GraphicsDevice, 
                     this.worldCamera, 
                     this.world,
-                    Game1.Instance.Content.Load<Effect>(@"shaders\chrome")
+                    Game1.Instance.Content.Load<Effect>(@"shaders\blackAndWhite")
                     ),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,

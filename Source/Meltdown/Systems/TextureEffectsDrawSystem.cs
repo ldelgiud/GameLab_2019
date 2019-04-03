@@ -34,7 +34,7 @@ namespace Meltdown.Systems
 
         protected override void PreUpdate(Time time)
         {
-            effect.Parameters["time"].SetValue(time.Absolute);
+           // effect.Parameters["time"].SetValue(time.Absolute);
             this.spriteBatch.Begin(effect: this.effect);
         }
 

@@ -56,6 +56,5 @@ namespace Meltdown.Components
             entity.Set(new AllianceMaskComponent(this.alliance));
             timeLastShot = absoluteTime;
         }
-        
     }
 }

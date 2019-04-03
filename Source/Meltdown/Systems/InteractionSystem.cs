@@ -50,13 +50,24 @@ namespace Meltdown.Systems
                     inputEvent = this.inputManager.GetEvent(Keys.E);
                 }
 
-                if (inputEvent != null)
+                foreach (var entity in entities)
                 {
-                    foreach (var entity in entities)
-                    {
-                        ref var entityTransform = ref entity.Get<WorldTransformComponent>();
+                    ref var entityTransform = ref entity.Get<WorldTransformComponent>();
+                    ref InteractableComponent interactable = ref entity.Get<InteractableComponent>();
 
-                        if (Vector2.Distance(entityTransform.value.position.ToVector2(), playerTransform.value.position.ToVector2()) < Constants.INTERACTION_DISTANCE)
+                    if (Vector2.Distance(entityTransform.value.position.ToVector2(), playerTransform.value.position.ToVector2()) < Constants.INTERACTION_DISTANCE)
+                    {
+                        // TODO: add glow effect for each interactable entity
+
+                        if (!interactable.glowing)
+                        {
+                            ref TextureComponent texture = ref entity.Get<TextureComponent>();
+                            entity.Set(new TextureEffectComponent() { value = texture.value });
+                            entity.Remove<TextureComponent>();
+                            interactable.glowing = true;
+                        }
+
+                        if (inputEvent != null)
                         {
                             foreach (var handler in this.interactionHandlers)
                             {
@@ -72,8 +83,20 @@ namespace Meltdown.Systems
                             }
                         }
                     }
+                    else
+                    {
+                        if (interactable.glowing)
+                        {
+                            // Remove glowing
+                            ref TextureEffectComponent texture = ref entity.Get<TextureEffectComponent>();
+                            entity.Set(new TextureComponent() { value = texture.value });
+                            entity.Remove<TextureEffectComponent>();
+                            interactable.glowing = false;
+                        }
+                    }
                 }
             }
         }
+
     }
 }

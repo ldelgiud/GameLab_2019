@@ -106,7 +106,7 @@ namespace Meltdown.Utilities
                 damage : 35f, 
                 projectileSpeed : 25f, 
                 radiusRange : -1f, 
-                reloadTime : 0.5f, 
+                reloadTime : 0.2f, 
                 projTex : "shooting/bullet", 
                 alliance : alliance));
             gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
@@ -216,7 +216,8 @@ namespace Meltdown.Utilities
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new WorldTransformComponent(new Transform(position.ToVector3())));
             //entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\lootbox"));
-            entity.Set(new TextureEffectComponent() { value = Game1.Instance.Content.Load<Texture2D>(@"placeholders\lootbox") });
+            //entity.Set(new TextureEffectComponent() { value = Game1.Instance.Content.Load<Texture2D>(@"placeholders\lootbox") });
+            entity.Set(new TextureComponent() { value = Game1.Instance.Content.Load<Texture2D>(@"placeholders\lootbox") });
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
             entity.Set(new BoundingBoxComponent(100, 100, 0));
