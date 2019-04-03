@@ -175,7 +175,7 @@ namespace Meltdown.Utilities
             {
                 entity.Set(new AIComponent(new DroneStandby()));
                 entity.Set(new ManagedResource<Texture2DInfo,
-                    Texture2D>(new Texture2DInfo(@"placeholders/enemies/drone", null, null, 2.0f, 2.0f)));
+                    Texture2D>(new Texture2DInfo(@"placeholders/enemies/drone", null, MathF.PI / 2, 2.0f, 2.0f)));
                 entity.Set(new DroneComponent(200));
             }
             else

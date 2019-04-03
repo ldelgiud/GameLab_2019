@@ -32,7 +32,7 @@ namespace Meltdown.AI
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = Pathfinder(closestPlayer.transform.Translation, pos);
+            Vector2 distVector = this.Pathfinder(closestPlayer.transform.Translation, pos);
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();

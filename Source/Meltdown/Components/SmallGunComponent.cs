@@ -32,11 +32,8 @@ namespace Meltdown.Components
 
             direction.Normalize();
 
-            float rotation = MathF.Atan2(direction.Y, direction.X);
-            //Debug.WriteLine("Rotation: " + rotation + ", direction: " + direction);
-            
             var entity = world.CreateEntity();
-            entity.Set(new Transform2DComponent(new Transform2D(transform.Translation)));
+            entity.Set(new Transform2DComponent(new Transform2D(transform.Translation, direction.ToRotation())));
             entity.Set(new WorldSpaceComponent());
 
             var aabb = new AABB(new Vector2(-0.1f, -0.1f), new Vector2(0.1f, 0.1f));
@@ -49,7 +46,7 @@ namespace Meltdown.Components
             entity.Set(new VelocityComponent(direction * this.projectile.speed));
             entity.Set(projectile); // added for collision handling
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"shooting\bullet", null, null, 0.2f, 0.2f)));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2D>(new Texture2DInfo(@"shooting\bullet", null, -MathF.PI / 2, 0.2f, 0.2f)));
             
             SpawnHelper.quadtree.AddNode(element);
 

@@ -51,7 +51,7 @@ namespace Meltdown.Systems
                 aIState.State =
                     aIState.State.UpdateState(playerInfos, transform.value.Translation, ref velocity.velocity);
 
-                transform.value.LocalRotation = MathF.Atan2(velocity.velocity.X, velocity.velocity.Y) + MathHelper.Pi;
+                transform.value.LocalRotation = velocity.velocity.ToRotation();
             }
             
 
