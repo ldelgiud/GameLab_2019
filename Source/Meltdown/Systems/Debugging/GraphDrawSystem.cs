@@ -20,18 +20,15 @@ namespace Meltdown.Systems.Debugging
         Grid grid;
         SpriteBatch spriteBatch;
         Camera2D camera;
-        Texture2D blueCircle;
-        Texture2D redCircle;
+        Texture2D circle;
 
         public bool IsEnabled { get; set; } = true;
 
-        public GraphDrawSystem(Grid grid, GraphicsDevice graphicsDevice, Camera2D camera, Texture2D blueCircle, Texture2D redCircle)
-        {
+        public GraphDrawSystem(Grid grid, GraphicsDevice graphicsDevice, Camera2D camera, Texture2D circle) { 
             this.grid = grid;
             this.spriteBatch = new SpriteBatch(graphicsDevice);
             this.camera = camera;
-            this.blueCircle = blueCircle;
-            this.redCircle = redCircle;
+            this.circle = circle;
         }
 
         public void Update(Time state)
@@ -40,38 +37,34 @@ namespace Meltdown.Systems.Debugging
 
             int gridX = grid.GridSizeX;
             int gridY = grid.GridSizeY;
-            Vector2 size = new Vector2(grid.NodeRadius/2);
+            Vector2 size = new Vector2(grid.NodeRadius);
 
             for (int y = 0; y < gridY; ++y)
             {
                 for (int x = 0; x < gridX; ++x)
                 {
-                    //TODO: make this shit actually draw 
                     Transform2D transform = new Transform2D(grid.Nodes[y, x].WorldPosition);
                     var (position, rotation, scale) = 
-                        this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.blueCircle.Bounds.Size.ToVector2()));
-                    Debug.WriteLine("node position: " + grid.Nodes[y, x].WorldPosition);
+                        this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.circle.Bounds.Size.ToVector2()));
                     switch (grid.Nodes[y,x].walkable)
                     {
                         case true:
                             spriteBatch.Draw(
-                                blueCircle,
+                                circle,
                                 position: position,
                                 rotation: rotation,
                                 scale: scale,
                                 color: Color.DarkBlue
                             );
-                            Debug.WriteLine("walkable");
                             break;
                         case false:
                             spriteBatch.Draw(
-                                redCircle,
+                                circle,
                                 position: position,
                                 rotation: rotation,
                                 scale: scale,
                                 color: Color.Red
                             );
-                            Debug.WriteLine("NOT walkable");
                             break;
                     }
                         

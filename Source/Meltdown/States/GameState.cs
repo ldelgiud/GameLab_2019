@@ -126,22 +126,22 @@ namespace Meltdown.States
             //TERRAIN GENERATION
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
-            ProcGen.BuildStreet(powerPlant);       
+            ProcGen.BuildStreet(powerPlant);
             Grid grid = new Grid();
+
 
             GraphDrawSystem graphDrawSystem = new GraphDrawSystem(
                 grid : grid, 
                 graphicsDevice : game.GraphicsDevice,
                 camera : this.worldCamera,
-                blueCircle : game.Content.Load<Texture2D>("graph/blueCircle"),
-                redCircle : game.Content.Load<Texture2D>("graph/redCircle")
+                circle : game.Content.Load<Texture2D>("graph/circle-8")
                 );
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
-                //graphDrawSystem,      
+                graphDrawSystem,      
                 energyDrawSystem,
                 aabbDebugDrawSystem
                 );

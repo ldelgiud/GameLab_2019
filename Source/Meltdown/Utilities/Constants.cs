@@ -18,7 +18,7 @@ namespace Meltdown.Utilities
         public static float SHOOTER_SPEED = 3;
         public static int PLAYER_SPEED = 40;
         public static float TTL_BULLET = 5f;
-        public static float NODE_RADIUS = 1f;
+        public static float NODE_RADIUS = 2f;
         //AI values for FSM transitions
         public static double STANDBY_TO_SEARCH_DIST = 80;
         public static double SEARCH_TO_STANDBY_DIST = 90;
@@ -30,10 +30,10 @@ namespace Meltdown.Utilities
         public static uint MAX_AMOUNT_OF_ENEMIES = 15;
 
         // size of tiles for procedural generation
-        public static float TILE_SIZE = 100;
+        public static float TILE_SIZE = 50;
         public static float LEFT_BORDER = -100;
-        public static float RIGHT_BORDER = 1000;
-        public static float TOP_BORDER = 1000;
+        public static float RIGHT_BORDER = 500;
+        public static float TOP_BORDER = 500;
         public static float BOTTOM_BORDER = -100;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
