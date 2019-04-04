@@ -23,6 +23,8 @@ struct VertexShaderOutput
 	float2 texCoord : TEXCOORD0;
 };
 
+uniform float u_blurSize;
+uniform float u_intensity;
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
@@ -30,30 +32,43 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 	float4 inCol = tex2D(s0, input.texCoord);
 	float4 outCol = float4(0,0,0,0);
 
-	float alpha = -4.0 * inCol.a;
-	alpha += tex2D(s0, input.texCoord.xy + float2(0.1, 0.0)).a;
-	alpha += tex2D(s0, input.texCoord.xy + float2(-0.1, 0.0)).a;
-	alpha += tex2D(s0, input.texCoord.xy + float2(0.0, -1.0)).a;
-	alpha += tex2D(s0, input.texCoord.xy + float2(0.0, 1.0)).a;
+	if (inCol.a == 0)
+	{
+		// take nine samples, with the distance blurSize between them
+		outCol += tex2D(s0, float2(input.texCoord.x - 4.0*u_blurSize, input.texCoord.y)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x - 3.0*u_blurSize, input.texCoord.y)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x - 2.0*u_blurSize, input.texCoord.y)) * 0.12;
+		//outCol += tex2D(s0, float2(input.texCoord.x - u_blurSize, input.texCoord.y)) * 0.15;
+		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y)) * 0.16;
+		//outCol += tex2D(s0, float2(input.texCoord.x + u_blurSize, input.texCoord.y)) * 0.15;
+		outCol += tex2D(s0, float2(input.texCoord.x + 2.0*u_blurSize, input.texCoord.y)) * 0.12;
+		outCol += tex2D(s0, float2(input.texCoord.x + 3.0*u_blurSize, input.texCoord.y)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x + 4.0*u_blurSize, input.texCoord.y)) * 0.05;
 
-//	for (uint i = 0; i < 31; i++) {
-//		for (uint j = 0; j < 31; j++) {
-//			float offset = 15;
-//			float valX = (i - offset);
-//			float valY = (j - offset);
-//
-//			outCol += tex2D(s0, 
-//				  	float2(
-//						valX + input.texCoord.x, 
-//						valY + input.texCoord.y 
-//					      )
-//				  	);
-//		}	
-//	}	   
-//
-//	outCol.a = 1;
+		//// blur in y (vertical)
+		// take nine samples, with the distance blurSize between them
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 4.0*u_blurSize)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 3.0*u_blurSize)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 2.0*u_blurSize)) * 0.12;
+		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - u_blurSize)) * 0.15;
+		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y)) * 0.16;
+		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + u_blurSize)) * 0.15;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 2.0*u_blurSize)) * 0.12;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 3.0*u_blurSize)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 4.0*u_blurSize)) * 0.05;
 
-	return (inCol.rbg, alpha);
+		// diagonal
+		outCol += tex2D(s0, float2(input.texCoord.x + 2.0*u_blurSize, input.texCoord.y + 2.0*u_blurSize)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x - 2.0*u_blurSize, input.texCoord.y + 2.0*u_blurSize)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x + 2.0*u_blurSize, input.texCoord.y - 2.0*u_blurSize)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x - 2.0*u_blurSize, input.texCoord.y - 2.0*u_blurSize)) * 0.05;
+
+
+
+	}
+	
+
+	return outCol * u_intensity + inCol;
 }
 
 technique ChromaticAberation
