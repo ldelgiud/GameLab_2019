@@ -37,24 +37,19 @@ namespace Meltdown.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            ref AABBComponent aabbComponent = ref entity.Get<AABBComponent>();
-            
-            var worldPosition = aabbComponent.element.Span.Center;
+            ref var aabbComponent = ref entity.Get<AABBComponent>();
+            var size = aabbComponent.element.Span.UpperBound - aabbComponent.element.Span.LowerBound;
+            var transform = new Transform2D(aabbComponent.element.Span.Center);
 
-            var transform = new Transform3D(worldPosition.ToVector3());
+            var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.debugBoxTex.Bounds.Size.ToVector2()));
 
-            //var (position, rotation, scale, origin) = camera.ToScreenCoordinates(transform.TransformMatrix, this.debugBoxTex.Bounds);
-
-            // Override scale
-            //scale = transform.scale.ToVector2();
-
-            //spriteBatch.Draw(
-            //    texture: this.debugBoxTex,
-            //    position: position,
-            //    rotation: rotation,
-            //    scale: scale,
-            //    origin: origin
-            //    );
+            spriteBatch.Draw(
+                texture: this.debugBoxTex,
+                position: position,
+                rotation: rotation,
+                scale: scale,
+                origin: this.debugBoxTex.Bounds.Size.ToVector2() / 2
+                );
 
 
         }

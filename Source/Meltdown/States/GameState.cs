@@ -119,14 +119,14 @@ namespace Meltdown.States
 
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
 
-            //AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
+            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
-                energyDrawSystem
-                //aabbDebugDrawSystem
+                energyDrawSystem,
+                aabbDebugDrawSystem
                 );
 
             //PROCGEN
