@@ -11,7 +11,7 @@ namespace Meltdown.Pathfinding
     class Node : IHeapItem<Node>
     {
         public bool walkable;
-        Vector2 worldPosition;
+        public Vector2 WorldPosition { get; private set; }
         public int gridX, gridY;
 
         public int gCost, hCost;
@@ -32,7 +32,7 @@ namespace Meltdown.Pathfinding
         public Node(bool walkable, Vector2 worldPosition, int gridX, int gridY)
         {
             this.walkable = walkable;
-            this.worldPosition = worldPosition;
+            this.WorldPosition = worldPosition;
             this.gridX = gridX;
             this.gridY = gridY;
         }

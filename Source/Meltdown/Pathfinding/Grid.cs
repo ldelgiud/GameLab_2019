@@ -28,7 +28,10 @@ namespace Meltdown.Pathfinding
         public int GridSizeX { get; private set; }
         public int GridSizeY { get; private set; }
 
-
+        public float NodeRadius { get
+            {
+                return nodeRadius;
+            } }
         public Grid()
         {
             float nodeDiameter = 2 * this.nodeRadius;
@@ -38,11 +41,11 @@ namespace Meltdown.Pathfinding
 
             for (int y = 0; y < GridSizeY; y++)
             {
-                Vector2 worldPos = Constants.BOTTOM_LEFT_CORNER;
-                worldPos.Y += (y * nodeDiameter) + nodeRadius;
+                Vector2 worldPos = new Vector2(0);
+                worldPos.Y = Constants.BOTTOM_BORDER + (y * nodeDiameter) + nodeRadius;
                 for (int x = 0; x < GridSizeX; x++)
                 {
-                    worldPos.X += (x * nodeDiameter) + nodeRadius;
+                    worldPos.X = Constants.LEFT_BORDER + (x * nodeDiameter) + nodeRadius;
                     bool walkable = true;
 
                     AABB aabb = new AABB()

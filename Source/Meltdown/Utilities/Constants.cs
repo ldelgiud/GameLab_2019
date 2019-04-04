@@ -31,10 +31,10 @@ namespace Meltdown.Utilities
 
         // size of tiles for procedural generation
         public static float TILE_SIZE = 100;
-        public static float LEFT_BORDER = -300;
-        public static float RIGHT_BORDER = 2000;
-        public static float TOP_BORDER = 2000;
-        public static float BOTTOM_BORDER = -300;
+        public static float LEFT_BORDER = -100;
+        public static float RIGHT_BORDER = 1000;
+        public static float TOP_BORDER = 1000;
+        public static float BOTTOM_BORDER = -100;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
         public static Vector2 BOTTOM_LEFT_CORNER =

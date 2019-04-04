@@ -21,6 +21,8 @@ using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
 using Meltdown.Graphics;
+using Meltdown.Systems.Debugging;
+using Meltdown.Pathfinding;
 
 namespace Meltdown.States
 {
@@ -121,21 +123,31 @@ namespace Meltdown.States
 
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
+            //TERRAIN GENERATION
+            ProcGen.BuildBackground();
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            ProcGen.BuildStreet(powerPlant);       
+            Grid grid = new Grid();
+
+            GraphDrawSystem graphDrawSystem = new GraphDrawSystem(
+                grid : grid, 
+                graphicsDevice : game.GraphicsDevice,
+                camera : this.worldCamera,
+                blueCircle : game.Content.Load<Texture2D>("graph/blueCircle"),
+                redCircle : game.Content.Load<Texture2D>("graph/redCircle")
+                );
+
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
+                //graphDrawSystem,      
                 energyDrawSystem,
                 aabbDebugDrawSystem
                 );
 
-            //PROCGEN
-            ProcGen.BuildBackground();
-            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
-            ProcGen.BuildStreet(powerPlant);
+            //ENEMY SPAWNING
             ProcGen.SpawnHotspots();
-
-
 
             // Create player
             SpawnHelper.SpawnPlayer(1);
@@ -143,6 +155,8 @@ namespace Meltdown.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
+            //Spawn one Drone
+            SpawnHelper.SpawnDrone(new Vector2(-90, 0));
 
             // Event trigger
             SpawnHelper.SpawnEvent(new Vector2(0, -20));
