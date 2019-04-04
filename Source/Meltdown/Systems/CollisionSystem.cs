@@ -48,7 +48,7 @@ namespace Meltdown.Systems
                 foreach (var collisionHandler in this.collisionHandlers)
                 {
                     if (
-                        collisionHandler.collideeTypes.All(component => collider.Has(component)) &&
+                        collisionHandler.colliderTypes.All(component => collider.Has(component)) &&
                         collisionHandler.collideeTypes.All(component => collidee.Has(component))
                         )
                     {
