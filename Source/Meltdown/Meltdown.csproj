@@ -197,7 +197,6 @@
     <Compile Include="Systems\PhysicsSystem.cs" />
     <Compile Include="Systems\TextureDrawSystem.cs" />
     <Compile Include="Utilities\DebugUtil.cs" />
-    <Compile Include="Utilities\Extensions\BoundingBoxExtensions.cs" />
     <Compile Include="Utilities\Extensions\EntityExtensions.cs" />
     <Compile Include="Utilities\MathUtil.cs" />
     <Compile Include="Utilities\SpawnHelper.cs" />
