@@ -11,7 +11,7 @@ namespace Meltdown.Graphics
         public Transform2D Parent { get; set; }
 
         bool LocalDirty { get; set; }
-        bool GlobalDirty { get { return this.LocalDirty || this.Parent.LocalDirty; } }
+        bool GlobalDirty { get { return this.LocalDirty || (this.Parent != null && this.Parent.LocalDirty); } }
 
         Vector2 translation;
         public Vector2 LocalTranslation { get { return this.translation; } set { this.LocalDirty = true;  this.translation = value; } }
