@@ -13,7 +13,8 @@ namespace Meltdown.Systems
     {
         public MenuPulseSystem(World world) : base(
             world.GetEntities()
-            .With<ScreenTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<ScreenSpaceComponent>()
             .With<MenuPulseComponent>()
             .Build()
             )
@@ -23,7 +24,7 @@ namespace Meltdown.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            ref ScreenTransformComponent transform = ref entity.Get<ScreenTransformComponent>();
+            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
             ref MenuPulseComponent pulse = ref entity.Get<MenuPulseComponent>();
 
             // Change direction if scale above threshold
@@ -36,7 +37,7 @@ namespace Meltdown.Systems
             var scale = 1 + ((pulse.grow) ? pulse.speed : -pulse.speed) * time.Delta;
             pulse.scale *= scale;
 
-            transform.value.Scale(scale, scale, 1);
+            transform.value.LocalScale *= scale;
         }
     }
 }

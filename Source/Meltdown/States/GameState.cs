@@ -21,15 +21,15 @@ using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
 using Meltdown.Graphics;
-using Meltdown.Pathfinding;
 
 namespace Meltdown.States
 {
     class GameState : State.State
     {
+        GameWindow window;
         InputManager inputManager;
-        Camera worldCamera;
-        Camera screenCamera;
+        Camera2D worldCamera;
+        Camera2D screenCamera;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -43,6 +43,8 @@ namespace Meltdown.States
             this.SetUpInputManager();
             this.SetInstance(this.inputManager);
 
+            this.window = game.Window;
+
             Energy energy = new Energy();
             PowerPlant powerPlant = new PowerPlant();
 
@@ -54,22 +56,22 @@ namespace Meltdown.States
                 },
                 10, 7));
 
-            this.screenCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(1920, 1080, 0, 2)
+            this.screenCamera = new Camera2D(
+                new Transform2D(),
+                1920,
+                1080
                 );
 
-            this.worldCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, 50)),
-                Matrix.CreateOrthographic(160f, 90f, 0f, 100f)
+            this.worldCamera = new Camera2D(
+                new Transform2D(),
+                90,
+                45
                 );
             
 
             this.world = new World();
             this.SetInstance(this.world);
-            
+
             // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
             this.textureResourceManager.Manage(this.world);
@@ -78,7 +80,7 @@ namespace Meltdown.States
             this.modelResourceManager.Manage(this.world);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
-                new DebugCollisionHandler(this.world),
+                //new DebugCollisionHandler(this.world),
                 new DamageHealthCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
@@ -112,7 +114,7 @@ namespace Meltdown.States
                     energy,
                     game.Content.Load<Texture2D>("placeholders/EnergyBar PLACEHOLDER"),
                     game.GraphicsDevice,
-                    game.Content.Load<SpriteFont >("gui/EnergyFont")
+                    game.Content.Load<SpriteFont>("gui/EnergyFont")
                     );
 
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
@@ -133,11 +135,7 @@ namespace Meltdown.States
             ProcGen.BuildStreet(powerPlant);
             ProcGen.SpawnHotspots();
 
-            //Only once the Terrain generation is complete!!!
-            Grid grid = new Grid();
-            PathFinder pathFinder = new PathFinder(grid);
-            // Resource Managers
-            this.textureResourceManager.Manage(this.world);
+
 
             // Create player
             SpawnHelper.SpawnPlayer(1);
@@ -147,8 +145,7 @@ namespace Meltdown.States
 
 
             // Event trigger
-            Vector2 position = new Vector2(0, -20);
-            SpawnHelper.SpawnEvent(position);
+            SpawnHelper.SpawnEvent(new Vector2(0, -20));
 
 
         }
@@ -162,6 +159,8 @@ namespace Meltdown.States
 
         public override void Draw(Time time)
         {
+            this.screenCamera.Update(this.window);
+            this.worldCamera.Update(this.window);
             this.drawSystem.Update(time);
         }
 

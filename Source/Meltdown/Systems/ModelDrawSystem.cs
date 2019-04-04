@@ -16,12 +16,12 @@ namespace Meltdown.Systems
 {
     class ModelDrawSystem : AEntitySystem<Time>
     {
-        Camera worldCamera;
+        Camera2D worldCamera;
 
-        public ModelDrawSystem(Camera worldCamera, World world) : base(
+        public ModelDrawSystem(Camera2D worldCamera, World world) : base(
             world.GetEntities()
             .With<ModelComponent>()
-            .With<WorldTransformComponent>()
+            .With<Transform3DComponent>()
             .Build()
             )
         {
@@ -30,22 +30,22 @@ namespace Meltdown.Systems
 
         protected override void Update(Time state, in Entity entity)
         {
-            ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
-            ref ModelComponent model = ref entity.Get<ModelComponent>();
+            //ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
+            //ref ModelComponent model = ref entity.Get<ModelComponent>();
 
-            var transformMatrix = transform.value.GlobalTransform;
+            //var transformMatrix = transform.value.GlobalTransform;
 
-            foreach (var mesh in model.value.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.World = Matrix.Transpose(transform.value.GlobalTransform);
-                    effect.View = Matrix.Transpose(this.worldCamera.View);
-                    effect.Projection = Matrix.Transpose(this.worldCamera.Projection);
-                }
+            //foreach (var mesh in model.value.Meshes)
+            //{
+            //    foreach (BasicEffect effect in mesh.Effects)
+            //    {
+            //        effect.World = Matrix.Transpose(transform.value.GlobalTransform);
+            //        effect.View = Matrix.Transpose(this.worldCamera.View);
+            //        effect.Projection = Matrix.Transpose(this.worldCamera.Projection);
+            //    }
 
-                mesh.Draw();
-            }
+            //    mesh.Draw();
+            //}
 
         }
     }

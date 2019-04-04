@@ -15,11 +15,11 @@ namespace Meltdown.Systems
     class AABBDebugDrawSystem : AEntitySystem<Time>
     {
         SpriteBatch spriteBatch;
-        Camera camera;
+        Camera2D camera;
 
         Texture2D debugBoxTex;
 
-        public AABBDebugDrawSystem(World world, GraphicsDevice graphicsDevice, Camera camera, Texture2D debugBoxTex) : base(
+        public AABBDebugDrawSystem(World world, GraphicsDevice graphicsDevice, Camera2D camera, Texture2D debugBoxTex) : base(
             world.GetEntities()
             .With<AABBComponent>()
             .Build())
@@ -37,23 +37,18 @@ namespace Meltdown.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            ref AABBComponent aabbComponent = ref entity.Get<AABBComponent>();
-            
-            var worldPosition = aabbComponent.element.Span.Center;
+            ref var aabbComponent = ref entity.Get<AABBComponent>();
+            var size = aabbComponent.element.Span.UpperBound - aabbComponent.element.Span.LowerBound;
+            var transform = new Transform2D(aabbComponent.element.Span.Center);
 
-            var transform = new Transform(worldPosition.ToVector3());
-
-            var (position, rotation, scale, origin) = camera.ToScreenCoordinates(transform.GlobalTransform, this.debugBoxTex.Bounds);
-
-            // Override scale
-            scale = transform.scale.ToVector2();
+            var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.debugBoxTex.Bounds.Size.ToVector2()));
 
             spriteBatch.Draw(
                 texture: this.debugBoxTex,
                 position: position,
                 rotation: rotation,
                 scale: scale,
-                origin: origin
+                origin: this.debugBoxTex.Bounds.Size.ToVector2() / 2
                 );
 
 

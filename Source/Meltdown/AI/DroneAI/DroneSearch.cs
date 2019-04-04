@@ -23,9 +23,9 @@ namespace Meltdown.AI
             Entity entity,
             Time time)
         {
-            WorldTransformComponent transform = entity.Get<WorldTransformComponent>();
+            Transform2DComponent transform = entity.Get<Transform2DComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
-            Vector2 position = transform.value.position.ToVector2();
+            Vector2 position = transform.value.Translation;
 
             //Find closest player
             double minDist = Double.MaxValue;
@@ -33,16 +33,16 @@ namespace Meltdown.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - position;
+                Vector2 dist = player.transform.Translation - position;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = Pathfinder(closestPlayer.transform.value.position.ToVector2(), position);
+            Vector2 distVector = this.Pathfinder(closestPlayer.transform.Translation, position);
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
             velocity.velocity = Vector2.Multiply(distVector, Constants.DRONE_SPEED);
-            transform.value.SetRotationZ(MathF.Atan2(velocity.velocity.X, velocity.velocity.Y) + MathHelper.Pi);
+            transform.value.Rotation = velocity.velocity.ToRotation();
 
             //TODO: Implement pathfinding method
 

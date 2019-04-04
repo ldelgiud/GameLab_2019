@@ -25,20 +25,16 @@ namespace Meltdown.Components.InputHandlers
         {
 
             ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
-            ref WorldTransformComponent gunTransform = ref entity.Get<WorldTransformComponent>();
+            ref Transform2DComponent gunTransform = ref entity.Get<Transform2DComponent>();
 
             MouseState mState = Mouse.GetState();
             Vector2 direction = (mState.Position.ToVector2() - Game1.Instance.Window.ClientBounds.Center.ToVector2()) * new Vector2(1, -1);
-            direction.Normalize();
-
-            //GamePadState d = GamePad.GetState();
-            //d.ThumbSticks.Left.
 
            switch(inputManager.GetEvent(0, ThumbSticks.Right))
            {
                 case ValueEvent<Vector2> v:
                     direction = v.current;
-                    if (direction.LengthSquared() == 0)
+                    if (direction == Vector2.Zero)
                     {
                         direction = Vector2.UnitX;
                     }
@@ -49,7 +45,7 @@ namespace Meltdown.Components.InputHandlers
             {
                 case HoldEvent _: 
                 case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform, direction);
+                    smallGun.Shoot(time.Absolute, gunTransform.value, direction);
                     break;
             }
 
@@ -58,7 +54,7 @@ namespace Meltdown.Components.InputHandlers
                 case ReleaseEvent _: break;
                 case HoldEvent _: break;
                 case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform, direction); 
+                    smallGun.Shoot(time.Absolute, gunTransform.value, direction); 
                     break;
             }
         }

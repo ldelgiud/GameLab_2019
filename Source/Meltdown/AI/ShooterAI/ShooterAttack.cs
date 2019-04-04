@@ -22,24 +22,24 @@ namespace Meltdown.AI
             Time time) 
             
         {
-            Vector2 position = entity.Get<WorldTransformComponent>().value.position.ToVector2();
+            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
             //Find closest player
             double minDist = Double.MaxValue;
             //TODO: Nullcheck next line!!
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - position;
+                Vector2 dist = player.transform.Translation - position;
                 if (dist.Length() < minDist) closestPlayer = player;
-                
+
             }
-            Vector2 distVector = closestPlayer.transform.value.position.ToVector2() - position;
+            Vector2 distVector = closestPlayer.transform.Translation - position;
             //ATTACK LOGIC
             Entity weapon = entity.Get<WeaponComponent>().weapon;
             Debug.Assert(weapon.Get<SmallGunComponent>() != null);
             weapon.Get<SmallGunComponent>().Shoot(
                 time.Absolute, 
-                weapon.Get<WorldTransformComponent>(),
+                weapon.Get<Transform2DComponent>().value,
                 distVector);
 
             //UPDATE STATE

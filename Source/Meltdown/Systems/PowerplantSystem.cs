@@ -35,7 +35,7 @@ namespace Meltdown.Systems
             Vector2 center = new Vector2(0,0); 
             foreach (Entity entity in this.players.GetEntities())
             {
-                center += entity.Get<WorldTransformComponent>().value.position.ToVector2();
+                center += entity.Get<Transform2DComponent>().value.Translation;
             }
             center /= players.Count;
             Vector2 distVec = center - powerPlant.Position;

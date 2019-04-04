@@ -23,7 +23,8 @@ namespace Meltdown.Systems
         public AISystem(World world) : base(
             world.GetEntities()
             .With<VelocityComponent>()
-            .With<WorldTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .With<AIComponent>()
             .Build())
         {
@@ -37,7 +38,7 @@ namespace Meltdown.Systems
             foreach(Entity entity in this.players.GetEntities())
             {
                 playerInfos.Add(new PlayerInfo(
-                    entity.Get<WorldTransformComponent>(),
+                    entity.Get<Transform2DComponent>().value,
                     entity.Get<PlayerComponent>().Id));
             }
 

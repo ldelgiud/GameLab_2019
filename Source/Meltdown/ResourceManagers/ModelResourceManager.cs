@@ -12,7 +12,7 @@ using Meltdown.Utilities;
 
 namespace Meltdown.ResourceManagers
 {
-    sealed class ModelResourceManager : AResourceManager<string, ModelWrapper>
+    sealed class ModelResourceManager : AResourceManager<string, ModelAlias>
     {
         ContentManager contentManager;
 
@@ -21,12 +21,12 @@ namespace Meltdown.ResourceManagers
             this.contentManager = contentManager;
         }
 
-        protected override ModelWrapper Load(string info)
+        protected override ModelAlias Load(string info)
         {
-            return new ModelWrapper() { value = this.contentManager.Load<Model>(info) };
+            return new ModelAlias() { value = this.contentManager.Load<Model>(info) };
         }
 
-        protected override void OnResourceLoaded(in Entity entity, string info, ModelWrapper resource)
+        protected override void OnResourceLoaded(in Entity entity, string info, ModelAlias resource)
         {
             entity.Set(new ModelComponent(resource.value));
         }

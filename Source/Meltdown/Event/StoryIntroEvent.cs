@@ -11,6 +11,7 @@ using DefaultEcs.Resource;
 using Meltdown.Components;
 using Meltdown.Input;
 using Meltdown.Graphics;
+using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Event
@@ -38,9 +39,9 @@ namespace Meltdown.Event
             {
                 case 0:
                     this.intro1Entity = world.CreateEntity();
-                    this.intro1Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro1"));
-                    this.intro1Entity.Set(new ScreenTransformComponent(new Transform(new Vector3(0, 180, 0))));
-                    this.intro1Entity.Set(new BoundingRectangleComponent(900, 320));
+                    this.intro1Entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"gui\story\intro1")));
+                    this.intro1Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 180))));
+                    this.intro1Entity.Set(new ScreenSpaceComponent());
                     this.intro1Entity.Set(new NameComponent() { name = "intro1" });
                     this.state = 1;
                     break;
@@ -51,9 +52,9 @@ namespace Meltdown.Event
                             this.intro1Entity.Delete();
 
                             this.intro2Entity = world.CreateEntity();
-                            this.intro2Entity.Set(new ManagedResource<string, Texture2D>(@"gui\story\intro2"));
-                            this.intro2Entity.Set(new ScreenTransformComponent(new Transform(new Vector3(0, 180, 0))));
-                            this.intro2Entity.Set(new BoundingRectangleComponent(900, 320));
+                            this.intro2Entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"gui\story\intro2")));
+                            this.intro2Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 180))));
+                            this.intro2Entity.Set(new ScreenSpaceComponent());
                             this.intro2Entity.Set(new NameComponent() { name = "intro2" });
 
                             this.inputManager.RemoveEvent(Keys.E);

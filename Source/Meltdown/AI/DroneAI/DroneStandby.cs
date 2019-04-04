@@ -23,10 +23,10 @@ namespace Meltdown.AI
             Entity entity,
             Time time)
         {
-            Vector2 position = entity.Get<WorldTransformComponent>().value.position.ToVector2();
+            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - position;
+                Vector2 dist = player.transform.Translation - position;
 
                 if (dist.Length() <= Constants.STANDBY_TO_SEARCH_DIST) return new DroneSearch();
             }

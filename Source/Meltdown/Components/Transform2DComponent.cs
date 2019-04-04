@@ -2,11 +2,11 @@
 
 namespace Meltdown.Components
 {
-    class ScreenTransformComponent
+    struct Transform2DComponent
     {
-        public Transform value;
+        public Transform2D value;
 
-        public ScreenTransformComponent(Transform transform)
+        public Transform2DComponent(Transform2D transform)
         {
             this.value = transform;
         }

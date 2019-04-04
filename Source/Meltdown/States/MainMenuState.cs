@@ -25,10 +25,12 @@ namespace Meltdown.States
     {
         StateTransition transition;
 
+        GameWindow window;
+
         InputManager inputManager;
 
         World world;
-        Camera screenCamera;
+        Camera2D screenCamera;
 
         TextureResourceManager textureResourceManager;
 
@@ -37,6 +39,7 @@ namespace Meltdown.States
 
         public override void Initialize(Game1 game)
         {
+            this.window = game.Window;
             this.transition = new StateTransition();
 
             this.inputManager = new InputManager();
@@ -47,10 +50,10 @@ namespace Meltdown.States
             var window = game.Window.ClientBounds;
 
             this.world = new World();
-            this.screenCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(1920, 1080, 0, 2)
+            this.screenCamera = new Camera2D(
+                new Transform2D(),
+                1920,
+                1080
                 );
 
             this.textureResourceManager = new TextureResourceManager(game.Content);
@@ -67,36 +70,36 @@ namespace Meltdown.States
             // Main menu
             {
                 // Logo
-                var logoTransform = new Transform(new Vector3(0, 180, 0));
+                var logoTransform = new Transform2D(new Vector2(0, 180));
 
                 var logoEntity = this.world.CreateEntity();
-                logoEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\logo"));
-                logoEntity.Set(new ScreenTransformComponent(logoTransform));
-                logoEntity.Set(new BoundingRectangleComponent(959, 227));
+                logoEntity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"menu\main\logo")));
+                logoEntity.Set(new Transform2DComponent() { value = logoTransform });
+                logoEntity.Set(new ScreenSpaceComponent());
 
                 // Start
                 {
                     var startEntity = this.world.CreateEntity();
-                    startEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\start"));
-                    startEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(-360, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
-                    startEntity.Set(new BoundingRectangleComponent(290, 46));
+                    startEntity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"menu\main\start")));
+                    startEntity.Set(new Transform2DComponent() { value = new Transform2D(new Vector2(-360, -360), 0, Vector2.One, logoTransform) });
                     startEntity.Set(new MenuPulseComponent(true, 0.1f));
+                    startEntity.Set(new ScreenSpaceComponent());
                 }
 
                 // Credits
                 {
                     var creditsEntity = this.world.CreateEntity();
-                    creditsEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\credits"));
-                    creditsEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(0, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
-                    creditsEntity.Set(new BoundingRectangleComponent(191, 46));
+                    creditsEntity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"menu\main\credits")));
+                    creditsEntity.Set(new Transform2DComponent() { value = new Transform2D(new Vector2(0, -360), 0, Vector2.One, logoTransform) });
+                    creditsEntity.Set(new ScreenSpaceComponent());
                 }
 
                 // Quit
                 {
                     var quitEntity = this.world.CreateEntity();
-                    quitEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\quit"));
-                    quitEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(360, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
-                    quitEntity.Set(new BoundingRectangleComponent(111, 46));
+                    quitEntity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"menu\main\quit")));
+                    quitEntity.Set(new Transform2DComponent() { value = new Transform2D(new Vector2(360, -360), 0, Vector2.One, logoTransform) });
+                    quitEntity.Set(new ScreenSpaceComponent());
                 }
 
             }
@@ -111,6 +114,7 @@ namespace Meltdown.States
 
         public override void Draw(Time time)
         {
+            this.screenCamera.Update(this.window);
             this.drawSystem.Update(time);
         }
     }

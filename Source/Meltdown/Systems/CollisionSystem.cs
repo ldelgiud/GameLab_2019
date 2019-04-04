@@ -9,6 +9,7 @@ using DefaultEcs.System;
 
 using Meltdown.Collision;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Systems
 {
@@ -35,6 +36,40 @@ namespace Meltdown.Systems
             this.start.Add((collider, collidee));
         }
 
+        void HandleCollisions(CollisionType type, IEnumerable<(Entity, Entity)> entities)
+        {
+            foreach (var tuple in entities)
+            {
+                var (collider, collidee) = tuple;
+
+                // Guard entities having died
+                if (!collider.IsAlive || !collidee.IsAlive) continue;
+
+                foreach (var collisionHandler in this.collisionHandlers)
+                {
+                    if (
+                        collisionHandler.colliderTypes.All(component => collider.Has(component)) &&
+                        collisionHandler.collideeTypes.All(component => collidee.Has(component))
+                        )
+                    {
+                        collisionHandler.HandleCollision(type, collider, collidee);
+                    }
+
+                    if (
+                        collisionHandler.commutative &&
+                        collisionHandler.collideeTypes.All(component => collider.Has(component)) &&
+                        collisionHandler.colliderTypes.All(component => collidee.Has(component))
+                        )
+                    {
+                        collisionHandler.HandleCollision(type, collidee, collider);
+                    }
+
+                    
+                }
+
+            }
+        }
+
         public void Update(Time gameTime)
         {
             // Stop all ongoing collisions
@@ -49,20 +84,17 @@ namespace Meltdown.Systems
             // Remove stopping collisions from ongoing
             this.ongoing.ExceptWith(this.stop);
 
-            foreach (var collisionHandler in this.collisionHandlers)
-            {
-                collisionHandler.HandleCollisions(CollisionType.Start, this.start);
-                collisionHandler.HandleCollisions(CollisionType.Ongoing, this.ongoing);
-                collisionHandler.HandleCollisions(CollisionType.Stop, this.stop);
-            }
+            this.HandleCollisions(CollisionType.Start, this.start);
+            this.HandleCollisions(CollisionType.Ongoing, this.ongoing);
+            this.HandleCollisions(CollisionType.Stop, this.stop);
 
-            
             // Started collisions become ongoing
             this.ongoing.UnionWith(this.start);
 
             // Clear start/stop collisions
-            start.Clear();
-            stop.Clear();
+            this.start.Clear();
+            this.stop.Clear();
+
         }
 
         public void Dispose()
