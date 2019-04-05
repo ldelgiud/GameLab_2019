@@ -65,6 +65,7 @@ namespace Meltdown.Event
                     switch (this.inputManager.GetEvent(Keys.E))
                     {
                         case PressEvent _:
+                            this.inputManager.RemoveEvent(Keys.E);
                             this.intro2Entity.Delete();
                             this.eventEntity.Delete();
                             break;
