@@ -78,7 +78,10 @@ namespace Meltdown.Utilities
             SpawnHelper.quadtree.AddNode(element);
 
             Entity gun = SpawnHelper.SpawnGun(entity);
-            gun.Set(new InputComponent(new ShootingInputHandler(World)));
+            gun.Set(new InteractableComponent());
+            gun.Set(new PickUpGunComponent());
+            gun.RemoveFromChildrenOf(entity);
+            //gun.Set(new InputComponent(new ShootingInputHandler(World)));
 
         }
         /// <summary>
@@ -89,14 +92,14 @@ namespace Meltdown.Utilities
         public static Entity SpawnGun(Entity parent) {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
-            Vector2 localPosition = new Vector2(0, 0);
+            Vector2 localPosition = new Vector2(-7, 7);
 
             WorldTransformComponent gunTransform = new WorldTransformComponent(
                 new Transform(
                     position: localPosition.ToVector3(),
                     rotation: Vector3.Zero,
-                    scale: Vector3.One / 5,
-                    parent: parent.Get<WorldTransformComponent>().value
+                    scale: Vector3.One / 5
+                   // parent: parent.Get<WorldTransformComponent>().value
                     )
                 );
             gunEntity.Set(gunTransform);

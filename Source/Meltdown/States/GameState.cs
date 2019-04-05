@@ -101,7 +101,8 @@ namespace Meltdown.States
                 this.inputManager,
                 this.world, 
                 new InteractionHandler[] {
-                    new LootableInteractionHandler(this.world)
+                    new LootableInteractionHandler(this.world),
+                    new PickUpGunInteractionHandler(this.world)
                 });
 
             this.updateSystem = new SequentialSystem<Time>(

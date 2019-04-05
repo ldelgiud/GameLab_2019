@@ -141,6 +141,7 @@
     <Compile Include="Components\NameComponent.cs" />
     <Compile Include="Components\InteractableComponent.cs" />
     <Compile Include="Components\LootableComponent.cs" />
+    <Compile Include="Components\PickUpGunComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Interaction\Handlers\LootableInteractionHandler.cs" />
+    <Compile Include="Interaction\Handlers\PickUpGunInteractionHandler.cs" />
     <Compile Include="Interaction\InteractionHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
