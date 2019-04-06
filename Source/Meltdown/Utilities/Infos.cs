@@ -34,4 +34,20 @@ namespace Meltdown.Utilities
             this.height = 0;
         }
     }
+
+    struct ModelInfo
+    {
+        public String name;
+        public Vector3 translation;
+        public Vector3 rotation;
+        public Vector3 scale;
+
+        public ModelInfo(String name, Vector3? translation = null, Vector3? rotation = null, Vector3? scale = null)
+        {
+            this.name = name;
+            this.translation = translation ?? Vector3.Zero;
+            this.rotation = rotation ?? Vector3.Zero;
+            this.scale = scale ?? Vector3.One;
+        }
+    }
 }

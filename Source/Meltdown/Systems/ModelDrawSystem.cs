@@ -16,36 +16,48 @@ namespace Meltdown.Systems
 {
     class ModelDrawSystem : AEntitySystem<Time>
     {
-        Camera2D worldCamera;
+        Camera2D camera;
 
-        public ModelDrawSystem(Camera2D worldCamera, World world) : base(
+        public ModelDrawSystem(Camera2D camera, World world) : base(
             world.GetEntities()
             .With<ModelComponent>()
-            .With<Transform3DComponent>()
+            .With<Transform2DComponent>()
             .Build()
             )
         {
-            this.worldCamera = worldCamera;
+            this.camera = camera;
         }
 
         protected override void Update(Time state, in Entity entity)
         {
-            //ref WorldTransformComponent transform = ref entity.Get<WorldTransformComponent>();
-            //ref ModelComponent model = ref entity.Get<ModelComponent>();
+            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
+            ref ModelComponent model = ref entity.Get<ModelComponent>();
 
-            //var transformMatrix = transform.value.GlobalTransform;
+            var transformMatrix = transform.value.TransformMatrix;
 
-            //foreach (var mesh in model.value.Meshes)
-            //{
-            //    foreach (BasicEffect effect in mesh.Effects)
-            //    {
-            //        effect.World = Matrix.Transpose(transform.value.GlobalTransform);
-            //        effect.View = Matrix.Transpose(this.worldCamera.View);
-            //        effect.Projection = Matrix.Transpose(this.worldCamera.Projection);
-            //    }
+            var m = Matrix.CreateScale(model.info.scale) *
+                Matrix.CreateRotationX(model.info.rotation.X) *
+                Matrix.CreateRotationY(model.info.rotation.Y) *
+                Matrix.CreateRotationZ(model.info.rotation.Z) *
+                Matrix.CreateTranslation(model.info.translation) *
+                transformMatrix.ToMatrix();
 
-            //    mesh.Draw();
-            //}
+
+            var v = Matrix.CreateLookAt(new Vector3(this.camera.Transform.Translation, 50), this.camera.Transform.Translation.ToVector3(), Vector3.UnitY);
+            var p = Matrix.CreateOrthographic(this.camera.ScreenWidth, this.camera.ScreenHeight, 0, 100);
+
+            foreach (var mesh in model.value.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.World = m;
+                    effect.View = v;
+                    effect.Projection = p;
+                    effect.EnableDefaultLighting();
+                }
+
+                mesh.Draw();
+            }
 
         }
     }

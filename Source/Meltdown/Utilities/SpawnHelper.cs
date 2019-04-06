@@ -63,8 +63,7 @@ namespace Meltdown.Utilities
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<string, ModelAlias>(@"test\player"));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("player1 PLACEHOLDER", 2f, 2f)));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\player", rotation: new Vector3(0, 0, MathF.PI / 2), scale: new Vector3(0.1f))));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 

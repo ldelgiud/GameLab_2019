@@ -11,8 +11,8 @@ namespace Meltdown.Graphics
     {
         public Transform2D Transform { get; set; }
 
-        float WindowWidth { get; set; }
-        float WindowHeight { get; set; }
+        public float WindowWidth { get; private set; }
+        public float WindowHeight { get; private set; }
         float WindowAspectRatio { get { return this.WindowWidth / this.WindowHeight; } }
 
         public float ViewportWidth { get; set; }
@@ -23,6 +23,22 @@ namespace Meltdown.Graphics
         public float AspectRatioRatio { get { return this.ViewportAspectRatio / this.WindowAspectRatio; } }
         public float WidthRatio { get { return this.ViewportWidth / this.WindowWidth; } }
         public float HeightRatio { get { return this.ViewportHeight / this.WindowHeight; } }
+
+        public float ScreenWidth
+        {
+            get
+            {
+                return MathF.Max(this.ViewportHeight * (this.WindowWidth / this.WindowHeight), this.ViewportWidth);
+            }
+        }
+
+        public float ScreenHeight
+        {
+            get
+            {
+                return MathF.Max(this.ViewportWidth * (this.WindowHeight / this.WindowWidth), this.ViewportHeight);
+            }
+        }
 
         float SafeZoneWidth
         {
@@ -69,6 +85,8 @@ namespace Meltdown.Graphics
                     Matrix3.CreateTranslation(new Vector2(this.SafeZoneWidth / 2, this.SafeZoneHeight / 2));
             }
         }
+
+
 
         public Camera2D(Transform2D transform, float viewportWidth, float viewportHeight)
         {

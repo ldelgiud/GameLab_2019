@@ -92,6 +92,16 @@ namespace Meltdown.Graphics
             return new Vector2(this.ScalingX(), this.ScalingY());
         }
 
+        public Matrix ToMatrix()
+        {
+            return new Matrix(
+                this.matrix.M11, this.matrix.M12, 0, 0,
+                this.matrix.M21, this.matrix.M22, 0, 0,
+                0, 0, 1, 0,
+                this.matrix.M31, this.matrix.M32, 0, 1
+                );
+        }
+
         public override string ToString()
         {
             return String.Format(
