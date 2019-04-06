@@ -27,6 +27,11 @@ namespace Meltdown.Utilities
 
         public static void BuildBackground()
         {
+
+            //Build Walls around the map
+            float Vertical = Constants.TOP_BORDER - Constants.BOTTOM_BORDER;
+            Vector2 VerticalCenter = new Vector2(Constants.LEFT_BORDER, Vertical / 2);
+            SpawnHelper.SpawnBasicWall(VerticalCenter, Vertical, 5f);
             float x = Constants.LEFT_BORDER;
             float y = Constants.TOP_BORDER;
 

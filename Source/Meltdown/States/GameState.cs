@@ -53,8 +53,8 @@ namespace Meltdown.States
             this.SetInstance(new QuadTree<Entity>(
                 new AABB()
                 {
-                    LowerBound = new Vector2(-10000, -10000),
-                    UpperBound = new Vector2(10000, 10000)
+                    LowerBound = Constants.BOTTOM_LEFT_CORNER,// new Vector2(-10000, -10000),
+                    UpperBound = Constants.TOP_RIGHT_CORNER// new Vector2(10000, 10000)
                 },
                 10, 7));
 
@@ -70,7 +70,6 @@ namespace Meltdown.States
                 45
                 );
             
-
             this.world = new World();
             this.SetInstance(this.world);
 
@@ -111,57 +110,52 @@ namespace Meltdown.States
                 TTLSystem
                 );
             
-            EnergyDrawSystem energyDrawSystem =
-                new EnergyDrawSystem(
-                    energy,
-                    game.Content.Load<Texture2D>("placeholders/EnergyBar PLACEHOLDER"),
-                    game.GraphicsDevice,
-                    game.Content.Load<SpriteFont>("gui/EnergyFont")
-                    );
-
-            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
-
-            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
-
             //TERRAIN GENERATION
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
             Grid grid = new Grid();
 
+            //DRAWING SYSTEMS
+            EnergyDrawSystem energyDrawSystem =
+                new EnergyDrawSystem(
+                    energy : energy,
+                    texture : game.Content.Load<Texture2D>("placeholders/EnergyBar PLACEHOLDER"),
+                    graphicsDevice : game.GraphicsDevice,
+                    font : game.Content.Load<SpriteFont>("gui/EnergyFont")
+                    );
+            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
+            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
+
 
             GraphDrawSystem graphDrawSystem = new GraphDrawSystem(
                 grid : grid, 
                 graphicsDevice : game.GraphicsDevice,
                 camera : this.worldCamera,
-                circle : game.Content.Load<Texture2D>("graph/circle-8")
+                circle : game.Content.Load<Texture2D>("graph/circle-16")
                 );
 
             this.drawSystem = new SequentialSystem<Time>(
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
-                graphDrawSystem,      
+                //graphDrawSystem,      
                 energyDrawSystem,
                 aabbDebugDrawSystem
                 );
+            
 
+            //SPAWNING 
             //ENEMY SPAWNING
             ProcGen.SpawnHotspots();
-
             // Create player
             SpawnHelper.SpawnPlayer(1);
-
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
-
             //Spawn one Drone
             SpawnHelper.SpawnDrone(new Vector2(-90, 0));
-
             // Event trigger
             SpawnHelper.SpawnEvent(new Vector2(0, -20));
-
-
         }
 
         public override IStateTransition Update(Time time)
@@ -208,7 +202,6 @@ namespace Meltdown.States
 
             // Shooting - Gamepad
             this.inputManager.Register(Buttons.RightTrigger);
-
             this.inputManager.Register(ThumbSticks.Right);
 
             // Event - Keyboard

@@ -191,7 +191,7 @@ namespace Meltdown.Utilities
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AllianceMaskComponent(Alliance.Hostile));
-            entity.Set(new VelocityComponent(new Vector2(0, 0)));
+            entity.Set(new VelocityComponent(Vector2.Zero));
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new NameComponent() { name = "enemy" });
@@ -308,6 +308,30 @@ namespace Meltdown.Utilities
             SpawnHelper.quadtree.AddNode(element);
             return entity;
         }
+
+        public static void SpawnBasicWall(Vector2 center, float height, float width)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            AABB aabb = new AABB()
+            {
+                LowerBound = new Vector2(-width/2, -height/2),
+                UpperBound = new Vector2( width/2,  height/2)
+            };
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += center;
+            element.Span.UpperBound += center;
+            SpawnHelper.quadtree.AddNode(element);
+
+            //Create entity and attach its components
+            entity.Set(new Transform2DComponent(new Transform2D(center)));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
+            entity.Set(new NameComponent() { name = "Wall" });
+
+
+        }
     }
+
 }
 

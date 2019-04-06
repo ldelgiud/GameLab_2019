@@ -41,7 +41,7 @@ namespace Meltdown.AI
             double distance = distVector.Length();
             //SEARCH
             distVector.Normalize();
-            velocity.velocity = Vector2.Multiply(distVector, Constants.DRONE_SPEED);
+            velocity.velocity =distVector * Constants.DRONE_SPEED;
             transform.value.Rotation = velocity.velocity.ToRotation();
 
             //TODO: Implement pathfinding method

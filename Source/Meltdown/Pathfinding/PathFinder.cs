@@ -10,51 +10,64 @@ namespace Meltdown.Pathfinding
 {
     class PathFinder
     {
+        PathRequestManager requestManager; 
         Grid grid;
-        public PathFinder(Grid grid)
+        public PathFinder(Grid grid, PathRequestManager requestManager)
         {
             this.grid = grid;
+            this.requestManager = requestManager;
         }
+
         public void FindPath(Vector2 start, Vector2 end)
         {
-            this.grid = new Grid();
             Node source = grid.VectorToNode(start);
             Node target = grid.VectorToNode(end);
+            Vector2[] wayPoints = new Vector2[0];
+            bool success = false;
 
-            MinHeap<Node> S = new MinHeap<Node>();
-            HashSet<Node> T = new HashSet<Node>();
-
-            S.Add(source);
-
-            while (S.Count > 0)
+            if (source.walkable && target.walkable)
             {
-                Node current = S.PopMin();
-                T.Add(current);
+                MinHeap<Node> S = new MinHeap<Node>();
+                HashSet<Node> T = new HashSet<Node>();
 
-                if (current == target)
+                S.Add(source);
+
+                while (S.Count > 0)
                 {
-                    BacktrackPath(source, target);
-                    return;
-                }
+                    Node current = S.PopMin();
+                    T.Add(current);
 
-                foreach (Node neighbour in grid.Neighbours(current))
-                {
-                    if (!neighbour.walkable || T.Contains(neighbour)) continue;
-
-                    int newCostToNeighbour = current.gCost + GetDistance(current, neighbour);
-                    if(newCostToNeighbour < neighbour.gCost || !S.Contains(neighbour))
+                    if (current == target)
                     {
-                        neighbour.gCost = newCostToNeighbour;
-                        neighbour.hCost = GetDistance(neighbour, target);
-                        neighbour.parent = current;
+                        success = true;
+                        break;
+                    }
 
-                        if (!S.Contains(neighbour)) S.Add(neighbour);
+                    foreach (Node neighbour in grid.Neighbours(current))
+                    {
+                        if (!neighbour.walkable || T.Contains(neighbour)) continue;
+
+                        int newCostToNeighbour = current.gCost + GetDistance(current, neighbour);
+                        if (newCostToNeighbour < neighbour.gCost || !S.Contains(neighbour))
+                        {
+                            neighbour.gCost = newCostToNeighbour;
+                            neighbour.hCost = GetDistance(neighbour, target);
+                            neighbour.parent = current;
+
+                            if (!S.Contains(neighbour)) S.Add(neighbour);
+                        }
                     }
                 }
             }
+            
+            if (success)
+            {
+                wayPoints = BacktrackPath(source, target);
+            }
+            requestManager.FinishedProcessingPath(wayPoints, success);
         }
 
-        void BacktrackPath(Node source, Node target)
+        Vector2[] BacktrackPath(Node source, Node target)
         {
             List<Node> path = new List<Node>();
             Node current = target; 
@@ -63,7 +76,28 @@ namespace Meltdown.Pathfinding
                 path.Add(current);
                 current = current.parent;
             }
-            path.Reverse();
+            Vector2[] waypoints = SimplifyPath(path);
+            waypoints.Reverse();
+            return waypoints;
+
+        }
+
+        Vector2[] SimplifyPath(List<Node> path)
+        {
+            List<Vector2> waypoints = new List<Vector2>();
+            Vector2 oldDirection = Vector2.Zero;
+
+            for (int i = 1; i < path.Count; ++i)
+            {
+                Vector2 newDirection = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
+                if (newDirection != oldDirection)
+                {
+                    waypoints.Add(path[i].WorldPosition);
+                }
+                oldDirection = newDirection;
+            }
+
+            return waypoints.ToArray();
         }
 
         int GetDistance(Node source, Node target)

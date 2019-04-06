@@ -96,16 +96,19 @@ namespace Meltdown.Pathfinding
         }
         public Node VectorToNode(Vector2 worldPosition)
         {
-            Debug.Assert(
-                worldPosition.X <= Constants.RIGHT_BORDER &&
-                worldPosition.X >= Constants.LEFT_BORDER &&
-                worldPosition.Y >= Constants.BOTTOM_BORDER &&
-                worldPosition.Y <= Constants.TOP_BORDER);
+            if (
+                worldPosition.X >= Constants.RIGHT_BORDER &&
+                worldPosition.X <= Constants.LEFT_BORDER &&
+                worldPosition.Y <= Constants.BOTTOM_BORDER &&
+                worldPosition.Y >= Constants.TOP_BORDER)
+            {
+                return null;
+            }
             Vector2 relativePos = worldPosition - Constants.BOTTOM_LEFT_CORNER;
             float xPercent = relativePos.X / this.gridWorldSize.X;
             float yPercent = relativePos.Y / this.gridWorldSize.Y;
-            int x = (this.GridSizeX - 1) * this.GridSizeX;
-            int y = (this.GridSizeY - 1) * this.GridSizeY;
+            int x = (int) MathF.Round((this.GridSizeX - 1) * xPercent);
+            int y = (int) MathF.Round((this.GridSizeY - 1) * yPercent);
 
             return Nodes[y, x];
         }

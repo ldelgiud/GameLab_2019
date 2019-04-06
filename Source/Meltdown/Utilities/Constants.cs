@@ -9,21 +9,26 @@ namespace Meltdown.Utilities
 {
     static class Constants
     {
+
         public static double PLANT_PLAYER_DISTANCE = 500.0;
         public static Random RANDOM = new Random();
+
+        //BATTERY SIZES
         public static uint SMALL_BATTERY_SIZE = 25;
         public static uint MEDIUM_BATTERY_SIZE = 50;
         public static uint BIG_BATTERY_SIZE = 100;
+
+
         public static float DRONE_SPEED = 4;
         public static float SHOOTER_SPEED = 3;
         public static int PLAYER_SPEED = 40;
         public static float TTL_BULLET = 5f;
-        public static float NODE_RADIUS = 2f;
+        public static float NODE_RADIUS = 1f;
         //AI values for FSM transitions
-        public static double STANDBY_TO_SEARCH_DIST = 80;
-        public static double SEARCH_TO_STANDBY_DIST = 90;
-        public static double SEARCH_TO_ATTACK_DIST = 40;
-        public static double ATTACK_TO_SEARCH_DIST = 50;
+        public static double STANDBY_TO_SEARCH_DIST = 50;
+        public static double SEARCH_TO_STANDBY_DIST = 60;
+        public static double SEARCH_TO_ATTACK_DIST = 15;
+        public static double ATTACK_TO_SEARCH_DIST = 30;
         //Maximum energy for players
         public static double MAX_ENERGY = 1000;
         //debug value to stop generating enemies in EnemySpawnSystem
@@ -32,8 +37,8 @@ namespace Meltdown.Utilities
         // size of tiles for procedural generation
         public static float TILE_SIZE = 50;
         public static float LEFT_BORDER = -100;
-        public static float RIGHT_BORDER = 500;
-        public static float TOP_BORDER = 500;
+        public static float RIGHT_BORDER = 1000;
+        public static float TOP_BORDER = 1000;
         public static float BOTTOM_BORDER = -100;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);

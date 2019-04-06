@@ -35,13 +35,20 @@ namespace Meltdown.Systems.Debugging
         {
             this.spriteBatch.Begin();
 
-            int gridX = grid.GridSizeX;
-            int gridY = grid.GridSizeY;
+            Vector2 start = this.camera.Transform.Translation - new Vector2(this.camera.ViewportWidth / 2, this.camera.ViewportHeight / 2);
+            if (this.grid.VectorToNode(start) == null) return;
+
+            int startX = this.grid.VectorToNode(start).gridX;
+            int startY = this.grid.VectorToNode(start).gridY;
+
+            int EndX = startX + (int) MathF.Round(camera.ViewportWidth / grid.NodeRadius);
+            int EndY = startY + (int)MathF.Round(camera.ViewportWidth / grid.NodeRadius);
             Vector2 size = new Vector2(grid.NodeRadius);
 
-            for (int y = 0; y < gridY; ++y)
+            
+            for (int y = startY; y < EndY; ++y)
             {
-                for (int x = 0; x < gridX; ++x)
+                for (int x = startX; x < EndX; ++x)
                 {
                     Transform2D transform = new Transform2D(grid.Nodes[y, x].WorldPosition);
                     var (position, rotation, scale) = 
