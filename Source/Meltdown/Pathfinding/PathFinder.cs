@@ -18,7 +18,8 @@ namespace Meltdown.Pathfinding
             this.requestManager = requestManager;
         }
 
-        public void FindPath(Vector2 start, Vector2 end)
+        
+        public IEnumerator FindPath(Vector2 start, Vector2 end)
         {
             Node source = grid.VectorToNode(start);
             Node target = grid.VectorToNode(end);
@@ -47,7 +48,7 @@ namespace Meltdown.Pathfinding
                     {
                         if (!neighbour.walkable || T.Contains(neighbour)) continue;
 
-                        int newCostToNeighbour = current.gCost + GetDistance(current, neighbour);
+                        int newCostToNeighbour = current.gCost + GetDistance(current, neighbour) + neighbour.movementPenalty;
                         if (newCostToNeighbour < neighbour.gCost || !S.Contains(neighbour))
                         {
                             neighbour.gCost = newCostToNeighbour;
@@ -55,11 +56,13 @@ namespace Meltdown.Pathfinding
                             neighbour.parent = current;
 
                             if (!S.Contains(neighbour)) S.Add(neighbour);
+                            else S.UpdateItem(neighbour);
                         }
                     }
                 }
             }
-            
+
+            yield return null;
             if (success)
             {
                 wayPoints = BacktrackPath(source, target);

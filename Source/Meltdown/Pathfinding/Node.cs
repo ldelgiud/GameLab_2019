@@ -13,6 +13,7 @@ namespace Meltdown.Pathfinding
         public bool walkable;
         public Vector2 WorldPosition { get; private set; }
         public int gridX, gridY;
+        public int movementPenalty;
 
         public int gCost, hCost;
         public Node parent;
@@ -29,12 +30,13 @@ namespace Meltdown.Pathfinding
                 heapIndex = value;
             }
         }
-        public Node(bool walkable, Vector2 worldPosition, int gridX, int gridY)
+        public Node(bool walkable, Vector2 worldPosition, int gridX, int gridY, int movementPenalty)
         {
             this.walkable = walkable;
             this.WorldPosition = worldPosition;
             this.gridX = gridX;
             this.gridY = gridY;
+            this.movementPenalty = movementPenalty;
         }
 
         public int fCost

@@ -66,7 +66,11 @@ namespace Meltdown.Pathfinding
                         return false;
                     }, ref aabb);
 
-                    Nodes[y,x] = new Node(walkable, worldPos, x, y);
+                    int movementPenalty = 0;
+
+                    //TODO: modify movement penalty
+
+                    Nodes[y,x] = new Node(walkable, worldPos, x, y, movementPenalty);
                 }
             }
         }
