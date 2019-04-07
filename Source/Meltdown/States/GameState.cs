@@ -36,6 +36,7 @@ namespace Meltdown.States
 
         TextureResourceManager textureResourceManager;
         ModelResourceManager modelResourceManager;
+        SpineAnimationResourceManager spineAnimationResourceManager;
 
         public override void Initialize(Game1 game)
         {
@@ -78,6 +79,9 @@ namespace Meltdown.States
 
             this.modelResourceManager = new ModelResourceManager(game.Content);
             this.modelResourceManager.Manage(this.world);
+
+            this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
+            this.spineAnimationResourceManager.Manage(this.world);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 //new DebugCollisionHandler(this.world),
@@ -122,10 +126,13 @@ namespace Meltdown.States
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
             this.drawSystem = new SequentialSystem<Time>(
+                new AnimationStateUpdateSystem(this.world),
+                new SkeletonUpdateSystem(this.world),
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
                 energyDrawSystem,
+                new SpineSkeletonDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 aabbDebugDrawSystem
                 );
 

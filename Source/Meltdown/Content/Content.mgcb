@@ -116,6 +116,15 @@
 /processorParam:TextureFormat=Color
 /build:menu/main/quit.png
 
+#begin menu/main/screens.atlas
+/copy:menu/main/screens.atlas
+
+#begin menu/main/screens.json
+/copy:menu/main/screens.json
+
+#begin menu/main/screens.png
+/copy:menu/main/screens.png
+
 #begin menu/main/start.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -140,17 +149,14 @@
 /processorParam:TextureFormat=Color
 /build:placeholder.png
 
+#begin placeholders/battery.atlas
+/copy:placeholders/battery.atlas
+
+#begin placeholders/battery.json
+/copy:placeholders/battery.json
+
 #begin placeholders/battery.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:placeholders/battery.png
+/copy:placeholders/battery.png
 
 #begin placeholders/enemies/drone.png
 /importer:TextureImporter

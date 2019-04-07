@@ -1,0 +1,48 @@
+
+screens.png
+size: 2048,256
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+gui_sprites/bg_main_menu
+  rotate: false
+  xy: 963, 15
+  size: 200, 113
+  orig: 200, 113
+  offset: 0, 0
+  index: -1
+gui_sprites/main_menu_credits
+  rotate: false
+  xy: 1397, 183
+  size: 191, 46
+  orig: 191, 46
+  offset: 0, 0
+  index: -1
+gui_sprites/main_menu_logo
+  rotate: false
+  xy: 2, 2
+  size: 959, 227
+  orig: 959, 227
+  offset: 0, 0
+  index: -1
+gui_sprites/main_menu_quit
+  rotate: false
+  xy: 1255, 130
+  size: 111, 46
+  orig: 111, 46
+  offset: 0, 0
+  index: -1
+gui_sprites/main_menu_startgame
+  rotate: false
+  xy: 963, 130
+  size: 290, 46
+  orig: 290, 46
+  offset: 0, 0
+  index: -1
+gui_sprites/press_any_key
+  rotate: false
+  xy: 963, 178
+  size: 432, 51
+  orig: 432, 51
+  offset: 0, 0
+  index: -1

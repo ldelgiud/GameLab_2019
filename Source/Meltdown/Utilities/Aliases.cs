@@ -3,6 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using Spine;
+
 namespace Meltdown.Utilities
 {
     struct ModelAlias : IDisposable
@@ -23,5 +25,24 @@ namespace Meltdown.Utilities
         {
 
         }
+    }
+
+    struct SpineAnimationAlias : IDisposable
+    {
+        public AnimationState animationState;
+        public Skeleton skeleton;
+
+        public SpineAnimationAlias(AnimationState animationState, Skeleton skeleton)
+        {
+            this.animationState = animationState;
+            this.skeleton = skeleton;
+        }
+
+
+        public void Dispose()
+        {
+
+        }
+
     }
 }

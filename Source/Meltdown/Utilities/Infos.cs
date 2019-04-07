@@ -2,6 +2,8 @@
 
 using Microsoft.Xna.Framework;
 
+using Spine;
+
 namespace Meltdown.Utilities
 {
     struct Texture2DInfo
@@ -48,6 +50,60 @@ namespace Meltdown.Utilities
             this.translation = translation ?? Vector3.Zero;
             this.rotation = rotation ?? Vector3.Zero;
             this.scale = scale ?? Vector3.One;
+        }
+    }
+
+    struct SpineAnimationInfo
+    {
+        public String name;
+
+        public SkeletonInfo skeletonInfo;
+        public AnimationStateInfo animationStateInfo;
+
+        public SpineAnimationInfo(String name, SkeletonInfo skeletonInfo, AnimationStateInfo animationStateInfo)
+        {
+            this.name = name;
+            this.skeletonInfo = skeletonInfo;
+            this.animationStateInfo = animationStateInfo;
+        }
+    }
+
+    struct SkeletonInfo
+    {
+        public Vector2 translation;
+        public Vector2 scale;
+
+        public float width;
+        public float height;
+
+        public SkeletonInfo(float width, float height, Vector2? translation = null)
+        {
+            this.translation = translation ?? Vector2.Zero;
+            this.scale = -Vector2.One;
+
+            this.width = width;
+            this.height = height;
+        }
+
+        public SkeletonInfo(Vector2? translation = null, Vector2? scale = null)
+        {
+            this.translation = translation ?? Vector2.Zero;
+            this.scale = scale ?? Vector2.One;
+            this.width = 0;
+            this.height = 0;
+        }
+    }
+
+    struct AnimationStateInfo
+    {
+        public String animation;
+        public bool loop;
+
+        public AnimationStateInfo(String animation, bool loop)
+        {
+            this.animation = animation;
+            this.loop = loop;
+            
         }
     }
 }

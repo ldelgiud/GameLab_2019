@@ -1,0 +1,20 @@
+
+battery.png
+size: 512,256
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+battery/battery1
+  rotate: false
+  xy: 2, 2
+  size: 256, 170
+  orig: 256, 170
+  offset: 0, 0
+  index: -1
+battery/shadow1
+  rotate: false
+  xy: 260, 13
+  size: 246, 159
+  orig: 246, 159
+  offset: 0, 0
+  index: -1

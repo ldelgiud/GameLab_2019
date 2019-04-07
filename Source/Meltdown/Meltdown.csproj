@@ -128,6 +128,8 @@
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\AllianceMaskComponent.cs" />
+    <Compile Include="Components\AnimationStateComponent.cs" />
+    <Compile Include="Components\AtlasComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\EnergyPickupComponent.cs" />
     <Compile Include="Components\EventComponent.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\ScreenSpaceComponent.cs" />
+    <Compile Include="Components\SkeletonComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
@@ -162,12 +165,14 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceManagers\ModelResourceManager.cs" />
+    <Compile Include="ResourceManagers\SpineAnimationResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="State\StateTransition.cs" />
+    <Compile Include="Systems\AnimationStateUpdateSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\AABBDebugDrawSystem.cs" />
     <Compile Include="Systems\MenuInputSystem.cs" />
@@ -179,6 +184,8 @@
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
+    <Compile Include="Systems\SkeletonUpdateSystem.cs" />
+    <Compile Include="Systems\SpineSkeletonDrawSystem.cs" />
     <Compile Include="Systems\TTLSystem.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />
     <Compile Include="Utilities\Aliases.cs" />
