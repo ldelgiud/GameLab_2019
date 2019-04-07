@@ -34,6 +34,7 @@ namespace Meltdown.Systems
             var translation = transform.value.Translation + skeleton.info.translation;
             var scale = transform.value.Scale * skeleton.info.scale;
 
+
             animationState.value.Apply(skeleton.value);
             skeleton.value.X = translation.X;
             skeleton.value.Y = translation.Y;

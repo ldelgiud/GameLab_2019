@@ -63,7 +63,7 @@ namespace Meltdown.Utilities
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\player", rotation: new Vector3(0, 0, MathF.PI / 2), scale: new Vector3(0.1f))));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\player")));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 
@@ -216,7 +216,7 @@ namespace Meltdown.Utilities
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
             entity.Set(new AIComponent(new DroneStandby()));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("placeholders/enemies/drone", 2, 2, rotation: MathF.PI / 2)));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\drone", @"test\drone_texture")));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });
         }

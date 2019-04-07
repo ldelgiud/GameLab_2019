@@ -40,16 +40,12 @@ namespace Meltdown.Utilities
     struct ModelInfo
     {
         public String name;
-        public Vector3 translation;
-        public Vector3 rotation;
-        public Vector3 scale;
+        public String textureName;
 
-        public ModelInfo(String name, Vector3? translation = null, Vector3? rotation = null, Vector3? scale = null)
+        public ModelInfo(String name, String textureName = null)
         {
             this.name = name;
-            this.translation = translation ?? Vector3.Zero;
-            this.rotation = rotation ?? Vector3.Zero;
-            this.scale = scale ?? Vector3.One;
+            this.textureName = textureName;
         }
     }
 

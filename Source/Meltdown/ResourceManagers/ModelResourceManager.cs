@@ -23,7 +23,22 @@ namespace Meltdown.ResourceManagers
 
         protected override ModelAlias Load(ModelInfo info)
         {
-            return new ModelAlias() { value = this.contentManager.Load<Model>(info.name) };
+            var model = this.contentManager.Load<Model>(info.name);
+
+            if (info.textureName != null)
+            {
+                var texture = this.contentManager.Load<Texture2D>(info.textureName);
+                foreach (var mesh in model.Meshes)
+                {
+                    foreach (BasicEffect effect in mesh.Effects)
+                    {
+                        effect.TextureEnabled = true;
+                        effect.Texture = texture;
+                    }
+                }
+            }
+
+            return new ModelAlias() { value =  model };
         }
 
         protected override void OnResourceLoaded(in Entity entity, ModelInfo info, ModelAlias resource)
