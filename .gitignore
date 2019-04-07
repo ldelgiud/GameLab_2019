@@ -290,3 +290,6 @@ __pycache__/
 # MacOS Metadata Files
 .DS_store
 
+# Windows Cache files
+Thumbs.db
+
