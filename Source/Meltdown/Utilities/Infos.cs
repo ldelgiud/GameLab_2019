@@ -12,26 +12,30 @@ namespace Meltdown.Utilities
         public Vector2 translation;
         public float rotation;
         public Vector2 scale;
+        public Rectangle? bounds;
         
         public float width;
         public float height;
         
-        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null)
+        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null, Rectangle? bounds = null)
         {
             this.name = name ?? "";
             this.translation = translation ?? Vector2.Zero;
             this.rotation = rotation ?? 0;
             this.scale = new Vector2(-1, -1);
+            this.bounds = bounds;
+
             this.width = width;
             this.height = height;
         }
 
-        public Texture2DInfo(String name, Vector2? translation = null, float? rotation = null, Vector2? scale = null)
+        public Texture2DInfo(String name, Vector2? translation = null, float? rotation = null, Vector2? scale = null, Rectangle? bounds = null)
         {
             this.name = name;
             this.translation = translation ?? Vector2.Zero;
             this.rotation = rotation ?? 0;
             this.scale = scale ?? Vector2.One;
+            this.bounds = bounds;
             this.width = 0;
             this.height = 0;
         }

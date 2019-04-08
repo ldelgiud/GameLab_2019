@@ -36,6 +36,7 @@ namespace Meltdown.States
 
         TextureResourceManager textureResourceManager;
         SpineAnimationResourceManager spineAnimationResourceManager;
+        AtlasTextureResourceManager atlasTextureResourceManager;
 
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
@@ -66,6 +67,9 @@ namespace Meltdown.States
             this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
             this.spineAnimationResourceManager.Manage(this.world);
 
+            this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"test\SPS_StaticSprites");
+            this.atlasTextureResourceManager.Manage(this.world);
+
             this.updateSystem = new SequentialSystem<Time>(
                 new MenuInputSystem(this.world, this.inputManager, this.transition),
                 new MenuPulseSystem(this.world)
@@ -89,6 +93,7 @@ namespace Meltdown.States
                     )
                 ));
             }
+
 
             //// Main menu
             //{

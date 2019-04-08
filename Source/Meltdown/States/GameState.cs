@@ -37,6 +37,7 @@ namespace Meltdown.States
         TextureResourceManager textureResourceManager;
         ModelResourceManager modelResourceManager;
         SpineAnimationResourceManager spineAnimationResourceManager;
+        AtlasTextureResourceManager atlasTextureResourceManager;
 
         public override void Initialize(Game1 game)
         {
@@ -82,6 +83,9 @@ namespace Meltdown.States
 
             this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
             this.spineAnimationResourceManager.Manage(this.world);
+
+            this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"test\SPS_StaticSprites");
+            this.atlasTextureResourceManager.Manage(this.world);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 //new DebugCollisionHandler(this.world),

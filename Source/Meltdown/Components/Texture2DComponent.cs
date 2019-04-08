@@ -9,5 +9,11 @@ namespace Meltdown.Components
     {
         public Texture2D value;
         public Texture2DInfo info;
+
+        public Texture2DComponent(Texture2D value, Texture2DInfo info)
+        {
+            this.value = value;
+            this.info = info;
+        }
     }
 }

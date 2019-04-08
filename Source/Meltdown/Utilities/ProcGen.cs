@@ -40,7 +40,8 @@ namespace Meltdown.Utilities
                     var entity = ProcGen.World.CreateEntity();
                     entity.Set(new Transform2DComponent(new Transform2D(position)));
                     entity.Set(new WorldSpaceComponent());
-                    entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/forest PLACEHOLDER", 100, 100)));
+                    //entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/forest PLACEHOLDER", 100, 100)));
+                    entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_01", width: 172.41f, height: 100)));
                     entity.Set(new NameComponent() { name = "background" });
                     x += Constants.TILE_SIZE;
 

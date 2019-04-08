@@ -20,6 +20,13 @@ namespace Meltdown.Utilities
     struct Texture2DAlias : IDisposable
     {
         public Texture2D value;
+        public Rectangle? bounds;
+
+        public Texture2DAlias(Texture2D texture, Rectangle? bounds = null)
+        {
+            this.value = texture;
+            this.bounds = bounds;
+        }
 
         public void Dispose()
         {
@@ -44,5 +51,22 @@ namespace Meltdown.Utilities
 
         }
 
+    }
+
+    struct AtlasTextureAlias : IDisposable
+    {
+        public Texture2D value;
+        public Rectangle bounds;
+
+        public AtlasTextureAlias(Texture2D texture, Rectangle bounds)
+        {
+            this.value = texture;
+            this.bounds = bounds;
+        }
+
+        public void Dispose()
+        {
+
+        }
     }
 }

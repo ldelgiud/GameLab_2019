@@ -1,17 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using System.Diagnostics;
-
 using DefaultEcs;
 using DefaultEcs.System;
 
 using Meltdown.Components;
 using Meltdown.Utilities;
 using Meltdown.Graphics;
-using Meltdown.Utilities.Extensions;
-using Meltdown.States;
-using Microsoft.Xna.Framework.Input;
 
 namespace Meltdown.Systems
 {
@@ -43,12 +38,16 @@ namespace Meltdown.Systems
 
             var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform.value, texture.info);
 
+            var bounds = texture.info.bounds ?? texture.value.Bounds;
+            var origin = bounds.Size.ToVector2() / 2;
+
             this.spriteBatch.Draw(
+                sourceRectangle: bounds,
                 texture: texture.value,
                 position: position,
                 rotation: rotation,
                 scale: scale,
-                origin: texture.value.Bounds.Size.ToVector2() / 2
+                origin: origin
                 );
 
         }

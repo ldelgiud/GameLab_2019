@@ -47,7 +47,7 @@ namespace Meltdown.ResourceManagers
                         " is in milliseconds.");
                 }
             }
-            return new Texture2DAlias() { value = this.contentManager.Load<Texture2D>(infos[0]) };
+            return new Texture2DAlias(this.contentManager.Load<Texture2D>(infos[0]), info.bounds);
         }
 
         protected override void OnResourceLoaded(in Entity entity, Texture2DInfo info, Texture2DAlias resource)
@@ -63,7 +63,7 @@ namespace Meltdown.ResourceManagers
                 info.scale = new Vector2(info.width / resource.value.Bounds.Width, info.height / resource.value.Bounds.Height);
             }
 
-            entity.Set(new Texture2DComponent() { value = resource.value, info = info });
+            entity.Set(new Texture2DComponent(resource.value, info));
         }
     }
 }

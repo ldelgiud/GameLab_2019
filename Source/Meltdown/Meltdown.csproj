@@ -146,7 +146,7 @@
     <Compile Include="Components\SkeletonComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
-    <Compile Include="Components\TextureComponent.cs" />
+    <Compile Include="Components\Texture2DComponent.cs" />
     <Compile Include="Components\Transform2DComponent.cs" />
     <Compile Include="Components\Transform3DComponent.cs" />
     <Compile Include="Components\WorldSpaceComponent.cs" />
@@ -164,6 +164,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceManagers\AtlasTextureResourceManager.cs" />
     <Compile Include="ResourceManagers\ModelResourceManager.cs" />
     <Compile Include="ResourceManagers\SpineAnimationResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />

@@ -273,12 +273,21 @@
 /processorParam:PremultiplyVertexColors=True
 /processorParam:ResizeTexturesToPowerOfTwo=False
 /processorParam:RotationX=0
-/processorParam:RotationY=0
+/processorParam:RotationY=1.570796
 /processorParam:RotationZ=0
 /processorParam:Scale=0.1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
 /build:test/player.fbx
+
+#begin test/SPS_StaticSprites.atlas
+/copy:test/SPS_StaticSprites.atlas
+
+#begin test/SPS_StaticSprites.json
+/copy:test/SPS_StaticSprites.json
+
+#begin test/SPS_StaticSprites.png
+/copy:test/SPS_StaticSprites.png
 
 #begin tiles/forest PLACEHOLDER.jpg
 /importer:TextureImporter
