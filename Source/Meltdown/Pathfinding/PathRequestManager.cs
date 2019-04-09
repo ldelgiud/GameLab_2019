@@ -11,14 +11,15 @@ namespace Meltdown.Pathfinding
     {
         Queue<PathRequest> pathRequestQueue;
         PathRequest currentPathRequest;
-        PathFinder pathFinder;
+        public PathFinder pathFinder;
 
-        bool isProcessingPath;
+        public bool isProcessingPath;
 
         public PathRequestManager(PathFinder pathFinder)
         {
             this.pathRequestQueue =  new Queue<PathRequest>();
             this.pathFinder = pathFinder;
+
         }
         
         public void RequestPath(Vector2 start, Vector2 end, Action<Vector2[], bool> callback)
@@ -28,7 +29,7 @@ namespace Meltdown.Pathfinding
             this.TryProcessNext();
         }
 
-        void TryProcessNext()
+        public void TryProcessNext()
         {
             if (!isProcessingPath && pathRequestQueue.Count > 0)
             {
@@ -56,7 +57,6 @@ namespace Meltdown.Pathfinding
                 this.end = end;
                 this.callback = callback;
             }
-
         }
     }
 }

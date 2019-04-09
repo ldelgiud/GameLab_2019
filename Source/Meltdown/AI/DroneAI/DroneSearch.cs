@@ -23,9 +23,9 @@ namespace Meltdown.AI
             Entity entity,
             Time time)
         {
-            Transform2DComponent transform = entity.Get<Transform2DComponent>();
+            //Update information about myself
+            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
-            Vector2 position = transform.value.Translation;
 
             //Find closest player
             double minDist = Double.MaxValue;
@@ -33,20 +33,47 @@ namespace Meltdown.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - position;
+                Vector2 dist = player.transform.Translation - this.myPos;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = this.Pathfinder(closestPlayer.transform.Translation, position);
-            double distance = distVector.Length();
+            this.target = closestPlayer.transform.Translation;
+            
             //SEARCH
-            distVector.Normalize();
-            velocity.velocity =distVector * Constants.DRONE_SPEED;
-            transform.value.Rotation = velocity.velocity.ToRotation();
 
-            //TODO: Implement pathfinding method
+            this.UpdatePath();
+            if (path == null)
+            {
+                this.PathRequestManager.RequestPath(this.myPos, this.target, OnPathFound);
+            }
+            //STEP
+            if (path != null)
+            {
+                (Vector2, Line) nextNode;
+                bool followingPath;
+                while (followingPath = path.bounds.TryPeek(out nextNode))
+                {
+                    if (nextNode.Item2.HasCrossedLine(this.myPos))
+                    {
+                        path.bounds.Dequeue();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (followingPath)
+                {
+                    Vector2 newVel = nextNode.Item1 - myPos;
+                    newVel.Normalize();
+                    velocity.velocity = newVel * Constants.DRONE_SPEED;
 
+                }
+            }
+            
+            
             //UPDATE STATE
+            float distance = (this.target - this.myPos).Length();
             if (distance >= Constants.SEARCH_TO_STANDBY_DIST)
             {
                 velocity.velocity = new Vector2(0);

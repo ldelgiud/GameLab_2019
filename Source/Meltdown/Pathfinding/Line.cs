@@ -30,10 +30,10 @@ public struct Line
         this.approachSide = this.GetSide(perpendicularToLine);
     }
 
-    bool GetSide(Vector2 point)
+    bool GetSide(Vector2 p)
     {
-        return ((point.X - this.pointOnLine_1.X) * (this.pointOnLine_2.Y - this.pointOnLine_1.Y))
-             > ((point.Y - this.pointOnLine_1.Y) * (this.pointOnLine_2.X - this.pointOnLine_1.X)); 
+        return ((p.X - this.pointOnLine_1.X) * (this.pointOnLine_2.Y - this.pointOnLine_1.Y))
+             > ((p.Y - this.pointOnLine_1.Y) * (this.pointOnLine_2.X - this.pointOnLine_1.X)); 
 
     }
 

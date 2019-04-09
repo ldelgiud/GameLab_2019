@@ -11,11 +11,20 @@ namespace Meltdown.Pathfinding
     class Node : IHeapItem<Node>
     {
         public bool walkable;
+        public bool path;
         public Vector2 WorldPosition { get; private set; }
         public int gridX, gridY;
         public int movementPenalty;
 
         public int gCost, hCost;
+        public int fCost
+        {
+            get
+            {
+                return gCost + hCost;
+            }
+        }
+
         public Node parent;
         int heapIndex;
 
@@ -30,6 +39,7 @@ namespace Meltdown.Pathfinding
                 heapIndex = value;
             }
         }
+
         public Node(bool walkable, Vector2 worldPosition, int gridX, int gridY, int movementPenalty)
         {
             this.walkable = walkable;
@@ -37,15 +47,10 @@ namespace Meltdown.Pathfinding
             this.gridX = gridX;
             this.gridY = gridY;
             this.movementPenalty = movementPenalty;
+            this.path = false;
         }
 
-        public int fCost
-        {
-            get
-            {
-                return gCost + hCost;
-            }
-        }
+       
 
         public int CompareTo(Node obj)
         {

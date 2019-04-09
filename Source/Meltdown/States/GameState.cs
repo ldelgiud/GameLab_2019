@@ -98,6 +98,7 @@ namespace Meltdown.States
             ShootingSystem shootingSystem = new ShootingSystem(this.world, this.inputManager);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
             TTLSystem TTLSystem = new TTLSystem(world);
+            PathFinderSystem pathFinderSystem = new PathFinderSystem();
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -107,14 +108,18 @@ namespace Meltdown.States
                 aISystem,
                 powerplantSystem,
                 cameraSystem,
-                TTLSystem
+                TTLSystem,
+                pathFinderSystem
                 );
-            
+
             //TERRAIN GENERATION
+            //ProcGen.BuildWalls();
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
+            SpawnHelper.SpawnBasicWall(new Vector2(30,0),10,10);
             Grid grid = new Grid();
+            this.SetInstance(new PathRequestManager(new PathFinder(grid)));
 
             //DRAWING SYSTEMS
             EnergyDrawSystem energyDrawSystem =
@@ -139,7 +144,7 @@ namespace Meltdown.States
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
-                //graphDrawSystem,      
+                graphDrawSystem,      
                 energyDrawSystem,
                 aabbDebugDrawSystem
                 );
@@ -153,9 +158,9 @@ namespace Meltdown.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
             //Spawn one Drone
-            SpawnHelper.SpawnDrone(new Vector2(-90, 0));
+            SpawnHelper.SpawnDrone(new Vector2(50, 0));
             // Event trigger
-            SpawnHelper.SpawnEvent(new Vector2(0, -20));
+            //SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }
 
         public override IStateTransition Update(Time time)

@@ -10,16 +10,19 @@ namespace Meltdown.Pathfinding
 {
     class PathFinder
     {
-        PathRequestManager requestManager; 
+        PathRequestManager RequestManager { get
+            {
+                return Game1.Instance.ActiveState.GetInstance<PathRequestManager>();
+        } }
+
         Grid grid;
-        public PathFinder(Grid grid, PathRequestManager requestManager)
+        public PathFinder(Grid grid)
         {
             this.grid = grid;
-            this.requestManager = requestManager;
         }
 
         
-        public IEnumerator FindPath(Vector2 start, Vector2 end)
+        public void FindPath(Vector2 start, Vector2 end)
         {
             Node source = grid.VectorToNode(start);
             Node target = grid.VectorToNode(end);
@@ -28,15 +31,15 @@ namespace Meltdown.Pathfinding
 
             if (source.walkable && target.walkable)
             {
-                MinHeap<Node> S = new MinHeap<Node>();
-                HashSet<Node> T = new HashSet<Node>();
+                MinHeap<Node> Open = new MinHeap<Node>();
+                HashSet<Node> Closed = new HashSet<Node>();
 
-                S.Add(source);
+                Open.Add(source);
 
-                while (S.Count > 0)
+                while (Open.Count > 0)
                 {
-                    Node current = S.PopMin();
-                    T.Add(current);
+                    Node current = Open.PopMin();
+                    Closed.Add(current);
 
                     if (current == target)
                     {
@@ -46,28 +49,27 @@ namespace Meltdown.Pathfinding
 
                     foreach (Node neighbour in grid.Neighbours(current))
                     {
-                        if (!neighbour.walkable || T.Contains(neighbour)) continue;
+                        if (!neighbour.walkable || Closed.Contains(neighbour)) continue;
 
                         int newCostToNeighbour = current.gCost + GetDistance(current, neighbour) + neighbour.movementPenalty;
-                        if (newCostToNeighbour < neighbour.gCost || !S.Contains(neighbour))
+                        if (newCostToNeighbour < neighbour.gCost || !Open.Contains(neighbour))
                         {
                             neighbour.gCost = newCostToNeighbour;
                             neighbour.hCost = GetDistance(neighbour, target);
                             neighbour.parent = current;
 
-                            if (!S.Contains(neighbour)) S.Add(neighbour);
-                            else S.UpdateItem(neighbour);
+                            if (!Open.Contains(neighbour)) Open.Add(neighbour);
+                            else Open.UpdateItem(neighbour);
                         }
                     }
                 }
             }
 
-            yield return null;
             if (success)
             {
                 wayPoints = BacktrackPath(source, target);
             }
-            requestManager.FinishedProcessingPath(wayPoints, success);
+            this.RequestManager.FinishedProcessingPath(wayPoints, success);
         }
 
         Vector2[] BacktrackPath(Node source, Node target)
@@ -80,7 +82,7 @@ namespace Meltdown.Pathfinding
                 current = current.parent;
             }
             Vector2[] waypoints = SimplifyPath(path);
-            waypoints.Reverse();
+            Array.Reverse(waypoints);
             return waypoints;
 
         }
@@ -95,6 +97,7 @@ namespace Meltdown.Pathfinding
                 Vector2 newDirection = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
                 if (newDirection != oldDirection)
                 {
+                    path[i].path = true;
                     waypoints.Add(path[i].WorldPosition);
                 }
                 oldDirection = newDirection;

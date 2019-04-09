@@ -25,21 +25,30 @@ namespace Meltdown.Utilities
             }
         }
 
+        public static void BuildWalls()
+        {
+            //Build Walls around the map
+            float vertical = Constants.TOP_BORDER - Constants.BOTTOM_BORDER;
+            float horizontal = Constants.RIGHT_BORDER - Constants.LEFT_BORDER;
+            Vector2 leftWallPos = new Vector2(Constants.LEFT_BORDER, vertical / 2);
+            Vector2 rightWallPos = new Vector2(Constants.RIGHT_BORDER, vertical / 2);
+            Vector2 bottomWallPos = new Vector2(Constants.BOTTOM_BORDER, horizontal / 2);
+            Vector2 topWallPos = new Vector2(Constants.TOP_BORDER, horizontal / 2);
+            SpawnHelper.SpawnBasicWall(leftWallPos, vertical, 5f);
+            SpawnHelper.SpawnBasicWall(rightWallPos, vertical, 5f);
+            SpawnHelper.SpawnBasicWall(bottomWallPos, 5f, horizontal);
+            SpawnHelper.SpawnBasicWall(topWallPos, 5f, horizontal);
+
+
+        }
         public static void BuildBackground()
         {
-
-            //Build Walls around the map
-            float Vertical = Constants.TOP_BORDER - Constants.BOTTOM_BORDER;
-            Vector2 VerticalCenter = new Vector2(Constants.LEFT_BORDER, Vertical / 2);
-            SpawnHelper.SpawnBasicWall(VerticalCenter, Vertical, 5f);
             float x = Constants.LEFT_BORDER;
             float y = Constants.TOP_BORDER;
-
             while (y >= Constants.BOTTOM_BORDER)
             {
                 while (x <= Constants.RIGHT_BORDER)
                 {
-
                     Vector2 position = new Vector2(x, y);
 
                     var entity = ProcGen.World.CreateEntity();

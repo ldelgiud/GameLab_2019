@@ -53,6 +53,17 @@ namespace Meltdown.Systems.Debugging
                     Transform2D transform = new Transform2D(grid.Nodes[y, x].WorldPosition);
                     var (position, rotation, scale) = 
                         this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.circle.Bounds.Size.ToVector2()));
+                    if (grid.Nodes[y,x].path)
+                    {
+                        spriteBatch.Draw(
+                                circle,
+                                position: position,
+                                rotation: rotation,
+                                scale: scale,
+                                color: Color.Yellow
+                            );
+                        continue;
+                    }
                     switch (grid.Nodes[y,x].walkable)
                     {
                         case true:

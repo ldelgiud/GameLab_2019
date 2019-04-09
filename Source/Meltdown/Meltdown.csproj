@@ -182,6 +182,7 @@
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
     <Compile Include="Systems\ModelDrawSystem.cs" />
+    <Compile Include="Systems\PathFinderSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />

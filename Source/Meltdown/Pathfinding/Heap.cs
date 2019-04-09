@@ -44,13 +44,14 @@ namespace Meltdown.Pathfinding
             //TODO: check if there is a better way considering that this is good for memory
             //but bad for performances
             items.RemoveAt(currentItemCount);
-            DownSort(items[0]);
+            if (currentItemCount > 0) DownSort(items[0]);
             return min;
         }
 
         public bool Contains (T item)
         {
-            return Equals(items[item.HeapIndex], item);
+            if (currentItemCount <= item.HeapIndex) return false;
+            else return Equals(items[item.HeapIndex], item);
         }
         void DownSort(T item)
         {
