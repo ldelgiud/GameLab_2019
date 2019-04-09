@@ -120,9 +120,7 @@ namespace Meltdown.States
             EnergyDrawSystem energyDrawSystem =
                 new EnergyDrawSystem(
                     energy,
-                    game.Content.Load<Texture2D>("placeholders/EnergyBar PLACEHOLDER"),
-                    game.GraphicsDevice,
-                    game.Content.Load<SpriteFont>("gui/EnergyFont")
+                    this.world
                     );
 
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
