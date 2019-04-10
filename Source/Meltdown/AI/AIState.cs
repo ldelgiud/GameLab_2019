@@ -67,5 +67,40 @@ namespace Meltdown.AI
                 this.path = new Path(waypoints, myPos, turnDist);
             }
         }
+
+        protected bool IsInSight(Vector2 source, Vector2 target)
+        {
+            RayCastInput rayCastInput = new RayCastInput
+            {
+                MaxFraction = 1,
+                Point1 = source,
+                Point2 = target
+            };
+            bool isInSight = false;
+            AIState.quadtree.RayCast((RayCastInput ray, Element<Entity> collidee) =>
+            {
+                //TODO: check this check
+                if (!collidee.Value.Get<AABBComponent>().solid) return -1f;
+                if (collidee.Value.Has<PlayerComponent>())
+                {
+                    isInSight = true;
+                }
+                return 0f;
+            }, ref rayCastInput);
+
+            return isInSight;
+        }
+
+        protected bool IsPathClear(AABBComponent aabb, Vector2 target)
+        {
+            Vector2 bottomLeft = aabb.element.Span.LowerBound;
+            Vector2 topRight = aabb.element.Span.UpperBound;
+            Vector2 bottomRight = new Vector2(topRight.X, bottomLeft.Y);
+            Vector2 topLeft = new Vector2(bottomLeft.X, topRight.Y);
+            return IsInSight(bottomLeft, target)
+                && IsInSight(bottomRight, target)
+                && IsInSight(topLeft, target)
+                && IsInSight(topRight, target);
+        }
     }
 }

@@ -170,7 +170,7 @@ namespace Meltdown.Utilities
         }
 
         /// <summary>
-        /// Spawn an enemy entity at given position in standby
+        /// Spawn an enemy entity at given position in offline state
         /// </summary>
         /// <param name="pos">Position to Spawn enemy at</param>
         private static Entity SpawnBasicEnemy(Vector2 position)
@@ -202,7 +202,7 @@ namespace Meltdown.Utilities
         {
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
-            entity.Set(new AIComponent(new ShooterStandby()));
+            entity.Set(new AIComponent(new ShooterOffline()));
             entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("placeholder", 2, 2)));
             entity.Set(new NameComponent() { name = "shooter" });
             SpawnHelper.SpawnGun(entity);
@@ -212,7 +212,7 @@ namespace Meltdown.Utilities
         {
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
-            entity.Set(new AIComponent(new DroneStandby()));
+            entity.Set(new AIComponent(new DroneOffline()));
             entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("placeholders/enemies/drone", 2, 2, rotation: MathF.PI / 2)));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });

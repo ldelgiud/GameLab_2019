@@ -10,6 +10,8 @@ using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
 using DefaultEcs;
 using Meltdown.Components;
+using tainicom.Aether.Physics2D.Collision;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
@@ -21,13 +23,32 @@ namespace Meltdown.AI
             Entity entity,
             Time time)
         {
-            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
-
+            
+            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
+            //Debug.WriteLine("Shooter Standby");
+            //Debug.WriteLine("position: " + this.myPos);
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - position;
+                Vector2 distVec = player.transform.Translation - this.myPos;
+                float sqrdDist = distVec.LengthSquared();
+                this.target = player.transform.Translation;
+                if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST)
+                {
+                    //Debug.WriteLine("going into offline");
+                    return new ShooterOffline();
+                }
+                else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
+                    if (this.IsInSight(this.myPos, this.target))
+                    {
+                        //Debug.WriteLine("SHOOTY MC FACE: SAW YOU!!");
+                        return new ShooterSearch();
 
-                if (dist.LengthSquared() <= Constants.STANDBY_TO_SEARCH_SQRD_DIST) return new ShooterSearch();
+                    }
+                    else if (sqrdDist <= Constants.BLIND_STANDBY_TO_SEARCH_SQRD_DIST)
+                    {
+                        //Debug.WriteLine("SHOOTY MC FACE: TOO CLOSE");
+                        return new ShooterSearch();
+                    }
             }
             return this;
         }

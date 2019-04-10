@@ -7,6 +7,7 @@ using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
 using DefaultEcs;
 using Meltdown.Components;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
@@ -18,6 +19,7 @@ namespace Meltdown.AI
             Entity entity,
             Time time)
         {
+            //Debug.WriteLine("Shooter Search");
             this.myPos = entity.Get<Transform2DComponent>().value.Translation;
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
@@ -67,15 +69,17 @@ namespace Meltdown.AI
 
 
             //UPDATE STATE
-            if (sqrdDistance <= Constants.SEARCH_TO_ATTACK_SQRD_DIST)
+            if (sqrdDistance <= Constants.SEARCH_TO_ATTACK_SQRD_DIST && this.IsInSight(this.myPos, this.target))
             {
                 velocity.velocity = new Vector2(0);
+                //Debug.WriteLine("going into ATTACK");
                 return new ShooterAttack();
             }
             if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
             {
                 velocity.velocity = new Vector2(0);
-                return new ShooterSearch();
+                //Debug.WriteLine("going into STANDBY");
+                return new ShooterStandby();
             }
             return this;
         }

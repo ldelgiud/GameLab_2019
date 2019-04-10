@@ -45,8 +45,15 @@ namespace Meltdown.AI
             //Debug.WriteLine("Drone Searching");
 
             this.UpdatePath(time);
+            Vector2 newVel;
+
             //STEP
-            if (path != null)
+            if (this.IsPathClear(entity.Get<AABBComponent>(), this.target))
+            {
+                newVel = (this.target - this.myPos);
+                newVel.Normalize();
+                velocity.velocity = newVel * Constants.DRONE_SPEED;
+            } else if (path != null)
             {
                 (Vector2, Line) nextNode;
                 bool followingPath;
@@ -63,23 +70,11 @@ namespace Meltdown.AI
                 }
                 if (followingPath)
                 {
-                    Vector2 newVel;
-
-                    if (sqrdDistance > 9)
-                    {
-                        newVel = nextNode.Item1 - myPos;
-                        newVel.Normalize();
-                        velocity.velocity = newVel * Constants.DRONE_SPEED;
-                    } else
-                    {
-                        newVel = (this.target - this.myPos);
-                        newVel.Normalize();
-                        velocity.velocity = newVel * Constants.DRONE_SPEED;
-                    }
-
+                    newVel = nextNode.Item1 - myPos;
+                    newVel.Normalize();
+                    velocity.velocity = newVel * Constants.DRONE_SPEED;
                 } 
             }
-            
             
             //UPDATE STATE
             if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
