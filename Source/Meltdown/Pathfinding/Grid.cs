@@ -32,6 +32,7 @@ namespace Meltdown.Pathfinding
             {
                 return nodeRadius;
             } }
+
         public Grid()
         {
             float nodeDiameter = 2 * this.nodeRadius;
@@ -75,6 +76,30 @@ namespace Meltdown.Pathfinding
             }
         }
 
+        public Node NearestWalkableNeighbour(Node node)
+        {
+            Queue<Node> queue = new Queue<Node>();
+            HashSet<Node> visited = new HashSet<Node>();
+            queue.Enqueue(node);
+            visited.Add(node);
+            while (queue.Count > 0)
+            {
+                var current = queue.Dequeue();
+                if (current.walkable)
+                {
+                    return current;
+                }
+                foreach (Node n in this.Neighbours(current))
+                {
+                    if(!visited.Contains(n))
+                    {
+                        queue.Enqueue(n);
+                        visited.Add(n);
+                    }
+                }
+            }
+            return null;
+        }
         public List<Node> Neighbours(Node node)
         {
             List<Node> neighbours = new List<Node>();
@@ -98,6 +123,7 @@ namespace Meltdown.Pathfinding
 
             return neighbours;
         }
+
         public Node VectorToNode(Vector2 worldPosition)
         {
             if (

@@ -11,6 +11,8 @@ using Meltdown.Utilities;
 using Meltdown.Pathfinding;
 using System.Collections;
 using Meltdown.Components;
+using System.Diagnostics;
+using tainicom.Aether.Physics2D.Collision;
 
 namespace Meltdown.AI
 {
@@ -23,28 +25,38 @@ namespace Meltdown.AI
                 return Game1.Instance.ActiveState.GetInstance<PathRequestManager>();
             }
         }
-        protected Vector2 myPos;
-        protected Vector2 target;
-        protected Vector2 oldTarget;
-        protected Path path;
-        int turnDist = 1;
-        const float sqrdUpdateThreshold = 5;
-        const float minPathUpdateTime = .5f;
 
-        abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Entity entity, Time time);
-
-        protected Vector2 Pathfinder(Vector2 playerPos, Vector2 position)
+        public static QuadTree<Entity> quadtree
         {
-            return playerPos - position;
+            get
+            {
+                return Game1.Instance.ActiveState.GetInstance<QuadTree<Entity>>();
+            }
         }
 
-        protected void UpdatePath()
+        protected Vector2 myPos;
+        protected Vector2 target;
+        Vector2 oldTarget;
+        float timeOfLastUpdate; 
+        protected Path path;
+        int turnDist = 1;
+        public const float updateThreshold = 1;
+        public const float sqrdUpdateThreshold = AIState.updateThreshold * AIState.updateThreshold;
+        const float minPathUpdateTime = 0.5f;
+        const float maxPathUpdateTime = 2f;
+        abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Entity entity, Time time);
+
+        protected void UpdatePath(Time time)
         {
-            //ALSO insert a timed recheck
-            if ((target - oldTarget).LengthSquared() > sqrdUpdateThreshold)
-            { 
-                PathRequestManager.RequestPath(this.myPos, target, OnPathFound);
+            float sqrdDist = (target - oldTarget).LengthSquared();
+            float timePassed = time.Absolute - this.timeOfLastUpdate;
+            if ((sqrdDist > sqrdUpdateThreshold && timePassed > AIState.minPathUpdateTime)
+                ||timePassed > AIState.maxPathUpdateTime)
+            {
+                //Debug.WriteLine("and Succeding");
+                this.timeOfLastUpdate = time.Absolute;
                 this.oldTarget = this.target;
+                PathRequestManager.RequestPath(this.myPos, target, OnPathFound);
             }
         }
 

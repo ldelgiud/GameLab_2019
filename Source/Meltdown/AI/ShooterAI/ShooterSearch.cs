@@ -34,7 +34,7 @@ namespace Meltdown.AI
             this.target = closestPlayer.transform.Translation;
             float sqrdDistance = (this.target - this.myPos).LengthSquared();
             //SEARCH
-            this.UpdatePath();
+            this.UpdatePath(time);
             if (path == null)
             {
                 this.PathRequestManager.RequestPath(this.myPos, this.target, OnPathFound);

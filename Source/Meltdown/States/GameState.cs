@@ -66,8 +66,8 @@ namespace Meltdown.States
 
             this.worldCamera = new Camera2D(
                 new Transform2D(),
-                90,
-                45
+                100,
+                60
                 );
             
             this.world = new World();
@@ -158,7 +158,7 @@ namespace Meltdown.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
             //Spawn one Drone
-            SpawnHelper.SpawnShooter(new Vector2(50, 0));
+            SpawnHelper.SpawnDrone(new Vector2(50, 0));
             // Event trigger
             //SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }

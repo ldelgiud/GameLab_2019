@@ -50,8 +50,6 @@ namespace Meltdown.Pathfinding
             this.path = false;
         }
 
-       
-
         public int CompareTo(Node obj)
         {
             int compare = this.fCost.CompareTo(obj.fCost);

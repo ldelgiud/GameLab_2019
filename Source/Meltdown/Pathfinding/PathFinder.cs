@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Collections;
+using System.Diagnostics;
+
 namespace Meltdown.Pathfinding
 {
     class PathFinder
@@ -28,12 +30,20 @@ namespace Meltdown.Pathfinding
             Node target = grid.VectorToNode(end);
             Vector2[] wayPoints = new Vector2[0];
             bool success = false;
+            //TODO: check if we really want to do that, it caused some problems with collisions
+            if (!source.walkable) {
+                source = grid.NearestWalkableNeighbour(source);
+            }
+            if (!target.walkable)
+            {
+                target = grid.NearestWalkableNeighbour(target);
+            }
+            if (!target.walkable) Debug.WriteLine("target unwalkable!");
+            if (!source.walkable) Debug.WriteLine("source unwalkable!");
 
-            if (source.walkable && target.walkable)
             {
                 MinHeap<Node> Open = new MinHeap<Node>();
                 HashSet<Node> Closed = new HashSet<Node>();
-
                 Open.Add(source);
 
                 while (Open.Count > 0)

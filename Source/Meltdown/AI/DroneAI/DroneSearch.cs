@@ -10,6 +10,7 @@ using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
 using DefaultEcs;
 using Meltdown.Components;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
@@ -38,14 +39,12 @@ namespace Meltdown.AI
 
             }
             this.target = closestPlayer.transform.Translation;
-            
-            //SEARCH
+            float sqrdDistance = (this.target - this.myPos).LengthSquared();
 
-            this.UpdatePath();
-            if (path == null)
-            {
-                this.PathRequestManager.RequestPath(this.myPos, this.target, OnPathFound);
-            }
+            //SEARCH
+            //Debug.WriteLine("Drone Searching");
+
+            this.UpdatePath(time);
             //STEP
             if (path != null)
             {
@@ -64,16 +63,25 @@ namespace Meltdown.AI
                 }
                 if (followingPath)
                 {
-                    Vector2 newVel = nextNode.Item1 - myPos;
-                    newVel.Normalize();
-                    velocity.velocity = newVel * Constants.DRONE_SPEED;
+                    Vector2 newVel;
 
-                }
+                    if (sqrdDistance > 9)
+                    {
+                        newVel = nextNode.Item1 - myPos;
+                        newVel.Normalize();
+                        velocity.velocity = newVel * Constants.DRONE_SPEED;
+                    } else
+                    {
+                        newVel = (this.target - this.myPos);
+                        newVel.Normalize();
+                        velocity.velocity = newVel * Constants.DRONE_SPEED;
+                    }
+
+                } 
             }
             
             
             //UPDATE STATE
-            float sqrdDistance = (this.target - this.myPos).LengthSquared();
             if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
             {
                 velocity.velocity = new Vector2(0);
