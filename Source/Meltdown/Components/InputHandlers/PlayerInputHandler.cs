@@ -114,9 +114,13 @@ namespace Meltdown.Components.InputHandlers
                     break;
             }
 
-            velComp.velocity = Camera2D.PerspectiveToWorld(velComp.velocity);
-            velComp.velocity.Normalize();
-            velComp.velocity *= player.Speed;
+            if (velComp.velocity != Vector2.Zero)
+            {
+                velComp.velocity = Camera2D.PerspectiveToWorld(velComp.velocity);
+                velComp.velocity.Normalize();
+                velComp.velocity *= player.Speed;
+            }
+            
 
             //if (gState.IsButtonDown(Buttons.LeftTrigger)) //L2
             //{
