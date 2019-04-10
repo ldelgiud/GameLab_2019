@@ -67,7 +67,8 @@ namespace Meltdown.States
             this.worldCamera = new Camera2D(
                 new Transform2D(),
                 90,
-                45
+                45,
+                true
                 );
             
 
