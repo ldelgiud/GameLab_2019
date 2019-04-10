@@ -8,6 +8,7 @@ using DefaultEcs;
 using DefaultEcs.System;
 
 using Meltdown.Components;
+using Meltdown.Graphics;
 using Meltdown.Utilities;
 
 namespace Meltdown.Systems
@@ -31,7 +32,7 @@ namespace Meltdown.Systems
             ref var skeleton = ref entity.Get<SkeletonComponent>();
             ref var transform = ref entity.Get<Transform2DComponent>();
 
-            var translation = transform.value.Translation + skeleton.info.translation;
+            var translation = Camera2D.WorldToPerspective(transform.value.Translation + skeleton.info.translation);
             var scale = transform.value.Scale * skeleton.info.scale;
 
 

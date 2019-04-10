@@ -41,6 +41,8 @@ namespace Meltdown.Components.InputHandlers
                     break;
            }
 
+            direction = Camera2D.PerspectiveToWorld(direction);
+
             switch (inputManager.GetEvent(0, Buttons.RightTrigger))
             {
                 case HoldEvent _: 

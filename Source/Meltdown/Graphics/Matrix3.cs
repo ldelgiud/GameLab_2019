@@ -74,22 +74,29 @@ namespace Meltdown.Graphics
 
         public float Rotation()
         {
-            return MathF.Atan2(this.matrix.M12 / this.ScalingX(), this.matrix.M22 / this.ScalingY());
+            return MathF.Atan2(this.matrix.M12 / this.ScalingY(), this.matrix.M22 / this.ScalingY());
         }
 
         public float ScalingX()
         {
-            return MathF.Sqrt(this.matrix.M11 * this.matrix.M11 + this.matrix.M12 * this.matrix.M12);
+            return MathF.Sqrt(this.matrix.M11 * this.matrix.M11 + this.matrix.M21 * this.matrix.M21);
         }
 
         public float ScalingY()
         {
-            return MathF.Sqrt(this.matrix.M21 * this.matrix.M21 + this.matrix.M22 * this.matrix.M22);
+            return MathF.Sqrt(this.matrix.M12 * this.matrix.M12 + this.matrix.M22 * this.matrix.M22);
         }
 
         public Vector2 Scaling()
         {
             return new Vector2(this.ScalingX(), this.ScalingY());
+        }
+
+        public void ApplyWorldToPerspective()
+        {
+            var perspective = Camera2D.WorldToPerspective(this.Translation());
+            this.matrix.M31 = perspective.X;
+            this.matrix.M32 = perspective.Y;
         }
 
         public Matrix ToMatrix()

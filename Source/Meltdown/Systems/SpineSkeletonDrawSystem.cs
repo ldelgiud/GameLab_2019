@@ -24,6 +24,7 @@ namespace Meltdown.Systems
             world.GetEntities()
             .With<SkeletonComponent>()
             .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .Build()
             )
         {
@@ -35,7 +36,8 @@ namespace Meltdown.Systems
         protected override void PreUpdate(Time state)
         {
 
-            var v = Matrix.CreateLookAt(new Vector3(this.camera.Transform.Translation, 50), this.camera.Transform.Translation.ToVector3(), Vector3.UnitY);
+            var cameraTranslation = Camera2D.WorldToPerspective(this.camera.Transform.Translation);
+            var v = Matrix.CreateLookAt(new Vector3(cameraTranslation, 50), cameraTranslation.ToVector3(), Vector3.UnitY);
             var p = Matrix.CreateOrthographic(this.camera.ScreenWidth, this.camera.ScreenHeight, 0, 100);
 
             ((BasicEffect)this.skeletonRenderer.Effect).Projection = p;
