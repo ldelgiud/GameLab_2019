@@ -43,7 +43,7 @@ namespace Meltdown.AI
                 distVector);
 
             //UPDATE STATE
-            if (distVector.Length() >= Constants.ATTACK_TO_SEARCH_DIST) return new ShooterSearch();
+            if (distVector.LengthSquared() >= Constants.ATTACK_TO_SEARCH_SQRD_DIST) return new ShooterSearch();
             return this;
         }
     }

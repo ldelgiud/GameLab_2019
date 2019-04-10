@@ -50,8 +50,8 @@ namespace Meltdown.Pathfinding
 
                     AABB aabb = new AABB()
                     {
-                        LowerBound = new Vector2(-this.nodeRadius, -this.nodeRadius),
-                        UpperBound = new Vector2(this.nodeRadius, this.nodeRadius)
+                        LowerBound = new Vector2(-nodeDiameter, -nodeDiameter),
+                        UpperBound = new Vector2(nodeDiameter, nodeDiameter)
                     };
                     aabb.LowerBound += worldPos;
                     aabb.UpperBound += worldPos;

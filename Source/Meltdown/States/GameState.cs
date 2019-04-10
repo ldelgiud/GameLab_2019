@@ -133,7 +133,7 @@ namespace Meltdown.States
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
 
-            GraphDrawSystem graphDrawSystem = new GraphDrawSystem(
+            GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
                 grid : grid, 
                 graphicsDevice : game.GraphicsDevice,
                 camera : this.worldCamera,
@@ -144,7 +144,7 @@ namespace Meltdown.States
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
-                graphDrawSystem,      
+                //gridDrawSystem,      
                 energyDrawSystem,
                 aabbDebugDrawSystem
                 );
@@ -158,7 +158,7 @@ namespace Meltdown.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
             //Spawn one Drone
-            SpawnHelper.SpawnDrone(new Vector2(50, 0));
+            SpawnHelper.SpawnShooter(new Vector2(50, 0));
             // Event trigger
             //SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }

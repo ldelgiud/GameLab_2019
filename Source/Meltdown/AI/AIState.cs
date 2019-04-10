@@ -27,9 +27,9 @@ namespace Meltdown.AI
         protected Vector2 target;
         protected Vector2 oldTarget;
         protected Path path;
-        int turnDist = 5;
+        int turnDist = 1;
         const float sqrdUpdateThreshold = 5;
-        const float minPathUpdateTime = .2f;
+        const float minPathUpdateTime = .5f;
 
         abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Entity entity, Time time);
 

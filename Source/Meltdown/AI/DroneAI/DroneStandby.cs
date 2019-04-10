@@ -28,7 +28,7 @@ namespace Meltdown.AI
             {
                 Vector2 dist = player.transform.Translation - position;
 
-                if (dist.Length() <= Constants.STANDBY_TO_SEARCH_DIST) return new DroneSearch();
+                if (dist.LengthSquared() <= Constants.STANDBY_TO_SEARCH_SQRD_DIST) return new DroneSearch();
             }
             return this;
         }

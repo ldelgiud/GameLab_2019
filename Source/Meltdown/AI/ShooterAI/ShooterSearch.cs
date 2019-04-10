@@ -18,7 +18,7 @@ namespace Meltdown.AI
             Entity entity,
             Time time)
         {
-            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
+            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             //Find closest player
@@ -27,24 +27,52 @@ namespace Meltdown.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - position;
+                Vector2 dist = player.transform.Translation - this.myPos;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = this.Pathfinder(closestPlayer.transform.Translation, position);
-            double distance = distVector.Length();
+            this.target = closestPlayer.transform.Translation;
+            float sqrdDistance = (this.target - this.myPos).LengthSquared();
             //SEARCH
-            distVector.Normalize();
-            velocity.velocity = Vector2.Multiply(distVector, Constants.SHOOTER_SPEED);
-            //TODO: Implement pathfinding method
+            this.UpdatePath();
+            if (path == null)
+            {
+                this.PathRequestManager.RequestPath(this.myPos, this.target, OnPathFound);
+            }
+            //STEP
+            if (path != null)
+            {
+                (Vector2, Line) nextNode;
+                bool followingPath;
+                while (followingPath = path.bounds.TryPeek(out nextNode))
+                {
+                    if (nextNode.Item2.HasCrossedLine(this.myPos))
+                    {
+                        path.bounds.Dequeue();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (followingPath)
+                {
+                    Vector2 newVel = nextNode.Item1 - myPos;
+                    newVel.Normalize();
+                    velocity.velocity = newVel * Constants.DRONE_SPEED;
+
+                }
+            }
+            //TODO: if raycasting hits player start already to shoot
+
 
             //UPDATE STATE
-            if (distance <= Constants.SEARCH_TO_ATTACK_DIST)
+            if (sqrdDistance <= Constants.SEARCH_TO_ATTACK_SQRD_DIST)
             {
                 velocity.velocity = new Vector2(0);
                 return new ShooterAttack();
             }
-            if (distance >= Constants.SEARCH_TO_STANDBY_DIST + 10)
+            if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
             {
                 velocity.velocity = new Vector2(0);
                 return new ShooterSearch();

@@ -79,6 +79,8 @@ namespace Meltdown.Pathfinding
             while(current != source)
             {
                 path.Add(current);
+                //next line is only for debugging
+                current.path = true;
                 current = current.parent;
             }
             Vector2[] waypoints = SimplifyPath(path);
@@ -97,7 +99,6 @@ namespace Meltdown.Pathfinding
                 Vector2 newDirection = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
                 if (newDirection != oldDirection)
                 {
-                    path[i].path = true;
                     waypoints.Add(path[i].WorldPosition);
                 }
                 oldDirection = newDirection;

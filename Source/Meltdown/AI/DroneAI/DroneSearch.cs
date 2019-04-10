@@ -73,8 +73,8 @@ namespace Meltdown.AI
             
             
             //UPDATE STATE
-            float distance = (this.target - this.myPos).Length();
-            if (distance >= Constants.SEARCH_TO_STANDBY_DIST)
+            float sqrdDistance = (this.target - this.myPos).LengthSquared();
+            if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
             {
                 velocity.velocity = new Vector2(0);
                 return new DroneStandby();
