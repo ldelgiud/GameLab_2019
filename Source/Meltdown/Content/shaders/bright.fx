@@ -35,27 +35,27 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 	if (inCol.a == 0)
 	{
 		// take nine samples, with the distance blurSize between them
-		outCol += tex2D(s0, float2(input.texCoord.x - 4.0*u_blurSize, input.texCoord.y)) * 0.05;
-		outCol += tex2D(s0, float2(input.texCoord.x - 3.0*u_blurSize, input.texCoord.y)) * 0.09;
-		outCol += tex2D(s0, float2(input.texCoord.x - 2.0*u_blurSize, input.texCoord.y)) * 0.12;
+		outCol += tex2D(s0, float2(input.texCoord.x - 3.0*u_blurSize, input.texCoord.y)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x - 2.0*u_blurSize, input.texCoord.y)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x - 1.0*u_blurSize, input.texCoord.y)) * 0.12;
 		//outCol += tex2D(s0, float2(input.texCoord.x - u_blurSize, input.texCoord.y)) * 0.15;
 		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y)) * 0.16;
 		//outCol += tex2D(s0, float2(input.texCoord.x + u_blurSize, input.texCoord.y)) * 0.15;
-		outCol += tex2D(s0, float2(input.texCoord.x + 2.0*u_blurSize, input.texCoord.y)) * 0.12;
-		outCol += tex2D(s0, float2(input.texCoord.x + 3.0*u_blurSize, input.texCoord.y)) * 0.09;
-		outCol += tex2D(s0, float2(input.texCoord.x + 4.0*u_blurSize, input.texCoord.y)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x + 1.0*u_blurSize, input.texCoord.y)) * 0.12;
+		outCol += tex2D(s0, float2(input.texCoord.x + 2.0*u_blurSize, input.texCoord.y)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x + 3.0*u_blurSize, input.texCoord.y)) * 0.05;
 
 		//// blur in y (vertical)
 		// take nine samples, with the distance blurSize between them
-		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 4.0*u_blurSize)) * 0.05;
-		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 3.0*u_blurSize)) * 0.09;
-		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 2.0*u_blurSize)) * 0.12;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 3.0*u_blurSize)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 2.0*u_blurSize)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - 1.0*u_blurSize)) * 0.12;
 		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y - u_blurSize)) * 0.15;
 		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y)) * 0.16;
 		//outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + u_blurSize)) * 0.15;
-		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 2.0*u_blurSize)) * 0.12;
-		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 3.0*u_blurSize)) * 0.09;
-		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 4.0*u_blurSize)) * 0.05;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 1.0*u_blurSize)) * 0.12;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 2.0*u_blurSize)) * 0.09;
+		outCol += tex2D(s0, float2(input.texCoord.x, input.texCoord.y + 3.0*u_blurSize)) * 0.05;
 
 		// diagonal
 		outCol += tex2D(s0, float2(input.texCoord.x + 2.0*u_blurSize, input.texCoord.y + 2.0*u_blurSize)) * 0.05;
@@ -63,11 +63,14 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 		outCol += tex2D(s0, float2(input.texCoord.x + 2.0*u_blurSize, input.texCoord.y - 2.0*u_blurSize)) * 0.05;
 		outCol += tex2D(s0, float2(input.texCoord.x - 2.0*u_blurSize, input.texCoord.y - 2.0*u_blurSize)) * 0.05;
 
-
+		if (outCol.a >= 0.0)
+		{
+			//outCol.a = float4(1, 1, 1, 1);
+			outCol.a = float4(0, 0, 0, 0);
+		}
 
 	}
 	
-
 	return outCol * u_intensity + inCol;
 }
 
