@@ -22,6 +22,20 @@ namespace Meltdown.ResourceManagers
             this.atlas = new Atlas(@"Content\" + path + ".atlas", new XnaTextureLoader(graphicsDevice));
         }
 
+        public Texture2DComponent LoadDirect(Texture2DInfo info)
+        {
+            AtlasTextureAlias resource = this.Load(info);
+
+            info.bounds = resource.bounds;
+
+            if (info.scale.X < 0 && info.scale.Y < 0)
+            {
+                info.scale = new Vector2(info.width / resource.bounds.Width, info.height / resource.bounds.Height);
+            }
+
+            return new Texture2DComponent(resource.value, info);
+        }
+
         protected override AtlasTextureAlias Load(Texture2DInfo info)
         {
             var region = this.atlas.FindRegion(info.name);

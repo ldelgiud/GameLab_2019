@@ -25,8 +25,16 @@ namespace Meltdown.Utilities
             }
         }
 
-        public static void BuildBackground()
+        public static TileMap TileMap
         {
+            get
+            {
+                return Game1.Instance.ActiveState.GetInstance<TileMap>();
+            }
+        }
+
+        public static void BuildBackground()
+        {   
             float x = Constants.LEFT_BORDER;
             float y = Constants.TOP_BORDER;
 
@@ -37,11 +45,7 @@ namespace Meltdown.Utilities
 
                     Vector2 position = new Vector2(x, y);
 
-                    var entity = ProcGen.World.CreateEntity();
-                    entity.Set(new Transform2DComponent(new Transform2D(position)));
-                    entity.Set(new WorldSpaceComponent());
-                    entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_01", width: 141.4f, height: 81.64f)));
-                    entity.Set(new NameComponent() { name = "background" });
+                    ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_01", width: 14.14f, height: 8.165f));
                     x += Constants.TILE_SIZE;
 
                 }
@@ -55,30 +59,28 @@ namespace Meltdown.Utilities
             Vector2 curr = new Vector2(0);
             Vector3 scale = new Vector3(0.2f, 0.2f, 1);
             //Target position is diagonally previous tile of plants tile
-            int x = (int) (plant.Position.X / Constants.TILE_SIZE);
-            int y = (int) (plant.Position.Y / Constants.TILE_SIZE) ;
+            int x = (int)(plant.Position.X / Constants.TILE_SIZE);
+            int y = (int)(plant.Position.Y / Constants.TILE_SIZE);
 
             Vector2 target = new Vector2(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE);
             //0 means right, 1 means top;
             int currentDir = Constants.RANDOM.Next(2);
             while (curr.X < target.X && curr.Y < target.Y)
             {
-
-                var entity = ProcGen.World.CreateEntity();
-                entity.Set(new Transform2DComponent(new Transform2D(curr)));
-                entity.Set(new WorldSpaceComponent());
-                entity.Set(new NameComponent() { name = "streetsign" });
                 //dir decides if we change the direction or if we keep going the current direction
                 bool changeDir = Constants.RANDOM.Next(3) == 1;
                 if (changeDir)
                 {
                     if (currentDir == 0)
                     {
-                        entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/left turn", 10, 10)));
+                        // Left turn
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.14f, height: 8.164f, rotation: MathF.PI));
                         curr.Y += Constants.TILE_SIZE;
-                    } else
+                    }
+                    else
                     {
-                        entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/right turn", 10, 10)));
+                        // Right turn
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.14f, height: 8.164f));
                         curr.X += Constants.TILE_SIZE;
                     }
                     currentDir = 1 - currentDir;
@@ -87,11 +89,14 @@ namespace Meltdown.Utilities
                 {
                     if (currentDir == 0)
                     {
-                        entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/right", 10, 10)));
+                        // Right
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.164f, height: 14.14f, rotation: MathF.PI / 2));
                         curr.X += Constants.TILE_SIZE;
-                    } else
+                    }
+                    else
                     {
-                        entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/top", 10, 10)));
+                        // Up
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.14f, height: 8.164f));
                         curr.Y += Constants.TILE_SIZE;
                     }
                 }
@@ -99,35 +104,32 @@ namespace Meltdown.Utilities
 
             while (curr.X <= target.X)
             {
-                var entity = ProcGen.World.CreateEntity();
-                entity.Set(new Transform2DComponent(new Transform2D(curr)));
-                entity.Set(new WorldSpaceComponent());
                 if (currentDir == 0)
                 {
-                    entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/right", 10, 10)));
-                } else
-                {
-                    entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/right turn", 10, 10)));
+                    // Right
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.164f, height: 14.14f, rotation: MathF.PI / 2));
                 }
-                entity.Set(new NameComponent() { name = "street" });
+                else
+                {
+                    // Right Turn
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.14f, height: 8.164f));
+                }
                 curr.X += Constants.TILE_SIZE;
                 currentDir = 0;
             }
 
             while (curr.Y <= target.Y)
             {
-                var entity = ProcGen.World.CreateEntity();
-                entity.Set(new Transform2DComponent(new Transform2D(curr)));
-                entity.Set(new WorldSpaceComponent());
                 if (currentDir == 0)
                 {
-                    entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/left turn", 10, 10)));
+                    // Left turn
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.14f, height: 8.164f, rotation: MathF.PI));
                 }
                 else
                 {
-                    entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"tiles/top", 10, 10)));
+                    // Up
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.14f, height: 8.164f));
                 }
-                entity.Set(new NameComponent() { name = "street" });
                 currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
             }
@@ -135,12 +137,12 @@ namespace Meltdown.Utilities
 
         public static void SpawnHotspots()
         {
-            for (float y = Constants.BOTTOM_BORDER; y < Constants.TOP_BORDER; y += Constants.TILE_SIZE)
+            for (float y = Constants.BOTTOM_BORDER; y < Constants.TOP_BORDER; y += Constants.TILE_SIZE * 10)
             {
-                for (float x = Constants.LEFT_BORDER; x < Constants.RIGHT_BORDER; x += Constants.TILE_SIZE) 
+                for (float x = Constants.LEFT_BORDER; x < Constants.RIGHT_BORDER; x += Constants.TILE_SIZE * 10)
                 {
                     Vector2 curr = new Vector2(x, y);
-                    bool gen = 
+                    bool gen =
                         Constants.RANDOM.NextDouble() < HelperFunctions.SpawnRate(curr);
                     if (gen)
                     {

@@ -30,7 +30,7 @@ namespace Meltdown.Utilities
         public static uint MAX_AMOUNT_OF_ENEMIES = 15;
 
         // size of tiles for procedural generation
-        public static float TILE_SIZE = 100;
+        public static float TILE_SIZE = 10;
         public static float LEFT_BORDER = -300;
         public static float RIGHT_BORDER = 2000;
         public static float TOP_BORDER = 2000;

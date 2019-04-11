@@ -39,6 +39,8 @@ namespace Meltdown.States
         SpineAnimationResourceManager spineAnimationResourceManager;
         AtlasTextureResourceManager atlasTextureResourceManager;
 
+        TileMap tileMap;
+
         public override void Initialize(Game1 game)
         {
             this.inputManager = new InputManager();
@@ -88,6 +90,10 @@ namespace Meltdown.States
             this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"test\SPS_StaticSprites");
             this.atlasTextureResourceManager.Manage(this.world);
 
+            // Miscellaneous
+            this.tileMap = new TileMap(this.atlasTextureResourceManager);
+            this.SetInstance(tileMap);
+
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 //new DebugCollisionHandler(this.world),
                 new DamageHealthCollisionHandler(this.world),
@@ -131,6 +137,7 @@ namespace Meltdown.States
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
                 new SkeletonUpdateSystem(this.world),
+                new TileMapDrawSystem(game.GraphicsDevice, this.worldCamera, this.tileMap),
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,

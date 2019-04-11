@@ -187,6 +187,7 @@
     <Compile Include="Graphics\Transform3D.cs" />
     <Compile Include="Systems\SkeletonUpdateSystem.cs" />
     <Compile Include="Systems\SpineSkeletonDrawSystem.cs" />
+    <Compile Include="Systems\TileMapDrawSystem.cs" />
     <Compile Include="Systems\TTLSystem.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />
     <Compile Include="Utilities\Aliases.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Utilities\Spine\spine-xna\Util.cs" />
     <Compile Include="Utilities\Spine\spine-xna\VertexEffect.cs" />
     <Compile Include="Utilities\Spine\spine-xna\XnaTextureLoader.cs" />
+    <Compile Include="Utilities\TileMap.cs" />
     <Compile Include="Utilities\Time.cs" />
   </ItemGroup>
   <ItemGroup>
