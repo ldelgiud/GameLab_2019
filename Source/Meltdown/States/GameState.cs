@@ -21,6 +21,8 @@ using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
 using Meltdown.Graphics;
+using Meltdown.Systems.Debugging;
+using Meltdown.Pathfinding;
 
 namespace Meltdown.States
 {
@@ -55,8 +57,8 @@ namespace Meltdown.States
             this.SetInstance(new QuadTree<Entity>(
                 new AABB()
                 {
-                    LowerBound = new Vector2(-10000, -10000),
-                    UpperBound = new Vector2(10000, 10000)
+                    LowerBound = Constants.BOTTOM_LEFT_CORNER,// new Vector2(-10000, -10000),
+                    UpperBound = Constants.TOP_RIGHT_CORNER// new Vector2(10000, 10000)
                 },
                 10, 7));
 
@@ -73,7 +75,6 @@ namespace Meltdown.States
                 true
                 );
             
-
             this.world = new World();
             this.SetInstance(this.world);
 
@@ -112,6 +113,7 @@ namespace Meltdown.States
             ShootingSystem shootingSystem = new ShootingSystem(this.world, this.inputManager);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
             TTLSystem TTLSystem = new TTLSystem(world);
+            PathFinderSystem pathFinderSystem = new PathFinderSystem();
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -121,18 +123,35 @@ namespace Meltdown.States
                 aISystem,
                 powerplantSystem,
                 cameraSystem,
-                TTLSystem
+                TTLSystem,
+                pathFinderSystem
                 );
-            
+
+            //TERRAIN GENERATION
+            //ProcGen.BuildWalls();
+            ProcGen.BuildBackground();
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            ProcGen.BuildStreet(powerPlant);
+            SpawnHelper.SpawnBasicWall(new Vector2(30,0),10,10);
+            Grid grid = new Grid();
+            this.SetInstance(new PathRequestManager(new PathFinder(grid)));
+
+            //DRAWING SYSTEMS
             EnergyDrawSystem energyDrawSystem =
                 new EnergyDrawSystem(
                     energy,
                     this.world
                     );
-
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
-
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
+
+
+            GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
+                grid : grid, 
+                graphicsDevice : game.GraphicsDevice,
+                camera : this.worldCamera,
+                circle : game.Content.Load<Texture2D>("graph/circle-16")
+                );
 
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
@@ -141,46 +160,23 @@ namespace Meltdown.States
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
+                //gridDrawSystem,      
                 energyDrawSystem,
                 new SpineSkeletonDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
                 aabbDebugDrawSystem
                 );
+            
 
-            //PROCGEN
-            ProcGen.BuildBackground();
-            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
-            ProcGen.BuildStreet(powerPlant);
+            //SPAWNING 
+            //ENEMY SPAWNING
             ProcGen.SpawnHotspots();
-
-
-
             // Create player
             SpawnHelper.SpawnPlayer(1);
-
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
             // Event trigger
-            {
-                var entity = this.world.CreateEntity();
-
-                Vector2 position = new Vector2(0, -20);
-                AABB aabb = new AABB(new Vector2(-5, -5), new Vector2(5, 5));
-                Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
-                element.Span.LowerBound += position;
-                element.Span.UpperBound += position;
-
-                entity.Set(new Transform2DComponent() { value = new Transform2D(position) });
-                entity.Set(new WorldSpaceComponent());
-                entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
-                entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholder", 10, 10)));
-                entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
-                entity.Set(new NameComponent() { name = "intro_event_trigger" });
-
-                physicsSystem.quadtree.AddNode(element);
-            }
-
-
+            //SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }
 
         public override IStateTransition Update(Time time)
@@ -227,7 +223,6 @@ namespace Meltdown.States
 
             // Shooting - Gamepad
             this.inputManager.Register(Buttons.RightTrigger);
-
             this.inputManager.Register(ThumbSticks.Right);
 
             // Event - Keyboard

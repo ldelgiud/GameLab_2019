@@ -9,6 +9,7 @@ namespace Meltdown.AI
     enum EnemyType
     {
         Drone,
-        Shooter
+        Shooter,
+        Laser
     }
 }

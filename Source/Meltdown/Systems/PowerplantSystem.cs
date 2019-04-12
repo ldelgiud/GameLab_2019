@@ -41,7 +41,7 @@ namespace Meltdown.Systems
             Vector2 distVec = center - powerPlant.Position;
             double dist = Math.Max(distVec.Length(), minDist);
 
-            this.energy.CurrentEnergy -= (1 / dist) * gameTime.Delta * 10000;
+            this.energy.CurrentEnergy -= (1 / dist) * gameTime.Delta * 1000;
 
 
             }

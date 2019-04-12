@@ -10,6 +10,7 @@ using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
 using DefaultEcs;
 using Meltdown.Components;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
@@ -23,14 +24,26 @@ namespace Meltdown.AI
             Entity entity,
             Time time)
         {
-            Vector2 position = entity.Get<Transform2DComponent>().value.Translation;
+            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - position;
-
-                if (dist.Length() <= Constants.STANDBY_TO_SEARCH_DIST) return new DroneSearch();
+                Vector2 distVec = player.transform.Translation - this.myPos;
+                float sqrdDist = distVec.LengthSquared();
+                this.target = player.transform.Translation;
+                if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST) return new DroneOffline();
+                else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
+                    if (this.IsInSight(this.myPos, this.target))
+                    {
+                        Debug.WriteLine("DRONY: SAW YOU BITCH!!");
+                        return new DroneSearch();
+                    }
+                    else if (sqrdDist <= Constants.BLIND_STANDBY_TO_SEARCH_SQRD_DIST)
+                    {
+                        Debug.WriteLine("DRONY: TOO CLOSE BITCH!!");
+                        return new DroneSearch();
+                    }
             }
-            return this;
+            return this; ;
         }
     }
 }

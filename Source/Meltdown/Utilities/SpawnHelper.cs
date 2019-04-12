@@ -14,6 +14,7 @@ using DefaultEcs;
 using DefaultEcs.Resource;
 
 using tainicom.Aether.Physics2D.Collision;
+using Meltdown.Event;
 
 namespace Meltdown.Utilities
 {
@@ -173,7 +174,7 @@ namespace Meltdown.Utilities
         }
 
         /// <summary>
-        /// Spawn an enemy entity at given position in standby
+        /// Spawn an enemy entity at given position in offline state
         /// </summary>
         /// <param name="pos">Position to Spawn enemy at</param>
         private static Entity SpawnBasicEnemy(Vector2 position)
@@ -194,7 +195,7 @@ namespace Meltdown.Utilities
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AllianceMaskComponent(Alliance.Hostile));
-            entity.Set(new VelocityComponent(new Vector2(0, 0)));
+            entity.Set(new VelocityComponent(Vector2.Zero));
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new NameComponent() { name = "enemy" });
@@ -205,7 +206,7 @@ namespace Meltdown.Utilities
         {
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
-            entity.Set(new AIComponent(new ShooterStandby()));
+            entity.Set(new AIComponent(new ShooterOffline()));
             entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("placeholder", 2, 2)));
             entity.Set(new NameComponent() { name = "shooter" });
             SpawnHelper.SpawnGun(entity);
@@ -215,7 +216,7 @@ namespace Meltdown.Utilities
         {
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
-            entity.Set(new AIComponent(new DroneStandby()));
+            entity.Set(new AIComponent(new DroneOffline()));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\drone", @"test\drone_texture")));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });
@@ -291,6 +292,50 @@ namespace Meltdown.Utilities
 
             return entity;
         }
+
+        public static Entity SpawnEvent(Vector2 position)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            AABB aabb = new AABB(new Vector2(-5, -5), new Vector2(5, 5));
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+
+            entity.Set(new Transform2DComponent() { value = new Transform2D(position) });
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholder", 10, 10)));
+            entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
+            entity.Set(new NameComponent() { name = "intro_event_trigger" });
+
+            SpawnHelper.quadtree.AddNode(element);
+            return entity;
+        }
+
+        public static void SpawnBasicWall(Vector2 center, float height, float width)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            AABB aabb = new AABB()
+            {
+                LowerBound = new Vector2(-width/2, -height/2),
+                UpperBound = new Vector2( width/2,  height/2)
+            };
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += center;
+            element.Span.UpperBound += center;
+            SpawnHelper.quadtree.AddNode(element);
+
+            //Create entity and attach its components
+            entity.Set(new Transform2DComponent(new Transform2D(center)));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
+            entity.Set(new NameComponent() { name = "Wall" });
+
+
+        }
+
     }
 }
 
