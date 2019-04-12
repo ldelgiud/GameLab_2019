@@ -1,38 +1,36 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Meltdown.State;
+using Meltdown.Utilities;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
+using Microsoft.Xna.Framework.Input;
 
 using DefaultEcs;
 using DefaultEcs.System;
 using DefaultEcs.Resource;
 
-using Meltdown.State;
-using Meltdown.Components;
-using Meltdown.Systems;
-using Meltdown.ResourceManagers;
-using Meltdown.Utilities;
-using Meltdown.Utilities.Extensions;
 using Meltdown.Input;
 using Meltdown.Graphics;
-
-using Spine;
+using Meltdown.Components;
+using Meltdown.ResourceManagers;
+using Meltdown.Systems;
+using Meltdown.Event;
+using Meltdown.Utilities;
 
 namespace Meltdown.States
 {
-    public class MainMenuState : State.State
+    class CoverState : State.State
     {
-        StateTransition transition;
-
         GameWindow window;
 
         InputManager inputManager;
-
-        World world;
         Camera2D screenCamera;
+        World world;
 
         SpineAnimationResourceManager spineAnimationResourceManager;
 
@@ -40,25 +38,27 @@ namespace Meltdown.States
 
         public override void Initialize(Game1 game)
         {
-            this.window = game.Window;
-            this.transition = new StateTransition();
-
             this.inputManager = new InputManager();
-            // Input 
             this.inputManager.Register(Keys.Enter);
             this.inputManager.Register(Buttons.A);
+            this.SetInstance(this.inputManager);
 
-            this.world = new World();
+            this.window = game.Window;
+
             this.screenCamera = new Camera2D(
                 new Transform2D(),
                 1920,
                 1080
                 );
 
+            // World
+            this.world = new World();
+
             // Resource Managers
             this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
             this.spineAnimationResourceManager.Manage(this.world);
 
+            // Systems
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
                 new SkeletonUpdateSystem(this.world),
@@ -67,16 +67,15 @@ namespace Meltdown.States
 
             {
                 var entity = this.world.CreateEntity();
+                entity.Set(new ManagedResource<SpineAnimationInfo, SpineAnimationAlias>(new SpineAnimationInfo(
+                    @"menu\main\screens",
+                    new SkeletonInfo(1920, 1080, skin: "press_any_key"),
+                    new AnimationStateInfo("screen_splash_idle", true)
+                )));
                 entity.Set(new ScreenSpaceComponent());
                 entity.Set(new Transform2DComponent(new Transform2D()));
-                entity.Set(new ManagedResource<SpineAnimationInfo, SpineAnimationAlias>(
-                    new SpineAnimationInfo(
-                        @"menu\main\screens", 
-                        new SkeletonInfo(1920, 1080, skin: "main_menu"),
-                        null
-                    )
-                ));
             }
+            
         }
 
         public override IStateTransition Update(Time time)
@@ -88,7 +87,7 @@ namespace Meltdown.States
             switch (inputEvent)
             {
                 case ReleaseEvent _:
-                    return new SwapTransition(new GameState());
+                    return new SwapTransition(new MainMenuState());
             }
 
             return null;

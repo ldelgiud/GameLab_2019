@@ -142,7 +142,7 @@ namespace Meltdown.States
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
                 energyDrawSystem,
-                new SpineSkeletonDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
+                new SpineSkeletonDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
                 aabbDebugDrawSystem
                 );
 

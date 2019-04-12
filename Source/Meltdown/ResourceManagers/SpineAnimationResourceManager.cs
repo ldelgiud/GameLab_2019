@@ -35,11 +35,17 @@ namespace Meltdown.ResourceManagers
             var skeletonData = skeletonJson.ReadSkeletonData(@"Content\" + info.name + ".json");
 
             var skeleton = new Skeleton(skeletonData);
+            skeleton.SetSkin(info.skeletonInfo.skin);
 
-            var animationStateData = new AnimationStateData(skeleton.Data);
+            AnimationState animationState = null;
+            if (info.animationStateInfo.HasValue)
+            {
+                var animationStateInfo = info.animationStateInfo.Value;
+                var animationStateData = new AnimationStateData(skeleton.Data);
 
-            var animationState = new AnimationState(animationStateData);
-            animationState.SetAnimation(0, info.animationStateInfo.animation, info.animationStateInfo.loop);
+                animationState = new AnimationState(animationStateData);
+                animationState.SetAnimation(0, animationStateInfo.animation, animationStateInfo.loop);
+            }
 
             return new SpineAnimationAlias(
                     animationState,
@@ -57,8 +63,12 @@ namespace Meltdown.ResourceManagers
                 info.skeletonInfo.scale = new Vector2(info.skeletonInfo.width / width, info.skeletonInfo.height / height);
             }
 
-            entity.Set(new AnimationStateComponent(resource.animationState));
             entity.Set(new SkeletonComponent(resource.skeleton, info.skeletonInfo));
+
+            if (resource.animationState != null)
+            {
+                entity.Set(new AnimationStateComponent(resource.animationState));
+            }
         }
     }
 }
