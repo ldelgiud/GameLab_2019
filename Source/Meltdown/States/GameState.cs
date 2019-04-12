@@ -160,7 +160,6 @@ namespace Meltdown.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
-
             // Event trigger
             {
                 var entity = this.world.CreateEntity();

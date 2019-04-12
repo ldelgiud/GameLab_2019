@@ -45,7 +45,7 @@ namespace Meltdown.Components
             Entity entity = SpawnHelper.SpawnBullet(transform.Translation, direction);
             
             entity.Set(new VelocityComponent(direction * this.projectileSpeed));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"shooting\bullet", 0.4f, 0.4f, rotation: -MathF.PI / 2)));
+            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_WP_Projectile_01", 0.4f, 0.4f, rotation: -MathF.PI / 2)));
             entity.Set(new DamageComponent(this.damage)); // added for collision handling
             entity.Set(new NameComponent() { name = "bullet" });
             entity.Set(new TTLComponent(Constants.TTL_BULLET));

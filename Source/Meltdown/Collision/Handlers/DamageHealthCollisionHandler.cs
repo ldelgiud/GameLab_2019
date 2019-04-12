@@ -26,7 +26,7 @@ namespace Meltdown.Collision.Handlers
             if (colliderAlliance == collideeAlliance) return;
             HealthComponent health = collidee.Get<HealthComponent>();
             DamageComponent damage = collider.Get<DamageComponent>();
-            Vector2 collideePos = collidee.Get<AABBComponent>().aabb.Center;
+            Vector2 collideePos = collidee.Get<Transform2DComponent>().value.Translation;
 
             health.DealDamage(damage.Damage);
             if (health.isDead())
