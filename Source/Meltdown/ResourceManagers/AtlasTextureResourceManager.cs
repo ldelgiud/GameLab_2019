@@ -42,7 +42,9 @@ namespace Meltdown.ResourceManagers
 
             return new AtlasTextureAlias (
                 (Texture2D)this.atlas.pages[0].rendererObject,
-                new Rectangle(region.x, region.y, region.width, region.height)
+                region.rotate ? new Rectangle(region.x, region.y, region.height, region.width) : 
+                    new Rectangle(region.x, region.y, region.width, region.height),
+                    region.rotate
                 );
         }
 
@@ -52,7 +54,19 @@ namespace Meltdown.ResourceManagers
 
             if (info.scale.X < 0 && info.scale.Y < 0)
             {
-                info.scale = new Vector2(info.width / resource.bounds.Width, info.height / resource.bounds.Height);
+                if (resource.rotate)
+                {
+                    info.scale = new Vector2(info.height / resource.bounds.Width, info.width / resource.bounds.Height);
+                }
+                else
+                {
+                    info.scale = new Vector2(info.width / resource.bounds.Width, info.height / resource.bounds.Height);
+                }
+            }
+
+            if (resource.rotate)
+            {
+                info.rotation += -MathF.PI / 2;
             }
 
             entity.Set(new Texture2DComponent(resource.value, info));

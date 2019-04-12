@@ -57,11 +57,13 @@ namespace Meltdown.Utilities
     {
         public Texture2D value;
         public Rectangle bounds;
+        public bool rotate;
 
-        public AtlasTextureAlias(Texture2D texture, Rectangle bounds)
+        public AtlasTextureAlias(Texture2D texture, Rectangle bounds, bool rotate = false)
         {
             this.value = texture;
             this.bounds = bounds;
+            this.rotate = rotate;
         }
 
         public void Dispose()

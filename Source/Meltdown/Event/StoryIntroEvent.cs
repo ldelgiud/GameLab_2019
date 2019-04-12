@@ -39,8 +39,8 @@ namespace Meltdown.Event
             {
                 case 0:
                     this.intro1Entity = world.CreateEntity();
-                    this.intro1Entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"gui\story\intro1")));
-                    this.intro1Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 180))));
+                    this.intro1Entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_Story_01", 745, 360)));
+                    this.intro1Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
                     this.intro1Entity.Set(new ScreenSpaceComponent());
                     this.intro1Entity.Set(new NameComponent() { name = "intro1" });
                     this.state = 1;
@@ -52,8 +52,8 @@ namespace Meltdown.Event
                             this.intro1Entity.Delete();
 
                             this.intro2Entity = world.CreateEntity();
-                            this.intro2Entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"gui\story\intro2")));
-                            this.intro2Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 180))));
+                            this.intro2Entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_Story_02", 745, 360)));
+                            this.intro2Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
                             this.intro2Entity.Set(new ScreenSpaceComponent());
                             this.intro2Entity.Set(new NameComponent() { name = "intro2" });
 
