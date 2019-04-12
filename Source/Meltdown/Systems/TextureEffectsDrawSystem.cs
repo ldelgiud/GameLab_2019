@@ -35,8 +35,8 @@ namespace Meltdown.Systems
         protected override void PreUpdate(Time time)
         {
             //effect.Parameters["time"].SetValue(time.Absolute);
-            effect.Parameters["u_blurSize"].SetValue(0.02f);
-            effect.Parameters["u_intensity"].SetValue(2.0f);
+            effect.Parameters["u_blurSize"].SetValue(0.03f);
+            effect.Parameters["u_intensity"].SetValue(2.5f);
             this.spriteBatch.Begin(effect: this.effect);
         }
 

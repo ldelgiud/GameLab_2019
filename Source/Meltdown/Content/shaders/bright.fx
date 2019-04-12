@@ -26,6 +26,8 @@ struct VertexShaderOutput
 uniform float u_blurSize;
 uniform float u_intensity;
 
+
+
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
 	float2 uv = input.texCoord.xy;

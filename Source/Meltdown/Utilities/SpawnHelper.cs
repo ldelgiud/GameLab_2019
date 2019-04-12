@@ -67,7 +67,7 @@ namespace Meltdown.Utilities
 
             entity.Set(new PlayerComponent(playerID, 20));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
-            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3(), Vector3.Zero, new Vector3(0.1f, 0.1f, 0.1f))));
+            entity.Set(new WorldTransformComponent(new Transform(position.ToVector3(), Vector3.Zero, new Vector3(0.2f, 0.2f, 0.2f))));
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
@@ -81,6 +81,7 @@ namespace Meltdown.Utilities
             gun.Set(new InteractableComponent());
             gun.Set(new PickUpGunComponent());
             gun.RemoveFromChildrenOf(entity);
+            entity.Remove<WeaponComponent>();
             //gun.Set(new InputComponent(new ShootingInputHandler(World)));
 
         }
