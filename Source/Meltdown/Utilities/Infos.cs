@@ -58,9 +58,9 @@ namespace Meltdown.Utilities
         public String name;
 
         public SkeletonInfo skeletonInfo;
-        public AnimationStateInfo animationStateInfo;
+        public AnimationStateInfo? animationStateInfo;
 
-        public SpineAnimationInfo(String name, SkeletonInfo skeletonInfo, AnimationStateInfo animationStateInfo)
+        public SpineAnimationInfo(String name, SkeletonInfo skeletonInfo, AnimationStateInfo? animationStateInfo)
         {
             this.name = name;
             this.skeletonInfo = skeletonInfo;
@@ -70,14 +70,16 @@ namespace Meltdown.Utilities
 
     struct SkeletonInfo
     {
+        public String skin;
         public Vector2 translation;
         public Vector2 scale;
 
         public float width;
         public float height;
 
-        public SkeletonInfo(float width, float height, Vector2? translation = null)
+        public SkeletonInfo(float width, float height, String skin = "default", Vector2? translation = null)
         {
+            this.skin = skin;
             this.translation = translation ?? Vector2.Zero;
             this.scale = -Vector2.One;
 
@@ -85,8 +87,9 @@ namespace Meltdown.Utilities
             this.height = height;
         }
 
-        public SkeletonInfo(Vector2? translation = null, Vector2? scale = null)
+        public SkeletonInfo(String skin = "default", Vector2? translation = null, Vector2? scale = null)
         {
+            this.skin = skin;
             this.translation = translation ?? Vector2.Zero;
             this.scale = scale ?? Vector2.One;
             this.width = 0;

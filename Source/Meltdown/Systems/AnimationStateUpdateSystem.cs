@@ -20,6 +20,7 @@ namespace Meltdown.Systems
         public AnimationStateUpdateSystem(World world) : base(
             world.GetEntities()
             .With<AnimationStateComponent>()
+            .With<SkeletonComponent>()
             .Build()
             )
         {
@@ -28,7 +29,11 @@ namespace Meltdown.Systems
 
         protected override void Update(Time state, in Entity entity)
         {
-            entity.Get<AnimationStateComponent>().value.Update(state.Delta);
+            ref var animationState = ref entity.Get<AnimationStateComponent>();
+            ref var skeleton = ref entity.Get<SkeletonComponent>();
+
+            animationState.value.Update(state.Delta);
+            animationState.value.Apply(skeleton.value);
         }
 
     }

@@ -168,6 +168,7 @@
     <Compile Include="ResourceManagers\ModelResourceManager.cs" />
     <Compile Include="ResourceManagers\SpineAnimationResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
+    <Compile Include="States\CoverState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="State\State.cs" />

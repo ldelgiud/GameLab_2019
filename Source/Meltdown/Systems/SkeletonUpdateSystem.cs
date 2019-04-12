@@ -18,7 +18,6 @@ namespace Meltdown.Systems
 
         public SkeletonUpdateSystem(World world) : base(
             world.GetEntities()
-            .With<AnimationStateComponent>()
             .With<SkeletonComponent>()
             .With<Transform2DComponent>()
             .Build()
@@ -28,15 +27,12 @@ namespace Meltdown.Systems
 
         protected override void Update(Time state, in Entity entity)
         {
-            ref var animationState = ref entity.Get<AnimationStateComponent>();
             ref var skeleton = ref entity.Get<SkeletonComponent>();
             ref var transform = ref entity.Get<Transform2DComponent>();
 
             var translation = Camera2D.WorldToPerspective(transform.value.Translation + skeleton.info.translation);
             var scale = transform.value.Scale * skeleton.info.scale;
 
-
-            animationState.value.Apply(skeleton.value);
             skeleton.value.X = translation.X;
             skeleton.value.Y = translation.Y;
             skeleton.value.ScaleX = scale.X;

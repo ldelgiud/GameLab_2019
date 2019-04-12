@@ -13,7 +13,7 @@ using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Systems
 {
-    class SpineSkeletonDrawSystem : AEntitySystem<Time>
+    class SpineSkeletonDrawSystem<T> : AEntitySystem<Time>
     {
         Camera2D camera;
         SkeletonRenderer skeletonRenderer;
@@ -24,7 +24,7 @@ namespace Meltdown.Systems
             world.GetEntities()
             .With<SkeletonComponent>()
             .With<Transform2DComponent>()
-            .With<WorldSpaceComponent>()
+            .With<T>()
             .Build()
             )
         {
@@ -52,7 +52,6 @@ namespace Meltdown.Systems
         protected override void Update(Time time, in Entity entity)
         {
             ref var skeleton = ref entity.Get<SkeletonComponent>();
-            ref var animationState = ref entity.Get<AnimationStateComponent>();
 
             this.skeletonRenderer.Draw(skeleton.value);
             //this.skeletonDebugRenderer.Draw(skeleton.value);

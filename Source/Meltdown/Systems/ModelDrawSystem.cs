@@ -35,8 +35,10 @@ namespace Meltdown.Systems
 
             var transformMatrix = transform.value.TransformMatrix;
 
+            var cameraPosition = this.camera.Transform.Translation;
+
             var m = transformMatrix.ToMatrix();
-            var v = Matrix.CreateLookAt(new Vector3(this.camera.Transform.Translation, 50), this.camera.Transform.Translation.ToVector3(), Vector3.UnitY);
+            var v = Matrix.CreateLookAt(new Vector3(cameraPosition.X, cameraPosition.Y, 50), this.camera.Transform.Translation.ToVector3(), Vector3.UnitY);
             var p = Matrix.CreateOrthographic(this.camera.ScreenWidth, this.camera.ScreenHeight, 0, 100);
 
             foreach (var mesh in model.value.Meshes)
