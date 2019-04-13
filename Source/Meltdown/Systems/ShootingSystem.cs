@@ -23,7 +23,8 @@ namespace Meltdown.Systems
 
         public ShootingSystem(World world, InputManager inputManager) : base(
             world.GetEntities()
-            .With<WorldTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .With<InputComponent>()
             .With<SmallGunComponent>()
             .Build())

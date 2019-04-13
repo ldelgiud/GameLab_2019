@@ -49,6 +49,30 @@
 /processorParam:TextureFormat=Color
 /build:circle-64.png
 
+#begin graph/circle-16.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:graph/circle-16.png
+
+#begin graph/circle-8.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:graph/circle-8.png
+
 #begin gui/EnergyFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -80,53 +104,14 @@
 /processorParam:TextureFormat=Color
 /build:gui/story/intro2.png
 
-#begin menu/main/credits.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:menu/main/credits.png
+#begin menu/main/screens.atlas
+/copy:menu/main/screens.atlas
 
-#begin menu/main/logo.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:menu/main/logo.png
+#begin menu/main/screens.json
+/copy:menu/main/screens.json
 
-#begin menu/main/quit.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:menu/main/quit.png
-
-#begin menu/main/start.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:menu/main/start.png
+#begin menu/main/screens.png
+/copy:menu/main/screens.png
 
 #begin placeholder.png
 /importer:TextureImporter
@@ -140,17 +125,14 @@
 /processorParam:TextureFormat=Color
 /build:placeholder.png
 
+#begin placeholders/battery.atlas
+/copy:placeholders/battery.atlas
+
+#begin placeholders/battery.json
+/copy:placeholders/battery.json
+
 #begin placeholders/battery.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:placeholders/battery.png
+/copy:placeholders/battery.png
 
 #begin placeholders/enemies/drone.png
 /importer:TextureImporter
@@ -211,6 +193,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:placeholders/NuclearPlantPLACEHOLDER.jpg
+
+#begin player1 PLACEHOLDER.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:player1 PLACEHOLDER.png
 
 #begin shaders/blackAndWhite.fx
 /importer:EffectImporter
@@ -291,7 +285,7 @@
 /processorParam:TextureFormat=Compressed
 /build:test/MED_WP_MatGunBasic_01.FBX
 
-#begin test/player.fbx
+#begin test/drone.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -308,9 +302,9 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:test/player.fbx
+/build:test/drone.fbx
 
-#begin Texture.png
+#begin test/drone_texture.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -320,7 +314,35 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Texture.png
+/build:test/drone_texture.png
+
+#begin test/player.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=1.570796
+/processorParam:RotationZ=0
+/processorParam:Scale=0.1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:test/player.fbx
+
+#begin test/SPS_StaticSprites.atlas
+/copy:test/SPS_StaticSprites.atlas
+
+#begin test/SPS_StaticSprites.json
+/copy:test/SPS_StaticSprites.json
+
+#begin test/SPS_StaticSprites.png
+/copy:test/SPS_StaticSprites.png
 
 #begin tiles/forest PLACEHOLDER.jpg
 /importer:TextureImporter

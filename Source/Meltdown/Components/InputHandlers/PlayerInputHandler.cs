@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
 using Meltdown.Input;
+using Meltdown.Graphics;
 using Meltdown.Utilities;
 
 namespace Meltdown.Components.InputHandlers
@@ -112,6 +113,14 @@ namespace Meltdown.Components.InputHandlers
                     velComp.velocity.Y = -player.Speed;
                     break;
             }
+
+            if (velComp.velocity != Vector2.Zero)
+            {
+                velComp.velocity = Camera2D.PerspectiveToWorld(velComp.velocity);
+                velComp.velocity.Normalize();
+                velComp.velocity *= player.Speed;
+            }
+            
 
             //if (gState.IsButtonDown(Buttons.LeftTrigger)) //L2
             //{

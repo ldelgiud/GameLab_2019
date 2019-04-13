@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,19 +37,16 @@ namespace Meltdown.Components
             this.alliance = alliance;
         }
 
-        public override void Shoot(float absoluteTime, WorldTransformComponent gunTransform, Vector2 direction)
+        public override void Shoot(float absoluteTime, Transform2D transform, Vector2 direction)
         {
-            direction.Normalize();
             if ((absoluteTime - timeLastShot) < reloadTime) { return; }
-            var globalTransform = gunTransform.value.GlobalTransform;
-            Vector3 position = globalTransform.Translation();
+            direction.Normalize();
 
-            Entity entity = SpawnHelper.SpawnBullet(position, direction);
-
+            Entity entity = SpawnHelper.SpawnBullet(transform.Translation, direction);
+            
             entity.Set(new VelocityComponent(direction * this.projectileSpeed));
-            entity.Set(new ManagedResource<string, Texture2D>(this.projectileTexture));
+            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_WP_Projectile_01", 0.4f, 0.4f, rotation: -MathF.PI / 2)));
             entity.Set(new DamageComponent(this.damage)); // added for collision handling
-            entity.Set(new BoundingBoxComponent(20, 20, 0));
             entity.Set(new NameComponent() { name = "bullet" });
             entity.Set(new TTLComponent(Constants.TTL_BULLET));
             entity.Set(new AllianceMaskComponent(this.alliance));

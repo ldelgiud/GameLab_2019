@@ -12,7 +12,7 @@ using Meltdown.Utilities;
 
 namespace Meltdown.ResourceManagers
 {
-    sealed class ModelResourceManager : AResourceManager<string, ModelWrapper>
+    sealed class ModelResourceManager : AResourceManager<ModelInfo, ModelAlias>
     {
         ContentManager contentManager;
 
@@ -24,20 +24,29 @@ namespace Meltdown.ResourceManagers
             
         }
 
-        protected override ModelWrapper Load(string info)
+        protected override ModelAlias Load(ModelInfo info)
         {
-            // Add Effect inside ModelWrapper
-            // Retrieve Effect from info
-            // Assign Effect of ModelWrapper
-            return new ModelWrapper() { value = this.contentManager.Load<Model>(info) };
+            var model = this.contentManager.Load<Model>(info.name);
 
+            if (info.textureName != null)
+            {
+                var texture = this.contentManager.Load<Texture2D>(info.textureName);
+                foreach (var mesh in model.Meshes)
+                {
+                    foreach (BasicEffect effect in mesh.Effects)
+                    {
+                        effect.TextureEnabled = true;
+                        effect.Texture = texture;
+                    }
+                }
+            }
+
+            return new ModelAlias() { value =  model };
         }
 
-        protected override void OnResourceLoaded(in Entity entity, string info, ModelWrapper resource)
+        protected override void OnResourceLoaded(in Entity entity, ModelInfo info, ModelAlias resource)
         {
-            // Take model inside ModelWrapper
-            // Create tags for Model
-            entity.Set(new ModelComponent(resource.value));
+            entity.Set(new ModelComponent() { value = resource.value, info = info });
         }
     }
 }

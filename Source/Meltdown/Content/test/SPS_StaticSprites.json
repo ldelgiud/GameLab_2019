@@ -1,0 +1,64 @@
+{
+"skeleton": { "hash": "WNivg3M15Lh1yUzWX16rSGYq/oM", "spine": "3.6.53", "width": 1058, "height": 511, "images": "" },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "static_sprites/SPT_EN_Tile_Grass_01", "bone": "root" },
+	{ "name": "static_sprites/SPT_EN_Tile_MainStreetCorner_01", "bone": "root" },
+	{ "name": "static_sprites/SPT_EN_Tile_MainStreet_01", "bone": "root" },
+	{ "name": "static_sprites/SPT_UI_HUD_EnergyBack", "bone": "root" },
+	{ "name": "static_sprites/SPT_UI_HUD_EnergyFront", "bone": "root" },
+	{ "name": "static_sprites/SPT_UI_HUD_ReactorBack", "bone": "root" },
+	{ "name": "static_sprites/SPT_UI_HUD_ReactorFront", "bone": "root" },
+	{ "name": "static_sprites/SPT_UI_HUD_Story_01", "bone": "root" },
+	{ "name": "static_sprites/SPT_UI_HUD_Story_02", "bone": "root" },
+	{ "name": "static_sprites/SPT_WP_Projectile_01", "bone": "root" },
+	{ "name": "static_sprites/SPT_EN_Tile_PowerPlant_01", "bone": "root" },
+	{ "name": "static_sprites/SPT_EN_Tile_Playerhouse_01", "bone": "root" },
+	{ "name": "static_sprites/SPT_UI_HUD_StoryEnd_01", "bone": "root", "attachment": "static_sprites/SPT_UI_HUD_StoryEnd_01" }
+],
+"skins": {
+	"default": {
+		"static_sprites/SPT_EN_Tile_Grass_01": {
+			"static_sprites/SPT_EN_Tile_Grass_01": { "width": 1000, "height": 580 }
+		},
+		"static_sprites/SPT_EN_Tile_MainStreetCorner_01": {
+			"static_sprites/SPT_EN_Tile_MainStreetCorner_01": { "width": 1000, "height": 580 }
+		},
+		"static_sprites/SPT_EN_Tile_MainStreet_01": {
+			"static_sprites/SPT_EN_Tile_MainStreet_01": { "width": 1000, "height": 580 }
+		},
+		"static_sprites/SPT_EN_Tile_Playerhouse_01": {
+			"static_sprites/SPT_EN_Tile_PlayerHouse_01": { "width": 1000, "height": 580 }
+		},
+		"static_sprites/SPT_EN_Tile_PowerPlant_01": {
+			"static_sprites/SPT_EN_Tile_PowerPlant_01": { "width": 2000, "height": 1160 }
+		},
+		"static_sprites/SPT_UI_HUD_EnergyBack": {
+			"static_sprites/SPT_UI_HUD_EnergyBack": { "width": 600, "height": 25 }
+		},
+		"static_sprites/SPT_UI_HUD_EnergyFront": {
+			"static_sprites/SPT_UI_HUD_EnergyFront": { "width": 600, "height": 25 }
+		},
+		"static_sprites/SPT_UI_HUD_ReactorBack": {
+			"static_sprites/SPT_UI_HUD_ReactorBack": { "width": 600, "height": 25 }
+		},
+		"static_sprites/SPT_UI_HUD_ReactorFront": {
+			"static_sprites/SPT_UI_HUD_ReactorFront": { "width": 600, "height": 25 }
+		},
+		"static_sprites/SPT_UI_HUD_StoryEnd_01": {
+			"static_sprites/SPT_UI_HUD_StoryEnd_01": { "width": 1058, "height": 511 }
+		},
+		"static_sprites/SPT_UI_HUD_Story_01": {
+			"static_sprites/SPT_UI_HUD_Story_01": { "width": 1058, "height": 511 }
+		},
+		"static_sprites/SPT_UI_HUD_Story_02": {
+			"static_sprites/SPT_UI_HUD_Story_02": { "width": 1058, "height": 511 }
+		},
+		"static_sprites/SPT_WP_Projectile_01": {
+			"static_sprites/SPT_WP_Projectile_01": { "width": 128, "height": 85 }
+		}
+	}
+}
+}

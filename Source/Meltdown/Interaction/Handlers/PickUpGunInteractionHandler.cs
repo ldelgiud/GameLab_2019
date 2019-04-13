@@ -22,7 +22,8 @@ namespace Meltdown.Interaction.Handlers
             .Build(),
             world.GetEntities()
             .With<PickUpGunComponent>()
-            .With<WorldTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .Build()
             )
         {
@@ -34,14 +35,14 @@ namespace Meltdown.Interaction.Handlers
             switch (inputEvent)
             {
                 case PressEvent _:
-                    ref var playerTransform = ref interactor.Get<WorldTransformComponent>();
-                    ref var gunTransform = ref interactee.Get<WorldTransformComponent>();
+                    ref var playerTransform = ref interactor.Get<Transform2DComponent>();
+                    ref var gunTransform = ref interactee.Get<Transform2DComponent>();
 
                     // Spawn battery
                     interactee.Remove<InteractableComponent>();
                     
                     // Graphical hint disappear
-                    ref TextureComponent texture = ref interactee.Get<TextureComponent>();
+                    ref Texture2DComponent texture = ref interactee.Get<Texture2DComponent>();
                     texture.glowing = false;
 
                     // Add gun to player

@@ -27,13 +27,18 @@ namespace Meltdown.Systems
         public InteractionSystem(InputManager inputManager, World world, IEnumerable<InteractionHandler> interactionHandlers) : base(
             world.GetEntities()
             .With<InteractableComponent>()
-            .With<WorldTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .Build()
             )
         {
             this.inputManager = inputManager;
             this.interactionHandlers = interactionHandlers;
-            this.players = world.GetEntities().With<PlayerComponent>().With<WorldTransformComponent>().Build();
+            this.players = world.GetEntities()
+                .With<PlayerComponent>()
+                .With<Transform2DComponent>()
+                .With<WorldSpaceComponent>()
+                .Build();
         }
 
         protected override void Update(Time state, ReadOnlySpan<Entity> entities)
@@ -41,7 +46,7 @@ namespace Meltdown.Systems
             foreach (var playerEntity in this.players.GetEntities())
             {
                 ref var player = ref playerEntity.Get<PlayerComponent>();
-                ref var playerTransform = ref playerEntity.Get<WorldTransformComponent>();
+                ref var playerTransform = ref playerEntity.Get<Transform2DComponent>();
 
                 var inputEvent = this.inputManager.GetEvent(player.Id, Buttons.X);
 
@@ -52,15 +57,15 @@ namespace Meltdown.Systems
 
                 foreach (var entity in entities)
                 {
-                    ref var entityTransform = ref entity.Get<WorldTransformComponent>();
+                    ref var entityTransform = ref entity.Get<Transform2DComponent>();
                     ref InteractableComponent interactable = ref entity.Get<InteractableComponent>();
 
-                    if (Vector2.Distance(entityTransform.value.position.ToVector2(), playerTransform.value.position.ToVector2()) < Constants.INTERACTION_DISTANCE)
+                    if (Vector2.Distance(entityTransform.value.Translation, playerTransform.value.Translation) < Constants.INTERACTION_DISTANCE)
                     {
                         // If player wasn't already nearby the interactable object then trigger the glowing (only once until player moves out of distance)
-                        if (!interactable.playerNearby)
+                        if (!interactable.playerNearby && entity.Has<Texture2DComponent>())
                         {
-                            ref TextureComponent texture = ref entity.Get<TextureComponent>();
+                            ref Texture2DComponent texture = ref entity.Get<Texture2DComponent>();
                             texture.glowing = true;
                             interactable.playerNearby = true;
                         }
@@ -84,9 +89,9 @@ namespace Meltdown.Systems
                     else
                     {
                         // If player was nearby and now is not anymore, then make glowing disappear
-                        if (interactable.playerNearby)
+                        if (interactable.playerNearby && entity.Has<Texture2DComponent>())
                         {
-                            ref TextureComponent texture = ref entity.Get<TextureComponent>();
+                            ref Texture2DComponent texture = ref entity.Get<Texture2DComponent>();
                             texture.glowing = false;
                             interactable.playerNearby = false;
 

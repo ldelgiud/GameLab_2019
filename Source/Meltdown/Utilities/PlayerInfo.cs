@@ -5,15 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Meltdown.Components;
+using Meltdown.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace Meltdown.Utilities
 {
     struct PlayerInfo
     {
-        public WorldTransformComponent transform;
+        public Transform2D transform;
         public int id;
-        public PlayerInfo(WorldTransformComponent transform, int id)
+        public PlayerInfo(Transform2D transform, int id)
         {
             this.transform = transform;
             this.id = id;

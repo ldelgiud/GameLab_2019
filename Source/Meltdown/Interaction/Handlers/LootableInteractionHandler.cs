@@ -24,7 +24,8 @@ namespace Meltdown.Interaction.Handlers
             .Build(),
             world.GetEntities()
             .With<LootableComponent>()
-            .With<WorldTransformComponent>()
+            .With<Transform2DComponent>()
+            .With<WorldSpaceComponent>()
             .Build()
             )
         {
@@ -37,17 +38,17 @@ namespace Meltdown.Interaction.Handlers
             {
                 // In case interaction happened do:
                 case PressEvent _:
-                    ref var transform = ref interactee.Get<WorldTransformComponent>();
+                    ref var transform = ref interactee.Get<Transform2DComponent>();
 
                     // Cannot interact anymore
                     interactee.Remove<InteractableComponent>();
 
                     // Graphical hint disappear
-                    ref TextureComponent texture = ref interactee.Get<TextureComponent>();
+                    ref Texture2DComponent texture = ref interactee.Get<Texture2DComponent>();
                     texture.glowing = false;
 
                     // Spawn battery
-                    SpawnHelper.SpawnBattery(Constants.MEDIUM_BATTERY_SIZE, transform.value.position.ToVector2() + new Vector2(0, 10));
+                    SpawnHelper.SpawnBattery(Constants.MEDIUM_BATTERY_SIZE, transform.value.Translation + new Vector2(0, 10));
 
                     return true;
             }
