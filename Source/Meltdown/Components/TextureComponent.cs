@@ -6,5 +6,9 @@ namespace Meltdown.Components
     struct TextureComponent
     {
         public Texture2D value;
+
+        // DEBUG
+        public bool glowing;
+
     }
 }

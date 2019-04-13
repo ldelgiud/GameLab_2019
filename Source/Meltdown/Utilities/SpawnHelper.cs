@@ -77,13 +77,7 @@ namespace Meltdown.Utilities
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 
-            Entity gun = SpawnHelper.SpawnGun(entity);
-            gun.Set(new InteractableComponent());
-            gun.Set(new PickUpGunComponent());
-            gun.RemoveFromChildrenOf(entity);
-            entity.Remove<WeaponComponent>();
-            //gun.Set(new InputComponent(new ShootingInputHandler(World)));
-
+            Entity gun = SpawnHelper.SpawnCollectableGun(Vector2.One * -5);
         }
         /// <summary>
         /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
@@ -93,14 +87,14 @@ namespace Meltdown.Utilities
         public static Entity SpawnGun(Entity parent) {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
-            Vector2 localPosition = new Vector2(-7, 7);
+            Vector2 localPosition = new Vector2(0, 0);
 
             WorldTransformComponent gunTransform = new WorldTransformComponent(
                 new Transform(
                     position: localPosition.ToVector3(),
                     rotation: Vector3.Zero,
-                    scale: Vector3.One / 5
-                   // parent: parent.Get<WorldTransformComponent>().value
+                    scale: Vector3.One / 5,
+                    parent: parent.Get<WorldTransformComponent>().value
                     )
                 );
             gunEntity.Set(gunTransform);
@@ -118,6 +112,40 @@ namespace Meltdown.Utilities
             gunEntity.Set(new NameComponent() { name = "gun" });
             gunEntity.SetAsChildOf(parent);
             parent.Set(new WeaponComponent(gunEntity));
+            return gunEntity;
+        }
+
+        /// <summary>
+        /// Spawns a collectable gun without an initial parent.
+        /// </summary>
+        public static Entity SpawnCollectableGun(Vector2 pos)
+        {
+            // Gun entity
+            var gunEntity = SpawnHelper.World.CreateEntity();
+            Vector2 localPosition = pos;
+
+            WorldTransformComponent gunTransform = new WorldTransformComponent(
+                new Transform(
+                    position: localPosition.ToVector3(),
+                    rotation: Vector3.Zero,
+                    scale: Vector3.One / 5
+                    )
+                );
+            gunEntity.Set(gunTransform);
+            
+            gunEntity.Set(new SmallGunComponent(
+                damage: 35f,
+                projectileSpeed: 25f,
+                radiusRange: -1f,
+                reloadTime: 0.2f,
+                projTex: "shooting/bullet",
+                alliance: Alliance.Player));
+            gunEntity.Set(new ManagedResource<string, ModelWrapper>(@"test\MED_WP_MatGunBasic_01"));
+            gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
+            gunEntity.Set(new BoundingBoxComponent(1f, 1f, 0f));
+            gunEntity.Set(new NameComponent() { name = "gun" });
+            gunEntity.Set(new InteractableComponent());
+            gunEntity.Set(new PickUpGunComponent());
             return gunEntity;
         }
         

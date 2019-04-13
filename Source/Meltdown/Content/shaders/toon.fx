@@ -29,11 +29,11 @@ float3 DiffuseLightDirection = float3(1, 1, 1);
 float4 DiffuseColor = float4(1, 1, 1, 1);
 
 // The intensity of the diffuse light
-float DiffuseIntensity = 1.0;
+float DiffuseIntensity = 0.5;
 
 float4 AmbientColor = float4(0.5, 0.5, 0, 1);
 
-float AmbientIntensity = 0.4;
+float AmbientIntensity = 0.2;
 
 //--------------------------- TOON SHADER PROPERTIES ------------------------------
 // The color to draw the lines in.  Black is a good default.
@@ -156,7 +156,7 @@ float4 CelPixelShader(VertexToPixel input) : COLOR0
 	else
 		color = float4(0.1, 0.1, 0.1, 1.0) * color;
 
-	color = saturate(color * 2); //pump intensity
+	color = saturate(color * 3); //pump intensity
 
 	return saturate(color + AmbientColor * AmbientIntensity);
 

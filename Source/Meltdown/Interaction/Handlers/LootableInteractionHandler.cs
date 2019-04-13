@@ -35,17 +35,18 @@ namespace Meltdown.Interaction.Handlers
         {
             switch (inputEvent)
             {
+                // In case interaction happened do:
                 case PressEvent _:
                     ref var transform = ref interactee.Get<WorldTransformComponent>();
 
-                    // Spawn battery
+                    // Cannot interact anymore
                     interactee.Remove<InteractableComponent>();
 
-                    // Remove glowing
-                    ref TextureEffectComponent texture = ref interactee.Get<TextureEffectComponent>();
-                    interactee.Set(new TextureComponent() { value = texture.value });
-                    interactee.Remove<TextureEffectComponent>();
+                    // Graphical hint disappear
+                    ref TextureComponent texture = ref interactee.Get<TextureComponent>();
+                    texture.glowing = false;
 
+                    // Spawn battery
                     SpawnHelper.SpawnBattery(Constants.MEDIUM_BATTERY_SIZE, transform.value.position.ToVector2() + new Vector2(0, 10));
 
                     return true;

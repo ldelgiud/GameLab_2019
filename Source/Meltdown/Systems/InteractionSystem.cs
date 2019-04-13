@@ -57,14 +57,12 @@ namespace Meltdown.Systems
 
                     if (Vector2.Distance(entityTransform.value.position.ToVector2(), playerTransform.value.position.ToVector2()) < Constants.INTERACTION_DISTANCE)
                     {
-                        // TODO: add glow effect for each interactable entity
-
-                        if (!interactable.glowing)
+                        // If player wasn't already nearby the interactable object then trigger the glowing (only once until player moves out of distance)
+                        if (!interactable.playerNearby)
                         {
                             ref TextureComponent texture = ref entity.Get<TextureComponent>();
-                            entity.Set(new TextureEffectComponent() { value = texture.value });
-                            entity.Remove<TextureComponent>();
-                            interactable.glowing = true;
+                            texture.glowing = true;
+                            interactable.playerNearby = true;
                         }
 
                         if (inputEvent != null)
@@ -85,13 +83,13 @@ namespace Meltdown.Systems
                     }
                     else
                     {
-                        if (interactable.glowing)
+                        // If player was nearby and now is not anymore, then make glowing disappear
+                        if (interactable.playerNearby)
                         {
-                            // Remove glowing
-                            ref TextureEffectComponent texture = ref entity.Get<TextureEffectComponent>();
-                            entity.Set(new TextureComponent() { value = texture.value });
-                            entity.Remove<TextureEffectComponent>();
-                            interactable.glowing = false;
+                            ref TextureComponent texture = ref entity.Get<TextureComponent>();
+                            texture.glowing = false;
+                            interactable.playerNearby = false;
+
                         }
                     }
                 }

@@ -39,17 +39,15 @@ namespace Meltdown.Interaction.Handlers
 
                     // Spawn battery
                     interactee.Remove<InteractableComponent>();
-
-                    // Remove glowing
-                    ref TextureEffectComponent texture = ref interactee.Get<TextureEffectComponent>();
-                    interactee.Set(new TextureComponent() { value = texture.value });
-                    interactee.Remove<TextureEffectComponent>();
+                    
+                    // Graphical hint disappear
+                    ref TextureComponent texture = ref interactee.Get<TextureComponent>();
+                    texture.glowing = false;
 
                     // Add gun to player
                     interactee.Set(new InputComponent(new ShootingInputHandler(world)));
-
-                    // Set parent TODO: with new graphics library
                     interactee.SetAsChildOf(interactor);
+                    interactor.Set(new WeaponComponent(interactee));
 
                     Debug.WriteLine("Gun PickUp Done!");
 

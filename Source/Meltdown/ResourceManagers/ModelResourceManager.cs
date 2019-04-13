@@ -19,15 +19,24 @@ namespace Meltdown.ResourceManagers
         public ModelResourceManager(ContentManager contentManager)
         {
             this.contentManager = contentManager;
+            
+            // Add ModelLoader instance
+            
         }
 
         protected override ModelWrapper Load(string info)
         {
+            // Add Effect inside ModelWrapper
+            // Retrieve Effect from info
+            // Assign Effect of ModelWrapper
             return new ModelWrapper() { value = this.contentManager.Load<Model>(info) };
+
         }
 
         protected override void OnResourceLoaded(in Entity entity, string info, ModelWrapper resource)
         {
+            // Take model inside ModelWrapper
+            // Create tags for Model
             entity.Set(new ModelComponent(resource.value));
         }
     }

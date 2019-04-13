@@ -147,7 +147,6 @@
     <Compile Include="Components\SmallGunComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\TextureComponent.cs" />
-    <Compile Include="Components\TextureEffectComponent.cs" />
     <Compile Include="Components\TTLComponent.cs" />
     <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="Components\WorldTransformComponent.cs" />
@@ -185,7 +184,6 @@
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform.cs" />
-    <Compile Include="Systems\TextureEffectsDrawSystem.cs" />
     <Compile Include="Systems\TTLSystem.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />
     <Compile Include="Utilities\Wrappers.cs" />

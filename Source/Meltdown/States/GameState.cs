@@ -126,18 +126,12 @@ namespace Meltdown.States
                     game.Content.Load<SpriteFont >("gui/EnergyFont")
                     );
 
-            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world, Game1.Instance.Content.Load<Effect>(@"shaders\toon"));
+            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world, Game1.Instance.Content.Load<Effect>(@"shaders\texture-shader")); //generally toon shader
 
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
             this.drawSystem = new SequentialSystem<Time>(
-                new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
-                new TextureEffectsDrawSystem(
-                    game.GraphicsDevice, 
-                    this.worldCamera, 
-                    this.world,
-                    Game1.Instance.Content.Load<Effect>(@"shaders\bright")
-                    ),
+                new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world, Game1.Instance.Content.Load<Effect>(@"shaders\bright")),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
                 energyDrawSystem,
