@@ -61,6 +61,7 @@ namespace Meltdown.Systems
                     }
                     else
                     {
+                        model.UpdateEffects(effect, state.Absolute);
                         effect.Parameters["World"].SetValue(m);
                         effect.Parameters["View"].SetValue(v);
                         effect.Parameters["Projection"].SetValue(p);

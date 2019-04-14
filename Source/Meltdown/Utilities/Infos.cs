@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -95,15 +96,27 @@ namespace Meltdown.Utilities
         public float rotation;
         public Vector3 scale;
         public Effect standardEffect;
+        public bool updateTimeEffect;
+        public bool cachedUpdateTimeEffect;
 
-        public ModelInfo(String name, String textureName = null, float? rotation = null, Vector3? scale = null, Effect standardEffect = null)
+        public ModelInfo(String name, String textureName = null, float? rotation = null, Vector3? scale = null, Effect standardEffect = null, bool? updateTimeEffect = null, IEnumerable<Tuple<string, float>> standardEffectInitialize = null)
         {
             this.name = name;
             this.textureName = textureName;
             this.rotation = rotation ?? 0f;
             this.scale = scale ?? Vector3.One;
             this.standardEffect = standardEffect ?? null;
+            this.updateTimeEffect = updateTimeEffect ?? false;
+            this.cachedUpdateTimeEffect = false;
 
+            if (standardEffectInitialize != null)
+            {
+                foreach (Tuple<string, float> p in standardEffectInitialize)
+                {
+                    standardEffect.Parameters[p.Item1].SetValue(p.Item2);
+                }
+
+            }
         }
     }
 
