@@ -13,18 +13,20 @@ namespace Meltdown.Utilities
         public Vector2 translation;
         public float rotation;
         public Vector2 scale;
+        public float layer;
         public Rectangle? bounds;
         public Effect standardEffect;
 
         public float width;
         public float height;
 
-        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null, Rectangle? bounds = null, Effect standardEffect = null)
+        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null, float? layer = null, Rectangle? bounds = null, Effect standardEffect = null)
         {
             this.name = name ?? "";
             this.translation = translation ?? Vector2.Zero;
             this.rotation = rotation ?? 0;
             this.scale = new Vector2(-1, -1);
+            this.layer = layer ?? Constants.LAYER_FOREGROUND;
             this.bounds = bounds;
             this.standardEffect = standardEffect;
             
@@ -33,12 +35,13 @@ namespace Meltdown.Utilities
             this.height = height;
         }
 
-        public Texture2DInfo(String name, Vector2? translation = null, float? rotation = null, Vector2? scale = null, Rectangle? bounds = null, Effect standardEffect = null)
+        public Texture2DInfo(String name, Vector2? translation = null, float? rotation = null, Vector2? scale = null, float? layer = null, Rectangle? bounds = null, Effect standardEffect = null)
         {
             this.name = name;
             this.translation = translation ?? Vector2.Zero;
             this.rotation = rotation ?? 0;
             this.scale = scale ?? Vector2.One;
+            this.layer = layer ?? Constants.LAYER_FOREGROUND;
             this.bounds = bounds;
             this.standardEffect = standardEffect;
             
@@ -51,11 +54,15 @@ namespace Meltdown.Utilities
     {
         public String name;
         public String textureName;
+        public float rotation;
+        public Vector3 scale;
 
-        public ModelInfo(String name, String textureName = null)
+        public ModelInfo(String name, String textureName = null, float? rotation = null, Vector3? scale = null)
         {
             this.name = name;
             this.textureName = textureName;
+            this.rotation = rotation ?? 0f;
+            this.scale = scale ?? Vector3.One;
         }
     }
 

@@ -64,11 +64,13 @@ namespace Meltdown.Utilities
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\player")));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\player", rotation: MathF.PI / 2, scale: new Vector3(0.05f))));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 
-            Entity gun = SpawnHelper.SpawnCollectableGun(Vector2.One * -5);
+            Entity gun = SpawnHelper.SpawnGun(entity);
+            gun.Set(new InputComponent(new ShootingInputHandler(World)));
+
         }
         /// <summary>
         /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
@@ -90,47 +92,13 @@ namespace Meltdown.Utilities
                 damage : 35f, 
                 projectileSpeed : 25f, 
                 radiusRange : -1f, 
-                reloadTime : 0.2f, 
+                reloadTime : 0.5f, 
                 projTex : "shooting/bullet", 
                 alliance : alliance));
             gunEntity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("shooting/smallGun", 1f, 0.4f)));
             gunEntity.Set(new NameComponent() { name = "gun" });
             gunEntity.SetAsChildOf(parent);
             parent.Set(new WeaponComponent(gunEntity));
-            return gunEntity;
-        }
-
-        /// <summary>
-        /// Spawns a collectable gun without an initial parent.
-        /// </summary>
-        public static Entity SpawnCollectableGun(Vector2 pos)
-        {
-            // Gun entity
-            var gunEntity = SpawnHelper.World.CreateEntity();
-            Vector2 localPosition = pos;
-
-            Transform2DComponent gunTransform = new Transform2DComponent(
-                new Transform2D(
-                    position: localPosition,
-                    rotation: 0,
-                    scale: Vector2.One / 5
-                    )
-                );
-            gunEntity.Set(gunTransform);
-            gunEntity.Set(new WorldSpaceComponent());
-            
-            gunEntity.Set(new SmallGunComponent(
-                damage: 35f,
-                projectileSpeed: 25f,
-                radiusRange: -1f,
-                reloadTime: 0.2f,
-                projTex: "shooting/bullet",
-                alliance: Alliance.Player));
-            gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\MED_WP_MatGunBasic_01")));
-            gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
-            gunEntity.Set(new NameComponent() { name = "gun" });
-            gunEntity.Set(new InteractableComponent());
-            gunEntity.Set(new PickUpGunComponent());
             return gunEntity;
         }
         
@@ -192,7 +160,7 @@ namespace Meltdown.Utilities
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
-            entity.Set(new ManagedResource<SpineAnimationInfo, SpineAnimationAlias>(
+            entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"placeholders\battery",
                     new SkeletonInfo(2f, 2f),
@@ -241,7 +209,7 @@ namespace Meltdown.Utilities
             entity.Set(new WorldSpaceComponent());
             //entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\lootbox"));
             //entity.Set(new TextureEffectComponent() { value = Game1.Instance.Content.Load<Texture2D>(@"placeholders\lootbox") });
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 4f, height: 4f)));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 2f, height: 2f)));
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
             SpawnHelper.AddAABB(entity, position, new Vector2(-1, -1), new Vector2(1, 1), true);
@@ -377,11 +345,8 @@ namespace Meltdown.Utilities
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new NameComponent() { name = "Wall" });
-
-
+            
         }
-
-
 
         public static void AddAABB(Entity entity, Vector2 position, Vector2 lowerBound, Vector2 upperBound, bool solid)
         {
@@ -393,6 +358,7 @@ namespace Meltdown.Utilities
             SpawnHelper.quadtree.AddNode(element);
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, solid));
         }
+        
     }
 }
 

@@ -69,7 +69,7 @@ namespace Meltdown.States
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
                 entity.Set(new Transform2DComponent(new Transform2D()));
-                entity.Set(new ManagedResource<SpineAnimationInfo, SpineAnimationAlias>(
+                entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                     new SpineAnimationInfo(
                         @"menu\main\screens", 
                         new SkeletonInfo(1920, 1080, skin: "main_menu"),

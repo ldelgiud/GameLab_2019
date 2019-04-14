@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using DefaultEcs;
 using DefaultEcs.System;
 
+using tainicom.Aether.Physics2D.Collision;
+
 using Meltdown.Graphics;
 using Meltdown.Components;
 using Meltdown.Utilities;
@@ -38,35 +40,37 @@ namespace Meltdown.Systems
             var height = Convert.ToInt32(this.camera.ViewportHeight * 3);
 
             this.spriteBatch.Begin();
-            for (int i = x - width / 2; i < x + width / 2; ++i)
+
+            var aabb = new AABB(
+                new Vector2(cameraPosition.X - this.camera.ViewportWidth * 1.5f, cameraPosition.Y - this.camera.ViewportHeight * 1.5f),
+                new Vector2(cameraPosition.X + this.camera.ViewportWidth * 1.5f, cameraPosition.Y + this.camera.ViewportHeight * 1.5f)
+                );
+
+            this.tileMap.quadtree.QueryAABB((element) =>
             {
-                for (int j = y - height / 2; j < y + height / 2; ++j)
-                {
+                var entity = element.Value;
+                ref var transform = ref entity.Get<Transform2DComponent>();
+                ref var texture = ref entity.Get<Texture2DComponent>();
 
-                    if (this.tileMap.tiles.TryGetValue((i, j), out Tile tile))
-                    {
-                        ref Transform2DComponent transform = ref tile.transformComponent;
-                        ref Texture2DComponent texture = ref tile.textureComponent;
+                var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform.value, texture.info);
 
-                        var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform.value, texture.info);
+                var bounds = texture.info.bounds ?? texture.value.Bounds;
+                var origin = bounds.Size.ToVector2() / 2;
 
-                        var bounds = texture.info.bounds ?? texture.value.Bounds;
-                        var origin = bounds.Size.ToVector2() / 2;
+                this.spriteBatch.Draw(
+                    sourceRectangle: bounds,
+                    texture: texture.value,
+                    position: position,
+                    rotation: rotation,
+                    scale: scale,
+                    origin: origin
+                    );
 
-                        this.spriteBatch.Draw(
-                            sourceRectangle: bounds,
-                            texture: texture.value,
-                            position: position,
-                            rotation: rotation,
-                            scale: scale,
-                            origin: origin
-                            );
-                    }
-                }
-            }
+                return true;
+            }, ref aabb);
+
             this.spriteBatch.End();
         }
-
 
         public void Dispose()
         {

@@ -67,7 +67,7 @@ namespace Meltdown.States
 
             {
                 var entity = this.world.CreateEntity();
-                entity.Set(new ManagedResource<SpineAnimationInfo, SpineAnimationAlias>(new SpineAnimationInfo(
+                entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(new SpineAnimationInfo(
                     @"menu\main\screens",
                     new SkeletonInfo(1920, 1080, skin: "press_any_key"),
                     new AnimationStateInfo("screen_splash_idle", true)

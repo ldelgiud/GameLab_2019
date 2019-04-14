@@ -94,7 +94,7 @@ namespace Meltdown.States
             this.atlasTextureResourceManager.Manage(this.world);
 
             // Miscellaneous
-            this.tileMap = new TileMap(this.atlasTextureResourceManager);
+            this.tileMap = new TileMap(game.GraphicsDevice, @"test\SPS_StaticSprites");
             this.SetInstance(tileMap);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
