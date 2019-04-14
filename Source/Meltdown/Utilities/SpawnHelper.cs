@@ -65,10 +65,12 @@ namespace Meltdown.Utilities
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"test\player",
+                @"test\MED_CH_PlayerMat_01",
+                @"test\TEX_CH_PlayerMat_01",
                 rotation: MathF.PI / 2,
-                scale: new Vector3(0.05f),
-                standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon")
+                scale: new Vector3(0.07f),
+                standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"),
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 3f) }
                 )));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);

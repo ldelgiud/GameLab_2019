@@ -327,7 +327,7 @@
 /processorParam:TextureFormat=Color
 /build:test/drone_texture.png
 
-#begin test/MED_WP_MatGunBasic_01.FBX
+#begin test/MED_CH_PlayerMat_01.FBX
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -344,7 +344,7 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:test/MED_WP_MatGunBasic_01.FBX
+/build:test/MED_CH_PlayerMat_01.FBX
 
 #begin test/MED_WP_MatGunBasic_01.FBX
 /importer:FbxImporter
@@ -392,6 +392,18 @@
 
 #begin test/SPS_StaticSprites.png
 /copy:test/SPS_StaticSprites.png
+
+#begin test/TEX_CH_PlayerMat_01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:test/TEX_CH_PlayerMat_01.png
 
 #begin test/TEX_WP_MatGunBasic_01.png
 /importer:TextureImporter

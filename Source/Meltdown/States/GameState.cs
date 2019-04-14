@@ -175,8 +175,8 @@ namespace Meltdown.States
                 modelDrawSystem,
                 //gridDrawSystem,      
                 energyDrawSystem,
-                new SpineSkeletonDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
-                aabbDebugDrawSystem
+                new SpineSkeletonDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world)
+                //aabbDebugDrawSystem
                 );
 
 
