@@ -7,6 +7,7 @@ using DefaultEcs.System;
 using Meltdown.Components;
 using Meltdown.Utilities;
 using Meltdown.Graphics;
+using System;
 
 namespace Meltdown.Systems
 {
@@ -25,12 +26,8 @@ namespace Meltdown.Systems
             this.camera = camera;
             this.spriteBatch = new SpriteBatch(graphicsDevice);
         }
-
-        protected override void PreUpdate(Time time)
-        {
-            this.spriteBatch.Begin();
-        }
-
+        
+        
         protected override void Update(Time time, in Entity entity)
         {
             ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
@@ -41,6 +38,9 @@ namespace Meltdown.Systems
             var bounds = texture.info.bounds ?? texture.value.Bounds;
             var origin = bounds.Size.ToVector2() / 2;
 
+            texture.UpdateEffects(time.Absolute);
+            this.spriteBatch.Begin(effect: texture.Effect());
+
             this.spriteBatch.Draw(
                 sourceRectangle: bounds,
                 texture: texture.value,
@@ -50,11 +50,8 @@ namespace Meltdown.Systems
                 origin: origin
                 );
 
-        }
-
-        protected override void PostUpdate(Time time)
-        {
             this.spriteBatch.End();
         }
+        
     }
 }

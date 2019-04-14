@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 using DefaultEcs;
 using DefaultEcs.System;
@@ -24,7 +25,9 @@ namespace Meltdown.Systems
 
         EntitySet players;
 
-        public InteractionSystem(InputManager inputManager, World world, IEnumerable<InteractionHandler> interactionHandlers) : base(
+        Effect interactionEffect;
+
+        public InteractionSystem(InputManager inputManager, World world, IEnumerable<InteractionHandler> interactionHandlers, Effect interactionEffect) : base(
             world.GetEntities()
             .With<InteractableComponent>()
             .With<Transform2DComponent>()
@@ -39,6 +42,9 @@ namespace Meltdown.Systems
                 .With<Transform2DComponent>()
                 .With<WorldSpaceComponent>()
                 .Build();
+            this.interactionEffect = interactionEffect;
+            interactionEffect.Parameters["u_blurSize"].SetValue(0.05f);
+            interactionEffect.Parameters["u_intensity"].SetValue(1.5f);
         }
 
         protected override void Update(Time state, ReadOnlySpan<Entity> entities)
@@ -66,8 +72,9 @@ namespace Meltdown.Systems
                         if (!interactable.playerNearby && entity.Has<Texture2DComponent>())
                         {
                             ref Texture2DComponent texture = ref entity.Get<Texture2DComponent>();
-                            texture.glowing = true;
+                            texture.SetTemporaryEffect(interactionEffect, "time");
                             interactable.playerNearby = true;
+                            Debug.WriteLine("Interactable");
                         }
 
                         if (inputEvent != null)
@@ -92,7 +99,7 @@ namespace Meltdown.Systems
                         if (interactable.playerNearby && entity.Has<Texture2DComponent>())
                         {
                             ref Texture2DComponent texture = ref entity.Get<Texture2DComponent>();
-                            texture.glowing = false;
+                            texture.RemoveTemporaryEffect();
                             interactable.playerNearby = false;
 
                         }

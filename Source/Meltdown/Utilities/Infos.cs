@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using Spine;
 
@@ -13,29 +14,34 @@ namespace Meltdown.Utilities
         public float rotation;
         public Vector2 scale;
         public Rectangle? bounds;
-        
+        public Effect standardEffect;
+
         public float width;
         public float height;
-        
-        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null, Rectangle? bounds = null)
+
+        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null, Rectangle? bounds = null, Effect standardEffect = null)
         {
             this.name = name ?? "";
             this.translation = translation ?? Vector2.Zero;
             this.rotation = rotation ?? 0;
             this.scale = new Vector2(-1, -1);
             this.bounds = bounds;
-
+            this.standardEffect = standardEffect;
+            
+    
             this.width = width;
             this.height = height;
         }
 
-        public Texture2DInfo(String name, Vector2? translation = null, float? rotation = null, Vector2? scale = null, Rectangle? bounds = null)
+        public Texture2DInfo(String name, Vector2? translation = null, float? rotation = null, Vector2? scale = null, Rectangle? bounds = null, Effect standardEffect = null)
         {
             this.name = name;
             this.translation = translation ?? Vector2.Zero;
             this.rotation = rotation ?? 0;
             this.scale = scale ?? Vector2.One;
             this.bounds = bounds;
+            this.standardEffect = standardEffect;
+            
             this.width = 0;
             this.height = 0;
         }

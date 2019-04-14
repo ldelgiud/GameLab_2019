@@ -241,7 +241,7 @@ namespace Meltdown.Utilities
             entity.Set(new WorldSpaceComponent());
             //entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\lootbox"));
             //entity.Set(new TextureEffectComponent() { value = Game1.Instance.Content.Load<Texture2D>(@"placeholders\lootbox") });
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 2f, height: 2f)));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 4f, height: 4f)));
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
             SpawnHelper.AddAABB(entity, position, new Vector2(-1, -1), new Vector2(1, 1), true);

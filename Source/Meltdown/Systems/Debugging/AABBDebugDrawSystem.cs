@@ -41,7 +41,7 @@ namespace Meltdown.Systems
             var size = aabbComponent.element.Span.UpperBound - aabbComponent.element.Span.LowerBound;
             var transform = new Transform2D(aabbComponent.element.Span.Center);
 
-            var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.debugBoxTex.Bounds.Size.ToVector2()));
+            var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.debugBoxTex.Bounds.Size.ToVector2() * new Vector2(1.5f, 1.4f)));
 
             spriteBatch.Draw(
                 texture: this.debugBoxTex,

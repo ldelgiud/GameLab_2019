@@ -38,12 +38,11 @@ namespace Meltdown.Interaction.Handlers
                     ref var playerTransform = ref interactor.Get<Transform2DComponent>();
                     ref var gunTransform = ref interactee.Get<Transform2DComponent>();
 
-                    // Spawn battery
                     interactee.Remove<InteractableComponent>();
                     
                     // Graphical hint disappear
                     ref Texture2DComponent texture = ref interactee.Get<Texture2DComponent>();
-                    texture.glowing = false;
+                    texture.RemoveTemporaryEffect();
 
                     // Add gun to player
                     interactee.Set(new InputComponent(new ShootingInputHandler(world)));

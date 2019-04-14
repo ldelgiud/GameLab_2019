@@ -118,11 +118,13 @@ namespace Meltdown.States
             PathFinderSystem pathFinderSystem = new PathFinderSystem();
             InteractionSystem interactionSystem = new InteractionSystem(
                 this.inputManager,
-                this.world, 
+                this.world,
                 new InteractionHandler[] {
                     new LootableInteractionHandler(this.world),
                     new PickUpGunInteractionHandler(this.world)
-                });
+                    },
+                    Game1.Instance.Content.Load<Effect>(@"shaders/bright")
+                );
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,

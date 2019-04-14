@@ -45,7 +45,7 @@ namespace Meltdown.Interaction.Handlers
 
                     // Graphical hint disappear
                     ref Texture2DComponent texture = ref interactee.Get<Texture2DComponent>();
-                    texture.glowing = false;
+                    texture.RemoveTemporaryEffect();
 
                     // Spawn battery
                     SpawnHelper.SpawnBattery(Constants.MEDIUM_BATTERY_SIZE, transform.value.Translation + new Vector2(0, 10));
