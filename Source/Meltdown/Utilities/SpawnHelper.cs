@@ -139,10 +139,12 @@ namespace Meltdown.Utilities
 
             gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"test\MED_WP_MatGunBasic_01",
-                textureName: "",
+                @"test\TEX_WP_MatGunBasic_01",
                 rotation: MathF.PI / 2,
-                scale: new Vector3(1f),
-                standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon")
+                scale: new Vector3(0.3f),
+                standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"),
+                updateTimeEffect: true,
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("GlowLineThickness", 1f), new Tuple<string, float>("LineThickness", 1f) }
                 )));
 
             //gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\MED_WP_MatGunBasic_01")));
@@ -280,7 +282,7 @@ namespace Meltdown.Utilities
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
             entity.Set(new AIComponent(new DroneOffline()));
-            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\drone", @"test\drone_texture")));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\drone", @"test\drone_texture", standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"))));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });
         }

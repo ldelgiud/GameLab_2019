@@ -76,6 +76,12 @@ namespace Meltdown.Systems
                             interactable.playerNearby = true;
                             Debug.WriteLine("Interactable");
                         }
+                        else if (!interactable.playerNearby && entity.Has<ModelComponent>())
+                        {
+                            ref ModelComponent model = ref entity.Get<ModelComponent>();
+                            model.EnableToonGlow();
+                            interactable.playerNearby = true;
+                        }
 
                         if (inputEvent != null)
                         {
@@ -103,6 +109,13 @@ namespace Meltdown.Systems
                             interactable.playerNearby = false;
 
                         }
+                        else if (interactable.playerNearby && entity.Has<ModelComponent>())
+                        {
+                            ref ModelComponent model = ref entity.Get<ModelComponent>();
+                            model.DisableToonGlow();
+                            interactable.playerNearby = false;
+                        }
+
                     }
                 }
             }

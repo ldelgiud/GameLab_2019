@@ -29,16 +29,7 @@ namespace Meltdown.ResourceManagers
             
             if (info.textureName != null)
             {
-                Texture2D texture;
-                // If texture is inside .fbx
-                if (info.textureName == "")
-                {
-                    texture = ((BasicEffect)model.Meshes[0].Effects[0]).Texture;
-                }
-                else
-                {
-                    texture = this.contentManager.Load<Texture2D>(info.textureName);
-                }
+                var texture = this.contentManager.Load<Texture2D>(info.textureName);
                 
                 // Textured base effect
                 if (info.standardEffect == null)
@@ -55,12 +46,11 @@ namespace Meltdown.ResourceManagers
                 }
                 else // Textured custom shader effect
                 {
-                    
                     foreach (var mesh in model.Meshes)
                     {
                         foreach (var part in mesh.MeshParts)
                         {
-                            part.Effect = info.standardEffect;
+                            part.Effect = info.standardEffect.Clone();
                             part.Effect.Parameters["Texture"].SetValue(texture);
                         }
                     }

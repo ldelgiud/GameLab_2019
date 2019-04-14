@@ -178,10 +178,11 @@ namespace Meltdown.States
                 new SpineSkeletonDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
                 aabbDebugDrawSystem
                 );
-            
+
 
             //SPAWNING 
             //ENEMY SPAWNING
+            SpawnHelper.SpawnDrone(Vector2.One * 5);
             //ProcGen.SpawnHotspots();
             // Create player
             SpawnHelper.SpawnPlayer(1);

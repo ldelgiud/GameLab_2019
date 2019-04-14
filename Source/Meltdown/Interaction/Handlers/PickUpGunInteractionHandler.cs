@@ -37,17 +37,25 @@ namespace Meltdown.Interaction.Handlers
                 case PressEvent _:
                     ref var playerTransform = ref interactor.Get<Transform2DComponent>();
                     ref var gunTransform = ref interactee.Get<Transform2DComponent>();
+                    ref var model = ref interactee.Get<ModelComponent>();
+
 
                     interactee.Remove<InteractableComponent>();
-                    
-                    // Graphical hint disappear
-                    ref Texture2DComponent texture = ref interactee.Get<Texture2DComponent>();
-                    texture.RemoveTemporaryEffect();
+
+                    // Disable graphical hint
+                    model.DisableToonGlow();
 
                     // Add gun to player
                     interactee.Set(new InputComponent(new ShootingInputHandler(world)));
                     interactee.SetAsChildOf(interactor);
-                    interactor.Set(new WeaponComponent(interactee));
+                    gunTransform.value.Parent = playerTransform.value;
+                    gunTransform.value.LocalRotation = MathHelper.Pi * 17/12;
+                    gunTransform.value.LocalTranslation = new Vector2(2, 0);
+                   
+
+                    interactor.Set(new WeaponComponent(interactee)); 
+
+
 
                     Debug.WriteLine("Gun PickUp Done!");
 
