@@ -15,12 +15,30 @@ namespace Meltdown.Utilities
         public Vector2 scale;
         public float layer;
         public Rectangle? bounds;
+
         public Effect standardEffect;
+        public Effect tempEffect;
+
+        // For variable that changes over time
+        public String standardParameterToUpdate;
+        public String tempParameterToUpdate;
 
         public float width;
         public float height;
 
-        public Texture2DInfo(String name, float width, float height, Vector2? translation = null, float? rotation = null, float? layer = null, Rectangle? bounds = null, Effect standardEffect = null)
+        public Texture2DInfo(
+            String name, 
+            float width, 
+            float height, 
+            Vector2? translation = null, 
+            float? rotation = null, 
+            float? layer = null, 
+            Rectangle? bounds = null, 
+            Effect standardEffect = null,
+            Effect tempEffect = null,
+            String standardParameterToUpdate = null,
+            String tempParameterToUpdate = null
+            )
         {
             this.name = name ?? "";
             this.translation = translation ?? Vector2.Zero;
@@ -28,14 +46,29 @@ namespace Meltdown.Utilities
             this.scale = new Vector2(-1, -1);
             this.layer = layer ?? Constants.LAYER_FOREGROUND;
             this.bounds = bounds;
+
             this.standardEffect = standardEffect;
+            this.tempEffect = tempEffect;
+            this.standardParameterToUpdate = standardParameterToUpdate;
+            this.tempParameterToUpdate = tempParameterToUpdate;
             
     
             this.width = width;
             this.height = height;
         }
 
-        public Texture2DInfo(String name, Vector2? translation = null, float? rotation = null, Vector2? scale = null, float? layer = null, Rectangle? bounds = null, Effect standardEffect = null)
+        public Texture2DInfo(
+            String name,
+            Vector2? translation = null,
+            float? rotation = null, 
+            Vector2? scale = null, 
+            float? layer = null, 
+            Rectangle? bounds = null,
+            Effect standardEffect = null,
+            Effect tempEffect = null,
+            String standardParameterToUpdate = null,
+            String tempParameterToUpdate = null
+            )
         {
             this.name = name;
             this.translation = translation ?? Vector2.Zero;
@@ -44,7 +77,12 @@ namespace Meltdown.Utilities
             this.layer = layer ?? Constants.LAYER_FOREGROUND;
             this.bounds = bounds;
             this.standardEffect = standardEffect;
-            
+
+            this.standardEffect = standardEffect;
+            this.tempEffect = tempEffect;
+            this.standardParameterToUpdate = standardParameterToUpdate;
+            this.tempParameterToUpdate = tempParameterToUpdate;
+
             this.width = 0;
             this.height = 0;
         }
@@ -56,13 +94,16 @@ namespace Meltdown.Utilities
         public String textureName;
         public float rotation;
         public Vector3 scale;
+        public Effect standardEffect;
 
-        public ModelInfo(String name, String textureName = null, float? rotation = null, Vector3? scale = null)
+        public ModelInfo(String name, String textureName = null, float? rotation = null, Vector3? scale = null, Effect standardEffect = null)
         {
             this.name = name;
             this.textureName = textureName;
             this.rotation = rotation ?? 0f;
             this.scale = scale ?? Vector3.One;
+            this.standardEffect = standardEffect ?? null;
+
         }
     }
 

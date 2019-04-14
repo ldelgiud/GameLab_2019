@@ -44,7 +44,7 @@ namespace Meltdown.Systems
                 .Build();
             this.interactionEffect = interactionEffect;
             interactionEffect.Parameters["u_blurSize"].SetValue(0.05f);
-            interactionEffect.Parameters["u_intensity"].SetValue(1.5f);
+            interactionEffect.Parameters["u_intensity"].SetValue(2.5f);
         }
 
         protected override void Update(Time state, ReadOnlySpan<Entity> entities)

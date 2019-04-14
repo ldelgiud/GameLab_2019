@@ -48,12 +48,26 @@ namespace Meltdown.Systems
 
             foreach (var mesh in model.value.Meshes)
             {
-                foreach (BasicEffect effect in mesh.Effects)
+                foreach (var part in mesh.MeshParts)
                 {
-                    effect.World = m;
-                    effect.View = v;
-                    effect.Projection = p;
-                    effect.EnableDefaultLighting();
+                    Effect effect = part.Effect;
+
+                    if (effect is BasicEffect)
+                    {
+                        ((BasicEffect)effect).World = m;
+                        ((BasicEffect)effect).View = v;
+                        ((BasicEffect)effect).Projection = p;
+                        ((BasicEffect)effect).EnableDefaultLighting();
+                    }
+                    else
+                    {
+                        effect.Parameters["World"].SetValue(m);
+                        effect.Parameters["View"].SetValue(v);
+                        effect.Parameters["Projection"].SetValue(p);
+
+                        Matrix worldInverseTransform = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * m));
+                        effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransform);
+                    }
                 }
 
                 mesh.Draw();

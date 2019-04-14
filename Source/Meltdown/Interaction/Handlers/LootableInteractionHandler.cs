@@ -48,7 +48,7 @@ namespace Meltdown.Interaction.Handlers
                     texture.RemoveTemporaryEffect();
 
                     // Spawn battery
-                    SpawnHelper.SpawnBattery(Constants.MEDIUM_BATTERY_SIZE, transform.value.Translation + new Vector2(0, 10));
+                    SpawnHelper.SpawnBattery(Constants.MEDIUM_BATTERY_SIZE, transform.value.Translation + new Vector2(-3,0));
 
                     return true;
             }

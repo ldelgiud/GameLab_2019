@@ -182,7 +182,7 @@ namespace Meltdown.States
 
             //SPAWNING 
             //ENEMY SPAWNING
-            ProcGen.SpawnHotspots();
+            //ProcGen.SpawnHotspots();
             // Create player
             SpawnHelper.SpawnPlayer(1);
             // Create energy pickup

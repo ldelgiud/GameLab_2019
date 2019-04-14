@@ -125,7 +125,9 @@ VertexToPixel CelVertexShader(AppToVertex input)
 
 
 	// Hack to read position (not allowed otherwise)
-	output.TextureCoordinate = output.Position;
+	//output.TextureCoordinate = output.Position;
+
+	output.TextureCoordinate = input.TextureCoordinate;
 
 	return output;
 
@@ -143,7 +145,7 @@ float4 CelPixelShader(VertexToPixel input) : COLOR0
 	//float change = cos();
 
 	// Calculate what would normally be the final color, including texturing and diffuse lighting
-	float4 color = DiffuseColor * DiffuseIntensity;
+	float4 color = tex2D(textureSampler, input.TextureCoordinate) * DiffuseColor * DiffuseIntensity;
 	color.a = 1;
 
 	// Discretize the intensity, based on a few cutoff points

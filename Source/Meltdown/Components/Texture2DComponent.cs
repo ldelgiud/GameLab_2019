@@ -9,24 +9,11 @@ namespace Meltdown.Components
     {
         public Texture2D value;
         public Texture2DInfo info;
-
-        public Effect standardEffect;
-        public Effect tempEffect;
-
-        // For variable that changes over time
-        public String standardParameterToUpdate;
-        public String tempParameterToUpdate;
-
-        public Texture2DComponent(Texture2D value, Texture2DInfo info, Effect standardEffect = null, Effect tempEffect = null, String standardParameterToUpdate = null)
+        
+        public Texture2DComponent(Texture2D value, Texture2DInfo info)
         {
             this.value = value;
             this.info = info;
-
-            this.standardEffect = standardEffect;
-            this.tempEffect = tempEffect;
-
-            this.standardParameterToUpdate = standardParameterToUpdate ?? null;
-            this.tempParameterToUpdate = null;
         }
 
 
@@ -36,8 +23,8 @@ namespace Meltdown.Components
         /// <param name="tempEffect"></param>
         public void SetTemporaryEffect(Effect tempEffect, String tempParameterToUpdate = null)
         {
-            this.tempParameterToUpdate = tempParameterToUpdate;
-            this.tempEffect = tempEffect;
+            this.info.tempParameterToUpdate = tempParameterToUpdate;
+            this.info.tempEffect = tempEffect;
         }
 
         /// <summary>
@@ -46,8 +33,8 @@ namespace Meltdown.Components
         /// </summary>
         public void RemoveTemporaryEffect()
         {
-            this.tempParameterToUpdate = null;
-            this.tempEffect = null;
+            this.info.tempParameterToUpdate = null;
+            this.info.tempEffect = null;
         }
 
         /// <summary>
@@ -56,7 +43,7 @@ namespace Meltdown.Components
         /// <returns></returns>
         public Effect Effect()
         {
-            return tempEffect ?? standardEffect ?? null;
+            return this.info.tempEffect ?? this.info.standardEffect ?? null;
         }
 
         /// <summary>
@@ -66,10 +53,10 @@ namespace Meltdown.Components
         public void UpdateEffects(float time)
         {
             Effect eff = this.Effect();
-            if (tempParameterToUpdate != null)
-                eff.Parameters[tempParameterToUpdate].SetValue(time);
-            else if (standardParameterToUpdate != null)
-                eff.Parameters[standardParameterToUpdate].SetValue(time);
+            if (this.info.tempParameterToUpdate != null)
+                eff.Parameters[this.info.tempParameterToUpdate].SetValue(time);
+            else if (this.info.standardParameterToUpdate != null)
+                eff.Parameters[this.info.standardParameterToUpdate].SetValue(time);
             
         }
 

@@ -45,7 +45,7 @@ namespace Meltdown.Utilities
             public static double MAX_ENERGY = 1000;
         //debug value to stop generating enemies in EnemySpawnSystem
         public static uint MAX_AMOUNT_OF_ENEMIES = 15;
-        public static uint INTERACTION_DISTANCE = 20;
+        public static uint INTERACTION_DISTANCE = 7;
 
         // size of tiles for procedural generation
         public static float TILE_SIZE = 10;

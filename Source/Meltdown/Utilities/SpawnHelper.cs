@@ -64,12 +64,19 @@ namespace Meltdown.Utilities
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
-            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\player", rotation: MathF.PI / 2, scale: new Vector3(0.05f))));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"test\player",
+                rotation: MathF.PI / 2,
+                scale: new Vector3(0.05f),
+                standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon")
+                )));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 
-            Entity gun = SpawnHelper.SpawnGun(entity);
-            gun.Set(new InputComponent(new ShootingInputHandler(World)));
+            SpawnHelper.SpawnCollectableGun(new Vector2(3,4));
+
+            //Entity gun = SpawnHelper.SpawnGun(entity);
+            //gun.Set(new InputComponent(new ShootingInputHandler(World)));
 
         }
         /// <summary>
@@ -101,7 +108,52 @@ namespace Meltdown.Utilities
             parent.Set(new WeaponComponent(gunEntity));
             return gunEntity;
         }
-        
+
+
+        /// <summary>
+        /// Spawns a collectable gun without an initial parent.
+        /// </summary>
+        public static Entity SpawnCollectableGun(Vector2 pos)
+        {
+            // Gun entity
+            var gunEntity = SpawnHelper.World.CreateEntity();
+            Vector2 localPosition = pos;
+
+            Transform2DComponent gunTransform = new Transform2DComponent(
+                new Transform2D(
+                    position: localPosition,
+                    rotation: 0,
+                    scale: Vector2.One / 5
+                    )
+                );
+            gunEntity.Set(gunTransform);
+            gunEntity.Set(new WorldSpaceComponent());
+
+            gunEntity.Set(new SmallGunComponent(
+                damage: 35f,
+                projectileSpeed: 25f,
+                radiusRange: -1f,
+                reloadTime: 0.2f,
+                projTex: "shooting/bullet",
+                alliance: Alliance.Player));
+
+            gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"test\MED_WP_MatGunBasic_01",
+                textureName: "",
+                rotation: MathF.PI / 2,
+                scale: new Vector3(1f),
+                standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon")
+                )));
+
+            //gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\MED_WP_MatGunBasic_01")));
+           // gunEntity.Set(new ManagedResource<string, Texture2D>("shooting/smallGun"));
+            gunEntity.Set(new NameComponent() { name = "gun" });
+            gunEntity.Set(new InteractableComponent());
+            gunEntity.Set(new PickUpGunComponent());
+            return gunEntity;
+        }
+
+
         /// <summary>
         /// Spawn Nuclear Power Plant with all entities and attach respective components
         /// </summary>
@@ -207,9 +259,7 @@ namespace Meltdown.Utilities
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
-            //entity.Set(new ManagedResource<string, Texture2D>(@"placeholders\lootbox"));
-            //entity.Set(new TextureEffectComponent() { value = Game1.Instance.Content.Load<Texture2D>(@"placeholders\lootbox") });
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 2f, height: 2f)));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 3f, height: 3f)));
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
             SpawnHelper.AddAABB(entity, position, new Vector2(-1, -1), new Vector2(1, 1), true);
