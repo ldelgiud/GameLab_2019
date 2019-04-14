@@ -21,9 +21,9 @@ float4 DiffuseColor = float4(1, 1, 1, 1);
 float DiffuseIntensity = 1.0;
 
 // Texture
-texture ModelTexture; // our current models don't have any textures -> only colors from materials (should be set as vertex colors but it is also not the case :/)
+texture Texture; // our current models don't have any textures -> only colors from materials (should be set as vertex colors but it is also not the case :/)
 sampler2D textureSampler = sampler_state {
-	Texture = (ModelTexture);
+	Texture = (Texture);
 	MagFilter = Linear;
 	MinFilter = Linear;
 	AddressU = Clamp;
@@ -82,7 +82,7 @@ technique Ambient
 {
 	pass Pass1
 	{
-		//VertexShader = compile VS_SHADERMODEL VertexShaderFunction();
+		VertexShader = compile VS_SHADERMODEL VertexShaderFunction();
 		PixelShader = compile PS_SHADERMODEL PixelShaderFunction();
 	}
 }

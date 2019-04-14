@@ -33,11 +33,11 @@ float DiffuseIntensity = 1.0;
 
 //--------------------------- TOON SHADER PROPERTIES ------------------------------
 // The color to draw the lines in.  Black is a good default.
-float4 LineColor = float4(0.25, 0.33, 0.67, 1);
+float4 LineColor = float4(1, 1, 1, 1);
 
 // The thickness of the lines.  This may need to change, depending on the scale of
 // the objects you are drawing.
-float LineThickness = 1;
+float LineThickness = 0.3;
 
 //--------------------------- TEXTURE PROPERTIES ------------------------------
 // The texture being used for the object
@@ -121,22 +121,22 @@ VertexToPixel VertexColorShader(AppToVertex input)
 
 	//output.Color = input.Color; // need fbx file to contain vertex color information
 
-	//output.TextureCoordinate = input.TextureCoordinate;
+	output.TextureCoordinate = input.TextureCoordinate;
 
 	return output;
 }
 
 float4 PixelColorShader(VertexToPixel input) : COLOR0
 {
-	//float4 textureColor = tex2D(textureSampler, input.TextureCoordinate);
-	//textureColor.a = 1;
+	float4 textureColor = tex2D(textureSampler, input.TextureCoordinate);
+	textureColor.a = 1;
 
 
-	float4 col = saturate(input.Color);// + AmbientColor * AmbientIntensity);
-	col.a = 1;
+	//float4 col = saturate(input.Color);// + AmbientColor * AmbientIntensity);
+	//col.a = 1;
 
 
-	return col;
+	return textureColor;
 }
 
 // The entire technique for doing toon shading
