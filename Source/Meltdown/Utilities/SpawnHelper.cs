@@ -160,7 +160,7 @@ namespace Meltdown.Utilities
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
-            entity.Set(new ManagedResource<SpineAnimationInfo, SpineAnimationAlias>(
+            entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"placeholders\battery",
                     new SkeletonInfo(2f, 2f),

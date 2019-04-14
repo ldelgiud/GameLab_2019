@@ -34,15 +34,13 @@ namespace Meltdown.Utilities
         }
     }
 
-    struct SpineAnimationAlias : IDisposable
+    struct SkeletonDataAlias : IDisposable
     {
-        public AnimationState animationState;
-        public Skeleton skeleton;
+        public SkeletonData skeletonData;
 
-        public SpineAnimationAlias(AnimationState animationState, Skeleton skeleton)
+        public SkeletonDataAlias(SkeletonData skeletonData)
         {
-            this.animationState = animationState;
-            this.skeleton = skeleton;
+            this.skeletonData = skeletonData;
         }
 
 
