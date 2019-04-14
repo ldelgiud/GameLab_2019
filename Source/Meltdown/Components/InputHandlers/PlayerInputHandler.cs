@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Meltdown.Input;
 using Meltdown.Graphics;
 using Meltdown.Utilities;
+using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Components.InputHandlers
 {
@@ -18,6 +19,7 @@ namespace Meltdown.Components.InputHandlers
         {
             ref VelocityComponent velComp = ref entity.Get<VelocityComponent>();
             ref PlayerComponent player = ref entity.Get<PlayerComponent>();
+            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
 
             velComp.velocity = Vector2.Zero;
 
@@ -116,6 +118,7 @@ namespace Meltdown.Components.InputHandlers
 
             if (velComp.velocity != Vector2.Zero)
             {
+                transform.value.Rotation = velComp.velocity.ToRotation();
                 velComp.velocity = Camera2D.PerspectiveToWorld(velComp.velocity);
                 velComp.velocity.Normalize();
                 velComp.velocity *= player.Speed;

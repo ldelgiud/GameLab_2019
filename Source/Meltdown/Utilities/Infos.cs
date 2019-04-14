@@ -48,11 +48,15 @@ namespace Meltdown.Utilities
     {
         public String name;
         public String textureName;
+        public float rotation;
+        public Vector3 scale;
 
-        public ModelInfo(String name, String textureName = null)
+        public ModelInfo(String name, String textureName = null, float? rotation = null, Vector3? scale = null)
         {
             this.name = name;
             this.textureName = textureName;
+            this.rotation = rotation ?? 0f;
+            this.scale = scale ?? Vector3.One;
         }
     }
 
