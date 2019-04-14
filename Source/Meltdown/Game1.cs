@@ -132,7 +132,7 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             this.drawTime.Update(gameTime);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             this.ActiveState.Draw(this.drawTime);
             base.Draw(gameTime);
         }
