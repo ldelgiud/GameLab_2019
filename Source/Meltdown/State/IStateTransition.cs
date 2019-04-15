@@ -26,14 +26,14 @@ namespace Meltdown.State
     /// <summary>
     /// Indicates that the specified state should replace the current state.
     /// </summary>
-    public class SwapTransition : IStateTransition
+    public class SwapStateTransition : IStateTransition
     {
         /// <summary>
         /// The state to be swaped
         /// </summary>
         public State State;
 
-        public SwapTransition(State state)
+        public SwapStateTransition(State state)
         {
             this.State = state;
         }

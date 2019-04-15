@@ -94,7 +94,7 @@ namespace Meltdown
                     // Resume top state
                     this.ActiveState.Resume(t.Data);
                     break;
-                case SwapTransition t:
+                case SwapStateTransition t:
                     // Destroy current state
                     this.ActiveState.Destroy();
 
@@ -117,7 +117,6 @@ namespace Meltdown
 
                     // Initialize new state
                     t.State.Initialize(this);
-
                    
                     break;
                 case ExitTransition t:

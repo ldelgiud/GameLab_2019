@@ -193,6 +193,8 @@ namespace Meltdown.Utilities
             entity.Set(new WorldSpaceComponent());
             entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_EN_Tile_PowerPlant_01", 14.14f, 8.165f)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
+            entity.Set(new PowerPlantComponent());
+            entity.Set(new InteractableComponent());
 
             SpawnHelper.quadtree.AddNode(element);
         }
@@ -390,7 +392,6 @@ namespace Meltdown.Utilities
             entity.Set(new Transform2DComponent() { value = new Transform2D(position) });
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholder", 10, 10)));
             entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
             entity.Set(new NameComponent() { name = "intro_event_trigger" });
 

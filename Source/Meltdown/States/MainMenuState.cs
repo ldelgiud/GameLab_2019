@@ -25,8 +25,6 @@ namespace Meltdown.States
 {
     public class MainMenuState : State.State
     {
-        StateTransition transition;
-
         GameWindow window;
 
         InputManager inputManager;
@@ -41,12 +39,12 @@ namespace Meltdown.States
         public override void Initialize(Game1 game)
         {
             this.window = game.Window;
-            this.transition = new StateTransition();
 
             this.inputManager = new InputManager();
             // Input 
             this.inputManager.Register(Keys.Enter);
             this.inputManager.Register(Buttons.A);
+            this.inputManager.Register(Buttons.B);
 
             this.world = new World();
             this.screenCamera = new Camera2D(
@@ -79,19 +77,35 @@ namespace Meltdown.States
             }
         }
 
+        public override void Resume(object data)
+        {
+            this.inputManager.Clear();
+            this.inputManager.Sleep(10);
+            base.Resume(data);
+        }
+
         public override IStateTransition Update(Time time)
         {
             this.inputManager.Update(time);
 
             IInputEvent inputEvent = this.inputManager.GetEvent(Keys.Enter) ?? this.inputManager.GetEvent(0, Buttons.A);
+            IInputEvent exitEvent = this.inputManager.GetEvent(Keys.Escape) ?? this.inputManager.GetEvent(0, Buttons.B);
 
             switch (inputEvent)
             {
                 case ReleaseEvent _:
-                    return new SwapTransition(new GameState());
+                    this.stateTransition = new PushStateTransition(new GameState());
+                    break;
             }
 
-            return null;
+            switch (exitEvent)
+            {
+                case ReleaseEvent _:
+                    this.stateTransition = new ExitTransition();
+                    break;
+            }
+
+            return base.Update(time);
         }
 
         public override void Draw(Time time)

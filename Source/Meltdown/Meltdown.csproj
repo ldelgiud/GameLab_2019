@@ -147,6 +147,7 @@
     <Compile Include="Components\PickUpGunComponent.cs" />
     <Compile Include="Components\PlayerComponent.cs" />
     <Compile Include="Components\PositionComponent.cs" />
+    <Compile Include="Components\PowerPlantComponent.cs" />
     <Compile Include="Components\ScreenSpaceComponent.cs" />
     <Compile Include="Components\SkeletonComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
@@ -159,6 +160,7 @@
     <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Event\Event.cs" />
+    <Compile Include="Event\StoryConclusionEvent.cs" />
     <Compile Include="Event\StoryIntroEvent.cs" />
     <Compile Include="Components\MenuPulseComponent.cs" />
     <Compile Include="GameElements\Shooting\AGun.cs" />
@@ -168,6 +170,7 @@
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Interaction\Handlers\LootableInteractionHandler.cs" />
     <Compile Include="Interaction\Handlers\PickUpGunInteractionHandler.cs" />
+    <Compile Include="Interaction\Handlers\PowerPlantInteractionHandler.cs" />
     <Compile Include="Interaction\InteractionHandler.cs" />
     <Compile Include="Pathfinding\Grid.cs" />
     <Compile Include="Pathfinding\Heap.cs" />
@@ -188,19 +191,16 @@
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
-    <Compile Include="State\StateTransition.cs" />
     <Compile Include="Systems\AnimationStateUpdateSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\InteractionSystem.cs" />
     <Compile Include="Systems\Debugging\AABBDebugDrawSystem.cs" />
     <Compile Include="Systems\Debugging\GraphDrawSystem.cs" />
-    <Compile Include="Systems\MenuInputSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
     <Compile Include="Systems\ModelDrawSystem.cs" />
     <Compile Include="Systems\PathFinderSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
-    <Compile Include="Systems\MenuPulseSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />

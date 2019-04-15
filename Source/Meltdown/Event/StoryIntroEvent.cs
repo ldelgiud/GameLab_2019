@@ -18,8 +18,16 @@ namespace Meltdown.Event
 {
     class StoryIntroEvent : Event
     {
+        private enum State
+        {
+            Start,
+            Intro1,
+            Intro2,
+            Done
+        }
+
         InputManager inputManager;
-        int state = 0;
+        State state = State.Start;
 
         Entity eventEntity;
         Entity intro1Entity;
@@ -33,20 +41,26 @@ namespace Meltdown.Event
 
         public override void Update(World world)
         {
+            var inputEvent = this.inputManager.GetEvent(0, Buttons.A);
+
+            if (inputEvent == null)
+            {
+                inputEvent = this.inputManager.GetEvent(Keys.E);
+            }
 
 
             switch (this.state)
             {
-                case 0:
+                case State.Start:
                     this.intro1Entity = world.CreateEntity();
                     this.intro1Entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_Story_01", 745, 360)));
                     this.intro1Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
                     this.intro1Entity.Set(new ScreenSpaceComponent());
                     this.intro1Entity.Set(new NameComponent() { name = "intro1" });
-                    this.state = 1;
+                    this.state = State.Intro1;
                     break;
-                case 1:
-                    switch (this.inputManager.GetEvent(Keys.E))
+                case State.Intro1:
+                    switch (inputEvent)
                     {
                         case PressEvent _:
                             this.intro1Entity.Delete();
@@ -58,21 +72,25 @@ namespace Meltdown.Event
                             this.intro2Entity.Set(new NameComponent() { name = "intro2" });
 
                             this.inputManager.RemoveEvent(Keys.E);
-                            this.state = 2;
+                            this.inputManager.RemoveEvent(0, Buttons.A);
+                            this.state = State.Intro2;
                             break;
                     }
                     break;
-                case 2:
-                    switch (this.inputManager.GetEvent(Keys.E))
+                case State.Intro2:
+                    switch (inputEvent)
                     {
                         case PressEvent _:
                             this.inputManager.RemoveEvent(Keys.E);
+                            this.inputManager.RemoveEvent(0, Buttons.A);
                             this.intro2Entity.Delete();
-                            this.eventEntity.Delete();
+                            this.state = State.Done;
                             break;
                     }
                     break;
-
+                case State.Done:
+                    this.eventEntity.Delete();
+                    break;
             }
         }
     }

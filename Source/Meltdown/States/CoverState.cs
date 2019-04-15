@@ -87,10 +87,11 @@ namespace Meltdown.States
             switch (inputEvent)
             {
                 case ReleaseEvent _:
-                    return new SwapTransition(new MainMenuState());
+                    this.stateTransition = new SwapStateTransition(new MainMenuState());
+                    break;
             }
 
-            return null;
+            return base.Update(time);
         }
 
         public override void Draw(Time time)

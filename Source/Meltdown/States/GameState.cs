@@ -121,7 +121,8 @@ namespace Meltdown.States
                 this.world,
                 new InteractionHandler[] {
                     new LootableInteractionHandler(this.world),
-                    new PickUpGunInteractionHandler(this.world)
+                    new PickUpGunInteractionHandler(this.world),
+                    new PowerPlantInteractionHandler(this.world),
                     },
                     Game1.Instance.Content.Load<Effect>(@"shaders/bright")
                 );
@@ -191,6 +192,8 @@ namespace Meltdown.States
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
 
+            SpawnHelper.SpawnEvent(new Vector2(0, 0));
+
             // Create lootbox
             SpawnHelper.SpawnLootBox(new Vector2(30, -10));
 
@@ -202,7 +205,8 @@ namespace Meltdown.States
         {
             this.inputManager.Update(time);
             this.updateSystem.Update(time);
-            return null;
+
+            return base.Update(time);
         }
 
         public override void Draw(Time time)
@@ -243,6 +247,7 @@ namespace Meltdown.States
 
             // Interact - Gamepad
             this.inputManager.Register(Buttons.X);
+            this.inputManager.Register(Buttons.A);
 
             // Event - Keyboard
             this.inputManager.Register(Buttons.B);

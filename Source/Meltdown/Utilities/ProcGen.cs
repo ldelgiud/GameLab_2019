@@ -61,10 +61,11 @@ namespace Meltdown.Utilities
 
                     ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
 
-                    if (Constants.RANDOM.Next(100) <= 30)
-                    {
-                        ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_02", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND_DETAIL));
-                    }
+                    // Removed for demo
+                    //if (Constants.RANDOM.Next(100) <= 30)
+                    //{
+                    //    ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_02", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND_DETAIL));
+                    //}
 
                     x += Constants.TILE_SIZE;
 

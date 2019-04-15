@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Meltdown.State
+namespace Meltdown.Components
 {
-    class StateTransition
+    struct PowerPlantComponent
     {
-        public IStateTransition Transition = null;
     }
 }
