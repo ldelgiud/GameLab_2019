@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Diagnostics;
 using DefaultEcs;
 using DefaultEcs.System;
 
@@ -11,19 +7,21 @@ using Meltdown.Graphics;
 using Meltdown.Components;
 using Meltdown.Utilities;
 
+using Microsoft.Xna.Framework.Input;
+
 namespace Meltdown.Systems
 {
     class CameraSystem : ISystem<Time>
     {
-        Camera worldCamera;
+        Camera2D worldCamera;
         EntitySet players;
 
         public bool IsEnabled { get; set; } = true;
 
-        public CameraSystem(Camera worldCamera, World world)
+        public CameraSystem(Camera2D worldCamera, World world)
         {
             this.worldCamera = worldCamera;
-            this.players = world.GetEntities().With<PlayerComponent>().With<WorldTransformComponent>().Build();
+            this.players = world.GetEntities().With<PlayerComponent>().With<Transform2DComponent>().With<WorldSpaceComponent>().Build();
         }
 
         public void Update(Time state)
@@ -33,8 +31,8 @@ namespace Meltdown.Systems
             if (players.Length != 0)
             {
                 var player = players[0];
-                var transform = player.Get<WorldTransformComponent>();
-                this.worldCamera.Transform.SetPosition(transform.value.position);
+                var transform = player.Get<Transform2DComponent>();
+                this.worldCamera.Transform.LocalTranslation = transform.value.LocalTranslation;
             }
         }
 

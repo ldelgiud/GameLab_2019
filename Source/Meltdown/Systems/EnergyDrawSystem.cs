@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using DefaultEcs;
-using DefaultEcs.System;
-
-using Meltdown.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using DefaultEcs;
+using DefaultEcs.System;
+using DefaultEcs.Resource;
+
+using Meltdown.Components;
+using Meltdown.Graphics;
+using Meltdown.Utilities;
 
 namespace Meltdown.Systems
 {
@@ -19,27 +23,43 @@ namespace Meltdown.Systems
         public bool IsEnabled { get; set; } = true;
 
         Energy energy;
-        Texture2D texture;
-        SpriteBatch spriteBatch;
-        private SpriteFont font;
 
-        public EnergyDrawSystem(Energy energy, Texture2D texture, GraphicsDevice graphicsDevice, SpriteFont font)
+        Entity energyBarEntity;
+        Entity energyBarBackgroundEntity;
+
+        public EnergyDrawSystem(Energy energy, World world)
         {
             this.energy = energy;
-            this.texture = texture;
-            this.spriteBatch = new SpriteBatch(graphicsDevice);
-            this.font = font;
+
+            {
+                var entity = world.CreateEntity();
+
+                entity.Set(new ScreenSpaceComponent());
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -520))));
+                entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_EnergyBack")));
+
+                this.energyBarBackgroundEntity = entity;
+            }
+
+            {
+                var entity = world.CreateEntity();
+
+                entity.Set(new ScreenSpaceComponent());
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -520))));
+                entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_EnergyFront")));
+
+                this.energyBarEntity = entity;
+            }
         }
 
         public void Update(Time gameTime)
         {
-            this.spriteBatch.Begin();
+            ref var transform = ref this.energyBarEntity.Get<Transform2DComponent>();
 
-            this.spriteBatch.Draw(texture, new Rectangle(0, 0, 200, 60), Color.White);
-            int readableEnergy = (int)Math.Floor((energy.CurrentEnergy / Constants.MAX_ENERGY) * 100.0);
-            this.spriteBatch.DrawString(font, readableEnergy.ToString(), new Vector2(100, 80), Color.Black);
+            // TODO: Shift to proper location
 
-            this.spriteBatch.End();
+            // Scale to proper size
+            transform.value.Scale = new Vector2((float)(this.energy.CurrentEnergy / Constants.MAX_ENERGY), 1);
         }
 
         public void Dispose()

@@ -11,17 +11,22 @@ using tainicom.Aether.Physics2D.Collision;
 using Meltdown.Collision;
 using Meltdown.Utilities;
 using Meltdown.Components;
+using Meltdown.Input;
 
 namespace Meltdown.Systems
 {
     sealed class InputSystem : AEntitySystem<Time>
     {
-        public InputSystem(World world) : base(world.GetEntities().With<InputComponent>().Build()) { }
-
-        protected override void Update(Time state, in Entity entity)
+        InputManager inputManager;
+        public InputSystem(World world, InputManager inputManager) : base(world.GetEntities().With<InputComponent>().Build())
         {
-            ref InputComponent inpComp = ref entity.Get<InputComponent>();
-            inpComp.HandleInput();
+            this.inputManager = inputManager;
+        }
+
+        protected override void Update(Time time, in Entity entity)
+        {
+            ref InputComponent input = ref entity.Get<InputComponent>();
+            input.HandleInput(inputManager, time, entity);
         }
     }
     

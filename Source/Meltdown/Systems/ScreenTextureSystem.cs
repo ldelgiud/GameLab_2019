@@ -17,13 +17,14 @@ namespace Meltdown.Systems
     class ScreenTextureSystem : AEntitySystem<Time>
     {
         GraphicsDevice graphicsDevice;
-        Camera camera;
+        Camera2D camera;
         SpriteBatch spriteBatch;
 
-        public ScreenTextureSystem(GraphicsDevice graphicsDevice, Camera camera, World world) : base(
+        public ScreenTextureSystem(GraphicsDevice graphicsDevice, Camera2D camera, World world) : base(
             world.GetEntities()
-            .With<ScreenTransformComponent>()
-            .With<TextureComponent>()
+            .With<ScreenSpaceComponent>()
+            .With<Transform2DComponent>()
+            .With<Texture2DComponent>()
             .Build()
             )
         {
@@ -39,18 +40,18 @@ namespace Meltdown.Systems
         
         protected override void Update(Time time, in Entity entity)
         {
-            ref TextureComponent texture = ref entity.Get<TextureComponent>();
-            ref ScreenTransformComponent transform = ref entity.Get<ScreenTransformComponent>();
+            ref Texture2DComponent texture = ref entity.Get<Texture2DComponent>();
+            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
 
-            var (position, rotation, scale, origin) = this.camera.ToScreenCoordinates(transform.value.GlobalTransform, texture.value.Bounds);
+            var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform.value, texture.info);
 
-            // Override scaling to ignore shear from projection
-            scale = transform.value.scale.ToVector2();
+            var bounds = texture.info.bounds ?? texture.value.Bounds;
+            var origin = bounds.Size.ToVector2() / 2;
 
             this.spriteBatch.Draw(
+                sourceRectangle: bounds,
                 texture: texture.value,
                 position: position,
-                color: Color.White,
                 rotation: rotation,
                 scale: scale,
                 origin: origin

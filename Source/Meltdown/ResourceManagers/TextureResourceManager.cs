@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 using DefaultEcs.Resource;
@@ -8,10 +9,11 @@ using System;
 using System.Diagnostics;
 
 using Meltdown.Components;
+using Meltdown.Utilities;
 
 namespace Meltdown.ResourceManagers
 {
-    sealed class TextureResourceManager : AResourceManager<string, Texture2D>
+    sealed class TextureResourceManager : AResourceManager<Texture2DInfo, Texture2DAlias>
     {
         ContentManager contentManager;
 
@@ -26,9 +28,9 @@ namespace Meltdown.ResourceManagers
             this.contentManager = contentManager;
         }
 
-        protected override Texture2D Load(string info)
+        protected override Texture2DAlias Load(Texture2DInfo info)
         {
-            string[] infos = info.Split('*');
+            string[] infos = info.name.Split('*');
             if (infos.Length == 1) animated = false;
             else
             {
@@ -45,16 +47,23 @@ namespace Meltdown.ResourceManagers
                         " is in milliseconds.");
                 }
             }
-            return this.contentManager.Load<Texture2D>(infos[0]);
+            return new Texture2DAlias(this.contentManager.Load<Texture2D>(infos[0]), info.bounds);
         }
 
-        protected override void OnResourceLoaded(in Entity entity, string info, Texture2D resource)
+        protected override void OnResourceLoaded(in Entity entity, Texture2DInfo info, Texture2DAlias resource)
         {
-            if (animated)
+            //if (animated)
+            //{
+            //    entity.Set(new TextureAnimateComponent(resource, animated, (float)timeChangeSprite, nrFrames, frameWidth, frameHeight));
+            //}
+            //else
+            // Set scale from width/height
+            if (info.scale.X < 0 && info.scale.Y < 0)
             {
-                entity.Set(new TextureAnimateComponent(resource, animated, (float)timeChangeSprite, nrFrames, frameWidth, frameHeight));
+                info.scale = new Vector2(info.width / resource.value.Bounds.Width, info.height / resource.value.Bounds.Height);
             }
-            else entity.Set(new TextureComponent() { value = resource });
+
+            entity.Set(new Texture2DComponent(resource.value, info));
         }
     }
 }

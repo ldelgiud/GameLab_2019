@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Linq;
+using System.Diagnostics;
 using System.Collections.Generic;
 
 
 using DefaultEcs;
+
+using Meltdown.Components;
+using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Collision
 {
@@ -11,36 +16,15 @@ namespace Meltdown.Collision
     /// </summary>
     abstract class CollisionHandler
     {
-        bool commutative;
-        EntitySet colliderSet;
-        EntitySet collideeSet;
+        public readonly bool commutative;
+        public readonly Type[] colliderTypes;
+        public readonly Type[] collideeTypes;
 
-        public CollisionHandler(EntitySet colliders, EntitySet collidees, bool commutative = false)
+        public CollisionHandler(Type[] colliderTypes, Type[] collideeTypes, bool commutative = false)
         {
-            this.colliderSet = colliders;
-            this.collideeSet = collidees;
+            this.colliderTypes = colliderTypes;
+            this.collideeTypes = collideeTypes;
             this.commutative = commutative;
-        }
-
-        public void HandleCollisions(CollisionType type, IEnumerable<(Entity, Entity)> entities)
-        {
-            var colliders = this.colliderSet.GetEntities();
-            var collidees = this.collideeSet.GetEntities();
-            foreach (var tuple in entities)
-            {
-                var (collider, collidee) = tuple;
-
-                if (colliders.IndexOf(collider) != -1 && collidees.IndexOf(collidee) != -1)
-                {
-                    this.HandleCollision(type, collider, collidee);
-                }
-
-                if (this.commutative && colliders.IndexOf(collidee) != -1 && collidees.IndexOf(collider) != -1)
-                {
-                    this.HandleCollision(type, collidee, collider);
-                }
-            }
-            
         }
 
         public abstract void HandleCollision(CollisionType type, Entity collider, Entity collidee);

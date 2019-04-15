@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -19,50 +18,39 @@ namespace Meltdown.Components
 {
     class SmallGunComponent : AGun
     {
-        public SmallGunComponent(float damage, float projectileSpeed, float radiusRange, float reloadTime, Texture2D projTex)
+        
+        public SmallGunComponent(
+            float damage, 
+            float projectileSpeed, 
+            float radiusRange,
+            float reloadTime, 
+            string projTex,
+            Alliance alliance)
         {
-            projectile = new ProjectileComponent(damage, projectileSpeed, radiusRange, projTex);
+            this.damage = damage;
+            this.projectileSpeed = projectileSpeed;
+            this.radiusRange = radiusRange;
+            this.reloadTime = reloadTime;
+            this.projectileTexture = projTex;
             this.reloadTime = reloadTime;
             this.timeLastShot = 0f;
+            this.alliance = alliance;
         }
 
-        public override void Shoot(float absoluteTime, WorldTransformComponent transform, Vector2 direction, World world)
+        public override void Shoot(float absoluteTime, Transform2D transform, Vector2 direction)
         {
-            if (absoluteTime - timeLastShot < reloadTime) { return; }
-
+            if ((absoluteTime - timeLastShot) < reloadTime) { return; }
             direction.Normalize();
 
-            float rotation = MathF.Atan2(direction.Y, direction.X);
-            //Debug.WriteLine("Rotation: " + rotation + ", direction: " + direction);
+            Entity entity = SpawnHelper.SpawnBullet(transform.Translation, direction);
             
-            var entity = world.CreateEntity();
-            entity.Set(new WorldTransformComponent(
-                new Transform(
-                    transform.value.position,
-                    Vector3.Zero,
-                    Vector3.One * 0.1f
-                    )
-                )
-            );
-
-            var aabb = new AABB(new Vector2(-0.1f, -0.1f), new Vector2(0.1f, 0.1f));
-
-            var element = new Element<Entity>(aabb);
-            element.Span.LowerBound += transform.value.position.ToVector2();
-            element.Span.UpperBound += transform.value.position.ToVector2();
-            element.Value = entity;
-
-            entity.Set(new VelocityComponent(direction * this.projectile.speed));
-            entity.Set(projectile); // added for collision handling
-            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
-            entity.Set(new TextureComponent { value = projectile.projTex });
-            entity.Set(new BoundingBoxComponent(20, 20, 0));
-            
-            SpawnHelper.quadtree.AddNode(element);
-
-
+            entity.Set(new VelocityComponent(direction * this.projectileSpeed));
+            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_WP_Projectile_01", 0.4f, 0.4f, rotation: -MathF.PI / 2)));
+            entity.Set(new DamageComponent(this.damage)); // added for collision handling
+            entity.Set(new NameComponent() { name = "bullet" });
+            entity.Set(new TTLComponent(Constants.TTL_BULLET));
+            entity.Set(new AllianceMaskComponent(this.alliance));
             timeLastShot = absoluteTime;
         }
-        
     }
 }

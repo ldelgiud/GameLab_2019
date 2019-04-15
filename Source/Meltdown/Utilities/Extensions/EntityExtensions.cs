@@ -9,6 +9,10 @@ namespace Meltdown.Utilities.Extensions
 {
     public static class EntityExtensions
     {
+        public static bool Has(this Entity entity, Type type)
+        {
+            return (bool)typeof(Entity).GetMethod("Has").MakeGenericMethod(type).Invoke(entity, null);
+        }
 
         public static void Delete(this Entity entity)
         {

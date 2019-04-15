@@ -8,24 +8,47 @@ using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
+using DefaultEcs;
+using Meltdown.Components;
+using tainicom.Aether.Physics2D.Collision;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
     class ShooterStandby : AIState
     {
 
-        const double distToSearch = 600.0;
-        const double distToAttack = 250.0;
-
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
+        public override AIState UpdateState(
+            List<PlayerInfo> playerInfos, 
+            Entity entity,
+            Time time)
         {
-
+            
+            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
+            //Debug.WriteLine("Shooter Standby");
+            //Debug.WriteLine("position: " + this.myPos);
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
+                Vector2 distVec = player.transform.Translation - this.myPos;
+                float sqrdDist = distVec.LengthSquared();
+                this.target = player.transform.Translation;
+                if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST)
+                {
+                    //Debug.WriteLine("going into offline");
+                    return new ShooterOffline();
+                }
+                else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
+                    if (this.IsInSight(this.myPos, this.target))
+                    {
+                        //Debug.WriteLine("SHOOTY MC FACE: SAW YOU!!");
+                        return new ShooterSearch();
 
-                if (dist.Length() <= distToAttack) return new ShooterAttack();
-                if (dist.Length() <= distToSearch) return new ShooterSearch();
+                    }
+                    else if (sqrdDist <= Constants.BLIND_STANDBY_TO_SEARCH_SQRD_DIST)
+                    {
+                        //Debug.WriteLine("SHOOTY MC FACE: TOO CLOSE");
+                        return new ShooterSearch();
+                    }
             }
             return this;
         }

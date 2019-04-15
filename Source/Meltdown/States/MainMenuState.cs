@@ -19,96 +19,98 @@ using Meltdown.Utilities.Extensions;
 using Meltdown.Input;
 using Meltdown.Graphics;
 
+using Spine;
+
 namespace Meltdown.States
 {
     public class MainMenuState : State.State
     {
-        StateTransition transition;
+        GameWindow window;
 
         InputManager inputManager;
 
         World world;
-        Camera screenCamera;
+        Camera2D screenCamera;
 
-        TextureResourceManager textureResourceManager;
+        SpineAnimationResourceManager spineAnimationResourceManager;
 
-        ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
 
         public override void Initialize(Game1 game)
         {
-            this.transition = new StateTransition();
+            this.window = game.Window;
 
             this.inputManager = new InputManager();
+            // Input 
             this.inputManager.Register(Keys.Enter);
-
-            var window = game.Window.ClientBounds;
+            this.inputManager.Register(Buttons.A);
+            this.inputManager.Register(Buttons.B);
 
             this.world = new World();
-            this.screenCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(1920, 1080, 0, 2)
+            this.screenCamera = new Camera2D(
+                new Transform2D(),
+                1920,
+                1080
                 );
 
-            this.textureResourceManager = new TextureResourceManager(game.Content);
-            this.textureResourceManager.Manage(this.world);
+            // Resource Managers
+            this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
+            this.spineAnimationResourceManager.Manage(this.world);
 
-            this.updateSystem = new SequentialSystem<Time>(
-                new MenuInputSystem(this.world, this.inputManager, this.transition),
-                new MenuPulseSystem(this.world)
-                );
             this.drawSystem = new SequentialSystem<Time>(
-                new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world)
+                new AnimationStateUpdateSystem(this.world),
+                new SkeletonUpdateSystem(this.world),
+                new SpineSkeletonDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world)
                 );
 
-            // Main menu
             {
-                // Logo
-                var logoTransform = new Transform(new Vector3(0, 180, 0));
-
-                var logoEntity = this.world.CreateEntity();
-                logoEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\logo"));
-                logoEntity.Set(new ScreenTransformComponent(logoTransform));
-                logoEntity.Set(new BoundingRectangleComponent(959, 227));
-
-                // Start
-                {
-                    var startEntity = this.world.CreateEntity();
-                    startEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\start"));
-                    startEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(-360, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
-                    startEntity.Set(new BoundingRectangleComponent(290, 46));
-                    startEntity.Set(new MenuPulseComponent(true, 0.1f));
-                }
-
-                // Credits
-                {
-                    var creditsEntity = this.world.CreateEntity();
-                    creditsEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\credits"));
-                    creditsEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(0, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
-                    creditsEntity.Set(new BoundingRectangleComponent(191, 46));
-                }
-
-                // Quit
-                {
-                    var quitEntity = this.world.CreateEntity();
-                    quitEntity.Set(new ManagedResource<string, Texture2D>(@"menu\main\quit"));
-                    quitEntity.Set(new ScreenTransformComponent(new Transform(new Vector3(360, -360, 0), Vector3.Zero, Vector3.One, logoTransform)));
-                    quitEntity.Set(new BoundingRectangleComponent(111, 46));
-                }
-
+                var entity = this.world.CreateEntity();
+                entity.Set(new ScreenSpaceComponent());
+                entity.Set(new Transform2DComponent(new Transform2D()));
+                entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                    new SpineAnimationInfo(
+                        @"menu\main\screens", 
+                        new SkeletonInfo(1920, 1080, skin: "main_menu"),
+                        null
+                    )
+                ));
             }
+        }
+
+        public override void Resume(object data)
+        {
+            this.inputManager.Clear();
+            this.inputManager.Sleep(10);
+            base.Resume(data);
         }
 
         public override IStateTransition Update(Time time)
         {
             this.inputManager.Update(time);
-            this.updateSystem.Update(time);
-            return this.transition.Transition;
+
+            IInputEvent inputEvent = this.inputManager.GetEvent(Keys.Enter) ?? this.inputManager.GetEvent(0, Buttons.A);
+            IInputEvent exitEvent = this.inputManager.GetEvent(Keys.Escape) ?? this.inputManager.GetEvent(0, Buttons.B);
+
+            switch (inputEvent)
+            {
+                case ReleaseEvent _:
+                    this.stateTransition = new PushStateTransition(new GameState());
+                    break;
+            }
+
+            switch (exitEvent)
+            {
+                case ReleaseEvent _:
+                    this.stateTransition = new ExitTransition();
+                    break;
+            }
+
+            return base.Update(time);
         }
 
         public override void Draw(Time time)
         {
+            this.screenCamera.Update(this.window);
             this.drawSystem.Update(time);
         }
     }

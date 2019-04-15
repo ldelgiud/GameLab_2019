@@ -41,6 +41,9 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
+            // Disable B button as back on Xbox
+            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += (sender, ev) => { ev.Handled = true; };
+
             this.updateTime = new Time();
             this.drawTime = new Time();
 
@@ -55,8 +58,7 @@ namespace Meltdown
         /// </summary>
         protected override void LoadContent()
         {
-            var initialState = new MainMenuState();
-            //var initialState = new GameState();
+            var initialState = new CoverState();
             this.stateStack.Push(initialState);
             initialState.Initialize(this);
 
@@ -92,7 +94,7 @@ namespace Meltdown
                     // Resume top state
                     this.ActiveState.Resume(t.Data);
                     break;
-                case SwapTransition t:
+                case SwapStateTransition t:
                     // Destroy current state
                     this.ActiveState.Destroy();
 
@@ -115,7 +117,6 @@ namespace Meltdown
 
                     // Initialize new state
                     t.State.Initialize(this);
-
                    
                     break;
                 case ExitTransition t:
@@ -133,7 +134,7 @@ namespace Meltdown
         protected override void Draw(GameTime gameTime)
         {
             this.drawTime.Update(gameTime);
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
             this.ActiveState.Draw(this.drawTime);
             base.Draw(gameTime);
         }
