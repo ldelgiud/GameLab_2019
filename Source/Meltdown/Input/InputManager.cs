@@ -67,6 +67,7 @@ namespace Meltdown.Input
         where S: struct
     {
         void Update(Time time, T type, ref S state, Dictionary<T, IInputEvent> events);
+        void Clear();
     }
 
     class BooleanInputState<T> : IInputState<T, bool>
@@ -101,6 +102,11 @@ namespace Meltdown.Input
                 }
             }
         }
+
+        public void Clear()
+        {
+            this.timestamp = null;
+        }
     }
 
     class ValueInputState<T, V> : IInputState<T, V>
@@ -112,6 +118,11 @@ namespace Meltdown.Input
         {
             events[type] = new ValueEvent<V>(this.value, value);
             this.value = value;
+        }
+
+        public void Clear()
+        {
+
         }
     }
 
@@ -129,6 +140,8 @@ namespace Meltdown.Input
 
     class InputManager
     {
+        // Sleep
+        int sleep = 0;
 
         // States
         Dictionary<Keys, BooleanInputState<Keys>> keyboardStates = new Dictionary<Keys, BooleanInputState<Keys>>();
@@ -225,8 +238,19 @@ namespace Meltdown.Input
             this.triggerEvents[index].Remove(trigger);
         }
 
+        public void Sleep(int ticks)
+        {
+            this.sleep = ticks;
+        }
+
         public void Update(Time time)
         {
+            if (this.sleep != 0)
+            {
+                --sleep;
+                return;
+            }
+
             // Keyboard events
             {
                 this.keyboardEvents.Clear();
@@ -298,6 +322,40 @@ namespace Meltdown.Input
                 
             }
             
+        }
+
+        public void Clear()
+        {
+            foreach (var state in this.keyboardStates.Values)
+            {
+                state.Clear();
+            }
+
+            for (int i = 0; i < GamePad.MaximumGamePadCount; ++i)
+            {
+                foreach (var state in this.buttonStates[i].Values)
+                {
+                    state.Clear();
+                }
+
+                foreach (var state in this.thumbStickStates[i].Values)
+                {
+                    state.Clear();
+                }
+
+                foreach (var state in this.triggerStates[i].Values)
+                {
+                    state.Clear();
+                }
+            }
+
+            this.keyboardEvents.Clear();
+            for (int i = 0; i < GamePad.MaximumGamePadCount; ++i)
+            {
+                this.buttonEvents[i].Clear();
+                this.thumbStickEvents[i].Clear();
+                this.triggerEvents[i].Clear();
+            }
         }
     }
 }
