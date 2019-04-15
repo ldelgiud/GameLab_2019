@@ -49,9 +49,8 @@ namespace Meltdown.Interaction.Handlers
                     interactee.Set(new InputComponent(new ShootingInputHandler(world)));
                     interactee.SetAsChildOf(interactor);
                     gunTransform.value.Parent = playerTransform.value;
-                    gunTransform.value.LocalRotation = MathHelper.Pi * 17/12;
-                    gunTransform.value.LocalTranslation = new Vector2(2, 0);
-                   
+                    gunTransform.value.LocalTranslation = new Vector2(1.414f, 1.414f);
+
 
                     interactor.Set(new WeaponComponent(interactee)); 
 

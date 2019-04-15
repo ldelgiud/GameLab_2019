@@ -87,55 +87,33 @@ namespace Meltdown.Components.InputHandlers
 
 
             // GamePad
-            switch (inputManager.GetEvent(0, Buttons.LeftThumbstickLeft))
+            switch (inputManager.GetEvent(0, ThumbSticks.Left))
             {
-                case HoldEvent _:
-                case PressEvent _:
-                    velComp.velocity.X = -player.Speed;
+                case ValueEvent<Vector2> value:
+                    velComp.velocity = player.Speed * value.current; 
                     break;
             }
-            switch (inputManager.GetEvent(0, Buttons.LeftThumbstickRight))
+
+            switch (inputManager.GetEvent(0, ThumbSticks.Right))
             {
-                case HoldEvent _:
-                case PressEvent _:
-                    velComp.velocity.X = player.Speed;
-                    break;
-            }
-            switch (inputManager.GetEvent(0, Buttons.LeftThumbstickUp))
-            {
-                case HoldEvent _:
-                case PressEvent _:
-                    velComp.velocity.Y = player.Speed;
-                break;
-            }
-            switch (inputManager.GetEvent(0, Buttons.LeftThumbstickDown))
-            {
-                case HoldEvent _:
-                case PressEvent _:
-                    velComp.velocity.Y = -player.Speed;
+                case ValueEvent<Vector2> value:
+                    var current = value.current;
+                    if (current.LengthSquared() != 0)
+                    {
+
+                        current.Normalize();
+                        transform.value.Rotation = current.ToRotation();
+                    }
                     break;
             }
 
             if (velComp.velocity != Vector2.Zero)
             {
-                transform.value.Rotation = velComp.velocity.ToRotation();
                 velComp.velocity = Camera2D.PerspectiveToWorld(velComp.velocity);
                 velComp.velocity.Normalize();
                 velComp.velocity *= player.Speed;
             }
             
-
-            //if (gState.IsButtonDown(Buttons.LeftTrigger)) //L2
-            //{
-            //    //Debug.WriteLine("Trigger");
-            //    //Shoot
-            //}
-
-            //if (gState.IsButtonDown(Buttons.LeftShoulder)) //L1
-            //{
-            //    Debug.WriteLine("Shoulder");
-            //}
-
         }
     }
 }

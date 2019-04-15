@@ -16,6 +16,11 @@ namespace Meltdown.Utilities.Extensions
             return MathF.Atan2(vector.Y, vector.X);
         }
 
+        public static Vector2 ToVector2(this float rotation)
+        {
+            return new Vector2(MathF.Cos(rotation), MathF.Sin(rotation));
+        }
+
         public static Vector3 ToVector3(this Vector2 vector)
         {
             return new Vector3(vector, 0);

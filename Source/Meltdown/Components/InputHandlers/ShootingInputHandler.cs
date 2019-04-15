@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Meltdown.Input;
 using Meltdown.Utilities;
 using Meltdown.Graphics;
+using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Components.InputHandlers
 {
@@ -27,20 +28,7 @@ namespace Meltdown.Components.InputHandlers
             ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
             ref Transform2DComponent gunTransform = ref entity.Get<Transform2DComponent>();
 
-            MouseState mState = Mouse.GetState();
-            Vector2 direction = (mState.Position.ToVector2() - Game1.Instance.Window.ClientBounds.Center.ToVector2()) * new Vector2(1, -1);
-
-           switch(inputManager.GetEvent(0, ThumbSticks.Right))
-           {
-                case ValueEvent<Vector2> v:
-                    direction = v.current;
-                    if (direction == Vector2.Zero)
-                    {
-                        direction = Vector2.UnitX;
-                    }
-                    break;
-           }
-
+            Vector2 direction = gunTransform.value.Rotation.ToVector2();
             direction = Camera2D.PerspectiveToWorld(direction);
 
             switch (inputManager.GetEvent(0, Buttons.RightTrigger))
@@ -56,7 +44,7 @@ namespace Meltdown.Components.InputHandlers
                 case ReleaseEvent _: break;
                 case HoldEvent _: break;
                 case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform.value, direction); 
+                    smallGun.Shoot(time.Absolute, gunTransform.value,direction); 
                     break;
             }
         }

@@ -145,7 +145,8 @@ namespace Meltdown.States
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
-            SpawnHelper.SpawnBasicWall(new Vector2(30,0),10,10);
+            SpawnHelper.SpawnPlayerHouse();
+
             Grid grid = new Grid();
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
 
@@ -182,10 +183,10 @@ namespace Meltdown.States
 
             //SPAWNING 
             //ENEMY SPAWNING
-            SpawnHelper.SpawnDrone(Vector2.One * 5);
+            SpawnHelper.SpawnDrone(Vector2.One * 25);
             //ProcGen.SpawnHotspots();
             // Create player
-            SpawnHelper.SpawnPlayer(1);
+            SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
@@ -234,14 +235,14 @@ namespace Meltdown.States
 
             // GAMEPAD
             // Player - Gamepad 
-            this.inputManager.Register(Buttons.LeftThumbstickDown);
-            this.inputManager.Register(Buttons.LeftThumbstickUp);
-            this.inputManager.Register(Buttons.LeftThumbstickLeft);
-            this.inputManager.Register(Buttons.LeftThumbstickRight);
+            this.inputManager.Register(ThumbSticks.Left);
 
             // Shooting - Gamepad
             this.inputManager.Register(Buttons.RightTrigger);
             this.inputManager.Register(ThumbSticks.Right);
+
+            // Interact - Gamepad
+            this.inputManager.Register(Buttons.X);
 
             // Event - Keyboard
             this.inputManager.Register(Buttons.B);

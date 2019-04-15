@@ -56,7 +56,7 @@ namespace Meltdown.Systems
 
                 var inputEvent = this.inputManager.GetEvent(player.Id, Buttons.X);
 
-                if (inputEvent == null && player.Id == 1)
+                if (inputEvent == null && player.Id == 0)
                 {
                     inputEvent = this.inputManager.GetEvent(Keys.E);
                 }
@@ -91,7 +91,7 @@ namespace Meltdown.Systems
                                 if (remove)
                                 {
                                     this.inputManager.RemoveEvent(player.Id, Buttons.X);
-                                    if (player.Id == 1)
+                                    if (player.Id == 0)
                                     {
                                         this.inputManager.RemoveEvent(Keys.E);
                                     }

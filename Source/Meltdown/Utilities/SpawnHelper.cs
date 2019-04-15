@@ -36,6 +36,14 @@ namespace Meltdown.Utilities
             }
         }
 
+        public static TileMap TileMap
+        {
+            get
+            {
+                return Game1.Instance.ActiveState.GetInstance<TileMap>();
+            }
+        }
+
         /// <summary>
         /// Helper function, spawns player at position (0,0) with zero velocity
         /// </summary>
@@ -67,7 +75,7 @@ namespace Meltdown.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"test\MED_CH_PlayerMat_01",
                 @"test\TEX_CH_PlayerMat_01",
-                rotation: MathF.PI / 2,
+                rotation: new Vector3(0, 0, MathF.PI / 2),
                 scale: new Vector3(0.07f),
                 standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 3f) }
@@ -121,13 +129,7 @@ namespace Meltdown.Utilities
             var gunEntity = SpawnHelper.World.CreateEntity();
             Vector2 localPosition = pos;
 
-            Transform2DComponent gunTransform = new Transform2DComponent(
-                new Transform2D(
-                    position: localPosition,
-                    rotation: 0,
-                    scale: Vector2.One / 5
-                    )
-                );
+            Transform2DComponent gunTransform = new Transform2DComponent(new Transform2D(position: localPosition));
             gunEntity.Set(gunTransform);
             gunEntity.Set(new WorldSpaceComponent());
 
@@ -142,8 +144,9 @@ namespace Meltdown.Utilities
             gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"test\MED_WP_MatGunBasic_01",
                 @"test\TEX_WP_MatGunBasic_01",
-                rotation: MathF.PI / 2,
-                scale: new Vector3(0.3f),
+                translation: new Vector3(0, 0, 0f),
+                rotation: new Vector3(MathF.PI / 2, 0, 0),
+                scale: new Vector3(0.06f),
                 standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"),
                 updateTimeEffect: true,
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("GlowLineThickness", 1f), new Tuple<string, float>("LineThickness", 1f) }
@@ -169,9 +172,9 @@ namespace Meltdown.Utilities
 
             //Generate random position
             double angle = Constants.RANDOM.NextDouble() * MathHelper.PiOver2;
-            double x = Constants.PLANT_PLAYER_DISTANCE * Math.Cos(angle);
+            double x = Math.Round(Constants.PLANT_PLAYER_DISTANCE * Math.Cos(angle) / 10) * 10;
             //TODO: change this once camera work is done
-            double y = Constants.PLANT_PLAYER_DISTANCE * Math.Sin(angle);
+            double y = Math.Round(Constants.PLANT_PLAYER_DISTANCE * Math.Sin(angle) / 10) * 10;
             Vector2 position = new Vector2((float)x, (float)y);
             plant.Position = position;
 
@@ -188,10 +191,25 @@ namespace Meltdown.Utilities
             //Create entity and attach the components to it
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\NuclearPlantPLACEHOLDER", 10f, 10f)));
+            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_EN_Tile_PowerPlant_01", 14.14f, 8.165f)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
 
             SpawnHelper.quadtree.AddNode(element);
+        }
+
+        public static void SpawnPlayerHouse()
+        {
+            // Spawn 10mx10m house
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = "House" });
+            entity.Set(new Transform2DComponent(new Transform2D()));
+            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo("static_sprites/SPT_EN_Tile_PlayerHouse_01", width: 14.14f, height: 8.165f)));
+            entity.Set(new WorldSpaceComponent());
+            SpawnHelper.SpawnBasicWall(new Vector2(0, -5), 0, 10);
+            SpawnHelper.SpawnBasicWall(new Vector2(3.75f, 5), 0, 2.5f);
+            SpawnHelper.SpawnBasicWall(new Vector2(-3.75f, 5), 0, 2.5f);
+            SpawnHelper.SpawnBasicWall(new Vector2(-5, 0), 10, 0);
+            SpawnHelper.SpawnBasicWall(new Vector2(5, 0), 10, 0);
         }
 
         /// <summary>
@@ -263,7 +281,7 @@ namespace Meltdown.Utilities
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 3f, height: 3f)));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo(@"placeholders\lootbox2", width: 2f, height: 2f)));
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
             SpawnHelper.AddAABB(entity, position, new Vector2(-1, -1), new Vector2(1, 1), true);
