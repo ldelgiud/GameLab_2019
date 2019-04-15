@@ -73,7 +73,7 @@ namespace Meltdown.Utilities
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"test\MED_CH_PlayerMat_01",
+                @"test\MED_CH_PlayerMat_01_interimBoneless",
                 @"test\TEX_CH_PlayerMat_01",
                 rotation: new Vector3(0, 0, MathF.PI / 2),
                 scale: new Vector3(0.07f),
@@ -304,7 +304,12 @@ namespace Meltdown.Utilities
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
 
             entity.Set(new AIComponent(new DroneOffline()));
-            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(@"test\drone", @"test\drone_texture", standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"))));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"test\drone",
+                @"test\drone_texture",
+                standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"),
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.4f) }
+                )));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });
         }
