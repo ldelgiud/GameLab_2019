@@ -42,5 +42,23 @@ namespace Meltdown.Utilities
             };
             this.quadtree.AddNode(element);
         }
+
+        public void RemoveTiles(Transform2D transform)
+        {
+            // Collision for removal. Bit smaller than one tile to prevent overlap with adjacent tiles
+            var aabb = new AABB(transform.Translation, Constants.TILE_SIZE - 0.1f, Constants.TILE_SIZE - 0.1f);
+
+            List<Element<Entity>> toRemove = new List<Element<Entity>>();
+            this.quadtree.QueryAABB((element) =>
+            {
+                toRemove.Add(element);
+                return true;
+            }, ref aabb);
+
+            foreach (var element in toRemove)
+            {
+                this.quadtree.RemoveNode(element);
+            }
+        }
     }
 }

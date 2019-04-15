@@ -62,8 +62,8 @@ namespace Meltdown.Utilities
         public static float HOLD_THRESHOLD = 0.25f;
 
         // Layer values
-        public const float LAYER_FOREGROUND = 0.0f;
-        public const float LAYER_BACKGROUND = -10.0f;
-        public const float LAYER_BACKGROUND_DETAIL = -9.0f;
+        public const float LAYER_FOREGROUND = 10.0f;
+        public const float LAYER_BACKGROUND = 0.0f;
+        public const float LAYER_BACKGROUND_DETAIL = 1.0f;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,7 +40,7 @@ namespace Meltdown.Systems
             var width = Convert.ToInt32(this.camera.ViewportWidth * 3);
             var height = Convert.ToInt32(this.camera.ViewportHeight * 3);
 
-            this.spriteBatch.Begin();
+            this.spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
 
             var aabb = new AABB(
                 new Vector2(cameraPosition.X - this.camera.ViewportWidth * 1.5f, cameraPosition.Y - this.camera.ViewportHeight * 1.5f),
@@ -57,13 +58,15 @@ namespace Meltdown.Systems
                 var bounds = texture.info.bounds ?? texture.value.Bounds;
                 var origin = bounds.Size.ToVector2() / 2;
 
+                //Debug.WriteLine(texture.info.layer);
                 this.spriteBatch.Draw(
                     sourceRectangle: bounds,
                     texture: texture.value,
                     position: position,
                     rotation: rotation,
                     scale: scale,
-                    origin: origin
+                    origin: origin,
+                    layerDepth: texture.info.layer
                     );
 
                 return true;

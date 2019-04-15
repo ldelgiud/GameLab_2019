@@ -59,7 +59,13 @@ namespace Meltdown.Utilities
                 {
                     Vector2 position = new Vector2(x, y);
 
-                    ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_01", width: 14.2f, height: 8.165f));
+                    ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
+
+                    if (Constants.RANDOM.Next(100) <= 30)
+                    {
+                        ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_02", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND_DETAIL));
+                    }
+
                     x += Constants.TILE_SIZE;
 
                 }
@@ -88,13 +94,15 @@ namespace Meltdown.Utilities
                     if (currentDir == 0)
                     {
                         // Left turn
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, rotation: MathF.PI));
+                        ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, rotation: MathF.PI, layer: Constants.LAYER_BACKGROUND));
                         curr.Y += Constants.TILE_SIZE;
                     }
                     else
                     {
                         // Right turn
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f));
+                        ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
                         curr.X += Constants.TILE_SIZE;
                     }
                     currentDir = 1 - currentDir;
@@ -104,13 +112,15 @@ namespace Meltdown.Utilities
                     if (currentDir == 0)
                     {
                         // Right
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.165f, height: 14.2f, rotation: MathF.PI / 2));
+                        ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.165f, height: 14.2f, rotation: MathF.PI / 2, layer: Constants.LAYER_BACKGROUND));
                         curr.X += Constants.TILE_SIZE;
                     }
                     else
                     {
                         // Up
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.2f, height: 8.165f));
+                        ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
                         curr.Y += Constants.TILE_SIZE;
                     }
                 }
@@ -121,12 +131,14 @@ namespace Meltdown.Utilities
                 if (currentDir == 0)
                 {
                     // Right
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.165f, height: 14.2f, rotation: MathF.PI / 2));
+                    ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.165f, height: 14.2f, rotation: MathF.PI / 2, layer: Constants.LAYER_BACKGROUND));
                 }
                 else
                 {
                     // Right Turn
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f));
+                    ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
                 }
                 curr.X += Constants.TILE_SIZE;
                 currentDir = 0;
@@ -137,12 +149,14 @@ namespace Meltdown.Utilities
                 if (currentDir == 0)
                 {
                     // Left turn
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, rotation: MathF.PI));
+                    ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, rotation: MathF.PI, layer: Constants.LAYER_BACKGROUND));
                 }
                 else
                 {
                     // Up
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.2f, height: 8.165f));
+                    ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
+                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
                 }
                 currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
