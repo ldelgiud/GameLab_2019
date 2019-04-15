@@ -12,12 +12,8 @@ namespace Meltdown.Collision.Handlers
         World world;
 
         public EventTriggerCollisionHandler(World world) : base(
-            world.GetEntities()
-            .With<PlayerComponent>()
-            .Build(),
-            world.GetEntities()
-            .With<EventTriggerComponent>()
-            .Build()
+            new Type[] {typeof(PlayerComponent)},
+            new Type[] {typeof(EventTriggerComponent)}
             )
         {
             this.world = world;
@@ -32,6 +28,8 @@ namespace Meltdown.Collision.Handlers
             var _event = eventTrigger._event;
             _event.Initialize(this.world, entity);
             entity.Set(new EventComponent(_event));
+            entity.Set(new NameComponent() { name = "event" });
+            
 
             collidee.Delete();
         }

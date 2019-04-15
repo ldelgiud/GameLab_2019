@@ -8,42 +8,78 @@ using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
+using DefaultEcs;
+using Meltdown.Components;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
     class DroneSearch : AIState
     {
-        const double distToStanby = 650;
 
 
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
-            Vector2 pos,
-            ref Vector2 velocity)
+            Entity entity,
+            Time time)
         {
+            //Update information about myself
+            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
+            ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
+
             //Find closest player
             double minDist = Double.MaxValue;
             //TODO: NullCheck next line!!
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
+                Vector2 dist = player.transform.Translation - this.myPos;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            Vector2 distVector = Pathfinder(closestPlayer.transform.value.position.ToVector2(), pos);
-            double distance = distVector.Length();
-            //SEARCH
-            distVector.Normalize();
-            velocity = Vector2.Multiply(distVector, Constants.DRONE_SPEED);
-            //TODO: Implement pathfinding method
+            this.target = closestPlayer.transform.Translation;
+            float sqrdDistance = (this.target - this.myPos).LengthSquared();
 
-            //UPDATE STATE
-            if (distance >= DroneSearch.distToStanby)
+            //SEARCH
+            //Debug.WriteLine("Drone Searching");
+
+            this.UpdatePath(time);
+            Vector2 newVel;
+
+            //STEP
+            if (this.IsPathClear(entity.Get<AABBComponent>(), this.target))
             {
-                velocity.X = 0;
-                velocity.Y = 0;
+                newVel = (this.target - this.myPos);
+                newVel.Normalize();
+                velocity.velocity = newVel * Constants.DRONE_SPEED;
+            } else if (path != null)
+            {
+                (Vector2, Line) nextNode;
+                bool followingPath;
+                while (followingPath = path.bounds.TryPeek(out nextNode))
+                {
+                    if (nextNode.Item2.HasCrossedLine(this.myPos))
+                    {
+                        path.bounds.Dequeue();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (followingPath)
+                {
+                    newVel = nextNode.Item1 - myPos;
+                    newVel.Normalize();
+                    velocity.velocity = newVel * Constants.DRONE_SPEED;
+                } 
+            }
+            
+            //UPDATE STATE
+            if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
+            {
+                velocity.velocity = new Vector2(0);
                 return new DroneStandby();
             }
             return this;

@@ -9,6 +9,9 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 
+using Meltdown.Input;
+using Meltdown.Utilities;
+
 namespace Meltdown.Components
 {
     //Create a new InputHandler class implementing the interface IInputHandler
@@ -16,21 +19,22 @@ namespace Meltdown.Components
 
     class InputComponent
     {
+        IInputHandler inputHandler;
+
         public InputComponent(IInputHandler inputHandler)
         {
             this.inputHandler = inputHandler;
         }
 
-        IInputHandler inputHandler;
-        public void HandleInput()
+        public void HandleInput(InputManager inputManager, Time time, Entity entity)
         {
-            inputHandler.HandleInput();    
+            inputHandler.HandleInput(inputManager, time, entity);    
         }
     }
 
     interface IInputHandler
     {
-       void HandleInput();
+       void HandleInput(InputManager inputManager, Time time, Entity entity); 
     }
     
 }

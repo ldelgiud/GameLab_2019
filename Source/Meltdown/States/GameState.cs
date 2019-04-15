@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -19,26 +20,38 @@ using Meltdown.ResourceManagers;
 using Meltdown.Event;
 using Meltdown.Utilities;
 using Meltdown.Input;
+using Meltdown.Interaction;
+using Meltdown.Interaction.Handlers;
 using Meltdown.Graphics;
+using Meltdown.Systems.Debugging;
+using Meltdown.Pathfinding;
 
 namespace Meltdown.States
 {
     class GameState : State.State
     {
+        GameWindow window;
         InputManager inputManager;
-        Camera worldCamera;
-        Camera screenCamera;
+        Camera2D worldCamera;
+        Camera2D screenCamera;
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
 
         TextureResourceManager textureResourceManager;
+        ModelResourceManager modelResourceManager;
+        SpineAnimationResourceManager spineAnimationResourceManager;
+        AtlasTextureResourceManager atlasTextureResourceManager;
+
+        TileMap tileMap;
 
         public override void Initialize(Game1 game)
         {
             this.inputManager = new InputManager();
-            this.inputManager.Register(Keys.E);
+            this.SetUpInputManager();
             this.SetInstance(this.inputManager);
+
+            this.window = game.Window;
 
             Energy energy = new Energy();
             PowerPlant powerPlant = new PowerPlant();
@@ -46,127 +59,199 @@ namespace Meltdown.States
             this.SetInstance(new QuadTree<Entity>(
                 new AABB()
                 {
-                    LowerBound = new Vector2(-10000, -10000),
-                    UpperBound = new Vector2(10000, 10000)
+                    LowerBound = Constants.BOTTOM_LEFT_CORNER,// new Vector2(-10000, -10000),
+                    UpperBound = Constants.TOP_RIGHT_CORNER// new Vector2(10000, 10000)
                 },
                 10, 7));
 
-            this.screenCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(1920, 1080, 0, 2)
+            this.screenCamera = new Camera2D(
+                new Transform2D(),
+                1920,
+                1080
                 );
 
-            this.worldCamera = new Camera(
-                game.Window,
-                new Transform(new Vector3(0, 0, -1)),
-                Matrix.CreateOrthographic(100, 100, 0, 2)
+            this.worldCamera = new Camera2D(
+                new Transform2D(),
+                80,
+                45,
+                true
                 );
-
+            
             this.world = new World();
             this.SetInstance(this.world);
+
+            // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
+            this.textureResourceManager.Manage(this.world);
+
+            this.modelResourceManager = new ModelResourceManager(game.Content);
+            this.modelResourceManager.Manage(this.world);
+
+            this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
+            this.spineAnimationResourceManager.Manage(this.world);
+
+            this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"test\SPS_StaticSprites");
+            this.atlasTextureResourceManager.Manage(this.world);
+
+            // Miscellaneous
+            this.tileMap = new TileMap(game.GraphicsDevice, @"test\SPS_StaticSprites");
+            this.SetInstance(tileMap);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
-                new DebugCollisionHandler(this.world),
-                new ProjectileCollisionHandler(this.world),
+                //new DebugCollisionHandler(this.world),
+                new DamageHealthCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
-                new PlayerDroneCollisionHandler(this.world, energy)
+                new PlayerDamageCollisionHandler(this.world, energy)
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
-            InputSystem inputSystem = new InputSystem(this.world);
+            InputSystem inputSystem = new InputSystem(this.world, this.inputManager);
             EventSystem eventSystem = new EventSystem(this.world);
             AISystem aISystem = new AISystem(this.world);
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
 
-            ShootingSystem shootingSystem = new ShootingSystem(world);
+            ShootingSystem shootingSystem = new ShootingSystem(this.world, this.inputManager);
             CameraSystem cameraSystem = new CameraSystem(this.worldCamera, this.world);
-            EnemySpawnSystem enemySpawnSystem = new EnemySpawnSystem();
+            TTLSystem TTLSystem = new TTLSystem(world);
+            PathFinderSystem pathFinderSystem = new PathFinderSystem();
+            InteractionSystem interactionSystem = new InteractionSystem(
+                this.inputManager,
+                this.world,
+                new InteractionHandler[] {
+                    new LootableInteractionHandler(this.world),
+                    new PickUpGunInteractionHandler(this.world),
+                    new PowerPlantInteractionHandler(this.world),
+                    },
+                    Game1.Instance.Content.Load<Effect>(@"shaders/bright")
+                );
+
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
                 shootingSystem,
-                collisionSystem,
                 eventSystem,
+                interactionSystem,
+                collisionSystem,
                 aISystem,
                 powerplantSystem,
-                cameraSystem
+                cameraSystem,
+                TTLSystem,
+                pathFinderSystem
                 );
-            
+
+            //TERRAIN GENERATION
+            //ProcGen.BuildWalls();
+            ProcGen.BuildBackground();
+            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            ProcGen.BuildStreet(powerPlant);
+            SpawnHelper.SpawnPlayerHouse();
+
+            Grid grid = new Grid();
+            this.SetInstance(new PathRequestManager(new PathFinder(grid)));
+
+            //DRAWING SYSTEMS
             EnergyDrawSystem energyDrawSystem =
                 new EnergyDrawSystem(
                     energy,
-                    game.Content.Load<Texture2D>("placeholders/EnergyBar PLACEHOLDER"),
-                    game.GraphicsDevice,
-                    game.Content.Load<SpriteFont >("gui/EnergyFont")
+                    this.world
                     );
-
+            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
+
+            GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
+                grid : grid, 
+                graphicsDevice : game.GraphicsDevice,
+                camera : this.worldCamera,
+                circle : game.Content.Load<Texture2D>("graph/circle-16")
+                );
+
             this.drawSystem = new SequentialSystem<Time>(
+                new AnimationStateUpdateSystem(this.world),
+                new SkeletonUpdateSystem(this.world),
+                new TileMapDrawSystem(game.GraphicsDevice, this.worldCamera, this.tileMap),
                 new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
+                modelDrawSystem,
+                //gridDrawSystem,      
                 energyDrawSystem,
-                aabbDebugDrawSystem
+                new SpineSkeletonDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world)
+                //aabbDebugDrawSystem
                 );
 
 
-            // Resource Managers
-            this.textureResourceManager.Manage(this.world);
-
+            //SPAWNING 
+            //ENEMY SPAWNING
+            SpawnHelper.SpawnDrone(Vector2.One * 25);
+            ProcGen.SpawnHotspots();
             // Create player
-            SpawnHelper.SpawnPlayer(1);
-
-            //Crete Powerplant
-            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
-
-            //Spawn enemy
-            SpawnHelper.SpawnEnemy(new Vector2(25, -25), true);
-
-            //SpawnHelper.SpawnEnemy(new Vector2(-250, -250), false);
-
+            SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
 
+            SpawnHelper.SpawnEvent(new Vector2(0, 0));
+
+            // Create lootbox
+            SpawnHelper.SpawnLootBox(new Vector2(30, -10));
+
             // Event trigger
-            {
-                var entity = this.world.CreateEntity();
-
-                Vector2 position = new Vector2(0, -20);
-                AABB aabb = new AABB()
-                {
-                    LowerBound = new Vector2(-5, -5),
-                    UpperBound = new Vector2(5, 5)
-                };
-                Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
-                element.Span.LowerBound += position;
-                element.Span.UpperBound += position;
-
-                entity.Set(new WorldTransformComponent(new Transform(new Vector3(position, 0))));
-                entity.Set(new AABBComponent(physicsSystem.quadtree, aabb, element, false));
-                entity.Set(new ManagedResource<string, Texture2D>(@"placeholder"));
-                entity.Set(new BoundingBoxComponent(10, 10, 0));
-                entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
-
-                physicsSystem.quadtree.AddNode(element);
-            }
-
+            //SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }
 
         public override IStateTransition Update(Time time)
         {
             this.inputManager.Update(time);
             this.updateSystem.Update(time);
-            return null;
+
+            return base.Update(time);
         }
 
         public override void Draw(Time time)
         {
+            this.screenCamera.Update(this.window);
+            this.worldCamera.Update(this.window);
             this.drawSystem.Update(time);
         }
+
+        // Helper Methods
+        private void SetUpInputManager()
+        {
+            // KEYBOARD
+            // Player - Keyboard
+            this.inputManager.Register(Keys.Up);
+            this.inputManager.Register(Keys.Down);
+            this.inputManager.Register(Keys.Left);
+            this.inputManager.Register(Keys.Right);
+
+            this.inputManager.Register(Keys.D);
+            this.inputManager.Register(Keys.A);
+            this.inputManager.Register(Keys.S);
+            this.inputManager.Register(Keys.W);
+
+            // Shooting - Keyboard 
+            this.inputManager.Register(Keys.F);
+
+            // Event - Keyboard
+            this.inputManager.Register(Keys.E);
+
+            // GAMEPAD
+            // Player - Gamepad 
+            this.inputManager.Register(ThumbSticks.Left);
+
+            // Shooting - Gamepad
+            this.inputManager.Register(Buttons.RightTrigger);
+            this.inputManager.Register(ThumbSticks.Right);
+
+            // Interact - Gamepad
+            this.inputManager.Register(Buttons.X);
+            this.inputManager.Register(Buttons.A);
+
+            // Event - Keyboard
+            this.inputManager.Register(Buttons.B);
+        }
+
     }
 }

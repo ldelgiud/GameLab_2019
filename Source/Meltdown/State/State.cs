@@ -7,6 +7,8 @@ namespace Meltdown.State
 {
     public abstract class State
     {
+        public IStateTransition stateTransition;
+
         protected Dictionary<Type, Object> data = new Dictionary<Type, Object>();
 
         protected void SetInstance<T>(T instance)
@@ -28,7 +30,9 @@ namespace Meltdown.State
         /// <summary>
         /// Hook for when the state is resumed.
         /// </summary>
-        public virtual void Resume(object data) { }
+        public virtual void Resume(object data) {
+            this.stateTransition = null;
+        }
 
         /// <summary>
         /// Hook for when the state is suspended.
@@ -45,7 +49,10 @@ namespace Meltdown.State
         /// </summary>
         /// <param name="time"></param>
         /// <returns>Next state</returns>
-        public abstract IStateTransition Update(Time time);
+        public virtual IStateTransition Update(Time time)
+        {
+            return this.stateTransition;
+        }
 
         /// <summary>
         /// Draw call for state

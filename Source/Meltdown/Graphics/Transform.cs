@@ -1,11 +1,19 @@
-﻿using System;
+﻿using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+
+using Meltdown.Utilities.Extensions;
 
 namespace Meltdown.Graphics
 {
     class Transform
     {
+        public static Transform LookAt(Vector3 position, Vector3 target, Vector3 up)
+        {
+            Matrix matrix = Matrix.Transpose(Matrix.CreateLookAt(position, target, up));
+            return new Transform(matrix.Translation(), matrix.Rotation(), matrix.Scale());
+        }
+
         Transform parent;
 
         bool dirty = true;

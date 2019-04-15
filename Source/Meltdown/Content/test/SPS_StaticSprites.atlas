@@ -1,0 +1,111 @@
+
+SPS_StaticSprites.png
+size: 4096,2048
+format: RGBA8888
+filter: MipMapLinearLinear,Linear
+repeat: none
+static_sprites/SPT_EN_Tile_Grass_01
+  rotate: true
+  xy: 2718, 27
+  size: 1000, 577
+  orig: 1000, 577
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_EN_Tile_Grass_02
+  rotate: true
+  xy: 2703, 1029
+  size: 1000, 577
+  orig: 1000, 577
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_EN_Tile_MainStreetCorner_01
+  rotate: true
+  xy: 3282, 1029
+  size: 1000, 577
+  orig: 1000, 577
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_EN_Tile_MainStreet_01
+  rotate: true
+  xy: 3297, 27
+  size: 1000, 577
+  orig: 1000, 577
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_EN_Tile_PlayerHouse_01
+  rotate: false
+  xy: 1716, 389
+  size: 1000, 580
+  orig: 1000, 580
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_EN_Tile_PowerPlant_01
+  rotate: true
+  xy: 2, 29
+  size: 2000, 1160
+  orig: 2000, 1160
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_EnergyBack
+  rotate: false
+  xy: 2, 2
+  size: 600, 25
+  orig: 600, 25
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_EnergyFront
+  rotate: false
+  xy: 604, 2
+  size: 600, 25
+  orig: 600, 25
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_PlayerStats_01
+  rotate: true
+  xy: 1164, 289
+  size: 680, 550
+  orig: 680, 550
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_ReactorBack
+  rotate: false
+  xy: 1164, 132
+  size: 600, 25
+  orig: 600, 25
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_ReactorFront
+  rotate: false
+  xy: 1164, 105
+  size: 600, 25
+  orig: 600, 25
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_StoryEnd_01
+  rotate: true
+  xy: 1164, 971
+  size: 1058, 511
+  orig: 1058, 511
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_Story_01
+  rotate: true
+  xy: 1677, 971
+  size: 1058, 511
+  orig: 1058, 511
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_UI_HUD_Story_02
+  rotate: true
+  xy: 2190, 971
+  size: 1058, 511
+  orig: 1058, 511
+  offset: 0, 0
+  index: -1
+static_sprites/SPT_WP_Projectile_01
+  rotate: true
+  xy: 1164, 159
+  size: 128, 85
+  orig: 128, 85
+  offset: 0, 0
+  index: -1

@@ -8,25 +8,42 @@ using Microsoft.Xna.Framework;
 
 using Meltdown.Utilities;
 using Meltdown.Utilities.Extensions;
+using DefaultEcs;
+using Meltdown.Components;
+using System.Diagnostics;
 
 namespace Meltdown.AI
 {
     class DroneStandby : AIState
     {
 
-        const double distToSearch = 600;
 
 
-        public override AIState UpdateState(List<PlayerInfo> playerInfos, Vector2 pos, ref Vector2 velocity)
+        public override AIState UpdateState(
+            List<PlayerInfo> playerInfos, 
+            Entity entity,
+            Time time)
         {
-
+            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.value.position.ToVector2() - pos;
-
-                if (dist.Length() <= distToSearch) return new DroneSearch();
+                Vector2 distVec = player.transform.Translation - this.myPos;
+                float sqrdDist = distVec.LengthSquared();
+                this.target = player.transform.Translation;
+                if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST) return new DroneOffline();
+                else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
+                    if (this.IsInSight(this.myPos, this.target))
+                    {
+                        Debug.WriteLine("DRONY: SAW YOU BITCH!!");
+                        return new DroneSearch();
+                    }
+                    else if (sqrdDist <= Constants.BLIND_STANDBY_TO_SEARCH_SQRD_DIST)
+                    {
+                        Debug.WriteLine("DRONY: TOO CLOSE BITCH!!");
+                        return new DroneSearch();
+                    }
             }
-            return this;
+            return this; ;
         }
     }
 }
