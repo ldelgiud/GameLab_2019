@@ -23,6 +23,27 @@ namespace Hazmat.Components.InputHandlers
 
             velComp.velocity = Vector2.Zero;
 
+            // GamePad
+            switch (inputManager.GetEvent(0, ThumbSticks.Left))
+            {
+                case ValueEvent<Vector2> value:
+                    velComp.velocity = player.Speed * value.current;
+                    break;
+            }
+
+            switch (inputManager.GetEvent(0, ThumbSticks.Right))
+            {
+                case ValueEvent<Vector2> value:
+                    var current = value.current;
+                    if (current.LengthSquared() != 0)
+                    {
+
+                        current.Normalize();
+                        transform.value.Rotation = current.ToRotation();
+                    }
+                    break;
+            }
+
             // KeyBoard
             switch (inputManager.GetEvent(Keys.Left))
             {
@@ -85,27 +106,6 @@ namespace Hazmat.Components.InputHandlers
                     break;
             }
 
-
-            // GamePad
-            switch (inputManager.GetEvent(0, ThumbSticks.Left))
-            {
-                case ValueEvent<Vector2> value:
-                    velComp.velocity = player.Speed * value.current; 
-                    break;
-            }
-
-            switch (inputManager.GetEvent(0, ThumbSticks.Right))
-            {
-                case ValueEvent<Vector2> value:
-                    var current = value.current;
-                    if (current.LengthSquared() != 0)
-                    {
-
-                        current.Normalize();
-                        transform.value.Rotation = current.ToRotation();
-                    }
-                    break;
-            }
 
             if (velComp.velocity != Vector2.Zero)
             {
