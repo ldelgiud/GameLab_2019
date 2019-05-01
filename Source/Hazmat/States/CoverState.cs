@@ -20,7 +20,6 @@ using Hazmat.Components;
 using Hazmat.ResourceManagers;
 using Hazmat.Systems;
 using Hazmat.Event;
-using Hazmat.Utilities;
 
 namespace Hazmat.States
 {

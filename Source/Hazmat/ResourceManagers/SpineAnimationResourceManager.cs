@@ -60,11 +60,11 @@ namespace Hazmat.ResourceManagers
                 animationState.SetAnimation(0, animationStateInfo.animation, animationStateInfo.loop);
             }
 
-            entity.Set(new SkeletonComponent(skeleton, info.skeletonInfo));
+            entity.Set(new SpineSkeletonComponent(skeleton, info.skeletonInfo));
 
             if (animationState != null)
             {
-                entity.Set(new AnimationStateComponent(animationState));
+                entity.Set(new SpineAnimationComponent(animationState));
             }
         }
     }

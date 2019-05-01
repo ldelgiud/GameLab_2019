@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using DefaultEcs;
 using DefaultEcs.System;
 
+using tainicom.Aether.Animation;
+
 using Hazmat.Graphics;
 using Hazmat.Components;
 using Hazmat.Utilities;
@@ -50,10 +52,17 @@ namespace Hazmat.Systems
             var v = Matrix.CreateLookAt(new Vector3(Camera2D.WorldToPerspective(cameraPosition), 50), Camera2D.WorldToPerspective(this.camera.Transform.Translation).ToVector3(), Vector3.UnitY);
             var p = Matrix.CreateOrthographic(this.camera.ScreenWidth, this.camera.ScreenHeight, 0, 100);
 
+            Animations animations = entity.Has<ModelAnimationComponent>() ? entity.Get<ModelAnimationComponent>().animations : null;
+
             foreach (var mesh in model.value.Meshes)
             {
                 foreach (var part in mesh.MeshParts)
                 {
+                    if (animations != null)
+                    {
+                        part.UpdateVertices(animations.AnimationTransforms);
+                    }
+
                     Effect effect = part.Effect;
 
                     if (effect is BasicEffect)

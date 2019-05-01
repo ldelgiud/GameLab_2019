@@ -18,7 +18,7 @@ namespace Hazmat.Systems
 
         public SkeletonUpdateSystem(World world) : base(
             world.GetEntities()
-            .With<SkeletonComponent>()
+            .With<SpineSkeletonComponent>()
             .With<Transform2DComponent>()
             .Build()
             )
@@ -27,7 +27,7 @@ namespace Hazmat.Systems
 
         protected override void Update(Time state, in Entity entity)
         {
-            ref var skeleton = ref entity.Get<SkeletonComponent>();
+            ref var skeleton = ref entity.Get<SpineSkeletonComponent>();
             ref var transform = ref entity.Get<Transform2DComponent>();
 
             var translation = Camera2D.WorldToPerspective(transform.value.Translation + skeleton.info.translation);

@@ -160,7 +160,6 @@ namespace Hazmat.States
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(this.worldCamera, this.world);
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
 
-
             GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
                 grid : grid, 
                 graphicsDevice : game.GraphicsDevice,
@@ -169,6 +168,7 @@ namespace Hazmat.States
                 );
 
             this.drawSystem = new SequentialSystem<Time>(
+                new ModelAnimationUpdateSystem(this.world),
                 new AnimationStateUpdateSystem(this.world),
                 new SkeletonUpdateSystem(this.world),
                 new TileMapDrawSystem(game.GraphicsDevice, this.worldCamera, this.tileMap),
