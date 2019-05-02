@@ -48,7 +48,7 @@ namespace Hazmat.ResourceManagers
                 float[] vertexBuffer = null;
                 skeleton.GetBounds(out float x, out float y, out float width, out float height, ref vertexBuffer);
 
-                info.skeletonInfo.scale = new Vector2(info.skeletonInfo.width / width, info.skeletonInfo.height / height);
+                info.skeletonInfo.scale = new Vector3(info.skeletonInfo.width / width, info.skeletonInfo.height / height, 1);
             }
 
             AnimationState animationState = null;

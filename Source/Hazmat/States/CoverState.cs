@@ -20,7 +20,6 @@ using Hazmat.Components;
 using Hazmat.ResourceManagers;
 using Hazmat.Systems;
 using Hazmat.Event;
-using Hazmat.Utilities;
 
 namespace Hazmat.States
 {
@@ -62,7 +61,7 @@ namespace Hazmat.States
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
                 new SkeletonUpdateSystem(this.world),
-                new SpineSkeletonDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world)
+                new SpineSkeleton2DDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world)
                 );
 
             {

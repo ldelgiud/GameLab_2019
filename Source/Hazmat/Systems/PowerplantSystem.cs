@@ -35,7 +35,7 @@ namespace Hazmat.Systems
             Vector2 center = new Vector2(0,0); 
             foreach (Entity entity in this.players.GetEntities())
             {
-                center += entity.Get<Transform2DComponent>().value.Translation;
+                center += entity.Get<Transform3DComponent>().value.Translation.ToVector2();
             }
             center /= players.Count;
             Vector2 distVec = center - powerPlant.Position;

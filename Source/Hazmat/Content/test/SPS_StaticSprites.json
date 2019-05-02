@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "5+N0tMhSnk9dESciM1+ZZQBXip8", "spine": "3.6.53", "width": 0, "height": 0, "images": "" },
+"skeleton": { "hash": "kZxPjOA2pN69xNFfheMT+9CzG2w", "spine": "3.6.53", "width": 500, "height": 310, "images": "" },
 "bones": [
 	{ "name": "root", "x": 0.58 }
 ],
@@ -7,35 +7,31 @@
 	{ "name": "static_sprites/SPT_EN_Tile_Grass", "bone": "root" },
 	{ "name": "static_sprites/SPT_EN_Tile_MainStreet", "bone": "root" },
 	{ "name": "HUD", "bone": "root" },
-	{ "name": "static_sprites/SPT_WP_Projectile_01", "bone": "root" },
-	{ "name": "static_sprites/SPT_EN_Tile_UniqueSprites", "bone": "root" }
+	{ "name": "static_sprites/SPT_EN_Tile_UniqueSprites", "bone": "root" },
+	{ "name": "city", "bone": "root" }
 ],
 "skins": {
 	"default": {
 		"HUD": {
 			"static_sprites/SPT_UI_HUD_EnergyBack": { "width": 600, "height": 25 },
 			"static_sprites/SPT_UI_HUD_EnergyFront": { "width": 600, "height": 25 },
-			"static_sprites/SPT_UI_HUD_PlayerStats_01": { "width": 680, "height": 550 },
 			"static_sprites/SPT_UI_HUD_ReactorBack": { "width": 600, "height": 25 },
-			"static_sprites/SPT_UI_HUD_ReactorFront": { "width": 600, "height": 25 },
-			"static_sprites/SPT_UI_HUD_StoryEnd_01": { "width": 1058, "height": 511 },
-			"static_sprites/SPT_UI_HUD_Story_01": { "width": 1058, "height": 511 },
-			"static_sprites/SPT_UI_HUD_Story_02": { "width": 1058, "height": 511 }
+			"static_sprites/SPT_UI_HUD_ReactorFront": { "width": 600, "height": 25 }
+		},
+		"city": {
+			"static_sprites/SPT_EN_Tile_Sidewalk_01": { "width": 500, "height": 310 }
 		},
 		"static_sprites/SPT_EN_Tile_Grass": {
-			"static_sprites/SPT_EN_Tile_Grass_01": { "width": 1000, "height": 577 },
-			"static_sprites/SPT_EN_Tile_Grass_02": { "width": 1000, "height": 577 }
+			"static_sprites/SPT_EN_Tile_Grass_01": { "width": 900, "height": 900 },
+			"static_sprites/SPT_EN_Tile_Grass_02": { "width": 730, "height": 537 }
 		},
 		"static_sprites/SPT_EN_Tile_MainStreet": {
-			"static_sprites/SPT_EN_Tile_MainStreetCorner_01": { "width": 1000, "height": 577 },
-			"static_sprites/SPT_EN_Tile_MainStreet_01": { "width": 1000, "height": 577 }
+			"static_sprites/SPT_EN_Tile_MainStreetCorner_01": { "width": 900, "height": 900 },
+			"static_sprites/SPT_EN_Tile_MainStreet_01": { "width": 900, "height": 900 }
 		},
 		"static_sprites/SPT_EN_Tile_UniqueSprites": {
 			"static_sprites/SPT_EN_Tile_PlayerHouse_01": { "width": 1000, "height": 580 },
 			"static_sprites/SPT_EN_Tile_PowerPlant_01": { "width": 2000, "height": 1160 }
-		},
-		"static_sprites/SPT_WP_Projectile_01": {
-			"static_sprites/SPT_WP_Projectile_01": { "width": 128, "height": 85 }
 		}
 	}
 }

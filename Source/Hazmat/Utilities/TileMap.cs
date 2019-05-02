@@ -13,30 +13,30 @@ using tainicom.Aether.Physics2D.Collision;
 using Hazmat.ResourceManagers;
 using Hazmat.Components;
 using Hazmat.Graphics;
+using Hazmat.Utilities.Extensions;
 
 namespace Hazmat.Utilities
 {
     class TileMap
     {
         World world = new World();
-        AtlasTextureResourceManager resourceManager;
+        TileModelResourceManager tileModelResourceManager;
 
         public QuadTree<Entity> quadtree = new QuadTree<Entity>(new AABB(Constants.BOTTOM_LEFT_CORNER, Constants.TOP_RIGHT_CORNER), 10, 7);
 
         public TileMap(GraphicsDevice graphicsDevice, string atlasPath)
         {
-            this.resourceManager = new AtlasTextureResourceManager(graphicsDevice, atlasPath);
-            this.resourceManager.Manage(this.world);
+            this.tileModelResourceManager = new TileModelResourceManager(graphicsDevice, atlasPath);
+            this.tileModelResourceManager.Manage(this.world);
         }
 
-
-        public void AddTile(Transform2D transform, Texture2DInfo info)
+        public void AddTile(Transform3D transform, TileModelInfo info)
         {
             var entity = this.world.CreateEntity();
-            entity.Set(new Transform2DComponent(transform));
-            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(info));
+            entity.Set(new Transform3DComponent(transform));
+            entity.Set(new ManagedResource<TileModelInfo, TileModelAlias>(info));
 
-            var element = new Element<Entity>(new AABB(transform.Translation, Constants.TILE_SIZE, Constants.TILE_SIZE))
+            var element = new Element<Entity>(new AABB(transform.Translation.ToVector2(), transform.Scale.X, transform.Scale.Y))
             {
                 Value = entity
             };
@@ -46,7 +46,7 @@ namespace Hazmat.Utilities
         public void RemoveTiles(Transform2D transform)
         {
             // Collision for removal. Bit smaller than one tile to prevent overlap with adjacent tiles
-            var aabb = new AABB(transform.Translation, Constants.TILE_SIZE - 0.1f, Constants.TILE_SIZE - 0.1f);
+            var aabb = new AABB(transform.Translation, Constants.TILE_SIZE - 0.01f, Constants.TILE_SIZE - 0.01f);
 
             List<Element<Entity>> toRemove = new List<Element<Entity>>();
             this.quadtree.QueryAABB((element) =>

@@ -27,8 +27,6 @@ namespace Hazmat.Graphics
                 );
         }
 
-        bool perspective;
-
         public Transform2D Transform { get; set; }
 
         public float WindowWidth { get; private set; }
@@ -91,18 +89,9 @@ namespace Hazmat.Graphics
         {
             get
             {
-                if (this.perspective)
-                {
-                    return Matrix3.CreateTranslation(-Camera2D.WorldToPerspective(this.Transform.Translation)) *
-                        Matrix3.CreateRotation(-this.Transform.Rotation) *
-                        Matrix3.CreateScaling(Vector2.One / this.Transform.Scale);
-                }
-                else
-                {
                     return Matrix3.CreateTranslation(-this.Transform.Translation) *
                         Matrix3.CreateRotation(-this.Transform.Rotation) *
                         Matrix3.CreateScaling(Vector2.One / this.Transform.Scale);
-                }
             }
         }
 
@@ -117,12 +106,11 @@ namespace Hazmat.Graphics
 
 
 
-        public Camera2D(Transform2D transform, float viewportWidth, float viewportHeight, bool perspective = false)
+        public Camera2D(Transform2D transform, float viewportWidth, float viewportHeight)
         {
             this.Transform = transform;
             this.ViewportWidth = viewportWidth;
             this.ViewportHeight = viewportHeight;
-            this.perspective = perspective;
 
             this.Transform.LocalScale = new Vector2(this.ViewportWidth, this.ViewportHeight);
         }
@@ -130,10 +118,6 @@ namespace Hazmat.Graphics
         public (Vector2, float, Vector2) ToScreenCoordinates(Transform2D transform, Texture2DInfo info)
         {
             var model = transform.TransformMatrix;
-            if (this.perspective)
-            {
-                model.ApplyWorldToPerspective();
-            }
             var view = this.View;
             var projection = this.Projection;
 

@@ -14,49 +14,77 @@ namespace Hazmat.Systems
 {
     class AABBDebugDrawSystem : AEntitySystem<Time>
     {
-        SpriteBatch spriteBatch;
-        Camera2D camera;
+        GraphicsDevice graphicsDevice;
+        Camera3D camera;
 
         Texture2D debugBoxTex;
 
-        public AABBDebugDrawSystem(World world, GraphicsDevice graphicsDevice, Camera2D camera, Texture2D debugBoxTex) : base(
+        BasicEffect effect;
+        RasterizerState rasterizerState;
+        VertexBuffer vertexBuffer;
+        IndexBuffer indexBuffer;
+
+        public AABBDebugDrawSystem(World world, GraphicsDevice graphicsDevice, Camera3D camera, Texture2D debugBoxTex) : base(
             world.GetEntities()
             .With<AABBComponent>()
             .Build())
         {
-            this.spriteBatch = new SpriteBatch(graphicsDevice);
+            this.graphicsDevice = graphicsDevice;
             this.camera = camera;
             this.debugBoxTex = debugBoxTex;
-        }
 
+            this.effect = new BasicEffect(graphicsDevice);
+
+            this.rasterizerState = new RasterizerState();
+            this.rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
+
+            this.vertexBuffer = new VertexBuffer(graphicsDevice, typeof(VertexPositionTexture), 4, BufferUsage.WriteOnly);
+            this.vertexBuffer.SetData(new VertexPositionTexture[] {
+                new VertexPositionTexture(new Vector3(-1, -1, 0), new Vector2(0, 0)),
+                new VertexPositionTexture(new Vector3(-1, 1, 0), new Vector2(0, 1)),
+                new VertexPositionTexture(new Vector3(1, 1, 0), new Vector2(1, 1)),
+                new VertexPositionTexture(new Vector3(1, -1, 0), new Vector2(1, 0)),
+            });
+
+            this.indexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, 6, BufferUsage.WriteOnly);
+            this.indexBuffer.SetData(new short[] {
+                0, 1, 2,
+                0, 2, 3,
+            });
+        }
 
         protected override void PreUpdate(Time time)
         {
-            this.spriteBatch.Begin();
+            var v = this.camera.View;
+            var p = this.camera.Projection;
+
+            this.effect.View = v;
+            this.effect.Projection = p;
+            this.effect.TextureEnabled = true;
+            this.effect.Texture = this.debugBoxTex;
         }
 
         protected override void Update(Time time, in Entity entity)
         {
             ref var aabbComponent = ref entity.Get<AABBComponent>();
             var size = aabbComponent.element.Span.UpperBound - aabbComponent.element.Span.LowerBound;
-            var transform = new Transform2D(aabbComponent.element.Span.Center);
 
-            var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform, new Texture2DInfo(null, scale: size / this.debugBoxTex.Bounds.Size.ToVector2() * new Vector2(1.5f, 1.4f)));
+            var m = Matrix.CreateScale(aabbComponent.element.Span.Width / 2, aabbComponent.element.Span.Height / 2, 1) *
+                Matrix.CreateTranslation(new Vector3(aabbComponent.element.Span.Center, Constants.LAYER_BACKGROUND_DEBUG));
+            this.effect.World = m;
 
-            spriteBatch.Draw(
-                texture: this.debugBoxTex,
-                position: position,
-                rotation: rotation,
-                scale: scale,
-                origin: this.debugBoxTex.Bounds.Size.ToVector2() / 2
-                );
+            this.graphicsDevice.SetVertexBuffer(this.vertexBuffer);
+            this.graphicsDevice.Indices = this.indexBuffer;
 
+            this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
+            this.graphicsDevice.RasterizerState = this.rasterizerState;
 
-        }
+            foreach (var pass in this.effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                this.graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
+            }
 
-        protected override void PostUpdate(Time time)
-        {
-            this.spriteBatch.End();
         }
     }
 }

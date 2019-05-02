@@ -18,61 +18,64 @@ namespace Hazmat.Systems
     class TileMapDrawSystem : ISystem<Time>
     {
         SpriteBatch spriteBatch;
+        GraphicsDevice graphicsDevice;
+        BasicEffect effect;
+        RasterizerState rasterizerState;
 
-        Camera2D camera;
+        Camera3D camera;
         TileMap tileMap;
-        
 
         public bool IsEnabled { get; set; } = true;
 
-        public TileMapDrawSystem(GraphicsDevice graphicsDevice, Camera2D camera, TileMap tileMap)
+        public TileMapDrawSystem(GraphicsDevice graphicsDevice, Camera3D camera, TileMap tileMap)
         {
+            this.graphicsDevice = graphicsDevice;
             this.spriteBatch = new SpriteBatch(graphicsDevice);
             this.camera = camera;
             this.tileMap = tileMap;
+            this.effect = new BasicEffect(graphicsDevice);
+            this.rasterizerState = new RasterizerState();
+            this.rasterizerState.CullMode = CullMode.CullCounterClockwiseFace;
         }
 
         public void Update(Time state)
         {
             var cameraPosition = this.camera.Transform.Translation;
-            var x = Convert.ToInt32(cameraPosition.X);
-            var y = Convert.ToInt32(cameraPosition.Y);
-            var width = Convert.ToInt32(this.camera.ViewportWidth * 3);
-            var height = Convert.ToInt32(this.camera.ViewportHeight * 3);
-
-            this.spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack);
-
             var aabb = new AABB(
-                new Vector2(cameraPosition.X - this.camera.ViewportWidth * 1.5f, cameraPosition.Y - this.camera.ViewportHeight * 1.5f),
-                new Vector2(cameraPosition.X + this.camera.ViewportWidth * 1.5f, cameraPosition.Y + this.camera.ViewportHeight * 1.5f)
+                new Vector2(cameraPosition.X - this.camera.width * 2, cameraPosition.Y - this.camera.height * 2),
+                new Vector2(cameraPosition.X + this.camera.width * 2, cameraPosition.Y + this.camera.height * 2)
                 );
+
+            this.effect.View = this.camera.View;
+            this.effect.Projection = this.camera.Projection;
+            this.effect.TextureEnabled = true;
 
             this.tileMap.quadtree.QueryAABB((element) =>
             {
                 var entity = element.Value;
-                ref var transform = ref entity.Get<Transform2DComponent>();
-                ref var texture = ref entity.Get<Texture2DComponent>();
+                ref var transform = ref entity.Get<Transform3DComponent>();
+                ref var tile = ref entity.Get<TileComponent>();
 
-                var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform.value, texture.info);
+                this.graphicsDevice.SetVertexBuffer(tile.vertexBuffer);
+                this.graphicsDevice.Indices = tile.indexBuffer;
 
-                var bounds = texture.info.bounds ?? texture.value.Bounds;
-                var origin = bounds.Size.ToVector2() / 2;
+                this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
+                this.graphicsDevice.RasterizerState = this.rasterizerState;
 
-                //Debug.WriteLine(texture.info.layer);
-                this.spriteBatch.Draw(
-                    sourceRectangle: bounds,
-                    texture: texture.value,
-                    position: position,
-                    rotation: rotation,
-                    scale: scale,
-                    origin: origin,
-                    layerDepth: texture.info.layer
-                    );
+                // Prevent white outline for background details
+                this.graphicsDevice.BlendState = BlendState.NonPremultiplied;
+
+                this.effect.World = transform.value.TransformMatrix;
+                this.effect.Texture = tile.texture;                
+
+                foreach (var pass in this.effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    this.graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
+                }
 
                 return true;
             }, ref aabb);
-
-            this.spriteBatch.End();
         }
 
         public void Dispose()

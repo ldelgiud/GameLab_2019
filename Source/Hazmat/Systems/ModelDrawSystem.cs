@@ -16,42 +16,38 @@ namespace Hazmat.Systems
 {
     class ModelDrawSystem : AEntitySystem<Time>
     {
-        Camera2D camera;
+        GraphicsDevice graphicsDevice;
+        Camera3D camera;
 
-        public ModelDrawSystem(Camera2D camera, World world) : base(
+        public ModelDrawSystem(GraphicsDevice graphicsDevice, Camera3D camera, World world) : base(
             world.GetEntities()
             .With<ModelComponent>()
-            .With<Transform2DComponent>()
+            .With<Transform3DComponent>()
             .Build()
             )
         {
+            this.graphicsDevice = graphicsDevice;
             this.camera = camera;
         }
 
         protected override void Update(Time state, in Entity entity)
         {
-            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
+            ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
             ref ModelComponent model = ref entity.Get<ModelComponent>();
 
-            var transformMatrix = transform.value.TransformMatrix;
-
-            var cameraPosition = this.camera.Transform.Translation;
-
-            var m =
-                Matrix.CreateScale(new Vector3(transform.value.Scale, 1) * model.info.scale) *
-                Matrix.CreateRotationX(model.info.rotation.X) *
+            var m = Matrix.CreateScale(model.info.scale) *
+                Matrix.CreateRotationZ(model.info.rotation.Z) *
                 Matrix.CreateRotationY(model.info.rotation.Y) *
-                Matrix.CreateRotationZ(transform.value.Rotation + model.info.rotation.Z) *
-
-                // Perspective rotation
-                Matrix.CreateRotationX(-MathF.PI / 6) *
-                Matrix.CreateTranslation(new Vector3(Camera2D.WorldToPerspective(transform.value.Translation + model.info.translation.ToVector2()), model.info.translation.Z));
-
-            var v = Matrix.CreateLookAt(new Vector3(Camera2D.WorldToPerspective(cameraPosition), 50), Camera2D.WorldToPerspective(this.camera.Transform.Translation).ToVector3(), Vector3.UnitY);
-            var p = Matrix.CreateOrthographic(this.camera.ScreenWidth, this.camera.ScreenHeight, 0, 100);
+                Matrix.CreateRotationX(model.info.rotation.X) *
+                Matrix.CreateTranslation(model.info.translation) *
+                transform.value.TransformMatrix;
+            var v = this.camera.View;
+            var p = this.camera.Projection;
 
             foreach (var mesh in model.value.Meshes)
             {
+                this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
+
                 foreach (var part in mesh.MeshParts)
                 {
                     Effect effect = part.Effect;
@@ -61,7 +57,8 @@ namespace Hazmat.Systems
                         ((BasicEffect)effect).World = m;
                         ((BasicEffect)effect).View = v;
                         ((BasicEffect)effect).Projection = p;
-                        ((BasicEffect)effect).EnableDefaultLighting();
+
+                        ((BasicEffect)effect).Alpha = 1;
                     }
                     else
                     {
@@ -74,7 +71,6 @@ namespace Hazmat.Systems
                         effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransform);
                     }
                 }
-
                 mesh.Draw();
             }
 

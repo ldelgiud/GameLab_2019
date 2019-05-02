@@ -12,38 +12,37 @@ namespace Hazmat.Utilities.Extensions
     {
         public static float TranslationX(this Matrix matrix)
         {
-            return matrix.M14;
+            return matrix.M41;
         }
 
         public static float TranslationY(this Matrix matrix)
         {
-            return matrix.M24;
+            return matrix.M42;
         }
 
         public static float TranslationZ(this Matrix matrix)
         {
-            return matrix.M34;
+            return matrix.M43;
         }
 
         public static Vector3 Translation(this Matrix matrix)
         {
-            return new Vector3(matrix.TranslationX(), matrix.TranslationY(), matrix.TranslationZ());
+            return new Vector3(matrix.M41, matrix.M42, matrix.M43);
         }
 
         public static float RotationX(this Matrix matrix)
         {
-            return MathF.Asin(-matrix.M32 / matrix.ScaleZ());
+            return MathF.Atan2(matrix.M23 / matrix.ScaleY(), matrix.M33 / matrix.ScaleZ());
         }
 
         public static float RotationY(this Matrix matrix)
         {
-            return MathF.Atan2(matrix.M32 / matrix.ScaleZ(), matrix.M33 / matrix.ScaleZ());
+            return MathF.Asin(matrix.M13 / matrix.ScaleX());
         }
 
         public static float RotationZ(this Matrix matrix)
         {
-            return MathF.Atan2(matrix.M12 / matrix.ScaleX(), matrix.M22 / matrix.ScaleY());
-
+            return MathF.Atan2(matrix.M12 / matrix.ScaleX(), matrix.M11 / matrix.ScaleX());
         }
 
         public static Vector3 Rotation(this Matrix matrix)

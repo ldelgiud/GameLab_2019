@@ -154,6 +154,7 @@
     <Compile Include="Components\SmallGunComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\Texture2DComponent.cs" />
+    <Compile Include="Components\TileComponent.cs" />
     <Compile Include="Components\Transform2DComponent.cs" />
     <Compile Include="Components\Transform3DComponent.cs" />
     <Compile Include="Components\WorldSpaceComponent.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Components\MenuPulseComponent.cs" />
     <Compile Include="GameElements\Shooting\AGun.cs" />
     <Compile Include="Graphics\Camera2D.cs" />
+    <Compile Include="Graphics\Camera3D.cs" />
     <Compile Include="Graphics\Matrix3.cs" />
     <Compile Include="Graphics\Transform2D.cs" />
     <Compile Include="Input\InputManager.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="ResourceManagers\ModelResourceManager.cs" />
     <Compile Include="ResourceManagers\SpineAnimationResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
+    <Compile Include="ResourceManagers\TileResourceManager.cs" />
     <Compile Include="States\CoverState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
@@ -206,7 +209,8 @@
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
     <Compile Include="Systems\SkeletonUpdateSystem.cs" />
-    <Compile Include="Systems\SpineSkeletonDrawSystem.cs" />
+    <Compile Include="Systems\SpineSkeleton2DDrawSystem.cs" />
+    <Compile Include="Systems\SpineSkeleton3DDrawSystem.cs" />
     <Compile Include="Systems\TileMapDrawSystem.cs" />
     <Compile Include="Systems\TTLSystem.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />

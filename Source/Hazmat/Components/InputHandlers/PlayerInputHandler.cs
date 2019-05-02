@@ -19,7 +19,7 @@ namespace Hazmat.Components.InputHandlers
         {
             ref VelocityComponent velComp = ref entity.Get<VelocityComponent>();
             ref PlayerComponent player = ref entity.Get<PlayerComponent>();
-            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
+            ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
 
             velComp.velocity = Vector2.Zero;
 
@@ -39,7 +39,8 @@ namespace Hazmat.Components.InputHandlers
                     {
 
                         current.Normalize();
-                        transform.value.Rotation = current.ToRotation();
+                        var rotation = transform.value.Rotation;
+                        transform.value.Rotation = new Vector3(rotation.X, rotation.Y, current.ToRotation());
                     }
                     break;
             }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using DefaultEcs;
@@ -13,21 +15,23 @@ using Hazmat.Utilities.Extensions;
 
 namespace Hazmat.Systems
 {
-    class SpineSkeletonDrawSystem<T> : AEntitySystem<Time>
+    class SpineSkeleton3DDrawSystem<T> : AEntitySystem<Time>
     {
-        Camera2D camera;
+        GraphicsDevice graphicsDevice;
+        Camera3D camera;
         SkeletonRenderer skeletonRenderer;
         SkeletonDebugRenderer skeletonDebugRenderer;
 
 
-        public SpineSkeletonDrawSystem(GraphicsDevice graphicsDevice, Camera2D camera, World world) : base (
+        public SpineSkeleton3DDrawSystem(GraphicsDevice graphicsDevice, Camera3D camera, World world) : base (
             world.GetEntities()
             .With<SkeletonComponent>()
-            .With<Transform2DComponent>()
+            .With<Transform3DComponent>()
             .With<T>()
             .Build()
             )
         {
+            this.graphicsDevice = graphicsDevice;
             this.camera = camera;
             this.skeletonRenderer = new SkeletonRenderer(graphicsDevice);
             this.skeletonDebugRenderer = new SkeletonDebugRenderer(graphicsDevice);
@@ -35,10 +39,8 @@ namespace Hazmat.Systems
 
         protected override void PreUpdate(Time state)
         {
-
-            var cameraTranslation = Camera2D.WorldToPerspective(this.camera.Transform.Translation);
-            var v = Matrix.CreateLookAt(new Vector3(cameraTranslation, 50), cameraTranslation.ToVector3(), Vector3.UnitY);
-            var p = Matrix.CreateOrthographic(this.camera.ScreenWidth, this.camera.ScreenHeight, 0, 100);
+            var v = this.camera.View;
+            var p = this.camera.Projection;
 
             ((BasicEffect)this.skeletonRenderer.Effect).Projection = p;
             ((BasicEffect)this.skeletonRenderer.Effect).View = v;
@@ -51,7 +53,19 @@ namespace Hazmat.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
+            this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
             ref var skeleton = ref entity.Get<SkeletonComponent>();
+            ref var transform = ref entity.Get<Transform3DComponent>();
+
+            // Custom model matrix to Billboard the skeleton to the screen so that its not flat
+            var m =
+                Matrix.CreateScale(skeleton.info.scale * transform.value.Scale * new Vector3(-1, 1, 1)) *
+                Matrix.CreateRotationX(transform.value.Rotation.X) *
+                Matrix.CreateRotationY(transform.value.Rotation.Y) *
+                Matrix.CreateRotationZ(transform.value.Rotation.Z) *
+                Matrix.CreateBillboard(Vector3.Zero, this.camera.distance * Camera3D.ISOMETRIC_OFFSET, Camera3D.ISOMETRIC_UP, Camera3D.ISOMETRIC_OFFSET) *
+                Matrix.CreateTranslation(skeleton.info.translation + transform.value.Translation);
+            ((BasicEffect)this.skeletonRenderer.Effect).World = m;
 
             this.skeletonRenderer.Draw(skeleton.value);
             //this.skeletonDebugRenderer.Draw(skeleton.value);

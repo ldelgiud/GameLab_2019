@@ -52,7 +52,7 @@ namespace Hazmat.Utilities
         {
             var entity = SpawnHelper.World.CreateEntity();
 
-            Vector2 position = new Vector2(0, 0);
+            Vector2 position = new Vector2(-10, -10);
             Vector2 velocity = new Vector2(0, 0);
 
             AABB aabb = new AABB()
@@ -67,7 +67,7 @@ namespace Hazmat.Utilities
 
             entity.Set(new PlayerComponent(playerID, 20));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
-            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
@@ -201,17 +201,22 @@ namespace Hazmat.Utilities
 
         public static void SpawnPlayerHouse()
         {
-            // Spawn 10mx10m house
+            SpawnHelper.SpawnHouse(Vector2.Zero);
+        }
+
+        public static void SpawnHouse(Vector2 position)
+        {
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = "House" });
-            entity.Set(new Transform2DComponent(new Transform2D()));
-            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo("static_sprites/SPT_EN_Tile_PlayerHouse_01", width: 14.14f, height: 8.165f)));
+            entity.Set(new Transform3DComponent(new Transform3D(position: new Vector3(position, 0))));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"test\house1",
+                //textureName: @"test\house1_tex",
+                scale: new Vector3(3f)
+                )));
             entity.Set(new WorldSpaceComponent());
-            SpawnHelper.SpawnBasicWall(new Vector2(0, -5), 0, 10);
-            SpawnHelper.SpawnBasicWall(new Vector2(3.75f, 5), 0, 2.5f);
-            SpawnHelper.SpawnBasicWall(new Vector2(-3.75f, 5), 0, 2.5f);
-            SpawnHelper.SpawnBasicWall(new Vector2(-5, 0), 10, 0);
-            SpawnHelper.SpawnBasicWall(new Vector2(5, 0), 10, 0);
+
+            SpawnHelper.AddAABB(entity, position, new Vector2(-5, -5), new Vector2(5, 5), true);
         }
 
         /// <summary>
@@ -233,13 +238,13 @@ namespace Hazmat.Utilities
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;
 
-            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, Constants.LAYER_FOREGROUND))));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"placeholders\battery",
-                    new SkeletonInfo(2f, 2f),
+                    new SkeletonInfo(2f, 2f, translation: new Vector3(0, 0, 0.5f)),
                     new AnimationStateInfo("animation_battery1", true)
                 )
             ));
@@ -268,7 +273,7 @@ namespace Hazmat.Utilities
             SpawnHelper.quadtree.AddNode(element);
 
             //Create entity and attach its components
-            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AllianceMaskComponent(Alliance.Hostile));
             entity.Set(new VelocityComponent(Vector2.Zero));

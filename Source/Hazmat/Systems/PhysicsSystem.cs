@@ -22,7 +22,7 @@ namespace Hazmat.Systems
 
         public PhysicsSystem(World world, QuadTree<Entity> quadtree, ICollisionSet collisionSet) : base(
             world.GetEntities()
-            .With<Transform2DComponent>()
+            .With<Transform3DComponent>()
             .With<WorldSpaceComponent>()
             .With<VelocityComponent>()
             .Build()) {
@@ -32,7 +32,7 @@ namespace Hazmat.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
+            ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             bool collision = false;
@@ -82,7 +82,7 @@ namespace Hazmat.Systems
 
             if (!collision)
             {
-                transform.value.LocalTranslation += velocity.velocity * time.Delta;
+                transform.value.LocalTranslation += (velocity.velocity * time.Delta).ToVector3();
             }
         }
     }

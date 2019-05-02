@@ -37,6 +37,7 @@ using Microsoft.Xna.Framework;
 namespace Spine {
 	/// <summary>Draws region and mesh attachments.</summary>
 	public class SkeletonRenderer {
+
 		private const int TL = 0;
 		private const int TR = 1;
 		private const int BL = 2;
@@ -199,9 +200,9 @@ namespace Spine {
 					itemVertices[ii].Color = color;
 					itemVertices[ii].Color2 = darkColor;
 					itemVertices[ii].Position.X = vertices[v];
-					itemVertices[ii].Position.Y = vertices[v + 1];
-					itemVertices[ii].Position.Z = 0;
-					itemVertices[ii].TextureCoordinate.X = uvs[v];
+                    itemVertices[ii].Position.Y = vertices[v + 1];
+                    itemVertices[ii].Position.Z = 0;
+                    itemVertices[ii].TextureCoordinate.X = uvs[v];
 					itemVertices[ii].TextureCoordinate.Y = uvs[v + 1];
 					if (VertexEffect != null) VertexEffect.Transform(ref itemVertices[ii]);
 				}

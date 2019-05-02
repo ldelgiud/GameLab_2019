@@ -140,27 +140,27 @@ namespace Hazmat.Utilities
     struct SkeletonInfo
     {
         public String skin;
-        public Vector2 translation;
-        public Vector2 scale;
+        public Vector3 translation;
+        public Vector3 scale;
 
         public float width;
         public float height;
 
-        public SkeletonInfo(float width, float height, String skin = "default", Vector2? translation = null)
+        public SkeletonInfo(float width, float height, String skin = "default", Vector3? translation = null)
         {
             this.skin = skin;
-            this.translation = translation ?? Vector2.Zero;
-            this.scale = -Vector2.One;
+            this.translation = translation ?? Vector3.Zero;
+            this.scale = -Vector3.One;
 
             this.width = width;
             this.height = height;
         }
 
-        public SkeletonInfo(String skin = "default", Vector2? translation = null, Vector2? scale = null)
+        public SkeletonInfo(String skin = "default", Vector3? translation = null, Vector3? scale = null)
         {
             this.skin = skin;
-            this.translation = translation ?? Vector2.Zero;
-            this.scale = scale ?? Vector2.One;
+            this.translation = translation ?? Vector3.Zero;
+            this.scale = scale ?? Vector3.One;
             this.width = 0;
             this.height = 0;
         }
@@ -176,6 +176,16 @@ namespace Hazmat.Utilities
             this.animation = animation;
             this.loop = loop;
             
+        }
+    }
+
+    struct TileModelInfo
+    {
+        public String name;
+
+        public TileModelInfo(String name)
+        {
+            this.name = name;
         }
     }
 }

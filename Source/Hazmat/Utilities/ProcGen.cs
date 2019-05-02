@@ -57,18 +57,22 @@ namespace Hazmat.Utilities
             {
                 while (x <= Constants.RIGHT_BORDER)
                 {
-                    Vector2 position = new Vector2(x, y);
+                    var position = new Vector2(x, y);
 
-                    ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
+                    ProcGen.TileMap.AddTile(
+                        new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
+                        new TileModelInfo(@"static_sprites/SPT_EN_Tile_Grass_01")
+                        );
 
-                    // Removed for demo
-                    //if (Constants.RANDOM.Next(100) <= 30)
-                    //{
-                    //    ProcGen.TileMap.AddTile(new Transform2D(position), new Texture2DInfo("static_sprites/SPT_EN_Tile_Grass_02", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND_DETAIL));
-                    //}
+                    if (Constants.RANDOM.Next(100) <= 30)
+                    {
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02")
+                            );
+                    }
 
                     x += Constants.TILE_SIZE;
-
                 }
                 x = Constants.LEFT_BORDER;
                 y -= Constants.TILE_SIZE;
@@ -96,14 +100,20 @@ namespace Hazmat.Utilities
                     {
                         // Left turn
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, rotation: MathF.PI, layer: Constants.LAYER_BACKGROUND));
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, MathF.PI)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            );
                         curr.Y += Constants.TILE_SIZE;
                     }
                     else
                     {
                         // Right turn
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            );
                         curr.X += Constants.TILE_SIZE;
                     }
                     currentDir = 1 - currentDir;
@@ -114,14 +124,20 @@ namespace Hazmat.Utilities
                     {
                         // Right
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.165f, height: 14.2f, rotation: MathF.PI / 2, layer: Constants.LAYER_BACKGROUND));
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, -MathF.PI / 2)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            );
                         curr.X += Constants.TILE_SIZE;
                     }
                     else
                     {
                         // Up
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                        ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            );
                         curr.Y += Constants.TILE_SIZE;
                     }
                 }
@@ -133,13 +149,19 @@ namespace Hazmat.Utilities
                 {
                     // Right
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 8.165f, height: 14.2f, rotation: MathF.PI / 2, layer: Constants.LAYER_BACKGROUND));
+                    ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, MathF.PI / 2)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            );
                 }
                 else
                 {
                     // Right Turn
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
+                    ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            );
                 }
                 curr.X += Constants.TILE_SIZE;
                 currentDir = 0;
@@ -151,13 +173,19 @@ namespace Hazmat.Utilities
                 {
                     // Left turn
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01", width: 14.2f, height: 8.165f, rotation: MathF.PI, layer: Constants.LAYER_BACKGROUND));
+                    ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, MathF.PI)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            );
                 }
                 else
                 {
                     // Up
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
-                    ProcGen.TileMap.AddTile(new Transform2D(curr), new Texture2DInfo("static_sprites/SPT_EN_Tile_MainStreet_01", width: 14.2f, height: 8.165f, layer: Constants.LAYER_BACKGROUND));
+                    ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            );
                 }
                 currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;

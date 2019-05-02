@@ -69,4 +69,20 @@ namespace Hazmat.Utilities
 
         }
     }
+
+    struct TileModelAlias : IDisposable
+    {
+        public Texture2D texture;
+        public VertexBuffer vertexBuffer;
+        public IndexBuffer indexBuffer;
+
+        public TileModelAlias(Texture2D texture, VertexBuffer vertexBuffer, IndexBuffer indexBuffer)
+        {
+            this.texture = texture;
+            this.vertexBuffer = vertexBuffer;
+            this.indexBuffer = indexBuffer;
+        }
+
+        public void Dispose() { }
+    }
 }
