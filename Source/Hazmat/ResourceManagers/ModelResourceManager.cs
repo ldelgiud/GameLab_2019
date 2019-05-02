@@ -7,6 +7,8 @@ using DefaultEcs;
 using System;
 using System.Diagnostics;
 
+using tainicom.Aether.Animation;
+
 using Hazmat.Graphics;
 using Hazmat.Components;
 using Hazmat.Utilities;
@@ -62,6 +64,13 @@ namespace Hazmat.ResourceManagers
 
         protected override void OnResourceLoaded(in Entity entity, ModelInfo info, ModelAlias resource)
         {
+            if (info.animation != null)
+            {
+                var animations = resource.value.GetAnimations();
+                animations.SetClip(animations.Clips[info.animation]);
+                entity.Set(new ModelAnimationComponent(animations));
+            }
+
             entity.Set(new ModelComponent() { value = resource.value, info = info });
         }
     }

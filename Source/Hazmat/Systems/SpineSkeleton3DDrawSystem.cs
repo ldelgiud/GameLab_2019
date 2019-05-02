@@ -25,7 +25,7 @@ namespace Hazmat.Systems
 
         public SpineSkeleton3DDrawSystem(GraphicsDevice graphicsDevice, Camera3D camera, World world) : base (
             world.GetEntities()
-            .With<SkeletonComponent>()
+            .With<SpineSkeletonComponent>()
             .With<Transform3DComponent>()
             .With<T>()
             .Build()
@@ -54,7 +54,7 @@ namespace Hazmat.Systems
         protected override void Update(Time time, in Entity entity)
         {
             this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
-            ref var skeleton = ref entity.Get<SkeletonComponent>();
+            ref var skeleton = ref entity.Get<SpineSkeletonComponent>();
             ref var transform = ref entity.Get<Transform3DComponent>();
 
             // Custom model matrix to Billboard the skeleton to the screen so that its not flat

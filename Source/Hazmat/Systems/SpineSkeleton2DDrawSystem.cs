@@ -25,7 +25,7 @@ namespace Hazmat.Systems
 
         public SpineSkeleton2DDrawSystem(GraphicsDevice graphicsDevice, Camera2D camera, World world) : base(
             world.GetEntities()
-            .With<SkeletonComponent>()
+            .With<SpineSkeletonComponent>()
             .With<Transform2DComponent>()
             .With<T>()
             .Build()
@@ -58,7 +58,7 @@ namespace Hazmat.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            ref var skeleton = ref entity.Get<SkeletonComponent>();
+            ref var skeleton = ref entity.Get<SpineSkeletonComponent>();
 
             this.skeletonRenderer.Draw(skeleton.value);
             //this.skeletonDebugRenderer.Draw(skeleton.value);

@@ -96,17 +96,19 @@ namespace Hazmat.Utilities
         public Vector3 rotation;
         public Vector3 scale;
         public Vector3 translation;
+        public String animation;
         public Effect standardEffect;
         public bool updateTimeEffect;
         public bool cachedUpdateTimeEffect;
 
-        public ModelInfo(String name, String textureName = null, Vector3? translation = null, Vector3? rotation = null, Vector3? scale = null, Effect standardEffect = null, bool? updateTimeEffect = null, IEnumerable<Tuple<string, float>> standardEffectInitialize = null)
+        public ModelInfo(String name, String textureName = null, Vector3? translation = null, Vector3? rotation = null, Vector3? scale = null, String animation = null, Effect standardEffect = null, bool? updateTimeEffect = null, IEnumerable<Tuple<string, float>> standardEffectInitialize = null)
         {
             this.name = name;
             this.textureName = textureName;
             this.translation = translation ?? Vector3.Zero;
             this.rotation = rotation ?? Vector3.Zero;
             this.scale = scale ?? Vector3.One;
+            this.animation = animation;
             this.standardEffect = standardEffect ?? null;
             this.updateTimeEffect = updateTimeEffect ?? false;
             this.cachedUpdateTimeEffect = false;

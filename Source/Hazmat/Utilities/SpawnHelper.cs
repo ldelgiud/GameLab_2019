@@ -77,6 +77,7 @@ namespace Hazmat.Utilities
                 @"test\TEX_CH_PlayerMat_01",
                 rotation: new Vector3(0, 0, MathF.PI / 2),
                 scale: new Vector3(0.07f),
+                animation: "Take 001",
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 3f) }
                 )));

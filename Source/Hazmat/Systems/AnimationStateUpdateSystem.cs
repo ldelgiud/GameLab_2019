@@ -19,8 +19,8 @@ namespace Hazmat.Systems
 
         public AnimationStateUpdateSystem(World world) : base(
             world.GetEntities()
-            .With<AnimationStateComponent>()
-            .With<SkeletonComponent>()
+            .With<SpineAnimationComponent>()
+            .With<SpineSkeletonComponent>()
             .Build()
             )
         {
@@ -29,8 +29,8 @@ namespace Hazmat.Systems
 
         protected override void Update(Time state, in Entity entity)
         {
-            ref var animationState = ref entity.Get<AnimationStateComponent>();
-            ref var skeleton = ref entity.Get<SkeletonComponent>();
+            ref var animationState = ref entity.Get<SpineAnimationComponent>();
+            ref var skeleton = ref entity.Get<SpineSkeletonComponent>();
 
             animationState.value.Update(state.Delta);
             animationState.value.Apply(skeleton.value);

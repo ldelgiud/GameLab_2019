@@ -38,6 +38,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\WindowsUniversal\$(Platform)\$(Configuration)\</OutputPath>
@@ -106,6 +107,16 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Reference Include="Aether.Animation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Aether.Animation.dll</HintPath>
+    </Reference>
+    <Reference Include="Aether.Atlas">
+      <HintPath>Lib\Aether.Atlas.dll</HintPath>
+    </Reference>
+    <Reference Include="Aether.Content.Pipeline.AnimationImporters">
+      <HintPath>Lib\Aether.Content.Pipeline.AnimationImporters.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\WindowsUniversal\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -131,7 +142,8 @@
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\AllianceMaskComponent.cs" />
-    <Compile Include="Components\AnimationStateComponent.cs" />
+    <Compile Include="Components\ModelAnimationComponent.cs" />
+    <Compile Include="Components\SpineAnimationComponent.cs" />
     <Compile Include="Components\AtlasComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
     <Compile Include="Components\EnergyPickupComponent.cs" />
@@ -150,7 +162,7 @@
     <Compile Include="Components\PositionComponent.cs" />
     <Compile Include="Components\PowerPlantComponent.cs" />
     <Compile Include="Components\ScreenSpaceComponent.cs" />
-    <Compile Include="Components\SkeletonComponent.cs" />
+    <Compile Include="Components\SpineSkeletonComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\Texture2DComponent.cs" />
@@ -202,6 +214,7 @@
     <Compile Include="Systems\Debugging\GraphDrawSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
+    <Compile Include="Systems\ModelAnimationUpdateSystem.cs" />
     <Compile Include="Systems\ModelDrawSystem.cs" />
     <Compile Include="Systems\PathFinderSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
@@ -320,7 +333,6 @@
       <Version>6.2.8</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

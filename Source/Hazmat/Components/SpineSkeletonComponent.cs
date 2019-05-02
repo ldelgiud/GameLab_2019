@@ -10,12 +10,12 @@ using Hazmat.Utilities;
 
 namespace Hazmat.Components
 {
-    struct SkeletonComponent
+    struct SpineSkeletonComponent
     {
         public Skeleton value;
         public SkeletonInfo info;
 
-        public SkeletonComponent(Skeleton skeleton, SkeletonInfo skeletonInfo)
+        public SpineSkeletonComponent(Skeleton skeleton, SkeletonInfo skeletonInfo)
         {
             this.value = skeleton;
             this.info = skeletonInfo;

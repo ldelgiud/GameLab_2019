@@ -170,6 +170,7 @@ namespace Hazmat.States
 
             this.drawSystem = new SequentialSystem<Time>(
                 // State update systems
+                new ModelAnimationUpdateSystem(this.world),
                 new AnimationStateUpdateSystem(this.world),
                 new SkeletonUpdateSystem(this.world),
 

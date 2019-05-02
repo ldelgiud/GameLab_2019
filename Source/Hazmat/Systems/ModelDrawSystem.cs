@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Graphics;
 using DefaultEcs;
 using DefaultEcs.System;
 
+using tainicom.Aether.Animation;
+
 using Hazmat.Graphics;
 using Hazmat.Components;
 using Hazmat.Utilities;
@@ -44,12 +46,19 @@ namespace Hazmat.Systems
             var v = this.camera.View;
             var p = this.camera.Projection;
 
+            Animations animations = entity.Has<ModelAnimationComponent>() ? entity.Get<ModelAnimationComponent>().animations : null;
+
             foreach (var mesh in model.value.Meshes)
             {
                 this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
                 foreach (var part in mesh.MeshParts)
                 {
+                    if (animations != null)
+                    {
+                        part.UpdateVertices(animations.AnimationTransforms);
+                    }
+
                     Effect effect = part.Effect;
 
                     if (effect is BasicEffect)

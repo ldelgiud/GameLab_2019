@@ -10,6 +10,10 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:..\Lib\Aether.Content.Pipeline.AnimationImporters.dll
+/reference:..\Lib\Aether.Content.Pipeline.AtlasImporter.dll
+/reference:..\Lib\Aether.Content.Pipeline.GraphicsImporters.dll
+/reference:..\Lib\Aether.Content.Pipeline.RawModelProcessor.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -358,6 +362,30 @@
 /processorParam:TextureFormat=Color
 /build:test/house1_tex.png
 
+#begin test/MED_CH_Mailbox_01.fbx
+/importer:FbxImporter
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:test/MED_CH_Mailbox_01.fbx
+
 #begin test/MED_CH_PlayerMat_01.FBX
 /importer:FbxImporter
 /processor:ModelProcessor
@@ -379,7 +407,12 @@
 
 #begin test/MED_CH_PlayerMat_01_interimBoneless.FBX
 /importer:FbxImporter
-/processor:ModelProcessor
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
 /processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
 /processorParam:DefaultEffect=BasicEffect
@@ -442,6 +475,18 @@
 
 #begin test/SPS_StaticSprites.png
 /copy:test/SPS_StaticSprites.png
+
+#begin test/TEX_CH_Mailbox_01_BC.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:test/TEX_CH_Mailbox_01_BC.png
 
 #begin test/TEX_CH_PlayerMat_01.png
 /importer:TextureImporter

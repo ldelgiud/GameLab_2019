@@ -8,11 +8,11 @@ using Spine;
 
 namespace Hazmat.Components
 {
-    struct AnimationStateComponent
+    struct SpineAnimationComponent
     {
         public AnimationState value;
 
-        public AnimationStateComponent(AnimationState animationState)
+        public SpineAnimationComponent(AnimationState animationState)
         {
             this.value = animationState;
         }
