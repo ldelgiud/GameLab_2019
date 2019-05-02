@@ -72,7 +72,7 @@ namespace Hazmat.States
 
             this.worldCamera = new Camera3D(
                 new Transform3D(),
-                20,
+                40,
                 80,
                 45
                 );
@@ -169,16 +169,21 @@ namespace Hazmat.States
             //    );
 
             this.drawSystem = new SequentialSystem<Time>(
+                // State update systems
                 new AnimationStateUpdateSystem(this.world),
                 new SkeletonUpdateSystem(this.world),
+
+                // World draw systems
                 new TileMapDrawSystem(game.GraphicsDevice, this.worldCamera, this.tileMap),
                 //new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
-                new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world),
                 modelDrawSystem,
-                //gridDrawSystem,      
-                energyDrawSystem,
+                //gridDrawSystem,
                 new SpineSkeleton3DDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
-                aabbDebugDrawSystem
+                aabbDebugDrawSystem,
+
+                // Screen draw systems
+                energyDrawSystem,
+                new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world)
                 );
 
 
