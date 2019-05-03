@@ -16,7 +16,6 @@ namespace Hazmat.Systems
         public SkeletonUpdateSystem(World world) : base(
             world.GetEntities()
             .With<SpineSkeletonComponent>()
-            .With<Transform2DComponent>()
             .Build()
             )
         {

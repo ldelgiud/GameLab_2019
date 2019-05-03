@@ -46,7 +46,6 @@ namespace Hazmat.Systems
             var v = this.camera.View;
             var p = this.camera.Projection;
 
-            Animations animations = entity.Has<ModelAnimationComponent>() ? entity.Get<ModelAnimationComponent>().animations : null;
 
             foreach (var mesh in model.value.Meshes)
             {
@@ -54,11 +53,6 @@ namespace Hazmat.Systems
 
                 foreach (var part in mesh.MeshParts)
                 {
-                    if (animations != null)
-                    {
-                        part.UpdateVertices(animations.AnimationTransforms);
-                    }
-
                     Effect effect = part.Effect;
 
                     if (effect is BasicEffect)

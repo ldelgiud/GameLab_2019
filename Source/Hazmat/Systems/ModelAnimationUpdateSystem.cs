@@ -2,6 +2,7 @@
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using DefaultEcs;
 using DefaultEcs.System;
@@ -30,6 +31,14 @@ namespace Hazmat.Systems
             ref var animation = ref entity.Get<ModelAnimationComponent>();
 
             animation.animations.Update(state.DeltaSpan, true, Matrix.Identity);
+
+            foreach (var mesh in model.value.Meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    part.UpdateVertices(animation.animations.AnimationTransforms);
+                }
+            }
         }
     }
 }

@@ -11,9 +11,7 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\Lib\Aether.Content.Pipeline.AnimationImporters.dll
-/reference:..\Lib\Aether.Content.Pipeline.AtlasImporter.dll
 /reference:..\Lib\Aether.Content.Pipeline.GraphicsImporters.dll
-/reference:..\Lib\Aether.Content.Pipeline.RawModelProcessor.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -388,25 +386,6 @@
 
 #begin test/MED_CH_PlayerMat_01.FBX
 /importer:FbxImporter
-/processor:ModelProcessor
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=0
-/processorParam:RotationZ=0
-/processorParam:Scale=1
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:test/MED_CH_PlayerMat_01.FBX
-
-#begin test/MED_CH_PlayerMat_01_interimBoneless.FBX
-/importer:FbxImporter
 /processor:CpuAnimatedModelProcessor
 /processorParam:VertexBufferType=DynamicWriteOnly
 /processorParam:IndexBufferType=Default
@@ -427,7 +406,7 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:test/MED_CH_PlayerMat_01_interimBoneless.FBX
+/build:test/MED_CH_PlayerMat_01.FBX
 
 #begin test/MED_WP_MatGunBasic_01.FBX
 /importer:FbxImporter
