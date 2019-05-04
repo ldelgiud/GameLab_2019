@@ -23,7 +23,7 @@ namespace Hazmat.Systems
         public AISystem(World world) : base(
             world.GetEntities()
             .With<VelocityComponent>()
-            .With<Transform2DComponent>()
+            .With<Transform3DComponent>()
             .With<WorldSpaceComponent>()
             .With<AIComponent>()
             .Build())
@@ -38,7 +38,7 @@ namespace Hazmat.Systems
             foreach(Entity entity in this.players.GetEntities())
             {
                 playerInfos.Add(new PlayerInfo(
-                    entity.Get<Transform2DComponent>().value,
+                    entity.Get<Transform3DComponent>().value,
                     entity.Get<PlayerComponent>().Id));
             }
 

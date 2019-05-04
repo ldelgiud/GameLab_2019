@@ -68,8 +68,14 @@ namespace Hazmat.AI
             }
         }
 
+
+        
         protected bool IsInSight(Vector2 source, Vector2 target)
         {
+            Vector2 dirvec = target - source;
+            dirvec.Normalize();
+            //Necessary to avoid starting inside the enemy!! Adjust factor
+            source = source + dirvec * 1.5f;
             RayCastInput rayCastInput = new RayCastInput
             {
                 MaxFraction = 1,

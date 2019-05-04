@@ -18,10 +18,12 @@ namespace Hazmat.Utilities
         public static uint MEDIUM_BATTERY_SIZE = 50;
         public static uint BIG_BATTERY_SIZE = 100;
 
+        //ENTITY PROPERTIES
         public static float DRONE_SPEED = 4;
         public static float SHOOTER_SPEED = 3;
         public static int PLAYER_SPEED = 40;
         public static float TTL_BULLET = 5f;
+
         //GRID GENERATION VALUES
             public static float NODE_RADIUS = 0.5f;
             public static float NODE_HIT_RADIUS = 3f;
@@ -30,7 +32,7 @@ namespace Hazmat.Utilities
             public static double STANDBY_TO_OFFLINE_DIST = 80;
             public static double STANDBY_TO_SEARCH_DIST = 50;
             public static double SEARCH_TO_STANDBY_DIST = 60;
-            public static double BLIND_STANDBY_TO_SEARCH_DIST = 20;
+            public static double BLIND_STANDBY_TO_SEARCH_DIST = 30;
             public static double SEARCH_TO_ATTACK_DIST = 25;
             public static double ATTACK_TO_SEARCH_DIST = 30;
         //SQUARED VERSIONS OF PREV NUMBERS 
@@ -52,7 +54,7 @@ namespace Hazmat.Utilities
         public static float LEFT_BORDER = -300;
         public static float RIGHT_BORDER = 2000;
         public static float TOP_BORDER = 2000;
-        public static float BOTTOM_BORDER = -100;
+        public static float BOTTOM_BORDER = -300;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
         public static Vector2 BOTTOM_LEFT_CORNER =

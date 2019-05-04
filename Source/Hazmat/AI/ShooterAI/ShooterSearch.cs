@@ -20,7 +20,7 @@ namespace Hazmat.AI
             Time time)
         {
             //Debug.WriteLine("Shooter Search");
-            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
+            this.myPos = entity.Get<Transform3DComponent>().value.Translation.ToVector2();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             //Find closest player
@@ -29,11 +29,11 @@ namespace Hazmat.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - this.myPos;
+                Vector2 dist = player.transform.Translation.ToVector2() - this.myPos;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            this.target = closestPlayer.transform.Translation;
+            this.target = closestPlayer.transform.Translation.ToVector2();
             float sqrdDistance = (this.target - this.myPos).LengthSquared();
             //SEARCH
             this.UpdatePath(time);

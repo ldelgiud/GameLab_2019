@@ -49,8 +49,11 @@ namespace Hazmat.Utilities
 
 
         }
+
         public static void BuildBackground()
-        {   
+        {
+            Debug.WriteLine("Background Generation");
+
             float x = Constants.LEFT_BORDER;
             float y = Constants.TOP_BORDER;
             while (y >= Constants.BOTTOM_BORDER)
@@ -81,6 +84,7 @@ namespace Hazmat.Utilities
 
         public static void BuildStreet(PowerPlant plant)
         {
+            Debug.WriteLine("Street Generation");
             Vector2 curr = new Vector2(0);
             Vector3 scale = new Vector3(0.2f, 0.2f, 1);
             //Target position is diagonally previous tile of plants tile
@@ -141,6 +145,12 @@ namespace Hazmat.Utilities
                         curr.Y += Constants.TILE_SIZE;
                     }
                 }
+
+                //Add boulder
+                bool block = Constants.RANDOM.Next(8) == 1;
+                if (block) SpawnHelper.SpawnRoadBlock(curr);
+
+
             }
 
             while (curr.X <= target.X)
@@ -163,8 +173,15 @@ namespace Hazmat.Utilities
                             new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
                             );
                 }
+                
+               
                 curr.X += Constants.TILE_SIZE;
                 currentDir = 0;
+
+                //Add boulder
+                bool block = Constants.RANDOM.Next(8) == 1;
+                if (block) SpawnHelper.SpawnRoadBlock(curr);
+
             }
 
             while (curr.Y <= target.Y)
@@ -187,8 +204,16 @@ namespace Hazmat.Utilities
                             new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
                             );
                 }
+                
+                //Go to next Tile
                 currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
+
+                //Add boulder
+                bool block = Constants.RANDOM.Next(8) == 1;
+                if (block) SpawnHelper.SpawnRoadBlock(curr);
+
+
             }
         }
 

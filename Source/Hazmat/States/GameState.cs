@@ -191,7 +191,7 @@ namespace Hazmat.States
 
             //SPAWNING 
             //ENEMY SPAWNING
-            SpawnHelper.SpawnDrone(Vector2.One * 25);
+            SpawnHelper.SpawnDrone(new Vector2(100, 0));
             //ProcGen.SpawnHotspots();
             // Create player
             SpawnHelper.SpawnPlayer(0);

@@ -426,6 +426,18 @@ namespace Hazmat.Utilities
             
         }
 
+        public static void SpawnRoadBlock(Vector2 position)
+        {
+            var boulder = SpawnHelper.World.CreateEntity();
+            boulder.Set(new NameComponent() { name = "RoadBlock" });
+
+            SpawnHelper.AddAABB(boulder, position, new Vector2(-5,2), new Vector2(5,2), true);
+            
+            //Create entity and attach its components
+            boulder.Set(new Transform2DComponent(new Transform2D(position)));
+            boulder.Set(new WorldSpaceComponent());
+        }
+
         public static void AddAABB(Entity entity, Vector2 position, Vector2 lowerBound, Vector2 upperBound, bool solid)
         {
             AABB aabb = new AABB(lowerBound, upperBound);
