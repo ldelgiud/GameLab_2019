@@ -86,6 +86,7 @@ namespace Hazmat.Utilities
 
             SpawnHelper.SpawnCollectableGun(new Vector2(3,4));
         }
+        
         /// <summary>
         /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
         /// </summary>
@@ -115,7 +116,6 @@ namespace Hazmat.Utilities
             parent.Set(new WeaponComponent(gunEntity));
             return gunEntity;
         }
-
 
         /// <summary>
         /// Spawns a collectable gun without an initial parent.
@@ -155,7 +155,6 @@ namespace Hazmat.Utilities
             return gunEntity;
         }
 
-
         /// <summary>
         /// Spawn Nuclear Power Plant with all entities and attach respective components
         /// </summary>
@@ -166,7 +165,7 @@ namespace Hazmat.Utilities
             entity.Set(new NameComponent() { name = "powerplant" });
 
             //Generate random position
-            double angle = Constants.RANDOM.NextDouble() * MathHelper.PiOver2;
+            double angle = Constants.RANDOM.NextDouble() * (Constants.MAX_RADIAN - Constants.MIN_RADIAN) + Constants.MIN_RADIAN;
             double x = Math.Round(Constants.PLANT_PLAYER_DISTANCE * Math.Cos(angle) / 10) * 10;
             //TODO: change this once camera work is done
             double y = Math.Round(Constants.PLANT_PLAYER_DISTANCE * Math.Sin(angle) / 10) * 10;
@@ -361,7 +360,7 @@ namespace Hazmat.Utilities
 
             for (int i = 0; i < enemyCount; ++i)
             {
-                bool drone = Constants.RANDOM.Next(3) == 0;
+                bool drone = true; // Constants.RANDOM.Next(3) == 0;
                 SpawnHelper.SpawnRandomEnemy(drone, position, 50);
             }
         }
@@ -431,7 +430,7 @@ namespace Hazmat.Utilities
             var boulder = SpawnHelper.World.CreateEntity();
             boulder.Set(new NameComponent() { name = "RoadBlock" });
 
-            SpawnHelper.AddAABB(boulder, position, new Vector2(-5,2), new Vector2(5,2), true);
+            SpawnHelper.AddAABB(boulder, position, new Vector2(-5,-2), new Vector2(5,2), true);
             
             //Create entity and attach its components
             boulder.Set(new Transform2DComponent(new Transform2D(position)));

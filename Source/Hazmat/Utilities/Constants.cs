@@ -9,9 +9,16 @@ namespace Hazmat.Utilities
 {
     static class Constants
     {
-
-        public static double PLANT_PLAYER_DISTANCE = 500.0;
+        //RANDOM NUMBER GENERATOR USED THROUGHOUT THE GAME
         public static Random RANDOM = new Random();
+
+
+        //PLANT IS ALWAYS 3 MINUTES DISTANT FROM PLAYER
+        public static double PLANT_PLAYER_DISTANCE = 960;
+        public static double MIN_DEGREE = 20;
+        public static double MAX_DEGREE = 70;
+        public static double MIN_RADIAN = Constants.MIN_DEGREE * (Math.PI / 180);
+        public static double MAX_RADIAN = Constants.MAX_DEGREE * (Math.PI / 180);
 
         //BATTERY SIZES
         public static uint SMALL_BATTERY_SIZE = 25;
@@ -21,7 +28,7 @@ namespace Hazmat.Utilities
         //ENTITY PROPERTIES
         public static float DRONE_SPEED = 4;
         public static float SHOOTER_SPEED = 3;
-        public static int PLAYER_SPEED = 40;
+        public static int PLAYER_SPEED = 4;
         public static float TTL_BULLET = 5f;
 
         //GRID GENERATION VALUES
@@ -52,8 +59,8 @@ namespace Hazmat.Utilities
         // size of tiles for procedural generation
         public static float TILE_SIZE = 10;
         public static float LEFT_BORDER = -300;
-        public static float RIGHT_BORDER = 2000;
-        public static float TOP_BORDER = 2000;
+        public static float RIGHT_BORDER = 1000;
+        public static float TOP_BORDER = 1000;
         public static float BOTTOM_BORDER = -300;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);

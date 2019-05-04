@@ -35,6 +35,7 @@ namespace Hazmat.Pathfinding
 
         public Grid()
         {
+            Debug.WriteLine("Building Graph");
             float nodeDiameter = 2 * this.nodeRadius;
             this.GridSizeX = (int)Math.Round(gridWorldSize.X / nodeDiameter);
             this.GridSizeY = (int)Math.Round(gridWorldSize.Y / nodeDiameter);

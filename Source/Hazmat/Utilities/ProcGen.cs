@@ -33,6 +33,14 @@ namespace Hazmat.Utilities
             }
         }
 
+        public static SpawnMap SpawnMap
+        {
+            get
+            {
+                return Hazmat.Instance.ActiveState.GetInstance<SpawnMap>();
+            }
+        }
+
         public static void BuildWalls()
         {
             //Build Walls around the map
@@ -96,8 +104,11 @@ namespace Hazmat.Utilities
             int currentDir = Constants.RANDOM.Next(2);
             while (curr.X < target.X && curr.Y < target.Y)
             {
+                ProcGen.SpawnMap.map
+                    [(int) (curr.Y / (Constants.TILE_SIZE*10))]
+                    [(int) (curr.X / (Constants.TILE_SIZE*10))] = 0.2;
                 //dir decides if we change the direction or if we keep going the current direction
-                bool changeDir = Constants.RANDOM.Next(3) == 1;
+                bool changeDir = Constants.RANDOM.Next(8) == 1;
                 if (changeDir)
                 {
                     if (currentDir == 0)
@@ -146,15 +157,19 @@ namespace Hazmat.Utilities
                     }
                 }
 
+
                 //Add boulder
                 bool block = Constants.RANDOM.Next(8) == 1;
                 if (block) SpawnHelper.SpawnRoadBlock(curr);
-
-
+                
             }
 
             while (curr.X <= target.X)
             {
+                ProcGen.SpawnMap.map
+                    [(int)(curr.Y / (Constants.TILE_SIZE * 10))]
+                    [(int)(curr.X / (Constants.TILE_SIZE * 10))] = 0.2;
+
                 if (currentDir == 0)
                 {
                     // Right
@@ -186,6 +201,10 @@ namespace Hazmat.Utilities
 
             while (curr.Y <= target.Y)
             {
+                ProcGen.SpawnMap.map
+                    [(int)(curr.Y / (Constants.TILE_SIZE * 10))]
+                    [(int)(curr.X / (Constants.TILE_SIZE * 10))] = 0.2;
+
                 if (currentDir == 0)
                 {
                     // Left turn
@@ -217,17 +236,52 @@ namespace Hazmat.Utilities
             }
         }
 
+        public static void SetSpawnRates()
+        {
+            int Y = (int) (Constants.TOP_BORDER / (Constants.TILE_SIZE * 10)) - 1;
+            int X = (int) (Constants.RIGHT_BORDER / (Constants.TILE_SIZE * 10)) - 1;
+            int x = 0;
+            int y = 0;
+            Debug.WriteLine("X = " + X);
+            Debug.WriteLine("Y = " + Y);
+
+            while (x < X && y < Y)
+            {
+                Debug.WriteLine("Position: " + new Vector2(x,y));
+                for (int i = 0; i < 5; i++)
+                {
+                    double divisor = Math.Pow(2.0, i);
+                    if (x+i < X) ProcGen.SpawnMap.map[y][x+i] = 
+                            Math.Max(ProcGen.SpawnMap.map[y][x], 0.2 / divisor);
+                    if (x-i > 0) ProcGen.SpawnMap.map[y][x - i] =
+                            Math.Max(ProcGen.SpawnMap.map[y][x], 0.2 / divisor);
+                }
+
+                if ((ProcGen.SpawnMap.map[y + 1][x] == 0.2)) y++;
+                else if (ProcGen.SpawnMap.map[y][x + 1] == 0.2) x++;
+                else
+                {
+                    Debug.WriteLine("No More street at: (" + x + "," + y + ")");
+                    break;
+                }
+            }
+
+            Debug.Write(ProcGen.SpawnMap.map);
+        }
+
         public static void SpawnHotspots()
         {
-            for (float y = Constants.BOTTOM_BORDER; y < Constants.TOP_BORDER; y += Constants.TILE_SIZE * 10)
+            int step = (int)Constants.TILE_SIZE * 10;
+            for (int y = 100; y < Constants.TOP_BORDER; y += step)
             {
-                for (float x = Constants.LEFT_BORDER; x < Constants.RIGHT_BORDER; x += Constants.TILE_SIZE * 10)
+                for (int x = 100; x < Constants.RIGHT_BORDER; x += step)
                 {
                     Vector2 curr = new Vector2(x, y);
                     bool gen =
-                        Constants.RANDOM.NextDouble() < HelperFunctions.SpawnRate(curr);
+                        Constants.RANDOM.NextDouble() < ProcGen.SpawnMap.map[y/step][x/step];
                     if (gen)
                     {
+                        Debug.WriteLine("New Hotspot at: " + curr);
                         SpawnHelper.SpawnEnemyCamp(curr);
                     }
                 }

@@ -10,6 +10,7 @@ namespace Hazmat.Utilities
 {
     class HelperFunctions
     {
+
         public static double SpawnRate(Vector2 position)
         {
             if (position.Length() <= 100) return 0;

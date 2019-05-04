@@ -17,7 +17,8 @@ namespace Hazmat.Systems
         Energy energy;
         EntitySet players;
         PowerPlant powerPlant;
-        const int minDist = 400;
+        const int minDist = 100;
+        const int maxDist = 1000;
 
         public bool IsEnabled { get; set; } = true;
 
@@ -39,9 +40,11 @@ namespace Hazmat.Systems
             }
             center /= players.Count;
             Vector2 distVec = center - powerPlant.Position;
-            double dist = Math.Max(distVec.Length(), minDist);
+            double dist = Math.Min(Math.Max(distVec.Length(), minDist),maxDist);
+            //This allows for a drain between 2 and 20 scaling linearly with the distance
+            double decrease = (maxDist - (dist - minDist))/50;
 
-            this.energy.CurrentEnergy -= (1 / dist) * gameTime.Delta * 1000;
+            this.energy.CurrentEnergy -= decrease * gameTime.Delta;
 
 
             }

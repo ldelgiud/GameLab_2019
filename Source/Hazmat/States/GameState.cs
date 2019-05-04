@@ -142,12 +142,15 @@ namespace Hazmat.States
                 );
 
             //TERRAIN GENERATION
+            SpawnMap spawnMap = new SpawnMap();
+            this.SetInstance(spawnMap);
+
             //ProcGen.BuildWalls();
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
             SpawnHelper.SpawnPlayerHouse();
-
+            ProcGen.SetSpawnRates();
             Grid grid = new Grid();
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
 
@@ -191,8 +194,8 @@ namespace Hazmat.States
 
             //SPAWNING 
             //ENEMY SPAWNING
-            SpawnHelper.SpawnDrone(new Vector2(100, 0));
-            //ProcGen.SpawnHotspots();
+            //SpawnHelper.SpawnDrone(new Vector2(40, 0));
+            ProcGen.SpawnHotspots();
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
@@ -207,7 +210,7 @@ namespace Hazmat.States
             //SpawnHelper.SpawnLootBox(new Vector2(30, -10));
 
             // Event trigger
-            SpawnHelper.SpawnEvent(new Vector2(0, -20));
+            //SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }
 
         public override IStateTransition Update(Time time)
