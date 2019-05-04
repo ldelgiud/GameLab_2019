@@ -1,0 +1,20 @@
+
+SPS_Projectiles.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+animated_sprites/SPT_ENV_ProjectileMatTail_01
+  rotate: false
+  xy: 2, 129
+  size: 210, 110
+  orig: 210, 110
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_ENV_ProjectileMat_01
+  rotate: false
+  xy: 2, 2
+  size: 126, 125
+  orig: 126, 125
+  offset: 0, 0
+  index: -1

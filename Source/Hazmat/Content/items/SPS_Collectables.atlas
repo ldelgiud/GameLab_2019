@@ -1,0 +1,48 @@
+
+SPS_Collectables.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+animated_sprites/SPT_ENV_ITEM_BatteryLightning_01
+  rotate: false
+  xy: 917, 179
+  size: 103, 71
+  orig: 103, 71
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_ENV_ITEM_BatteryLightning_02
+  rotate: false
+  xy: 917, 107
+  size: 102, 70
+  orig: 102, 70
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_ENV_ITEM_Battery_01
+  rotate: false
+  xy: 2, 2
+  size: 288, 248
+  orig: 288, 248
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_ENV_ITEM_ChipCenter_01
+  rotate: false
+  xy: 766, 100
+  size: 149, 150
+  orig: 149, 150
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_ENV_ITEM_ChipRing_01
+  rotate: false
+  xy: 292, 26
+  size: 224, 224
+  orig: 224, 224
+  offset: 0, 0
+  index: -1
+animated_sprites/shadow1
+  rotate: false
+  xy: 518, 91
+  size: 246, 159
+  orig: 246, 159
+  offset: 0, 0
+  index: -1

@@ -15,98 +15,26 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin animIdle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
+#begin buildings/houses/house1.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:animIdle.png
-
-#begin boxColliders.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:boxColliders.png
-
-#begin circle-64.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:circle-64.png
-
-#begin graph/blueCircle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:graph/blueCircle.png
-
-#begin graph/circle-16.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:graph/circle-16.png
-
-#begin graph/circle-8.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:graph/circle-8.png
-
-#begin graph/redCircle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:graph/redCircle.png
-
-#begin gui/EnergyFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:gui/EnergyFont.spritefont
+/build:buildings/houses/house1.fbx
 
-#begin gui/story/intro1.png
+#begin buildings/houses/house1_tex.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -116,9 +44,28 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:gui/story/intro1.png
+/build:buildings/houses/house1_tex.png
 
-#begin gui/story/intro2.png
+#begin buildings/houses/house2.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/houses/house2.fbx
+
+#begin buildings/houses/house2_tex.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -128,18 +75,28 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:gui/story/intro2.png
+/build:buildings/houses/house2_tex.png
 
-#begin menu/main/screens.atlas
-/copy:menu/main/screens.atlas
+#begin buildings/sidewalk/sidewalk_01.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/sidewalk/sidewalk_01.fbx
 
-#begin menu/main/screens.json
-/copy:menu/main/screens.json
-
-#begin menu/main/screens.png
-/copy:menu/main/screens.png
-
-#begin placeholder.png
+#begin buildings/sidewalk/sidewalk_01_tex.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -149,18 +106,85 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:placeholder.png
+/build:buildings/sidewalk/sidewalk_01_tex.png
 
-#begin placeholders/battery.atlas
-/copy:placeholders/battery.atlas
+#begin buildings/sidewalk/sidewalk_barrier_01.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/sidewalk/sidewalk_barrier_01.fbx
 
-#begin placeholders/battery.json
-/copy:placeholders/battery.json
+#begin buildings/sidewalk/sidewalk_barrier_02.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/sidewalk/sidewalk_barrier_02.fbx
 
-#begin placeholders/battery.png
-/copy:placeholders/battery.png
+#begin buildings/sidewalk/sidewalk_barrier_03.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/sidewalk/sidewalk_barrier_03.fbx
 
-#begin placeholders/enemies/drone.png
+#begin buildings/sidewalk/sidewalk_border_01.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/sidewalk/sidewalk_border_01.fbx
+
+#begin buildings/sidewalk/sidewalk_border_barriers_01_tex.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -170,9 +194,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:placeholders/enemies/drone.png
+/build:buildings/sidewalk/sidewalk_border_barriers_01_tex.png
 
-#begin placeholders/EnergyBar PLACEHOLDER.jpg
+#begin characters/mailbox_tex.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -182,9 +206,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:placeholders/EnergyBar PLACEHOLDER.jpg
+/build:characters/mailbox_tex.png
 
-#begin placeholders/lootbox.png
+#begin characters/MAT_CH_PlayerMat_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -194,9 +218,105 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:placeholders/lootbox.png
+/build:characters/MAT_CH_PlayerMat_01.png
 
-#begin placeholders/lootbox2.png
+#begin characters/MED_CH_EnemyBicycle_01.fbx
+/importer:FbxImporter
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:characters/MED_CH_EnemyBicycle_01.fbx
+
+#begin characters/MED_CH_Mailbox_01.fbx
+/importer:FbxImporter
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:characters/MED_CH_Mailbox_01.fbx
+
+#begin characters/MED_CH_PlayerMat_01.fbx
+/importer:FbxImporter
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:characters/MED_CH_PlayerMat_01.fbx
+
+#begin characters/MED_CH_PlayerMat_01Axis.fbx
+/importer:FbxImporter
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:characters/MED_CH_PlayerMat_01Axis.fbx
+
+#begin characters/TEX_CH_EnemyBicycle_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -206,9 +326,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:placeholders/lootbox2.png
+/build:characters/TEX_CH_EnemyBicycle_01.png
 
-#begin placeholders/NuclearPlantPLACEHOLDER.jpg
+#begin characters/TEX_CH_Mailbox_01_BC.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -218,9 +338,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:placeholders/NuclearPlantPLACEHOLDER.jpg
+/build:characters/TEX_CH_Mailbox_01_BC.png
 
-#begin player1 PLACEHOLDER.png
+#begin debug/blueCircle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -230,7 +350,91 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:player1 PLACEHOLDER.png
+/build:debug/blueCircle.png
+
+#begin debug/bounding_box.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:debug/bounding_box.png
+
+#begin debug/circle-16.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:debug/circle-16.png
+
+#begin debug/circle-8.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:debug/circle-8.png
+
+#begin debug/redCircle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:debug/redCircle.png
+
+#begin items/SPS_Collectables.atlas
+/copy:items/SPS_Collectables.atlas
+
+#begin items/SPS_Collectables.json
+/copy:items/SPS_Collectables.json
+
+#begin items/SPS_Collectables.png
+/copy:items/SPS_Collectables.png
+
+#begin items/SPS_Projectiles.atlas
+/copy:items/SPS_Projectiles.atlas
+
+#begin items/SPS_Projectiles.json
+/copy:items/SPS_Projectiles.json
+
+#begin items/SPS_Projectiles.png
+/copy:items/SPS_Projectiles.png
+
+#begin items/SPS_StaticSprites.atlas
+/copy:items/SPS_StaticSprites.atlas
+
+#begin items/SPS_StaticSprites.json
+/copy:items/SPS_StaticSprites.json
+
+#begin items/SPS_StaticSprites.png
+/copy:items/SPS_StaticSprites.png
+
+#begin screens/screens.atlas
+/copy:screens/screens.atlas
+
+#begin screens/screens.json
+/copy:screens/screens.json
+
+#begin screens/screens.png
+/copy:screens/screens.png
 
 #begin shaders/blackAndWhite.fx
 /importer:EffectImporter
@@ -274,31 +478,16 @@
 /processorParam:DebugMode=Auto
 /build:shaders/toon.fx
 
-#begin shooting/bullet.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:shooting/bullet.png
+#begin ui/SPS_Screens.atlas
+/copy:ui/SPS_Screens.atlas
 
-#begin shooting/smallGun.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:shooting/smallGun.png
+#begin ui/SPS_Screens.json
+/copy:ui/SPS_Screens.json
 
-#begin test/drone.fbx
+#begin ui/SPS_Screens.png
+/copy:ui/SPS_Screens.png
+
+#begin weapons/MED_WP_MatGunBasic_01.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -315,21 +504,9 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:test/drone.fbx
+/build:weapons/MED_WP_MatGunBasic_01.fbx
 
-#begin test/drone_texture.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:test/drone_texture.png
-
-#begin test/house1.fbx
+#begin weapons/MES_WP_Laser_Base.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -346,69 +523,9 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:test/house1.fbx
+/build:weapons/MES_WP_Laser_Base.fbx
 
-#begin test/house1_tex.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:test/house1_tex.png
-
-#begin test/MED_CH_Mailbox_01.fbx
-/importer:FbxImporter
-/processor:CpuAnimatedModelProcessor
-/processorParam:VertexBufferType=DynamicWriteOnly
-/processorParam:IndexBufferType=Default
-/processorParam:MaxBones=72
-/processorParam:GenerateKeyframesFrequency=0
-/processorParam:FixRealBoneRoot=False
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=0
-/processorParam:RotationZ=0
-/processorParam:Scale=1
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:test/MED_CH_Mailbox_01.fbx
-
-#begin test/MED_CH_PlayerMat_01.FBX
-/importer:FbxImporter
-/processor:CpuAnimatedModelProcessor
-/processorParam:VertexBufferType=DynamicWriteOnly
-/processorParam:IndexBufferType=Default
-/processorParam:MaxBones=72
-/processorParam:GenerateKeyframesFrequency=0
-/processorParam:FixRealBoneRoot=False
-/processorParam:ColorKeyColor=0,0,0,0
-/processorParam:ColorKeyEnabled=True
-/processorParam:DefaultEffect=BasicEffect
-/processorParam:GenerateMipmaps=True
-/processorParam:GenerateTangentFrames=False
-/processorParam:PremultiplyTextureAlpha=True
-/processorParam:PremultiplyVertexColors=True
-/processorParam:ResizeTexturesToPowerOfTwo=False
-/processorParam:RotationX=0
-/processorParam:RotationY=0
-/processorParam:RotationZ=0
-/processorParam:Scale=1
-/processorParam:SwapWindingOrder=False
-/processorParam:TextureFormat=Compressed
-/build:test/MED_CH_PlayerMat_01.FBX
-
-#begin test/MED_WP_MatGunBasic_01.FBX
+#begin weapons/MES_WP_Laser_ExtensionObjective.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -425,9 +542,9 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:test/MED_WP_MatGunBasic_01.FBX
+/build:weapons/MES_WP_Laser_ExtensionObjective.fbx
 
-#begin test/player.fbx
+#begin weapons/MES_WP_Laser_ExtensionTripples.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
@@ -444,18 +561,66 @@
 /processorParam:Scale=1
 /processorParam:SwapWindingOrder=False
 /processorParam:TextureFormat=Compressed
-/build:test/player.fbx
+/build:weapons/MES_WP_Laser_ExtensionTripples.fbx
 
-#begin test/SPS_StaticSprites.atlas
-/copy:test/SPS_StaticSprites.atlas
+#begin weapons/MES_WP_Plasma_Base.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:weapons/MES_WP_Plasma_Base.fbx
 
-#begin test/SPS_StaticSprites.json
-/copy:test/SPS_StaticSprites.json
+#begin weapons/MES_WP_Plasma_ExtensionShaft.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:weapons/MES_WP_Plasma_ExtensionShaft.fbx
 
-#begin test/SPS_StaticSprites.png
-/copy:test/SPS_StaticSprites.png
+#begin weapons/MES_WP_Plasma_ExtensionSide.fbx
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:weapons/MES_WP_Plasma_ExtensionSide.fbx
 
-#begin test/TEX_CH_Mailbox_01_BC.png
+#begin weapons/TEX_WP_Laser_01_BC.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -465,9 +630,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:test/TEX_CH_Mailbox_01_BC.png
+/build:weapons/TEX_WP_Laser_01_BC.png
 
-#begin test/TEX_CH_PlayerMat_01.png
+#begin weapons/TEX_WP_MatGunBasic_01.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -477,9 +642,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:test/TEX_CH_PlayerMat_01.png
+/build:weapons/TEX_WP_MatGunBasic_01.png
 
-#begin test/TEX_WP_MatGunBasic_01.png
+#begin weapons/TEX_WP_Plasma_01_BC.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -489,65 +654,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:test/TEX_WP_MatGunBasic_01.png
-
-#begin tiles/forest PLACEHOLDER.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tiles/forest PLACEHOLDER.jpg
-
-#begin tiles/left turn.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tiles/left turn.jpg
-
-#begin tiles/right turn.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tiles/right turn.jpg
-
-#begin tiles/right.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tiles/right.jpg
-
-#begin tiles/top.jpg
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tiles/top.jpg
+/build:weapons/TEX_WP_Plasma_01_BC.png
 

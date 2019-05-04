@@ -33,13 +33,6 @@ namespace Hazmat.ResourceManagers
 
             var size = texture.Bounds;
 
-            // Get x and y based on rotation and normalized to unit square
-            //var top_right = new Vector3(MathF.Cos(info.rotation + MathF.PI / 4), MathF.Sin(info.rotation + MathF.PI / 4), 0) * MathF.Sqrt(2);
-            //var top_left = new Vector3(MathF.Cos(info.rotation + MathF.PI / 4 + MathF.PI / 2), MathF.Sin(info.rotation + MathF.PI / 4 + MathF.PI / 2), 0) * MathF.Sqrt(2);
-            //var bottom_left = new Vector3(MathF.Cos(info.rotation + MathF.PI / 4 + 2 * MathF.PI / 2), MathF.Sin(info.rotation + MathF.PI / 4 + 2 * MathF.PI / 2), 0) * MathF.Sqrt(2);
-            //var bottom_right = new Vector3(MathF.Cos(info.rotation + MathF.PI / 4 + 3 * MathF.PI / 2), MathF.Sin(info.rotation + MathF.PI / 4 + 3 * MathF.PI / 2), 0) * MathF.Sqrt(2);
-
-
             var top = (float)region.y / (float)size.Height;
             var right = (float)(region.x + (region.rotate ? region.height : region.width)) / (float)size.Width;
             var bottom = (float)(region.y + (region.rotate ? region.width : region.height)) / (float)size.Height;
@@ -52,12 +45,6 @@ namespace Hazmat.ResourceManagers
                 new VertexPositionTexture(new Vector3(1, 1, 0), new Vector2(right, top)),
                 new VertexPositionTexture(new Vector3(1, -1, 0), new Vector2(right, bottom)),
             });
-            //vertexBuffer.SetData(new VertexPositionTexture[] {
-            //    new VertexPositionTexture(bottom_left, new Vector2(right, bottom)),
-            //    new VertexPositionTexture(top_left, new Vector2(left, bottom)),
-            //    new VertexPositionTexture(top_right, new Vector2(left, top)),
-            //    new VertexPositionTexture(bottom_right, new Vector2(right, top)),
-            //});
 
             indexBuffer.SetData(new short[] {
                 0, 1, 2,

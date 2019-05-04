@@ -90,11 +90,11 @@ namespace Hazmat.States
             this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
             this.spineAnimationResourceManager.Manage(this.world);
 
-            this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"test\SPS_StaticSprites");
+            this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"items\SPS_StaticSprites");
             this.atlasTextureResourceManager.Manage(this.world);
 
             // Miscellaneous
-            this.tileMap = new TileMap(game.GraphicsDevice, @"test\SPS_StaticSprites");
+            this.tileMap = new TileMap(game.GraphicsDevice, @"items\SPS_StaticSprites");
             this.SetInstance(tileMap);
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
@@ -158,7 +158,7 @@ namespace Hazmat.States
                     this.world
                     );
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(game.GraphicsDevice, this.worldCamera, this.world);
-            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>("boxColliders"));
+            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>(@"debug\bounding_box"));
 
 
             //GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
