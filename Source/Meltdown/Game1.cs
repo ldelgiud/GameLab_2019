@@ -41,6 +41,8 @@ namespace Meltdown
         /// </summary>
         protected override void Initialize()
         {
+            this.GraphicsDevice.DepthStencilState = DepthStencilState.None;
+      
             // Disable B button as back on Xbox
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += (sender, ev) => { ev.Handled = true; };
 

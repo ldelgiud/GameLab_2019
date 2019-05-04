@@ -38,7 +38,7 @@ namespace Meltdown.Interaction.Handlers
                     ref var playerTransform = ref interactor.Get<Transform2DComponent>();
                     ref var gunTransform = ref interactee.Get<Transform2DComponent>();
                     ref var model = ref interactee.Get<ModelComponent>();
-
+                    ref StatsComponent playerStats = ref interactor.Get<StatsComponent>();
 
                     interactee.Remove<InteractableComponent>();
 
@@ -46,7 +46,7 @@ namespace Meltdown.Interaction.Handlers
                     model.DisableToonGlow();
 
                     // Add gun to player
-                    interactee.Set(new InputComponent(new ShootingInputHandler(world)));
+                    interactee.Set(new InputComponent(new ShootingInputHandler(world, ref playerStats)));
                     interactee.SetAsChildOf(interactor);
                     gunTransform.value.Parent = playerTransform.value;
                     gunTransform.value.LocalTranslation = new Vector2(1.414f, 1.414f);

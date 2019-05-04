@@ -28,6 +28,8 @@ namespace Meltdown.Systems
             this.camera = camera;
         }
 
+
+        private float val;
         protected override void Update(Time state, in Entity entity)
         {
             ref Transform2DComponent transform = ref entity.Get<Transform2DComponent>();
@@ -37,11 +39,13 @@ namespace Meltdown.Systems
 
             var cameraPosition = this.camera.Transform.Translation;
 
+            //val += MathHelper.Pi / 200 * state.Delta;
+
             var m =
                 Matrix.CreateScale(new Vector3(transform.value.Scale, 1) * model.info.scale) *
                 Matrix.CreateRotationX(model.info.rotation.X) *
                 Matrix.CreateRotationY(model.info.rotation.Y) *
-                Matrix.CreateRotationZ(transform.value.Rotation + model.info.rotation.Z) *
+                Matrix.CreateRotationZ(transform.value.Rotation + model.info.rotation.Z + val) *
 
                 // Perspective rotation
                 Matrix.CreateRotationX(-MathF.PI / 6) *
@@ -62,6 +66,7 @@ namespace Meltdown.Systems
                         ((BasicEffect)effect).View = v;
                         ((BasicEffect)effect).Projection = p;
                         ((BasicEffect)effect).EnableDefaultLighting();
+                        ((BasicEffect)effect).GraphicsDevice.DepthStencilState = DepthStencilState.Default;
                     }
                     else
                     {
@@ -69,6 +74,8 @@ namespace Meltdown.Systems
                         effect.Parameters["World"].SetValue(m);
                         effect.Parameters["View"].SetValue(v);
                         effect.Parameters["Projection"].SetValue(p);
+
+                        effect.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
 
                         Matrix worldInverseTransform = Matrix.Transpose(Matrix.Invert(mesh.ParentBone.Transform * m));
                         effect.Parameters["WorldInverseTranspose"].SetValue(worldInverseTransform);

@@ -36,8 +36,10 @@ namespace Meltdown.Systems
         // Check for shoot button and shoot
         protected override void Update(Time time, in Entity entity)
         {
-            ref InputComponent inputComponent = ref entity.Get<InputComponent>();
-            inputComponent.HandleInput(inputManager, time, entity);
+           // ref InputComponent inputComponent = ref entity.Get<InputComponent>();
+            //inputComponent.HandleInput(inputManager, time, entity);
+
+            // NOT NECESSARY -> Same as InputSystem
 
         }
     }

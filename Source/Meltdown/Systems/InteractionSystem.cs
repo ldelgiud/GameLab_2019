@@ -78,6 +78,7 @@ namespace Meltdown.Systems
                         }
                         else if (!interactable.playerNearby && entity.Has<ModelComponent>())
                         {
+                            // Remember: interactable objects must have toon shader.
                             ref ModelComponent model = ref entity.Get<ModelComponent>();
                             model.EnableToonGlow();
                             interactable.playerNearby = true;

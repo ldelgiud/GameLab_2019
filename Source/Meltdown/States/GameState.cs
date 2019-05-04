@@ -102,7 +102,8 @@ namespace Meltdown.States
                 new DamageHealthCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
-                new PlayerDamageCollisionHandler(this.world, energy)
+                new PlayerDamageCollisionHandler(this.world, energy),
+                new PowerUpPickUpCollisionHandler(this.world)
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
@@ -127,6 +128,8 @@ namespace Meltdown.States
                     Game1.Instance.Content.Load<Effect>(@"shaders/bright")
                 );
 
+            PowerUpSystem powerUpSystem = new PowerUpSystem(this.world);
+
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
@@ -135,6 +138,7 @@ namespace Meltdown.States
                 interactionSystem,
                 collisionSystem,
                 aISystem,
+                powerUpSystem,
                 powerplantSystem,
                 cameraSystem,
                 TTLSystem,
@@ -143,10 +147,10 @@ namespace Meltdown.States
 
             //TERRAIN GENERATION
             //ProcGen.BuildWalls();
-            ProcGen.BuildBackground();
-            SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
-            ProcGen.BuildStreet(powerPlant);
-            SpawnHelper.SpawnPlayerHouse();
+            //ProcGen.BuildBackground();
+            //SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
+            //ProcGen.BuildStreet(powerPlant);
+            //SpawnHelper.SpawnPlayerHouse();
 
             Grid grid = new Grid();
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
@@ -185,12 +189,19 @@ namespace Meltdown.States
             //SPAWNING 
             //ENEMY SPAWNING
             SpawnHelper.SpawnDrone(Vector2.One * 25);
-            ProcGen.SpawnHotspots();
+
+            SpawnHelper.SpawnDrone(Vector2.One * -25);
+            //ProcGen.SpawnHotspots();
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
+            // Create a power up pick up
+            SpawnHelper.SpawnPowerUp(Vector2.One * 20f);
+            SpawnHelper.SpawnPowerUp(Vector2.One * 10f);
+            SpawnHelper.SpawnPowerUp(Vector2.One * -10f);
+            SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
             SpawnHelper.SpawnEvent(new Vector2(0, 0));
 
@@ -237,6 +248,10 @@ namespace Meltdown.States
             // Event - Keyboard
             this.inputManager.Register(Keys.E);
 
+            // Powerup - Keyboard
+            this.inputManager.Register(Keys.R); // Left
+            this.inputManager.Register(Keys.T); // Right
+
             // GAMEPAD
             // Player - Gamepad 
             this.inputManager.Register(ThumbSticks.Left);
@@ -251,6 +266,10 @@ namespace Meltdown.States
 
             // Event - Keyboard
             this.inputManager.Register(Buttons.B);
+
+            // Powerup - Keyboard
+            this.inputManager.Register(Buttons.LeftShoulder);
+            this.inputManager.Register(Buttons.RightShoulder);
         }
 
     }

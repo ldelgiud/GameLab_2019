@@ -65,7 +65,8 @@ namespace Meltdown.Utilities
             element.Span.UpperBound += position;
             element.Value = entity;
 
-            entity.Set(new PlayerComponent(playerID, 20));
+            entity.Set(new PlayerComponent(playerID));
+            entity.Set(new StatsComponent(20, 0));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform2DComponent(new Transform2D(position)));
             entity.Set(new WorldSpaceComponent());
@@ -73,12 +74,12 @@ namespace Meltdown.Utilities
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"test\MED_CH_PlayerMat_01_interimBoneless",
+                @"test\MED_CH_PlayerMat_01_TESTmergedXforMmesh",
                 @"test\TEX_CH_PlayerMat_01",
-                rotation: new Vector3(0, 0, MathF.PI / 2),
-                scale: new Vector3(0.07f),
+                rotation: new Vector3(0, 0, - MathF.PI / 4),
+                scale: new Vector3(0.05f),
                 standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"),
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 3f) }
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
                 )));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
@@ -214,6 +215,32 @@ namespace Meltdown.Utilities
             SpawnHelper.SpawnBasicWall(new Vector2(5, 0), 10, 0);
         }
 
+        public static void SpawnPowerUp(Vector2 position)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            AABB aabb = new AABB()
+            {
+                LowerBound = new Vector2(-0.5f, -0.5f),
+                UpperBound = new Vector2(0.5f, 0.5f)
+            };
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+
+            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
+            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(
+                new Texture2DInfo("placeholder", 1f, 1f)
+                ));
+
+            entity.Set(new PowerUpComponent());
+            entity.Set(new NameComponent() { name = "Power Up" });
+
+            SpawnHelper.quadtree.AddNode(element);
+        }
+
         /// <summary>
         /// Spawns a battery entity with given position and size
         /// </summary>
@@ -308,7 +335,7 @@ namespace Meltdown.Utilities
                 @"test\drone",
                 @"test\drone_texture",
                 standardEffect: Game1.Instance.Content.Load<Effect>(@"shaders/toon"),
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.4f) }
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
                 )));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });

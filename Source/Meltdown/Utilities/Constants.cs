@@ -58,12 +58,16 @@ namespace Meltdown.Utilities
         public static Vector2 BOTTOM_LEFT_CORNER =
             new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
-        //
+        // Input
         public static float HOLD_THRESHOLD = 0.25f;
 
         // Layer values
         public const float LAYER_FOREGROUND = 10.0f;
         public const float LAYER_BACKGROUND = 0.0f;
         public const float LAYER_BACKGROUND_DETAIL = 1.0f;
+
+        // PowerUp Values
+        public const float POWERUP_DISPLAY_TIME = 4.98f; // almost 5 to avoid seeing the red line before ending
+
     }
 }

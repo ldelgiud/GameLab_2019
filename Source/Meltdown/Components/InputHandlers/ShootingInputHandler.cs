@@ -10,16 +10,19 @@ using Meltdown.Input;
 using Meltdown.Utilities;
 using Meltdown.Graphics;
 using Meltdown.Utilities.Extensions;
+using Meltdown.Components.InputHandlers;
 
 namespace Meltdown.Components.InputHandlers
 {
     class ShootingInputHandler : IInputHandler
     {
         World world;
+        StatsComponent playerStats;
 
-        public ShootingInputHandler(World world)
+        public ShootingInputHandler(World world, ref StatsComponent playerStats)
         {
             this.world = world;
+            this.playerStats = playerStats;
         }
 
         public void HandleInput(InputManager inputManager, Time time, Entity entity)
@@ -27,6 +30,8 @@ namespace Meltdown.Components.InputHandlers
 
             ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
             ref Transform2DComponent gunTransform = ref entity.Get<Transform2DComponent>();
+
+            smallGun.additionalDamage = playerStats.Damage;
 
             Vector2 direction = gunTransform.value.Rotation.ToVector2();
             direction = Camera2D.PerspectiveToWorld(direction);

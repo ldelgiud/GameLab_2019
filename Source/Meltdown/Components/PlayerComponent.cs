@@ -8,13 +8,11 @@ namespace Meltdown.Components
 {
     public struct PlayerComponent
     {
-        public float Speed { get; set; }
         public int Id { get; } 
 
-        public PlayerComponent(int id, float speed)
+        public PlayerComponent(int id)
         {
             this.Id = id;
-            this.Speed = speed;
         }
         
     }
