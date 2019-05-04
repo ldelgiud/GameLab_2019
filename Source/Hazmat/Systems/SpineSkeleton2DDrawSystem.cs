@@ -59,6 +59,10 @@ namespace Hazmat.Systems
         protected override void Update(Time time, in Entity entity)
         {
             ref var skeleton = ref entity.Get<SpineSkeletonComponent>();
+            ref var transform = ref entity.Get<Transform2DComponent>();
+
+            var m = transform.value.TransformMatrix.ToMatrix();
+            ((BasicEffect)this.skeletonRenderer.Effect).World = m;
 
             this.skeletonRenderer.Draw(skeleton.value);
             //this.skeletonDebugRenderer.Draw(skeleton.value);

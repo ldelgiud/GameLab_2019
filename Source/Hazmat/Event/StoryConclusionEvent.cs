@@ -28,11 +28,17 @@ namespace Hazmat.Event
 
         State state = State.Start;
         Entity eventEntity;
-        Entity conclusion1Entity;
+        Entity conclusionEntity;
 
         public override void Initialize(World world, Entity entity)
         {
             this.eventEntity = entity;
+
+            this.conclusionEntity = world.CreateEntity();
+            this.conclusionEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
+            this.conclusionEntity.Set(new ScreenSpaceComponent());
+            this.conclusionEntity.Set(new NameComponent() { name = "conclusion" });
+
             this.inputManager = Hazmat.Instance.ActiveState.GetInstance<InputManager>();
         }
 
@@ -50,18 +56,19 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
-                    this.conclusion1Entity = world.CreateEntity();
-                    this.conclusion1Entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_StoryEnd_01", 745, 360)));
-                    this.conclusion1Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
-                    this.conclusion1Entity.Set(new ScreenSpaceComponent());
-                    this.conclusion1Entity.Set(new NameComponent() { name = "conclusion1" });
+                    this.conclusionEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                        new SpineAnimationInfo(@"ui\SPS_Screens",
+                        new SkeletonInfo(745, 360, skin: "story_end_01"),
+                        new AnimationStateInfo("press_A_to_continue", true)
+                        )));
+
                     this.state = State.Conclusion1;
                     break;
                 case State.Conclusion1:
                     switch (inputEvent)
                     {
                         case PressEvent _:
-                            this.conclusion1Entity.Delete();
+                            this.conclusionEntity.Delete();
 
                             this.inputManager.RemoveEvent(Keys.E);
                             this.state = State.Done;

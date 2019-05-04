@@ -340,7 +340,7 @@
 /processorParam:TextureFormat=Color
 /build:characters/TEX_CH_Mailbox_01_BC.png
 
-#begin debug/blueCircle.png
+#begin debugging/blueCircle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -350,9 +350,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:debug/blueCircle.png
+/build:debugging/blueCircle.png
 
-#begin debug/bounding_box.png
+#begin debugging/bounding_box.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -362,9 +362,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:debug/bounding_box.png
+/build:debugging/bounding_box.png
 
-#begin debug/circle-16.png
+#begin debugging/circle-16.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -374,9 +374,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:debug/circle-16.png
+/build:debugging/circle-16.png
 
-#begin debug/circle-8.png
+#begin debugging/circle-8.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -386,9 +386,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:debug/circle-8.png
+/build:debugging/circle-8.png
 
-#begin debug/redCircle.png
+#begin debugging/redCircle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -398,7 +398,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:debug/redCircle.png
+/build:debugging/redCircle.png
 
 #begin items/SPS_Collectables.atlas
 /copy:items/SPS_Collectables.atlas

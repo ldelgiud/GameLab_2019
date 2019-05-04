@@ -30,12 +30,18 @@ namespace Hazmat.Event
         State state = State.Start;
 
         Entity eventEntity;
-        Entity intro1Entity;
-        Entity intro2Entity;
+
+        Entity introEntity;
 
         public override void Initialize(World world, Entity entity)
         {
             this.eventEntity = entity;
+
+            this.introEntity = world.CreateEntity();
+            this.introEntity.Set(new ScreenSpaceComponent());
+            this.introEntity.Set(new NameComponent() { name = "intro" });
+            this.introEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
+
             this.inputManager = Hazmat.Instance.ActiveState.GetInstance<InputManager>();
         }
 
@@ -52,24 +58,26 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
-                    this.intro1Entity = world.CreateEntity();
-                    this.intro1Entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_Story_01", 745, 360)));
-                    this.intro1Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
-                    this.intro1Entity.Set(new ScreenSpaceComponent());
-                    this.intro1Entity.Set(new NameComponent() { name = "intro1" });
+                    this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                        new SpineAnimationInfo(@"ui\SPS_Screens",
+                        new SkeletonInfo(745, 360, skin: "story_01"),
+                        new AnimationStateInfo("press_A_to_continue", true)
+                        )));
                     this.state = State.Intro1;
                     break;
                 case State.Intro1:
                     switch (inputEvent)
                     {
                         case PressEvent _:
-                            this.intro1Entity.Delete();
+                            //this.intro1Entity.Delete();
 
-                            this.intro2Entity = world.CreateEntity();
-                            this.intro2Entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_Story_02", 745, 360)));
-                            this.intro2Entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
-                            this.intro2Entity.Set(new ScreenSpaceComponent());
-                            this.intro2Entity.Set(new NameComponent() { name = "intro2" });
+                            ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
+                            ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
+
+                            skeleton.info.skin = "story_02";
+                            skeleton.value.SetSkin("story_02");
+
+                            animation.value.SetAnimation(0, "press_A_to_continue", true);
 
                             this.inputManager.RemoveEvent(Keys.E);
                             this.inputManager.RemoveEvent(0, Buttons.A);
@@ -83,7 +91,7 @@ namespace Hazmat.Event
                         case PressEvent _:
                             this.inputManager.RemoveEvent(Keys.E);
                             this.inputManager.RemoveEvent(0, Buttons.A);
-                            this.intro2Entity.Delete();
+                            this.introEntity.Delete();
                             this.state = State.Done;
                             break;
                     }

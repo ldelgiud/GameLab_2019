@@ -184,7 +184,7 @@ namespace Hazmat.Utilities
             element.Span.UpperBound += position;
 
             //Create entity and attach the components to it
-            entity.Set(new Transform2DComponent(new Transform2D(position)));
+            entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_EN_Tile_PowerPlant_01", 14.14f, 8.165f)));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));

@@ -158,7 +158,7 @@ namespace Hazmat.States
                     this.world
                     );
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(game.GraphicsDevice, this.worldCamera, this.world);
-            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>(@"debug\bounding_box"));
+            AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>(@"debugging\bounding_box"));
 
 
             //GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
@@ -179,6 +179,7 @@ namespace Hazmat.States
                 //new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 modelDrawSystem,
                 //gridDrawSystem,
+                new SpineSkeleton2DDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world),
                 new SpineSkeleton3DDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
                 aabbDebugDrawSystem,
 
@@ -206,7 +207,7 @@ namespace Hazmat.States
             //SpawnHelper.SpawnLootBox(new Vector2(30, -10));
 
             // Event trigger
-            //SpawnHelper.SpawnEvent(new Vector2(0, -20));
+            SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }
 
         public override IStateTransition Update(Time time)

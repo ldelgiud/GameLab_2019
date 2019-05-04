@@ -30,7 +30,7 @@ namespace Hazmat.Systems
         public InteractionSystem(InputManager inputManager, World world, IEnumerable<InteractionHandler> interactionHandlers, Effect interactionEffect) : base(
             world.GetEntities()
             .With<InteractableComponent>()
-            .With<Transform2DComponent>()
+            .With<Transform3DComponent>()
             .With<WorldSpaceComponent>()
             .Build()
             )
@@ -39,7 +39,7 @@ namespace Hazmat.Systems
             this.interactionHandlers = interactionHandlers;
             this.players = world.GetEntities()
                 .With<PlayerComponent>()
-                .With<Transform2DComponent>()
+                .With<Transform3DComponent>()
                 .With<WorldSpaceComponent>()
                 .Build();
             this.interactionEffect = interactionEffect;
@@ -52,7 +52,7 @@ namespace Hazmat.Systems
             foreach (var playerEntity in this.players.GetEntities())
             {
                 ref var player = ref playerEntity.Get<PlayerComponent>();
-                ref var playerTransform = ref playerEntity.Get<Transform2DComponent>();
+                ref var playerTransform = ref playerEntity.Get<Transform3DComponent>();
 
                 var inputEvent = this.inputManager.GetEvent(player.Id, Buttons.X);
 
@@ -63,10 +63,10 @@ namespace Hazmat.Systems
 
                 foreach (var entity in entities)
                 {
-                    ref var entityTransform = ref entity.Get<Transform2DComponent>();
+                    ref var entityTransform = ref entity.Get<Transform3DComponent>();
                     ref InteractableComponent interactable = ref entity.Get<InteractableComponent>();
 
-                    if (Vector2.Distance(entityTransform.value.Translation, playerTransform.value.Translation) < Constants.INTERACTION_DISTANCE)
+                    if (Vector2.Distance(entityTransform.value.Translation.ToVector2(), playerTransform.value.Translation.ToVector2()) < Constants.INTERACTION_DISTANCE)
                     {
                         // If player wasn't already nearby the interactable object then trigger the glowing (only once until player moves out of distance)
                         if (!interactable.playerNearby && entity.Has<Texture2DComponent>())
