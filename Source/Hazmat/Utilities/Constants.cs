@@ -58,8 +58,11 @@ namespace Hazmat.Utilities
         public static Vector2 BOTTOM_LEFT_CORNER =
             new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
-        //
+        // Input
         public static float HOLD_THRESHOLD = 0.25f;
+
+        // PowerUp Values
+        public const float POWERUP_DISPLAY_TIME = 5f; // almost 5 to avoid seeing the red line before ending
 
         // Layer values
         public const float LAYER_FOREGROUND = 0.01f;

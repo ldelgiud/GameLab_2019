@@ -10,16 +10,21 @@ using Hazmat.Input;
 using Hazmat.Utilities;
 using Hazmat.Graphics;
 using Hazmat.Utilities.Extensions;
+using Hazmat.Components.InputHandlers;
+
 
 namespace Hazmat.Components.InputHandlers
 {
     class ShootingInputHandler : IInputHandler
     {
         World world;
+        StatsComponent playerStats;
 
-        public ShootingInputHandler(World world)
+
+        public ShootingInputHandler(World world, StatsComponent playerStats)
         {
             this.world = world;
+            this.playerStats = playerStats;
         }
 
         public void HandleInput(InputManager inputManager, Time time, Entity entity)
@@ -27,6 +32,9 @@ namespace Hazmat.Components.InputHandlers
 
             ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
             ref Transform2DComponent gunTransform = ref entity.Get<Transform2DComponent>();
+
+            smallGun.additionalDamage = playerStats.Damage;
+
 
             Vector2 direction = gunTransform.value.Rotation.ToVector2();
             direction = Camera2D.PerspectiveToWorld(direction);

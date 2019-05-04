@@ -13,6 +13,7 @@ namespace Hazmat.GameElements.Shooting
     abstract class AGun
     {
         public float damage;
+        public float additionalDamage = 0; // in case of upgrades
         public float projectileSpeed;
         public float radiusRange;
         public float reloadTime;

@@ -102,7 +102,8 @@ namespace Hazmat.States
                 new DamageHealthCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
-                new PlayerDamageCollisionHandler(this.world, energy)
+                new PlayerDamageCollisionHandler(this.world, energy),
+                new PowerUpPickUpCollisionHandler(this.world)
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
@@ -126,6 +127,7 @@ namespace Hazmat.States
                     },
                     Hazmat.Instance.Content.Load<Effect>(@"shaders/bright")
                 );
+            PowerUpSystem powerUpSystem = new PowerUpSystem(this.world);
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
@@ -135,6 +137,7 @@ namespace Hazmat.States
                 interactionSystem,
                 collisionSystem,
                 aISystem,
+                powerUpSystem,
                 powerplantSystem,
                 cameraSystem,
                 TTLSystem,
@@ -198,6 +201,13 @@ namespace Hazmat.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
+            // Create a power up pick up
+            SpawnHelper.SpawnPowerUp(Vector2.One * 20f);
+            SpawnHelper.SpawnPowerUp(Vector2.One * 10f);
+            SpawnHelper.SpawnPowerUp(Vector2.One * -10f);
+            SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
+
+
             SpawnHelper.SpawnHouse(new Vector2(0, 0));
 
 
@@ -245,6 +255,10 @@ namespace Hazmat.States
             // Event - Keyboard
             this.inputManager.Register(Keys.E);
 
+            // Powerup - Keyboard
+            this.inputManager.Register(Keys.R); // Left
+            this.inputManager.Register(Keys.T); // Right
+
             // GAMEPAD
             // Player - Gamepad 
             this.inputManager.Register(ThumbSticks.Left);
@@ -259,6 +273,10 @@ namespace Hazmat.States
 
             // Event - Keyboard
             this.inputManager.Register(Buttons.B);
+
+            // Powerup - Keyboard
+            this.inputManager.Register(Buttons.LeftShoulder);
+            this.inputManager.Register(Buttons.RightShoulder);
         }
 
     }

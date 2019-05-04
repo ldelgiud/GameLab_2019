@@ -65,7 +65,8 @@ namespace Hazmat.Utilities
             element.Span.UpperBound += position;
             element.Value = entity;
 
-            entity.Set(new PlayerComponent(playerID, 20));
+            entity.Set(new PlayerComponent(playerID));
+            entity.Set(new StatsComponent(20, 0));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
             entity.Set(new WorldSpaceComponent());
@@ -79,7 +80,7 @@ namespace Hazmat.Utilities
                 scale: new Vector3(0.07f),
                 animation: "Take 001",
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 3f) }
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
                 )));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
@@ -213,6 +214,36 @@ namespace Hazmat.Utilities
             SpawnHelper.AddAABB(entity, position, new Vector2(-5, -5), new Vector2(5, 5), true);
         }
 
+        public static void SpawnPowerUp(Vector2 position)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            AABB aabb = new AABB()
+            {
+                LowerBound = new Vector2(-0.5f, -0.5f),
+                UpperBound = new Vector2(0.5f, 0.5f)
+            };
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+
+            entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
+            entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                new SpineAnimationInfo(
+                    @"items\SPS_Collectables",
+                    new SkeletonInfo(2f, 2f, skin: "chip_01", translation: new Vector3(0, 0, 0.1f)),
+                    new AnimationStateInfo("chip_01", true)
+                )
+            ));
+
+            entity.Set(new PowerUpComponent());
+            entity.Set(new NameComponent() { name = "Power Up" });
+
+            SpawnHelper.quadtree.AddNode(element);
+        }
+
         /// <summary>
         /// Spawns a battery entity with given position and size
         /// </summary>
@@ -308,7 +339,7 @@ namespace Hazmat.Utilities
                 @"characters\MED_CH_EnemyBicycle_01",
                 @"characters\TEX_CH_EnemyBicycle_01",
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.4f) }
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
                 )));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });

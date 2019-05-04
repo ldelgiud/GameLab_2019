@@ -18,7 +18,7 @@ namespace Hazmat.Components.InputHandlers
         public void HandleInput(InputManager inputManager, Time time, Entity entity)
         {
             ref VelocityComponent velComp = ref entity.Get<VelocityComponent>();
-            ref PlayerComponent player = ref entity.Get<PlayerComponent>();
+            ref StatsComponent player = ref entity.Get<StatsComponent>();
             ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
 
             velComp.velocity = Vector2.Zero;
