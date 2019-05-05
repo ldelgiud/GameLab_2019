@@ -58,11 +58,11 @@ namespace Hazmat.States
 
             // PostProcessing
             renderCapture = new RenderCapture(Hazmat.Instance.GraphicsDevice);
-            Effect contrastEffect = game.Content.Load<Effect>(@"shaders/contrast");
+            Effect contrastEffect = game.Content.Load<Effect>(@"shaders/post");
             contrastEffect.Parameters["Contrast"].SetValue(0.2f);
             contrastEffect.Parameters["Brightness"].SetValue(0.05f);
             contrastEffect.Parameters["Hue"].SetValue(2f);
-            contrastEffect.Parameters["Saturation"].SetValue(1.7f);
+            contrastEffect.Parameters["Saturation"].SetValue(1.4f);
             postprocessor = new PostProcessing(contrastEffect, Hazmat.Instance.GraphicsDevice);
 
             SetInstance(this.renderCapture);

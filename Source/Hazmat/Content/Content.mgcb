@@ -477,6 +477,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/outline.fx
 
+#begin shaders/post.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/post.fx
+
 #begin shaders/standard_px.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -494,6 +500,12 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:shaders/toon.fx
+
+#begin shaders/vignette.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/vignette.fx
 
 #begin ui/SPS_Screens.atlas
 /copy:ui/SPS_Screens.atlas
