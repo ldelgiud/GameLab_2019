@@ -201,14 +201,18 @@ namespace Hazmat.Utilities
         }
 
         public static void SpawnHouse(Vector2 position)
-        {
+        {// @"buildings\houses\house1"
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = "House" });
             entity.Set(new Transform3DComponent(new Transform3D(position: new Vector3(position, 0))));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"buildings\houses\house1",
-                scale: new Vector3(3f)
-                )));
+            @"buildings\houses\house1",
+            @"buildings\houses\house1_tex",
+            scale: new Vector3(3f),
+            standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+            standardEffectInitialize: new Tuple<string, float>[] {  new Tuple<string, float>("LineThickness", 0.04f) }
+            )));
+
             entity.Set(new WorldSpaceComponent());
 
             SpawnHelper.AddAABB(entity, position, new Vector2(-5, -5), new Vector2(5, 5), true);
@@ -338,8 +342,9 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_EnemyBicycle_01",
                 @"characters\TEX_CH_EnemyBicycle_01",
-                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"), 
+                standardEffectInitialize: new Tuple<string, float>[] {
+                    new Tuple<string, float>("LineThickness", 0.1f)}
                 )));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });
