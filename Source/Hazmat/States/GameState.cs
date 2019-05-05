@@ -45,13 +45,16 @@ namespace Hazmat.States
 
         TileMap tileMap;
 
-        public override void Initialize(Hazmat game)
+        public override void Initialize(Time time, Hazmat game)
         {
             this.inputManager = new InputManager();
             this.SetUpInputManager();
             this.SetInstance(this.inputManager);
-
             this.window = game.Window;
+ 
+
+            Score score = new Score(time);
+            this.SetInstance(score);
 
             Energy energy = new Energy();
             PowerPlant powerPlant = new PowerPlant();
@@ -63,7 +66,7 @@ namespace Hazmat.States
                     UpperBound = Constants.TOP_RIGHT_CORNER// new Vector2(10000, 10000)
                 },
                 10, 7));
-
+            
             this.screenCamera = new Camera2D(
                 new Transform2D(),
                 1920,
@@ -102,7 +105,8 @@ namespace Hazmat.States
                 new DamageHealthCollisionHandler(this.world),
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
-                new PlayerDamageCollisionHandler(this.world, energy)
+                new PlayerDamageCollisionHandler(this.world, energy),
+                new PowerUpPickUpCollisionHandler(this.world)
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
@@ -126,15 +130,16 @@ namespace Hazmat.States
                     },
                     Hazmat.Instance.Content.Load<Effect>(@"shaders/bright")
                 );
+            PowerUpSystem powerUpSystem = new PowerUpSystem(this.world);
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
-                shootingSystem,
                 eventSystem,
                 interactionSystem,
                 collisionSystem,
                 aISystem,
+                powerUpSystem,
                 powerplantSystem,
                 cameraSystem,
                 TTLSystem,
@@ -200,14 +205,10 @@ namespace Hazmat.States
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
-            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
+            // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
-
-
-            //SpawnHelper.SpawnEvent(new Vector2(0, 0));
-
-            // Create lootbox
-            //SpawnHelper.SpawnLootBox(new Vector2(30, -10));
+            // Create a power up pick up
+            SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
             // Event trigger
             //SpawnHelper.SpawnEvent(new Vector2(0, -20));
@@ -248,6 +249,10 @@ namespace Hazmat.States
             // Event - Keyboard
             this.inputManager.Register(Keys.E);
 
+            // Powerup - Keyboard
+            this.inputManager.Register(Keys.R); // Left
+            this.inputManager.Register(Keys.T); // Right
+
             // GAMEPAD
             // Player - Gamepad 
             this.inputManager.Register(ThumbSticks.Left);
@@ -262,6 +267,10 @@ namespace Hazmat.States
 
             // Event - Keyboard
             this.inputManager.Register(Buttons.B);
+
+            // Powerup - Keyboard
+            this.inputManager.Register(Buttons.LeftShoulder);
+            this.inputManager.Register(Buttons.RightShoulder);
         }
 
     }

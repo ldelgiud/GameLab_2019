@@ -13,6 +13,7 @@ namespace Hazmat.GameElements.Shooting
     abstract class AGun
     {
         public float damage;
+        public float additionalDamage = 0; // in case of upgrades
         public float projectileSpeed;
         public float radiusRange;
         public float reloadTime;
@@ -20,8 +21,7 @@ namespace Hazmat.GameElements.Shooting
         public float timeLastShot;
         public Alliance alliance;
 
-        //public abstract void Shoot(float absoluteValue, Vector2 position, Vector2 direction, World world);
-        public abstract void Shoot(float absoluteValue, Transform2D transform, Vector2 direction);
+        public abstract void Shoot(float absoluteValue, Transform3D transform, Vector2 direction);
 
     }
 }

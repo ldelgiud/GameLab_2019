@@ -26,9 +26,9 @@ namespace Hazmat.Utilities
         public static uint BIG_BATTERY_SIZE = 1000;
 
         //ENTITY PROPERTIES
-        public static float DRONE_SPEED = 11;
-        public static float SHOOTER_SPEED = 8;
-        public static int PLAYER_SPEED = 50;
+        public static float DRONE_SPEED = 16;
+        public static float SHOOTER_SPEED = 13;
+        public static int PLAYER_SPEED = 15;
         public static float TTL_BULLET = 5f;
 
         //GRID GENERATION VALUES
@@ -67,8 +67,11 @@ namespace Hazmat.Utilities
         public static Vector2 BOTTOM_LEFT_CORNER =
             new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
-        //
+        // Input
         public static float HOLD_THRESHOLD = 0.25f;
+
+        // PowerUp Values
+        public const float POWERUP_DISPLAY_TIME = 5f; // almost 5 to avoid seeing the red line before ending
 
         // Layer values
         public const float LAYER_FOREGROUND = 0.01f;

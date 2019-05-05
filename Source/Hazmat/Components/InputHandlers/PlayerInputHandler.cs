@@ -18,7 +18,7 @@ namespace Hazmat.Components.InputHandlers
         public void HandleInput(InputManager inputManager, Time time, Entity entity)
         {
             ref VelocityComponent velComp = ref entity.Get<VelocityComponent>();
-            ref PlayerComponent player = ref entity.Get<PlayerComponent>();
+            ref StatsComponent player = ref entity.Get<StatsComponent>();
             ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
 
             velComp.velocity = Vector2.Zero;
@@ -36,13 +36,22 @@ namespace Hazmat.Components.InputHandlers
                 case ValueEvent<Vector2> value:
                     var current = value.current;
                     if (current.LengthSquared() != 0)
-                    {
-
+                    { 
                         current.Normalize();
                         var rotation = transform.value.Rotation;
                         transform.value.Rotation = new Vector3(rotation.X, rotation.Y, current.ToRotation());
                     }
                     break;
+            }
+
+            // Mouse Rotation
+            MouseState mState = Mouse.GetState();
+            Vector2 dir = Camera2D.WorldToPerspective(mState.Position.ToVector2() - Hazmat.Instance.Window.ClientBounds.Center.ToVector2());
+            dir.Normalize();
+            if (dir.LengthSquared() != 0)
+            {
+                var rotation = transform.value.Rotation;
+                transform.value.Rotation = new Vector3(rotation.X, rotation.Y, -dir.ToRotation());
             }
 
             // KeyBoard
@@ -106,6 +115,8 @@ namespace Hazmat.Components.InputHandlers
                     velComp.velocity.Y = -player.Speed;
                     break;
             }
+
+
 
 
             if (velComp.velocity != Vector2.Zero)

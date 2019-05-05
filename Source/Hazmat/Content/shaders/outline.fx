@@ -33,7 +33,7 @@ float DiffuseIntensity = 1.0;
 
 //--------------------------- TOON SHADER PROPERTIES ------------------------------
 // The color to draw the lines in.  Black is a good default.
-float4 LineColor = float4(1, 1, 1, 1);
+float4 LineColor = float4(0, 0, 0, 1);
 
 // The thickness of the lines.  This may need to change, depending on the scale of
 // the objects you are drawing.

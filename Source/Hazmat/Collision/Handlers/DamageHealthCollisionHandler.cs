@@ -26,13 +26,13 @@ namespace Hazmat.Collision.Handlers
             if (colliderAlliance == collideeAlliance) return;
             HealthComponent health = collidee.Get<HealthComponent>();
             DamageComponent damage = collider.Get<DamageComponent>();
-            Vector2 collideePos = collidee.Get<Transform2DComponent>().value.Translation;
+            Vector3 collideePos = collidee.Get<Transform3DComponent>().value.Translation;
 
             health.DealDamage(damage.Damage);
             if (health.isDead())
             {
                 bool drop = Constants.RANDOM.NextDouble() < HelperFunctions.DropRate();
-                if (drop) SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, collideePos);
+                if (drop) SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, collideePos.ToVector2());
                 collidee.Delete();
             }
 

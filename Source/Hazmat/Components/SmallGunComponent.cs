@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,16 +38,27 @@ namespace Hazmat.Components
             this.alliance = alliance;
         }
 
-        public override void Shoot(float absoluteTime, Transform2D transform, Vector2 direction)
+        public override void Shoot(float absoluteTime, Transform3D transform, Vector2 direction)
         {
             if ((absoluteTime - timeLastShot) < reloadTime) { return; }
-            direction.Normalize();
 
-            Entity entity = SpawnHelper.SpawnBullet(transform.Translation, direction);
+            if (direction != Vector2.Zero)
+            {
+                direction.Normalize();
+            }
             
+            Entity entity = SpawnHelper.SpawnBullet(transform.Translation, direction);
+
             entity.Set(new VelocityComponent(direction * this.projectileSpeed));
-            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_WP_Projectile_01", 0.4f, 0.4f, rotation: -MathF.PI / 2)));
-            entity.Set(new DamageComponent(this.damage)); // added for collision handling
+            entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                new SpineAnimationInfo(
+                    @"items\SPS_Projectiles",
+                    new SkeletonInfo(2f, 2f, skin: "MatProjectile_01", translation: new Vector3(0, 0, 0.5f)),
+                    new AnimationStateInfo("ProjectileMat_01", true)
+                )
+            ));
+
+            entity.Set(new DamageComponent(this.damage + this.additionalDamage)); // added for collision handling
             entity.Set(new NameComponent() { name = "bullet" });
             entity.Set(new TTLComponent(Constants.TTL_BULLET));
             entity.Set(new AllianceMaskComponent(this.alliance));

@@ -1,36 +1,35 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Hazmat.State;
+using Hazmat.Utilities;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
+using Microsoft.Xna.Framework.Input;
 
 using DefaultEcs;
 using DefaultEcs.System;
 using DefaultEcs.Resource;
 
-using Hazmat.State;
-using Hazmat.Components;
-using Hazmat.Systems;
-using Hazmat.ResourceManagers;
-using Hazmat.Utilities;
-using Hazmat.Utilities.Extensions;
 using Hazmat.Input;
 using Hazmat.Graphics;
-
-using Spine;
+using Hazmat.Components;
+using Hazmat.ResourceManagers;
+using Hazmat.Systems;
+using Hazmat.Event;
 
 namespace Hazmat.States
 {
-    public class MainMenuState : State.State
+    class ControlsState : State.State
     {
         GameWindow window;
 
         InputManager inputManager;
-
-        World world;
         Camera2D screenCamera;
+        World world;
 
         SpineAnimationResourceManager spineAnimationResourceManager;
 
@@ -38,25 +37,27 @@ namespace Hazmat.States
 
         public override void Initialize(Time time, Hazmat game)
         {
-            this.window = game.Window;
-
             this.inputManager = new InputManager();
-            // Input 
             this.inputManager.Register(Keys.Enter);
             this.inputManager.Register(Buttons.A);
-            this.inputManager.Register(Buttons.B);
+            this.SetInstance(this.inputManager);
 
-            this.world = new World();
+            this.window = game.Window;
+
             this.screenCamera = new Camera2D(
                 new Transform2D(),
                 1920,
                 1080
                 );
 
+            // World
+            this.world = new World();
+
             // Resource Managers
             this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
             this.spineAnimationResourceManager.Manage(this.world);
 
+            // Systems
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
                 new SkeletonUpdateSystem(this.world),
@@ -65,23 +66,15 @@ namespace Hazmat.States
 
             {
                 var entity = this.world.CreateEntity();
+                entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(new SpineAnimationInfo(
+                    @"ui\SPS_Screens",
+                    new SkeletonInfo(1920, 1080, skin: "controls"),
+                    new AnimationStateInfo("press_A_to_continue", true)
+                )));
                 entity.Set(new ScreenSpaceComponent());
                 entity.Set(new Transform2DComponent(new Transform2D()));
-                entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
-                    new SpineAnimationInfo(
-                        @"ui\SPS_Screens", 
-                        new SkeletonInfo(1920, 1080, skin: "main_menu"),
-                        null
-                    )
-                ));
             }
-        }
 
-        public override void Resume(object data)
-        {
-            this.inputManager.Clear();
-            this.inputManager.Sleep(10);
-            base.Resume(data);
         }
 
         public override IStateTransition Update(Time time)
@@ -89,19 +82,11 @@ namespace Hazmat.States
             this.inputManager.Update(time);
 
             IInputEvent inputEvent = this.inputManager.GetEvent(Keys.Enter) ?? this.inputManager.GetEvent(0, Buttons.A);
-            IInputEvent exitEvent = this.inputManager.GetEvent(Keys.Escape) ?? this.inputManager.GetEvent(0, Buttons.B);
 
             switch (inputEvent)
             {
                 case ReleaseEvent _:
-                    this.stateTransition = new PushStateTransition(new ControlsState());
-                    break;
-            }
-
-            switch (exitEvent)
-            {
-                case ReleaseEvent _:
-                    this.stateTransition = new ExitTransition();
+                    this.stateTransition = new SwapStateTransition(new GameState());
                     break;
             }
 

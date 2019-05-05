@@ -80,7 +80,7 @@ namespace Hazmat.AI
             Debug.Assert(weapon.Get<SmallGunComponent>() != null);
             weapon.Get<SmallGunComponent>().Shoot(
                 time.Absolute, 
-                weapon.Get<Transform2DComponent>().value,
+                weapon.Get<Transform3DComponent>().value,
                 distVector);
 
             //UPDATE STATE

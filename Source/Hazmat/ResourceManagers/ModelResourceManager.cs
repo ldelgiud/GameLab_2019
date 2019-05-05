@@ -64,13 +64,18 @@ namespace Hazmat.ResourceManagers
 
         protected override void OnResourceLoaded(in Entity entity, ModelInfo info, ModelAlias resource)
         {
-            if (info.animation != null)
-            {
-                var animations = resource.value.GetAnimations();
-                animations.SetClip(animations.Clips[info.animation]);
-                entity.Set(new ModelAnimationComponent(animations));
-            }
+            var animations = resource.value.GetAnimations();
 
+            if (animations != null)
+            {
+                entity.Set(new ModelAnimationComponent(animations));
+
+                if (info.animation != null)
+                {
+                    animations.SetClip(animations.Clips[info.animation]);
+                }
+            }
+            
             entity.Set(new ModelComponent() { value = resource.value, info = info });
         }
     }

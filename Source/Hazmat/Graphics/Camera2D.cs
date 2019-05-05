@@ -115,7 +115,7 @@ namespace Hazmat.Graphics
             this.Transform.LocalScale = new Vector2(this.ViewportWidth, this.ViewportHeight);
         }
 
-        public (Vector2, float, Vector2) ToScreenCoordinates(Transform2D transform, Texture2DInfo info)
+        public (Vector2, float, Vector2) ToScreenCoordinates(Transform2D transform, Transform2DInfo info)
         {
             var model = transform.TransformMatrix;
             var view = this.View;
@@ -123,9 +123,9 @@ namespace Hazmat.Graphics
 
             var mvp = model * view * projection;
 
-            var position = this.SafeZoneOffset + new Vector2(0, this.SafeZoneHeight) + (mvp.Translation() + info.translation) * new Vector2(1, -1); // Normalize to screen coordinates
-            var rotation = -(mvp.Rotation() + info.rotation);
-            var scale = mvp.Scaling() * info.scale;
+            var position = this.SafeZoneOffset + new Vector2(0, this.SafeZoneHeight) + (mvp.Translation() + info.Translation) * new Vector2(1, -1); // Normalize to screen coordinates
+            var rotation = -(mvp.Rotation() + info.Rotation);
+            var scale = mvp.Scaling() * info.Scale;
 
             return (
                 position,

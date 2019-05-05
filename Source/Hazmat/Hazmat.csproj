@@ -138,11 +138,15 @@
     <Compile Include="Collision\Handlers\EnergyPickupCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EventTriggerCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\PlayerDamageCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\PowerUpPickUpCollisionHandler.cs" />
     <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
     <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\AllianceMaskComponent.cs" />
+    <Compile Include="Components\DisplayPowerUpChoiceComponent.cs" />
+    <Compile Include="Components\InputHandlers\PowerUpInputHandler.cs" />
     <Compile Include="Components\ModelAnimationComponent.cs" />
+    <Compile Include="Components\PowerUpComponent.cs" />
     <Compile Include="Components\SpineAnimationComponent.cs" />
     <Compile Include="Components\AtlasComponent.cs" />
     <Compile Include="Components\DamageComponent.cs" />
@@ -164,6 +168,8 @@
     <Compile Include="Components\ScreenSpaceComponent.cs" />
     <Compile Include="Components\SpineSkeletonComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
+    <Compile Include="Components\StatsComponent.cs" />
+    <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\Texture2DComponent.cs" />
     <Compile Include="Components\TileComponent.cs" />
@@ -200,11 +206,14 @@
     <Compile Include="ResourceManagers\AtlasTextureResourceManager.cs" />
     <Compile Include="ResourceManagers\ModelResourceManager.cs" />
     <Compile Include="ResourceManagers\SpineAnimationResourceManager.cs" />
+    <Compile Include="ResourceManagers\TextResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
     <Compile Include="ResourceManagers\TileResourceManager.cs" />
+    <Compile Include="States\ControlsState.cs" />
     <Compile Include="States\CoverState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
+    <Compile Include="States\ScoreState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="Systems\AnimationStateUpdateSystem.cs" />
@@ -218,6 +227,8 @@
     <Compile Include="Systems\ModelDrawSystem.cs" />
     <Compile Include="Systems\PathFinderSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
+    <Compile Include="Systems\PowerUpSystem.cs" />
+    <Compile Include="Systems\ScreenTextSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
@@ -227,6 +238,7 @@
     <Compile Include="Systems\SpineSkeleton3DDrawSystem.cs" />
     <Compile Include="Systems\TileMapDrawSystem.cs" />
     <Compile Include="Systems\TTLSystem.cs" />
+    <Compile Include="Utilities\Extensions\ModelExtensions.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />
     <Compile Include="Utilities\Aliases.cs" />
     <Compile Include="Utilities\Constants.cs" />
@@ -237,6 +249,7 @@
     <Compile Include="Utilities\PlayerInfo.cs" />
     <Compile Include="Utilities\PowerPlant.cs" />
     <Compile Include="Utilities\ProcGen.cs" />
+    <Compile Include="Utilities\Score.cs" />
     <Compile Include="Utilities\Screen.cs" />
     <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\EventSystem.cs" />

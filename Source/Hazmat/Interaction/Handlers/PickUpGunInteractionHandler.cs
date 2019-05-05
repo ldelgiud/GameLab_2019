@@ -22,7 +22,7 @@ namespace Hazmat.Interaction.Handlers
             .Build(),
             world.GetEntities()
             .With<PickUpGunComponent>()
-            .With<Transform2DComponent>()
+            .With<Transform3DComponent>()
             .With<WorldSpaceComponent>()
             .Build()
             )
@@ -35,10 +35,11 @@ namespace Hazmat.Interaction.Handlers
             switch (inputEvent)
             {
                 case PressEvent _:
-                    ref var playerTransform = ref interactor.Get<Transform2DComponent>();
-                    ref var gunTransform = ref interactee.Get<Transform2DComponent>();
+                    ref var playerTransform = ref interactor.Get<Transform3DComponent>();
+                    ref var gunTransform = ref interactee.Get<Transform3DComponent>();
                     ref var model = ref interactee.Get<ModelComponent>();
 
+                    ref StatsComponent playerStats = ref interactor.Get<StatsComponent>();
 
                     interactee.Remove<InteractableComponent>();
 
@@ -46,10 +47,10 @@ namespace Hazmat.Interaction.Handlers
                     model.DisableToonGlow();
 
                     // Add gun to player
-                    interactee.Set(new InputComponent(new ShootingInputHandler(world)));
+                    interactee.Set(new InputComponent(new ShootingInputHandler(world, playerStats)));
                     interactee.SetAsChildOf(interactor);
                     gunTransform.value.Parent = playerTransform.value;
-                    gunTransform.value.LocalTranslation = new Vector2(1.414f, 1.414f);
+                    gunTransform.value.LocalTranslation = new Vector3(1.414f, 1.414f, 1f);
 
 
                     interactor.Set(new WeaponComponent(interactee)); 
