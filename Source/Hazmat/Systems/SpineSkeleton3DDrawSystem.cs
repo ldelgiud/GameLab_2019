@@ -62,9 +62,9 @@ namespace Hazmat.Systems
             // Custom model matrix to Billboard the skeleton to the screen so that its not flat
             var m =
                 Matrix.CreateScale(skeleton.info.scale * transform.value.Scale * new Vector3(-1, 1, 1)) *
-                Matrix.CreateRotationX(transform.value.Rotation.X) *
-                Matrix.CreateRotationY(transform.value.Rotation.Y) *
-                Matrix.CreateRotationZ(transform.value.Rotation.Z) *
+                Matrix.CreateRotationX(transform.value.LocalRotation.X) *
+                Matrix.CreateRotationY(transform.value.LocalRotation.Y) *
+                Matrix.CreateRotationZ(transform.value.LocalRotation.Z) *
                 Matrix.CreateBillboard(Vector3.Zero, this.camera.distance * Camera3D.ISOMETRIC_OFFSET, Camera3D.ISOMETRIC_UP, Camera3D.ISOMETRIC_OFFSET) *
                 Matrix.CreateTranslation(skeleton.info.translation + transform.value.Translation);
             ((BasicEffect)this.skeletonRenderer.Effect).World = m;
