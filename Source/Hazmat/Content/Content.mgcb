@@ -459,6 +459,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/chrome.fx
 
+#begin shaders/contrast.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/contrast.fx
+
 #begin shaders/glowing3D.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -470,6 +476,12 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:shaders/outline.fx
+
+#begin shaders/standard_px.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/standard_px.fx
 
 #begin shaders/texture-shader.fx
 /importer:EffectImporter

@@ -25,6 +25,7 @@ using Hazmat.Interaction.Handlers;
 using Hazmat.Graphics;
 using Hazmat.Systems.Debugging;
 using Hazmat.Pathfinding;
+using Hazmat.PostProcessor;
 
 namespace Hazmat.States
 {
@@ -37,6 +38,9 @@ namespace Hazmat.States
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
+
+        RenderCapture renderCapture;
+        PostProcessing postprocessor;
 
         TextureResourceManager textureResourceManager;
         ModelResourceManager modelResourceManager;
@@ -51,7 +55,18 @@ namespace Hazmat.States
             this.SetUpInputManager();
             this.SetInstance(this.inputManager);
             this.window = game.Window;
- 
+
+            // PostProcessing
+            renderCapture = new RenderCapture(Hazmat.Instance.GraphicsDevice);
+            Effect contrastEffect = game.Content.Load<Effect>(@"shaders/contrast");
+            contrastEffect.Parameters["Contrast"].SetValue(0.2f);
+            contrastEffect.Parameters["Brightness"].SetValue(0.05f);
+            contrastEffect.Parameters["Hue"].SetValue(2f);
+            contrastEffect.Parameters["Saturation"].SetValue(1.7f);
+            postprocessor = new PostProcessing(contrastEffect, Hazmat.Instance.GraphicsDevice);
+
+            SetInstance(this.renderCapture);
+            SetInstance(this.postprocessor);
 
             Score score = new Score(time);
             this.SetInstance(score);

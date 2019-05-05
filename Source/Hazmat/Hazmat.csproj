@@ -200,6 +200,8 @@
     <Compile Include="Pathfinding\Path.cs" />
     <Compile Include="Pathfinding\PathFinder.cs" />
     <Compile Include="Pathfinding\PathRequestManager.cs" />
+    <Compile Include="PostProcessor\PostProcessing.cs" />
+    <Compile Include="PostProcessor\RenderCapture.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Hazmat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
