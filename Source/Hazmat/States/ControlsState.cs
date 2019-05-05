@@ -35,7 +35,7 @@ namespace Hazmat.States
 
         ISystem<Time> drawSystem;
 
-        public override void Initialize(Hazmat game)
+        public override void Initialize(Time time, Hazmat game)
         {
             this.inputManager = new InputManager();
             this.inputManager.Register(Keys.Enter);

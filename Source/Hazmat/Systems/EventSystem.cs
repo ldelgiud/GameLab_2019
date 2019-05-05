@@ -22,7 +22,7 @@ namespace Hazmat.Systems
         protected override void Update(Time state, in Entity entity)
         {
             ref EventComponent _event = ref entity.Get<EventComponent>();
-            _event.value.Update(this.world);
+            _event.value.Update(state, this.world);
         }
     }
 }

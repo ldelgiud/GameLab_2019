@@ -169,6 +169,7 @@
     <Compile Include="Components\SpineSkeletonComponent.cs" />
     <Compile Include="Components\SmallGunComponent.cs" />
     <Compile Include="Components\StatsComponent.cs" />
+    <Compile Include="Components\TextComponent.cs" />
     <Compile Include="Components\TextureAnimateComponent.cs" />
     <Compile Include="Components\Texture2DComponent.cs" />
     <Compile Include="Components\TileComponent.cs" />
@@ -205,12 +206,14 @@
     <Compile Include="ResourceManagers\AtlasTextureResourceManager.cs" />
     <Compile Include="ResourceManagers\ModelResourceManager.cs" />
     <Compile Include="ResourceManagers\SpineAnimationResourceManager.cs" />
+    <Compile Include="ResourceManagers\TextResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
     <Compile Include="ResourceManagers\TileResourceManager.cs" />
     <Compile Include="States\ControlsState.cs" />
     <Compile Include="States\CoverState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
+    <Compile Include="States\ScoreState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
     <Compile Include="Systems\AnimationStateUpdateSystem.cs" />
@@ -225,6 +228,7 @@
     <Compile Include="Systems\PathFinderSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\PowerUpSystem.cs" />
+    <Compile Include="Systems\ScreenTextSystem.cs" />
     <Compile Include="Systems\ScreenTextureSystem.cs" />
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
@@ -243,6 +247,7 @@
     <Compile Include="Utilities\PlayerInfo.cs" />
     <Compile Include="Utilities\PowerPlant.cs" />
     <Compile Include="Utilities\ProcGen.cs" />
+    <Compile Include="Utilities\Score.cs" />
     <Compile Include="Utilities\Screen.cs" />
     <Compile Include="Systems\CollisionSystem.cs" />
     <Compile Include="Systems\EventSystem.cs" />

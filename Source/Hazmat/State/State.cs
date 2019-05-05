@@ -25,7 +25,7 @@ namespace Hazmat.State
         /// Hook for when the state is first created.
         /// </summary>
         /// <param name="game"></param>
-        public virtual void Initialize(Hazmat game) { }
+        public virtual void Initialize(Time time, Hazmat game) { }
 
         /// <summary>
         /// Hook for when the state is resumed.

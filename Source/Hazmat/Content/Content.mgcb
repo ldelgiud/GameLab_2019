@@ -400,6 +400,20 @@
 /processorParam:TextureFormat=Color
 /build:debugging/redCircle.png
 
+#begin font/Playtime.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font/Playtime.spritefont
+
+#begin font/Splatch.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font/Splatch.spritefont
+
 #begin items/SPS_Collectables.atlas
 /copy:items/SPS_Collectables.atlas
 

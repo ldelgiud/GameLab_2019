@@ -45,13 +45,16 @@ namespace Hazmat.States
 
         TileMap tileMap;
 
-        public override void Initialize(Hazmat game)
+        public override void Initialize(Time time, Hazmat game)
         {
             this.inputManager = new InputManager();
             this.SetUpInputManager();
             this.SetInstance(this.inputManager);
 
             this.window = game.Window;
+
+            Score score = new Score(time);
+            this.SetInstance(score);
 
             Energy energy = new Energy();
             PowerPlant powerPlant = new PowerPlant();

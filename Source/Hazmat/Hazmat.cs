@@ -60,8 +60,9 @@ namespace Hazmat
         {
             var initialState = new CoverState();
             this.stateStack.Push(initialState);
-            initialState.Initialize(this);
-
+            
+            // Time is null for cover state, shouldn't cause any problems
+            initialState.Initialize(null, this);
         }
 
         /// <summary>
@@ -105,7 +106,7 @@ namespace Hazmat
                     this.stateStack.Push(t.State);
 
                     // Initialize new state
-                    t.State.Initialize(this);
+                    t.State.Initialize(updateTime, this);
 
                     break;
                 case PushStateTransition t:
@@ -116,7 +117,7 @@ namespace Hazmat
                     this.stateStack.Push(t.State);
 
                     // Initialize new state
-                    t.State.Initialize(this);
+                    t.State.Initialize(updateTime, this);
                    
                     break;
                 case ExitTransition t:

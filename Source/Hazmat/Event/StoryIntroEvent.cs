@@ -45,7 +45,7 @@ namespace Hazmat.Event
             this.inputManager = Hazmat.Instance.ActiveState.GetInstance<InputManager>();
         }
 
-        public override void Update(World world)
+        public override void Update(Time time, World world)
         {
             var inputEvent = this.inputManager.GetEvent(0, Buttons.A);
 
