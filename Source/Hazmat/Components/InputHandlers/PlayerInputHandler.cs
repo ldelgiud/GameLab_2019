@@ -36,13 +36,22 @@ namespace Hazmat.Components.InputHandlers
                 case ValueEvent<Vector2> value:
                     var current = value.current;
                     if (current.LengthSquared() != 0)
-                    {
-
+                    { 
                         current.Normalize();
                         var rotation = transform.value.Rotation;
                         transform.value.Rotation = new Vector3(rotation.X, rotation.Y, current.ToRotation());
                     }
                     break;
+            }
+
+            // Mouse Rotation
+            MouseState mState = Mouse.GetState();
+            Vector2 dir = mState.Position.ToVector2() - new Vector2(1920/2, 1080/2);
+            dir.Normalize();
+            if (dir.LengthSquared() != 0)
+            {
+                var rotation = transform.value.Rotation;
+                transform.value.Rotation = new Vector3(rotation.X, rotation.Y, -dir.ToRotation());
             }
 
             // KeyBoard
@@ -106,6 +115,8 @@ namespace Hazmat.Components.InputHandlers
                     velComp.velocity.Y = -player.Speed;
                     break;
             }
+
+
 
 
             if (velComp.velocity != Vector2.Zero)

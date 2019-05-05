@@ -31,13 +31,11 @@ namespace Hazmat.Components.InputHandlers
         {
 
             ref SmallGunComponent smallGun = ref entity.Get<SmallGunComponent>();
-            ref Transform2DComponent gunTransform = ref entity.Get<Transform2DComponent>();
+            ref Transform3DComponent gunTransform = ref entity.Get<Transform3DComponent>();
 
             smallGun.additionalDamage = playerStats.Damage;
-
-
-            Vector2 direction = gunTransform.value.Rotation.ToVector2();
-            direction = Camera2D.PerspectiveToWorld(direction);
+            
+            Vector2 direction = new Vector2(MathF.Cos(gunTransform.value.Rotation.Z), MathF.Sin(gunTransform.value.Rotation.Z));
 
             switch (inputManager.GetEvent(0, Buttons.RightTrigger))
             {

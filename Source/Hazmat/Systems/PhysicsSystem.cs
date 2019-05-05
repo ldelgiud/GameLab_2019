@@ -34,6 +34,7 @@ namespace Hazmat.Systems
         {
             ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
+            ref NameComponent name = ref entity.Get<NameComponent>();
 
             bool collision = false;
             if (entity.Has<AABBComponent>())

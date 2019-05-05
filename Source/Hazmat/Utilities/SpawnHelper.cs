@@ -85,7 +85,7 @@ namespace Hazmat.Utilities
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
 
-            SpawnHelper.SpawnCollectableGun(new Vector2(3,4));
+            SpawnHelper.SpawnCollectableGun(new Vector3(-5,-10,2));
         }
         /// <summary>
         /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
@@ -121,13 +121,13 @@ namespace Hazmat.Utilities
         /// <summary>
         /// Spawns a collectable gun without an initial parent.
         /// </summary>
-        public static Entity SpawnCollectableGun(Vector2 pos)
+        public static Entity SpawnCollectableGun(Vector3 pos)
         {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
-            Vector2 localPosition = pos;
+            Vector3 localPosition = pos;
 
-            Transform2DComponent gunTransform = new Transform2DComponent(new Transform2D(position: localPosition));
+            Transform3DComponent gunTransform = new Transform3DComponent(new Transform3D(position: localPosition));
             gunEntity.Set(gunTransform);
             gunEntity.Set(new WorldSpaceComponent());
 
@@ -397,18 +397,18 @@ namespace Hazmat.Utilities
             }
         }
 
-        public static Entity SpawnBullet(Vector2 position, Vector2 direction)
+        public static Entity SpawnBullet(Vector3 position, Vector2 direction)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
-            var projectileTransform = new Transform2DComponent(new Transform2D(position, direction.ToRotation()));
+            var projectileTransform = new Transform3DComponent(new Transform3D(position, rotation: new Vector3(0,0,direction.ToRotation())));
             entity.Set(projectileTransform);
             entity.Set(new WorldSpaceComponent());
 
             var aabb = new AABB(new Vector2(-0.2f, -0.2f), new Vector2(0.2f, 0.2f));
             var element = new Element<Entity>(aabb);
-            element.Span.LowerBound += position;
-            element.Span.UpperBound += position;
+            element.Span.LowerBound += position.ToVector2();
+            element.Span.UpperBound += position.ToVector2();
             element.Value = entity;
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             SpawnHelper.quadtree.AddNode(element);

@@ -132,7 +132,6 @@ namespace Hazmat.States
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
-                shootingSystem,
                 eventSystem,
                 interactionSystem,
                 collisionSystem,
@@ -199,14 +198,15 @@ namespace Hazmat.States
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
-            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
+            // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
             // Create a power up pick up
-            SpawnHelper.SpawnPowerUp(Vector2.One * 20f);
-            SpawnHelper.SpawnPowerUp(Vector2.One * 10f);
-            SpawnHelper.SpawnPowerUp(Vector2.One * -10f);
+            //SpawnHelper.SpawnPowerUp(Vector2.One * 20f);
+            //SpawnHelper.SpawnPowerUp(Vector2.One * 10f);
+            //SpawnHelper.SpawnPowerUp(Vector2.One * -10f);
             SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
+            //SpawnHelper.SpawnCollectableGun(new Vector3(20,20,2));
 
             SpawnHelper.SpawnHouse(new Vector2(0, 0));
 
