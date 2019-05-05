@@ -26,9 +26,9 @@ namespace Hazmat.Utilities
         public static uint BIG_BATTERY_SIZE = 100;
 
         //ENTITY PROPERTIES
-        public static float DRONE_SPEED = 4;
+        public static float DRONE_SPEED = 10;
         public static float SHOOTER_SPEED = 3;
-        public static int PLAYER_SPEED = 4;
+        public static int PLAYER_SPEED = 10;
         public static float TTL_BULLET = 5f;
 
         //GRID GENERATION VALUES

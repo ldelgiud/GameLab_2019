@@ -73,7 +73,7 @@ namespace Hazmat.States
             this.worldCamera = new Camera3D(
                 new Transform3D(),
                 40,
-                80,
+                71,
                 45
                 );
             
@@ -196,6 +196,7 @@ namespace Hazmat.States
             //ENEMY SPAWNING
             //SpawnHelper.SpawnDrone(new Vector2(40, 0));
             ProcGen.SpawnHotspots();
+            SpawnHelper.SpawnEnemyCamp(new Vector2(50,50));
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup

@@ -61,7 +61,7 @@ namespace Hazmat.AI
                 {
                     Vector2 newVel = nextNode.Item1 - myPos;
                     newVel.Normalize();
-                    velocity.velocity = newVel * Constants.DRONE_SPEED;
+                    velocity.velocity = newVel * Constants.SHOOTER_SPEED;
 
                 }
             }

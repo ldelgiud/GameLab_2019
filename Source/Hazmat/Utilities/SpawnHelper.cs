@@ -65,7 +65,7 @@ namespace Hazmat.Utilities
             element.Span.UpperBound += position;
             element.Value = entity;
 
-            entity.Set(new PlayerComponent(playerID, 20));
+            entity.Set(new PlayerComponent(playerID, Constants.PLAYER_SPEED));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
             entity.Set(new WorldSpaceComponent());
