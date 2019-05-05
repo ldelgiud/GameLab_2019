@@ -252,11 +252,11 @@ namespace Hazmat.States
             // Vignette
             contrastEffect.Parameters["radiusX"].SetValue(0.5f);
             contrastEffect.Parameters["radiusY"].SetValue(0.37f);
-            contrastEffect.Parameters["alpha"].SetValue(0.7f);
+            contrastEffect.Parameters["alpha"].SetValue(0.5f);
             // Colors
             contrastEffect.Parameters["Contrast"].SetValue(0.2f);
             contrastEffect.Parameters["Brightness"].SetValue(0.05f);
-            contrastEffect.Parameters["Hue"].SetValue(2f);
+            contrastEffect.Parameters["Hue"].SetValue(0f);
             contrastEffect.Parameters["Saturation"].SetValue(1.4f);
             postprocessor = new PostProcessing(contrastEffect, Hazmat.Instance.GraphicsDevice);
 
