@@ -65,25 +65,62 @@ namespace Hazmat.Utilities
             element.Span.UpperBound += position;
             element.Value = entity;
 
+            var transform = new Transform3D(position.ToVector3());
+
             entity.Set(new PlayerComponent(playerID));
             entity.Set(new StatsComponent(20, 0));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
-            entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
+            entity.Set(new Transform3DComponent(transform));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent(velocity));
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"characters\MED_CH_PlayerMat_01Axis",
+                @"characters\MED_CH_PlayerMat_01",
                 @"characters\MAT_CH_PlayerMat_01",
                 rotation: new Vector3(0, 0, MathF.PI / 2),
                 scale: new Vector3(0.07f),
-                animation: "Take 001",
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
                 )));
             entity.Set(new NameComponent() { name = "player" });
             SpawnHelper.quadtree.AddNode(element);
+
+            {
+                var maskEntity = SpawnHelper.World.CreateEntity();
+                maskEntity.SetAsChildOf(entity);
+
+                maskEntity.Set(new NameComponent() { name = "player_mask" });
+                maskEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
+                maskEntity.Set(new WorldSpaceComponent());
+                maskEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                    @"characters\armor\MED_AR_MatMask_01",
+                    @"characters\armor\TEX_AR_TanksMasksBP_01",
+                    rotation: new Vector3(0, 0, MathF.PI / 2),
+                    scale: new Vector3(0.07f),
+                    standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
+                    standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
+                )));
+            }
+
+            {
+                var maskEntity = SpawnHelper.World.CreateEntity();
+                maskEntity.SetAsChildOf(entity);
+
+                maskEntity.Set(new NameComponent() { name = "player_backpack" });
+                maskEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
+                maskEntity.Set(new WorldSpaceComponent());
+                maskEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                    @"characters\armor\MED_AR_MatBackpack_01",
+                    @"characters\armor\TEX_AR_TanksMasksBP_01",
+                    rotation: new Vector3(0, 0, MathF.PI / 2),
+                    scale: new Vector3(0.07f),
+                    standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
+                    standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
+                )));
+            }
+
+            entity.SetModelAnimation("Take 001");
 
             SpawnHelper.SpawnCollectableGun(new Vector2(3,4));
         }

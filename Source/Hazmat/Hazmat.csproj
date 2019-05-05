@@ -237,6 +237,7 @@
     <Compile Include="Systems\SpineSkeleton3DDrawSystem.cs" />
     <Compile Include="Systems\TileMapDrawSystem.cs" />
     <Compile Include="Systems\TTLSystem.cs" />
+    <Compile Include="Utilities\Extensions\ModelExtensions.cs" />
     <Compile Include="Utilities\HelperFunctions.cs" />
     <Compile Include="Utilities\Aliases.cs" />
     <Compile Include="Utilities\Constants.cs" />
