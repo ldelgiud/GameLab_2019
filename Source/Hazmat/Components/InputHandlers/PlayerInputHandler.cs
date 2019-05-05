@@ -46,7 +46,7 @@ namespace Hazmat.Components.InputHandlers
 
             // Mouse Rotation
             MouseState mState = Mouse.GetState();
-            Vector2 dir = mState.Position.ToVector2() - new Vector2(1920/2, 1080/2);
+            Vector2 dir = Camera2D.WorldToPerspective(mState.Position.ToVector2() - Hazmat.Instance.Window.ClientBounds.Center.ToVector2());
             dir.Normalize();
             if (dir.LengthSquared() != 0)
             {

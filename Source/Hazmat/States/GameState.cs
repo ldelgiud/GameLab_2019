@@ -50,8 +50,8 @@ namespace Hazmat.States
             this.inputManager = new InputManager();
             this.SetUpInputManager();
             this.SetInstance(this.inputManager);
-
             this.window = game.Window;
+ 
 
             Score score = new Score(time);
             this.SetInstance(score);
@@ -66,7 +66,7 @@ namespace Hazmat.States
                     UpperBound = Constants.TOP_RIGHT_CORNER// new Vector2(10000, 10000)
                 },
                 10, 7));
-
+            
             this.screenCamera = new Camera2D(
                 new Transform2D(),
                 1920,
