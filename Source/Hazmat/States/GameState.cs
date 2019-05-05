@@ -56,17 +56,7 @@ namespace Hazmat.States
             this.SetInstance(this.inputManager);
             this.window = game.Window;
 
-            // PostProcessing
-            renderCapture = new RenderCapture(Hazmat.Instance.GraphicsDevice);
-            Effect contrastEffect = game.Content.Load<Effect>(@"shaders/post");
-            contrastEffect.Parameters["Contrast"].SetValue(0.2f);
-            contrastEffect.Parameters["Brightness"].SetValue(0.05f);
-            contrastEffect.Parameters["Hue"].SetValue(2f);
-            contrastEffect.Parameters["Saturation"].SetValue(1.4f);
-            postprocessor = new PostProcessing(contrastEffect, Hazmat.Instance.GraphicsDevice);
-
-            SetInstance(this.renderCapture);
-            SetInstance(this.postprocessor);
+            ConfigurePostProcessor(game);
 
             Score score = new Score(time);
             this.SetInstance(score);
@@ -224,6 +214,7 @@ namespace Hazmat.States
             //SpawnHelper.SpawnPowerUp(Vector2.One * -10f);
             SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
+            SpawnHelper.SpawnLootStation(new Vector2(-10, 10));
             //SpawnHelper.SpawnCollectableGun(new Vector3(20,20,2));
 
             SpawnHelper.SpawnHouse(new Vector2(0, 0));
@@ -253,6 +244,26 @@ namespace Hazmat.States
         }
 
         // Helper Methods
+        private void ConfigurePostProcessor(Hazmat game)
+        {
+            // PostProcessing
+            renderCapture = new RenderCapture(Hazmat.Instance.GraphicsDevice);
+            Effect contrastEffect = game.Content.Load<Effect>(@"shaders/post");
+            // Vignette
+            contrastEffect.Parameters["radiusX"].SetValue(0.5f);
+            contrastEffect.Parameters["radiusY"].SetValue(0.37f);
+            contrastEffect.Parameters["alpha"].SetValue(0.7f);
+            // Colors
+            contrastEffect.Parameters["Contrast"].SetValue(0.2f);
+            contrastEffect.Parameters["Brightness"].SetValue(0.05f);
+            contrastEffect.Parameters["Hue"].SetValue(2f);
+            contrastEffect.Parameters["Saturation"].SetValue(1.4f);
+            postprocessor = new PostProcessing(contrastEffect, Hazmat.Instance.GraphicsDevice);
+
+            SetInstance(this.renderCapture);
+            SetInstance(this.postprocessor);
+        }
+
         private void SetUpInputManager()
         {
             // KEYBOARD

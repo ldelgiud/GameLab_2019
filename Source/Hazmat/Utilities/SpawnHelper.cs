@@ -254,7 +254,7 @@ namespace Hazmat.Utilities
         /// <param name="energy">Amount of regenrated life 
         /// Please use the sizes given from Constants</param>
         /// <param name="position">position to which battery will spawn</param>
-        public static void SpawnBattery(uint energy, Vector2 position)
+        public static void SpawnBattery(uint energy, Vector2 position, Vector2? size = null)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
@@ -270,10 +270,15 @@ namespace Hazmat.Utilities
             entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, Constants.LAYER_FOREGROUND))));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
+
+            float width = 2;
+            float height = 2;
+            if (size != null) { width = size.Value.X; height = size.Value.Y; }
+
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"items\SPS_Collectables",
-                    new SkeletonInfo(2f, 2f, skin: "battery_01", translation: new Vector3(0, 0, 0.5f)),
+                    new SkeletonInfo(width, height, skin: "battery_01", translation: new Vector3(0, 0, 0.5f)),
                     new AnimationStateInfo("battery_01", true)
                 )
             ));
@@ -310,6 +315,65 @@ namespace Hazmat.Utilities
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new NameComponent() { name = "enemy" });
             return entity;
+        }
+
+        public static void SpawnLootStation(Vector2 position)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+
+            // Create 2 more entities since we need 2 aabbs.
+            Vector2 offset = new Vector2(3.3f, 0);
+            
+            // AABB Left Side
+            var entityL = SpawnHelper.World.CreateEntity();
+            AABB aabbL = new AABB()
+            {
+                LowerBound = new Vector2(-1f, -1f) * 0.8f,
+                UpperBound = new Vector2(1f, 1f) * 0.8f
+            };
+            Element<Entity> elementL = new Element<Entity>(aabbL) { Value = entityL };
+            elementL.Span.LowerBound += position - offset;
+            elementL.Span.UpperBound += position - offset;
+            SpawnHelper.quadtree.AddNode(elementL);
+
+            // AABB Right Side
+            var entityR = SpawnHelper.World.CreateEntity();
+            AABB aabbR = new AABB()
+            {
+                LowerBound = new Vector2(-1f, -1f) * 0.8f,
+                UpperBound = new Vector2(1f, 1f) * 0.8f
+            };
+            Element<Entity> elementR = new Element<Entity>(aabbL) { Value = entityR };
+            elementR.Span.LowerBound += position + offset;
+            elementR.Span.UpperBound += position + offset;
+            SpawnHelper.quadtree.AddNode(elementR);
+
+            entityL.Set(new AABBComponent(SpawnHelper.quadtree, aabbL, elementL, true));
+            entityR.Set(new AABBComponent(SpawnHelper.quadtree, aabbR, elementR, true));
+            
+
+            // Add AABB Entities as childs of main enitity.
+            entity.SetAsParentOf(entityL);
+            entity.SetAsParentOf(entityR);
+
+
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+            @"buildings\stuff\MES_EN_LootStation_01",
+            @"gradient_tex",
+            scale: new Vector3(0.1f),
+            rotation: new Vector3(0, 0, MathHelper.Pi),
+            standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
+            updateTimeEffect: true,
+            standardEffectInitialize: new Tuple<string, float>[] {
+                new Tuple<string, float>("GlowLineThickness", 1f),
+                new Tuple<string, float>("LineThickness", 0.4f)}
+            )));
+
+            entity.Set(new InteractableComponent());
+            entity.Set(new LootableComponent());
+            entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new NameComponent() { name = "loot_station" });
         }
 
         public static void SpawnLootBox(Vector2 position)

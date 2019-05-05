@@ -196,6 +196,25 @@
 /processorParam:TextureFormat=Color
 /build:buildings/sidewalk/sidewalk_border_barriers_01_tex.png
 
+#begin buildings/stuff/MES_EN_LootStation_01.FBX
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/stuff/MES_EN_LootStation_01.FBX
+
 #begin characters/mailbox_tex.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -413,6 +432,18 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:font/Splatch.spritefont
+
+#begin gradient_tex.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gradient_tex.png
 
 #begin items/SPS_Collectables.atlas
 /copy:items/SPS_Collectables.atlas
