@@ -47,12 +47,14 @@ namespace Hazmat.Systems
             //this.skeletonDebugRenderer.Effect.Projection = p;
             //this.skeletonDebugRenderer.Effect.View = v;
 
-            this.skeletonRenderer.Begin();
+            
+            //this.skeletonRenderer.Begin();
             //this.skeletonDebugRenderer.Begin();
         }
 
         protected override void Update(Time time, in Entity entity)
         {
+            this.skeletonRenderer.Begin();
             this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
             ref var skeleton = ref entity.Get<SpineSkeletonComponent>();
             ref var transform = ref entity.Get<Transform3DComponent>();
@@ -68,12 +70,13 @@ namespace Hazmat.Systems
             ((BasicEffect)this.skeletonRenderer.Effect).World = m;
 
             this.skeletonRenderer.Draw(skeleton.value);
+            this.skeletonRenderer.End();
             //this.skeletonDebugRenderer.Draw(skeleton.value);
         }
 
         protected override void PostUpdate(Time state)
         {
-            this.skeletonRenderer.End();
+            //this.skeletonRenderer.End();
             //this.skeletonDebugRenderer.End();
         }
     }
