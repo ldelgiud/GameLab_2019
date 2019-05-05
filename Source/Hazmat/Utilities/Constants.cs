@@ -21,14 +21,14 @@ namespace Hazmat.Utilities
         public static double MAX_RADIAN = Constants.MAX_DEGREE * (Math.PI / 180);
 
         //BATTERY SIZES
-        public static uint SMALL_BATTERY_SIZE = 25;
-        public static uint MEDIUM_BATTERY_SIZE = 50;
-        public static uint BIG_BATTERY_SIZE = 100;
+        public static uint SMALL_BATTERY_SIZE = 250;
+        public static uint MEDIUM_BATTERY_SIZE = 500;
+        public static uint BIG_BATTERY_SIZE = 1000;
 
         //ENTITY PROPERTIES
-        public static float DRONE_SPEED = 10;
-        public static float SHOOTER_SPEED = 3;
-        public static int PLAYER_SPEED = 10;
+        public static float DRONE_SPEED = 11;
+        public static float SHOOTER_SPEED = 8;
+        public static int PLAYER_SPEED = 50;
         public static float TTL_BULLET = 5f;
 
         //GRID GENERATION VALUES

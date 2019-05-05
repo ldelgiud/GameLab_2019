@@ -145,7 +145,6 @@ namespace Hazmat.States
             SpawnMap spawnMap = new SpawnMap();
             this.SetInstance(spawnMap);
 
-            //ProcGen.BuildWalls();
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
@@ -196,7 +195,7 @@ namespace Hazmat.States
             //ENEMY SPAWNING
             //SpawnHelper.SpawnDrone(new Vector2(40, 0));
             ProcGen.SpawnHotspots();
-            SpawnHelper.SpawnEnemyCamp(new Vector2(50,50));
+            SpawnHelper.SpawnEnemyCamp(new Vector2(70,70));
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
