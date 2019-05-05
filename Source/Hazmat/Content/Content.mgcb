@@ -427,15 +427,6 @@
 #begin items/SPS_StaticSprites.png
 /copy:items/SPS_StaticSprites.png
 
-#begin screens/screens.atlas
-/copy:screens/screens.atlas
-
-#begin screens/screens.json
-/copy:screens/screens.json
-
-#begin screens/screens.png
-/copy:screens/screens.png
-
 #begin shaders/blackAndWhite.fx
 /importer:EffectImporter
 /processor:EffectProcessor
