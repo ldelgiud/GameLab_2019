@@ -401,7 +401,10 @@ namespace Hazmat.Utilities
         {
             var entity = SpawnHelper.World.CreateEntity();
 
-            var projectileTransform = new Transform3DComponent(new Transform3D(position, rotation: new Vector3(0,0,direction.ToRotation())));
+            // Since it is a texture the rotation is in World Space (I guess)
+            float dirRot = -Camera2D.WorldToPerspective(direction).ToRotation() + MathHelper.Pi;
+
+            var projectileTransform = new Transform3DComponent(new Transform3D(position, rotation: new Vector3(0,0,dirRot)));
             entity.Set(projectileTransform);
             entity.Set(new WorldSpaceComponent());
 
