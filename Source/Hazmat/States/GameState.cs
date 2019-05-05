@@ -155,7 +155,6 @@ namespace Hazmat.States
             ProcGen.BuildStreet(powerPlant);
             SpawnHelper.SpawnPlayerHouse();
             ProcGen.BuildExtras();
-            SpawnHelper.SpawnPlayerHouse();
             ProcGen.SetSpawnRates();
             Grid grid = new Grid();
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
@@ -206,6 +205,7 @@ namespace Hazmat.States
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
             // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
+            
 
             // Create a power up pick up
             SpawnHelper.SpawnPowerUp(Vector2.One * -20f);

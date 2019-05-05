@@ -243,15 +243,26 @@ namespace Hazmat.Utilities
 
         public static void SpawnPlayerHouse()
         {
-            SpawnHelper.SpawnHouse(Vector2.Zero, Vector3.Zero);
+            SpawnHelper.SpawnHouse0(Vector2.Zero, 0);
         }
 
         public static void SpawnRandomHouse(Vector2 position)
         {
-            Vector2 lowerBound = new Vector2(position.X - 4.5f, position.Y - 4.5f);
-            Vector2 upperBound = new Vector2(position.X + 4.5f, position.Y + 4.5f);
-            AABB aabb = new AABB(lowerBound, upperBound);
-
+            int houseNr = Constants.RANDOM.Next(2);
+            AABB aabb;
+            if (houseNr == 0)
+            {
+                Vector2 lowerBound = new Vector2(position.X - 5, position.Y - 5);
+                Vector2 upperBound = new Vector2(position.X + 5, position.Y + 5);
+                aabb = new AABB(lowerBound, upperBound);
+            } else
+            {
+                Vector2 lowerBound = new Vector2(position.X - 5, position.Y - 5);
+                Vector2 upperBound = new Vector2(position.X + 5, position.Y + 10);
+                aabb = new AABB(lowerBound, upperBound);
+            }
+            
+           
             //Find correct rotation
             float DirToFace = 0;
             bool streetFound = false;
@@ -305,10 +316,13 @@ namespace Hazmat.Utilities
                 if (streetFound) break;
             }
 
-            List<Entity> entities = SpawnHelper.CollisionCheck(aabb, true);
-            double rot = DirToFace * Math.PI / 2;
-            Vector3 rotation = new Vector3(Vector2.Zero, (float)rot);
-            if (entities.Count == 0) SpawnHelper.SpawnHouse(position, rotation);
+            AABB rotatedAABB = aabb.rotate((int)DirToFace);
+            List<Entity> entities = SpawnHelper.CollisionCheck(rotatedAABB, true);
+            if (entities.Count == 0)
+            {
+                if (houseNr == 0) SpawnHelper.SpawnHouse0(position, DirToFace);
+                else SpawnHelper.SpawnHouse1(position, DirToFace);
+            }
         }
 
         public static List<Entity> CollisionCheck(AABB aabb, bool solid)
@@ -327,10 +341,11 @@ namespace Hazmat.Utilities
             return entities;
         }
 
-        public static void SpawnHouse(Vector2 position, Vector3 rotation)
+        public static void SpawnHouse0(Vector2 position, float dirToFace)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            entity.Set(new NameComponent() { name = "House" });
+            Vector3 rotation = new Vector3(Vector2.Zero, dirToFace * MathF.PI / 2);
+            entity.Set(new NameComponent() { name = "House0" });
             entity.Set(new Transform3DComponent(new Transform3D(
                 position: new Vector3(position, 0),
                 rotation: rotation
@@ -346,6 +361,59 @@ namespace Hazmat.Utilities
             entity.Set(new WorldSpaceComponent());
 
             SpawnHelper.AddAABB(entity, position, new Vector2(-5, -5), new Vector2(5, 5), true);
+        }
+
+        public static void SpawnHouse1(Vector2 position, float dirToFace)
+        {
+
+            var entity = SpawnHelper.World.CreateEntity();
+            Vector3 rotation = new Vector3(Vector2.Zero, dirToFace * MathF.PI / 2);
+            entity.Set(new NameComponent() { name = "House1" });
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: rotation
+                )));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+            @"buildings\houses\house2",
+            @"buildings\houses\house2_tex",
+            scale: new Vector3(3f),
+            standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+            standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.04f) }
+            )));
+
+            entity.Set(new WorldSpaceComponent());
+
+            AABB aabb = new AABB(new Vector2(-5, -5), new Vector2(5, 10));
+            AABB rotatedAABB = aabb.rotate((int)dirToFace);
+            if (dirToFace == 1)
+            {
+                rotatedAABB.LowerBound =
+                    new Vector2(rotatedAABB.LowerBound.X - 2, rotatedAABB.LowerBound.Y - 3);
+                rotatedAABB.UpperBound =
+                    new Vector2(rotatedAABB.UpperBound.X - 2, rotatedAABB.UpperBound.Y - 3);
+            } else if (dirToFace == 2)
+            {
+                rotatedAABB.LowerBound =
+                    new Vector2(rotatedAABB.LowerBound.X, rotatedAABB.LowerBound.Y - 5);
+                rotatedAABB.UpperBound =
+                    new Vector2(rotatedAABB.UpperBound.X, rotatedAABB.UpperBound.Y - 5);
+            } else if (dirToFace == 3)
+            {
+                rotatedAABB.LowerBound =
+                    new Vector2(rotatedAABB.LowerBound.X+3, rotatedAABB.LowerBound.Y-2);
+                rotatedAABB.UpperBound =
+                    new Vector2(rotatedAABB.UpperBound.X+3, rotatedAABB.UpperBound.Y-2);
+            }
+            Element<Entity> element = new Element<Entity>(rotatedAABB) { Value = entity };
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+
+            SpawnHelper.quadtree.AddNode(element);
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, rotatedAABB, element, true));
+
+            Debug.WriteLine("Position: " + position);
+            Debug.WriteLine("AABB lowerBound: " + rotatedAABB.LowerBound );
+            Debug.WriteLine("AABB upperBound: " + rotatedAABB.UpperBound);
         }
 
         public static void SpawnSidewalk(Vector2 position, Vector3 rotation)
@@ -374,6 +442,30 @@ namespace Hazmat.Utilities
         /// <param name="energy">Amount of regenrated life 
         /// Please use the sizes given from Constants</param>
         /// <param name="position">position to which battery will spawn</param>
+        /// 
+
+        public static void SpawnSidewalkWalls(Vector2 position)
+        {
+
+
+        }
+
+        public static void SpawnMailBox(Vector2 position)
+        {
+            Entity entity = SpawnHelper.SpawnBasicEnemy(position);
+            entity.Remove<VelocityComponent>();
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"characters\MED_CH_Mailbox_01",
+                @"characters\mailbox_tex",
+                scale: new Vector3(3f),
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+                standardEffectInitialize: new Tuple<string, float>[] {
+                    new Tuple<string, float>("LineThickness", 0.05f)}
+                )));
+
+
+        }
+
         public static void SpawnBattery(uint energy, Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();

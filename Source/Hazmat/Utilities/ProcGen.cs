@@ -127,7 +127,7 @@ namespace Hazmat.Utilities
                     
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
-                    if (rand <= 25)
+                    if (rand <= 20)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
@@ -135,7 +135,7 @@ namespace Hazmat.Utilities
                             "dirtTile"
                             );
                     }
-                    else if (rand <= 30)
+                    else if (rand <= 25)
                     {
                         SpawnHelper.SpawnRandomHouse(position);
                     }
@@ -323,16 +323,15 @@ namespace Hazmat.Utilities
 
         public static void SetSpawnRates()
         {
+            Debug.WriteLine("Setting Spawning Rates");
             int Y = (int) (Constants.TOP_BORDER / (Constants.TILE_SIZE * 10)) - 1;
             int X = (int) (Constants.RIGHT_BORDER / (Constants.TILE_SIZE * 10)) - 1;
             int x = 0;
             int y = 0;
-            Debug.WriteLine("X = " + X);
-            Debug.WriteLine("Y = " + Y);
-
+            
             while (x < X && y < Y)
             {
-                Debug.WriteLine("Position: " + new Vector2(x,y));
+                //Debug.WriteLine("Position: " + new Vector2(x,y));
                 for (int i = 0; i < 5; i++)
                 {
                     double divisor = Math.Pow(2.0, i);
@@ -346,16 +345,15 @@ namespace Hazmat.Utilities
                 else if (ProcGen.SpawnMap.map[y][x + 1] == Constants.STREET_SPAWN_RATE) x++;
                 else
                 {
-                    Debug.WriteLine("No More street at: (" + x + "," + y + ")");
+                    //Debug.WriteLine("No More street at: (" + x + "," + y + ")");
                     break;
                 }
             }
-
-            Debug.Write(ProcGen.SpawnMap.map);
         }
 
         public static void SpawnHotspots()
         {
+            Debug.WriteLine("Spawning Enemy Camps");
             int step = (int)Constants.TILE_SIZE * 10;
             for (int y = 100; y < Constants.TOP_BORDER; y += step)
             {

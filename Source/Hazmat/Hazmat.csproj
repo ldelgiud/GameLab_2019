@@ -233,6 +233,7 @@
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
     <Compile Include="Systems\SkeletonUpdateSystem.cs" />
+    <Compile Include="Utilities\Extensions\AABBExtensions.cs" />
     <Compile Include="Utilities\SpawnMap.cs" />
     <Compile Include="Systems\SpineSkeleton2DDrawSystem.cs" />
     <Compile Include="Systems\SpineSkeleton3DDrawSystem.cs" />

@@ -28,7 +28,7 @@ namespace Hazmat.Utilities
         //ENTITY PROPERTIES
         public static float DRONE_SPEED = 16;
         public static float SHOOTER_SPEED = 13;
-        public static int PLAYER_SPEED = 15;
+        public static int PLAYER_SPEED = 50;
         public static float TTL_BULLET = 5f;
 
         //GRID GENERATION VALUES
