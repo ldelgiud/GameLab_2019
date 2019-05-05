@@ -18,7 +18,7 @@ namespace Hazmat.Components
          * Later add some sort of upgrade level (cannot have more than a maximal speed).
          * When max level is reached, this powerup cannot be shown for speed anymore.
         */
-        public void UpgradeSpeed(int amount = 10)
+        public void UpgradeSpeed(int amount = 2)
         {
             this.Speed += amount;
         }

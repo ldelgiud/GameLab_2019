@@ -22,10 +22,10 @@ namespace Hazmat.AI
             Entity entity,
             Time time)
         {
-            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
+            this.myPos = entity.Get<Transform3DComponent>().value.Translation.ToVector2();
             foreach (PlayerInfo player in playerInfos)
             {
-                float sqrdDist = (player.transform.Translation - this.myPos).LengthSquared();
+                float sqrdDist = (player.transform.Translation.ToVector2() - this.myPos).LengthSquared();
                 if (sqrdDist <= Constants.OFFLINE_TO_STANDBY_SQRD_DIST)
                 {
                     //Debug.WriteLine("going into standby");

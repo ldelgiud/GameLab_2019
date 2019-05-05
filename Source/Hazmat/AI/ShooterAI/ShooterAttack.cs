@@ -23,7 +23,8 @@ namespace Hazmat.AI
             
         {
             //Debug.WriteLine("Shooter Attack");
-            this.myPos = entity.Get<Transform2DComponent>().value.Translation;
+            this.myPos = entity.Get<Transform3DComponent>().value.Translation.ToVector2();
+
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
             //Find closest player
             double minDist = Double.MaxValue;
@@ -31,11 +32,11 @@ namespace Hazmat.AI
             PlayerInfo closestPlayer = playerInfos[0];
             foreach (PlayerInfo player in playerInfos)
             {
-                Vector2 dist = player.transform.Translation - this.myPos;
+                Vector2 dist = player.transform.Translation.ToVector2() - this.myPos;
                 if (dist.Length() < minDist) closestPlayer = player;
 
             }
-            this.target = closestPlayer.transform.Translation;
+            this.target = closestPlayer.transform.Translation.ToVector2();
             Vector2 distVector = this.target - this.myPos;
             float sqrdDistance = distVector.LengthSquared();
             //MOVEMENT LOGIC
@@ -66,7 +67,7 @@ namespace Hazmat.AI
                     {
                         Vector2 newVel = nextNode.Item1 - myPos;
                         newVel.Normalize();
-                        velocity.velocity = newVel * Constants.DRONE_SPEED;
+                        velocity.velocity = newVel * Constants.SHOOTER_SPEED;
 
                     }
                 }

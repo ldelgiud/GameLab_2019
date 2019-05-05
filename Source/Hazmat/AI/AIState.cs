@@ -67,9 +67,13 @@ namespace Hazmat.AI
                 this.path = new Path(waypoints, myPos, turnDist);
             }
         }
-
+        
         protected bool IsInSight(Vector2 source, Vector2 target)
         {
+            /*Vector2 dirvec = target - source;
+            dirvec.Normalize();
+            //Necessary to avoid starting inside the enemy!! Adjust factor
+            source = source + dirvec * 1.5f;
             RayCastInput rayCastInput = new RayCastInput
             {
                 MaxFraction = 1,
@@ -88,11 +92,15 @@ namespace Hazmat.AI
                 return 0f;
             }, ref rayCastInput);
 
-            return isInSight;
+            return isInSight;*/
+
+            return false;
         }
 
         protected bool IsPathClear(AABBComponent aabb, Vector2 target)
         {
+            return false;
+            /*
             Vector2 bottomLeft = aabb.element.Span.LowerBound;
             Vector2 topRight = aabb.element.Span.UpperBound;
             Vector2 bottomRight = new Vector2(topRight.X, bottomLeft.Y);
@@ -100,7 +108,7 @@ namespace Hazmat.AI
             return IsInSight(bottomLeft, target)
                 && IsInSight(bottomRight, target)
                 && IsInSight(topLeft, target)
-                && IsInSight(topRight, target);
+                && IsInSight(topRight, target);*/
         }
     }
 }

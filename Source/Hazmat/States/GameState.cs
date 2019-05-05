@@ -81,7 +81,7 @@ namespace Hazmat.States
             this.worldCamera = new Camera3D(
                 new Transform3D(),
                 40,
-                80,
+                71,
                 45
                 );
             
@@ -152,12 +152,15 @@ namespace Hazmat.States
                 );
 
             //TERRAIN GENERATION
-            //ProcGen.BuildWalls();
+            SpawnMap spawnMap = new SpawnMap();
+            this.SetInstance(spawnMap);
+
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
             SpawnHelper.SpawnPlayerHouse();
-
+            ProcGen.BuildExtras();
+            ProcGen.SetSpawnRates();
             Grid grid = new Grid();
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
 
@@ -201,23 +204,21 @@ namespace Hazmat.States
 
             //SPAWNING 
             //ENEMY SPAWNING
-            SpawnHelper.SpawnDrone(Vector2.One * 25);
-            //ProcGen.SpawnHotspots();
+            ProcGen.SpawnHotspots();
+            SpawnHelper.SpawnEnemyCamp(new Vector2(70,70));
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
             // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
+            
 
             // Create a power up pick up
-            //SpawnHelper.SpawnPowerUp(Vector2.One * 20f);
-            //SpawnHelper.SpawnPowerUp(Vector2.One * 10f);
-            //SpawnHelper.SpawnPowerUp(Vector2.One * -10f);
             SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
             SpawnHelper.SpawnLootStation(new Vector2(-10, 10));
             //SpawnHelper.SpawnCollectableGun(new Vector3(20,20,2));
 
-            SpawnHelper.SpawnHouse(new Vector2(0, 0));
+            SpawnHelper.SpawnPlayerHouse();
 
 
             //SpawnHelper.SpawnEvent(new Vector2(0, 0));
@@ -226,7 +227,7 @@ namespace Hazmat.States
             //SpawnHelper.SpawnLootBox(new Vector2(30, -10));
 
             // Event trigger
-            SpawnHelper.SpawnEvent(new Vector2(0, -20));
+            //SpawnHelper.SpawnEvent(new Vector2(0, -20));
         }
 
         public override IStateTransition Update(Time time)

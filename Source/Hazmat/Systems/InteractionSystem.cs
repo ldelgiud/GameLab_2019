@@ -84,7 +84,6 @@ namespace Hazmat.Systems
 
                         if (inputEvent != null)
                         {
-                            Debug.WriteLine("Handle Interaction");
                             foreach (var handler in this.interactionHandlers)
                             {
                                 bool remove = handler.HandleInteractions(inputEvent, playerEntity, entity);

@@ -36,13 +36,16 @@ namespace Hazmat.Systems
             ref var model = ref entity.Get<ModelComponent>();
             ref var animation = ref entity.Get<ModelAnimationComponent>();
 
-            animation.animations.Update(state.DeltaSpan, true, Matrix.Identity);
-
-            foreach (var mesh in model.value.Meshes)
+            if (animation.animations != null && animation.animations.CurrentClip != null)
             {
-                foreach (var part in mesh.MeshParts)
+                animation.animations.Update(state.DeltaSpan, true, Matrix.Identity);
+
+                foreach (var mesh in model.value.Meshes)
                 {
-                    part.UpdateVertices(animation.animations.AnimationTransforms);
+                    foreach (var part in mesh.MeshParts)
+                    {
+                        part.UpdateVertices(animation.animations.AnimationTransforms);
+                    }
                 }
             }
         }

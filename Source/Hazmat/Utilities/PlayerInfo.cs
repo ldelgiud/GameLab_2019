@@ -12,9 +12,9 @@ namespace Hazmat.Utilities
 {
     struct PlayerInfo
     {
-        public Transform2D transform;
+        public Transform3D transform;
         public int id;
-        public PlayerInfo(Transform2D transform, int id)
+        public PlayerInfo(Transform3D transform, int id)
         {
             this.transform = transform;
             this.id = id;
