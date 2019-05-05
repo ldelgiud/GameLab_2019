@@ -149,6 +149,8 @@ namespace Hazmat.States
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
             SpawnHelper.SpawnPlayerHouse();
+            ProcGen.BuildExtras();
+            SpawnHelper.SpawnPlayerHouse();
             ProcGen.SetSpawnRates();
             Grid grid = new Grid();
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
@@ -193,7 +195,6 @@ namespace Hazmat.States
 
             //SPAWNING 
             //ENEMY SPAWNING
-            //SpawnHelper.SpawnDrone(new Vector2(40, 0));
             ProcGen.SpawnHotspots();
             SpawnHelper.SpawnEnemyCamp(new Vector2(70,70));
             // Create player
@@ -201,7 +202,6 @@ namespace Hazmat.States
             // Create energy pickup
             SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
-            SpawnHelper.SpawnHouse(new Vector2(0, 0));
 
 
             //SpawnHelper.SpawnEvent(new Vector2(0, 0));

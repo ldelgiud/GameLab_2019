@@ -30,11 +30,12 @@ namespace Hazmat.Utilities
             this.tileModelResourceManager.Manage(this.world);
         }
 
-        public void AddTile(Transform3D transform, TileModelInfo info)
+        public void AddTile(Transform3D transform, TileModelInfo info, String name)
         {
             var entity = this.world.CreateEntity();
             entity.Set(new Transform3DComponent(transform));
             entity.Set(new ManagedResource<TileModelInfo, TileModelAlias>(info));
+            entity.Set(new NameComponent() { name = name});
 
             var element = new Element<Entity>(new AABB(transform.Translation.ToVector2(), transform.Scale.X, transform.Scale.Y))
             {

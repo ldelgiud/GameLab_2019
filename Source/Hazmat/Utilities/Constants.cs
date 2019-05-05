@@ -12,7 +12,7 @@ namespace Hazmat.Utilities
         //RANDOM NUMBER GENERATOR USED THROUGHOUT THE GAME
         public static Random RANDOM = new Random();
 
-
+        public static double STREET_SPAWN_RATE = 0.6;
         //PLANT IS ALWAYS 3 MINUTES DISTANT FROM PLAYER
         public static double PLANT_PLAYER_DISTANCE = 960;
         public static double MIN_DEGREE = 20;
@@ -75,5 +75,9 @@ namespace Hazmat.Utilities
         public const float LAYER_BACKGROUND = 0.0f;
         public const float LAYER_BACKGROUND_DETAIL = 0.001f;
         public const float LAYER_BACKGROUND_DEBUG = 0.0011f;
+
+
+        //Names
+        public const string STREET_TILE_NAME = "streetTile";
     }
 }

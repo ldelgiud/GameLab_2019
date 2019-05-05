@@ -15,6 +15,7 @@ using DefaultEcs.Resource;
 
 using tainicom.Aether.Physics2D.Collision;
 using Hazmat.Event;
+using System.Collections.Generic;
 
 namespace Hazmat.Utilities
 {
@@ -64,6 +65,15 @@ namespace Hazmat.Utilities
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;
             element.Value = entity;
+
+            AABB testAABB = aabb;
+            testAABB.LowerBound += position;
+            testAABB.UpperBound += position;
+            List<Entity> entities = SpawnHelper.CollisionCheck(testAABB);
+            foreach (Entity ent in entities)
+            {
+                ent.Delete();
+            }
 
             entity.Set(new PlayerComponent(playerID, Constants.PLAYER_SPEED));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
@@ -195,14 +205,98 @@ namespace Hazmat.Utilities
 
         public static void SpawnPlayerHouse()
         {
-            SpawnHelper.SpawnHouse(Vector2.Zero);
+            SpawnHelper.SpawnHouse(Vector2.Zero, Vector3.Zero);
         }
 
-        public static void SpawnHouse(Vector2 position)
+        public static void SpawnRandomHouse(Vector2 position)
+        {
+            Vector2 lowerBound = new Vector2(position.X - 4.5f, position.Y - 4.5f);
+            Vector2 upperBound = new Vector2(position.X + 4.5f, position.Y + 4.5f);
+            AABB aabb = new AABB(lowerBound, upperBound);
+
+            //Find correct rotation
+            float DirToFace = 0;
+            bool streetFound = false;
+            for (int dist = 1; dist < 10; dist++)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    AABB testAABB = new AABB()
+                    {
+                        LowerBound = new Vector2(-1f, -1f),
+                        UpperBound = new Vector2(1f, 1f)
+                    };
+                    testAABB.LowerBound += position;
+                    testAABB.UpperBound += position;
+
+                    switch (i)
+                    {
+                        case 0:
+                            testAABB.LowerBound += new Vector2(Constants.TILE_SIZE * dist, 0);
+                            testAABB.UpperBound += new Vector2(Constants.TILE_SIZE * dist, 0);
+                            break;
+                        case 1:
+                            testAABB.LowerBound += new Vector2(0, Constants.TILE_SIZE * dist);
+                            testAABB.UpperBound += new Vector2(0, Constants.TILE_SIZE * dist);
+                            break;
+                        case 2:
+                            testAABB.LowerBound -= new Vector2(Constants.TILE_SIZE * dist, 0);
+                            testAABB.UpperBound -= new Vector2(Constants.TILE_SIZE * dist, 0);
+                            break;
+                        case 3:
+                            testAABB.LowerBound -= new Vector2(0, Constants.TILE_SIZE * dist);
+                            testAABB.UpperBound -= new Vector2(0, Constants.TILE_SIZE * dist);
+                            break;
+                        default:
+                            break;
+
+                    }
+                    SpawnHelper.TileMap.quadtree.QueryAABB((Element<Entity> collidee) =>
+                    {
+                        if (collidee.Value.Has<NameComponent>())
+                        {
+                            if (collidee.Value.Get<NameComponent>().name == Constants.STREET_TILE_NAME)
+                            {
+                                DirToFace = (i+1) % 4;
+                                streetFound = true;
+                            }
+                        }
+                        return true;
+                    }, ref testAABB);
+                }
+                if (streetFound) break;
+            }
+
+            List<Entity> entities = SpawnHelper.CollisionCheck(aabb);
+            double rot = DirToFace * Math.PI / 2;
+            Vector3 rotation = new Vector3(Vector2.Zero, (float)rot);
+            if (entities.Count == 0) SpawnHelper.SpawnHouse(position, rotation);
+        }
+
+        public static List<Entity> CollisionCheck(AABB aabb)
+        {
+            List<Entity> entities = new List<Entity>();
+            SpawnHelper.quadtree.QueryAABB((Element<Entity> collidee) =>
+            {
+                AABBComponent collideeAABB = collidee.Value.Get<AABBComponent>();
+                if (collideeAABB.solid)
+                {
+                    entities.Add(collidee.Value);
+                }
+                return true;
+            }, ref aabb);
+
+            return entities;
+        }
+
+        public static void SpawnHouse(Vector2 position, Vector3 rotation)
         {
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = "House" });
-            entity.Set(new Transform3DComponent(new Transform3D(position: new Vector3(position, 0))));
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: rotation
+                )));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"buildings\houses\house1",
                 scale: new Vector3(3f)

@@ -11,11 +11,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tainicom.Aether.Physics2D.Collision;
 
 namespace Hazmat.Utilities
 {
     class ProcGen
     {
+        public static QuadTree<Entity> quadtree
+        {
+            get
+            {
+                return Hazmat.Instance.ActiveState.GetInstance<QuadTree<Entity>>();
+            }
+        }
 
         public static World World
         {
@@ -66,18 +74,10 @@ namespace Hazmat.Utilities
                     //Add grass Background
                     ProcGen.TileMap.AddTile(
                         new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
-                        new TileModelInfo(@"static_sprites/SPT_EN_Tile_Grass_01")
+                        new TileModelInfo(@"static_sprites/SPT_EN_Tile_Grass_01"),
+                        "grassTile"
                         );
-
-                    //Add random new 
-                    if (Constants.RANDOM.Next(100) <= 30)
-                    {
-                        ProcGen.TileMap.AddTile(
-                            new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02")
-                            );
-                    }
-
+                    
                     x += Constants.TILE_SIZE;
                 }
                 x = Constants.LEFT_BORDER;
@@ -85,6 +85,86 @@ namespace Hazmat.Utilities
             }
         }
 
+        public static void BuildExtras()
+        {
+            Debug.WriteLine("Objects Generation");
+
+            float x = Constants.LEFT_BORDER;
+            float y = Constants.BOTTOM_BORDER;
+            float tile = Constants.TILE_SIZE;
+            while (y <= Constants.TOP_BORDER)
+            {
+                while (x <= Constants.RIGHT_BORDER)
+                {
+                    var position = new Vector2(x, y);
+                    bool streetFound = false;
+
+                    AABB testAABB = new AABB()
+                    {
+                        LowerBound = new Vector2(-1f, -1f),
+                        UpperBound = new Vector2(1f, 1f)
+                    };
+                    testAABB.LowerBound += position;
+                    testAABB.UpperBound += position;
+
+                    ProcGen.TileMap.quadtree.QueryAABB((Element<Entity> collidee) =>
+                    {
+                        if (collidee.Value.Has<NameComponent>())
+                        {
+                            if (collidee.Value.Get<NameComponent>().name == Constants.STREET_TILE_NAME)
+                            {
+                                streetFound = true;
+                            }
+                        }
+                        return true;
+                    }, ref testAABB);
+
+                    if (streetFound)
+                    {
+                        x += Constants.TILE_SIZE;
+                        continue;
+                    }
+                    
+                    //Add random objects 
+                    int rand = Constants.RANDOM.Next(100);
+                    if (rand <= 25)
+                    {
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02"),
+                            "dirtTile"
+                            );
+                    }
+                    else if (rand <= 30)
+                    {
+                        SpawnHelper.SpawnRandomHouse(position);
+                    }
+
+                    x += Constants.TILE_SIZE;
+                }
+                x = Constants.LEFT_BORDER;
+                y += Constants.TILE_SIZE;
+            }
+        }
+        static void RemoveObjects(Vector2 position)
+        {
+            AABB aabb = new AABB()
+            {
+                LowerBound = new Vector2(-4.5f, -4.5f),
+                UpperBound = new Vector2(4.5f, 4.5f)
+            };
+
+            Element<Entity> element = new Element<Entity>(aabb);
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+            List<Entity> entities = SpawnHelper.CollisionCheck(element.Span);
+
+            foreach (Entity ent in entities)
+            {
+                ent.Delete();
+            }
+        }
+    
         public static void BuildStreet(PowerPlant plant)
         {
             Debug.WriteLine("Street Generation");
@@ -101,7 +181,7 @@ namespace Hazmat.Utilities
             {
                 ProcGen.SpawnMap.map
                     [(int) (curr.Y / (Constants.TILE_SIZE*10))]
-                    [(int) (curr.X / (Constants.TILE_SIZE*10))] = 0.2;
+                    [(int) (curr.X / (Constants.TILE_SIZE*10))] = Constants.STREET_SPAWN_RATE;
                 //dir decides if we change the direction or if we keep going the current direction
                 bool changeDir = Constants.RANDOM.Next(8) == 1;
                 if (changeDir)
@@ -112,7 +192,8 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, MathF.PI)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01"),
+                            Constants.STREET_TILE_NAME
                             );
                         curr.Y += Constants.TILE_SIZE;
                     }
@@ -122,7 +203,8 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01"),
+                            Constants.STREET_TILE_NAME
                             );
                         curr.X += Constants.TILE_SIZE;
                     }
@@ -136,7 +218,8 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, -MathF.PI / 2)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01"),
+                            Constants.STREET_TILE_NAME
                             );
                         curr.X += Constants.TILE_SIZE;
                     }
@@ -146,7 +229,8 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01"),
+                            Constants.STREET_TILE_NAME
                             );
                         curr.Y += Constants.TILE_SIZE;
                     }
@@ -159,11 +243,12 @@ namespace Hazmat.Utilities
                 
             }
 
-            while (curr.X <= target.X)
+            while (curr.X < target.X)
             {
+
                 ProcGen.SpawnMap.map
                     [(int)(curr.Y / (Constants.TILE_SIZE * 10))]
-                    [(int)(curr.X / (Constants.TILE_SIZE * 10))] = 0.2;
+                    [(int)(curr.X / (Constants.TILE_SIZE * 10))] = Constants.STREET_SPAWN_RATE;
 
                 if (currentDir == 0)
                 {
@@ -171,7 +256,8 @@ namespace Hazmat.Utilities
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                     ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, MathF.PI / 2)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01"),
+                            Constants.STREET_TILE_NAME
                             );
                 }
                 else
@@ -180,7 +266,8 @@ namespace Hazmat.Utilities
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                     ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01"),
+                            Constants.STREET_TILE_NAME
                             );
                 }
                 
@@ -194,11 +281,12 @@ namespace Hazmat.Utilities
 
             }
 
-            while (curr.Y <= target.Y)
+            while (curr.Y < target.Y)
             {
+
                 ProcGen.SpawnMap.map
                     [(int)(curr.Y / (Constants.TILE_SIZE * 10))]
-                    [(int)(curr.X / (Constants.TILE_SIZE * 10))] = 0.2;
+                    [(int)(curr.X / (Constants.TILE_SIZE * 10))] = Constants.STREET_SPAWN_RATE;
 
                 if (currentDir == 0)
                 {
@@ -206,7 +294,8 @@ namespace Hazmat.Utilities
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                     ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: new Vector3(0, 0, MathF.PI)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01"),
+                            Constants.STREET_TILE_NAME
                             );
                 }
                 else
@@ -215,7 +304,8 @@ namespace Hazmat.Utilities
                     ProcGen.TileMap.RemoveTiles(new Transform2D(curr));
                     ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(curr, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
-                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01")
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01"),
+                            Constants.STREET_TILE_NAME
                             );
                 }
                 
@@ -247,13 +337,13 @@ namespace Hazmat.Utilities
                 {
                     double divisor = Math.Pow(2.0, i);
                     if (x+i < X) ProcGen.SpawnMap.map[y][x+i] = 
-                            Math.Max(ProcGen.SpawnMap.map[y][x], 0.2 / divisor);
+                            Math.Max(ProcGen.SpawnMap.map[y][x], Constants.STREET_SPAWN_RATE / divisor);
                     if (x-i > 0) ProcGen.SpawnMap.map[y][x - i] =
-                            Math.Max(ProcGen.SpawnMap.map[y][x], 0.2 / divisor);
+                            Math.Max(ProcGen.SpawnMap.map[y][x], Constants.STREET_SPAWN_RATE / divisor);
                 }
 
-                if ((ProcGen.SpawnMap.map[y + 1][x] == 0.2)) y++;
-                else if (ProcGen.SpawnMap.map[y][x + 1] == 0.2) x++;
+                if ((ProcGen.SpawnMap.map[y + 1][x] == Constants.STREET_SPAWN_RATE)) y++;
+                else if (ProcGen.SpawnMap.map[y][x + 1] == Constants.STREET_SPAWN_RATE) x++;
                 else
                 {
                     Debug.WriteLine("No More street at: (" + x + "," + y + ")");
