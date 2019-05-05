@@ -122,7 +122,7 @@ namespace Hazmat.Utilities
 
             entity.SetModelAnimation("Take 001");
 
-            SpawnHelper.SpawnCollectableGun(new Vector2(3,4));
+            SpawnHelper.SpawnCollectableGun(new Vector3(-5, -10, 2));
         }
         /// <summary>
         /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
@@ -158,13 +158,13 @@ namespace Hazmat.Utilities
         /// <summary>
         /// Spawns a collectable gun without an initial parent.
         /// </summary>
-        public static Entity SpawnCollectableGun(Vector2 pos)
+        public static Entity SpawnCollectableGun(Vector3 pos)
         {
             // Gun entity
             var gunEntity = SpawnHelper.World.CreateEntity();
-            Vector2 localPosition = pos;
+            Vector3 localPosition = pos;
 
-            Transform2DComponent gunTransform = new Transform2DComponent(new Transform2D(position: localPosition));
+            Transform3DComponent gunTransform = new Transform3DComponent(new Transform3D(position: localPosition));
             gunEntity.Set(gunTransform);
             gunEntity.Set(new WorldSpaceComponent());
 
@@ -238,14 +238,18 @@ namespace Hazmat.Utilities
         }
 
         public static void SpawnHouse(Vector2 position)
-        {
+        {// @"buildings\houses\house1"
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = "House" });
             entity.Set(new Transform3DComponent(new Transform3D(position: new Vector3(position, 0))));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"buildings\houses\house1",
-                scale: new Vector3(3f)
-                )));
+            @"buildings\houses\house1",
+            @"buildings\houses\house1_tex",
+            scale: new Vector3(3f),
+            standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+            standardEffectInitialize: new Tuple<string, float>[] {  new Tuple<string, float>("LineThickness", 0.04f) }
+            )));
+
             entity.Set(new WorldSpaceComponent());
 
             SpawnHelper.AddAABB(entity, position, new Vector2(-5, -5), new Vector2(5, 5), true);
@@ -375,8 +379,9 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_EnemyBicycle_01",
                 @"characters\TEX_CH_EnemyBicycle_01",
-                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"), 
+                standardEffectInitialize: new Tuple<string, float>[] {
+                    new Tuple<string, float>("LineThickness", 0.1f)}
                 )));
             entity.Set(new DamageComponent(200f));
             entity.Set(new NameComponent() { name = "drone" });
@@ -434,18 +439,21 @@ namespace Hazmat.Utilities
             }
         }
 
-        public static Entity SpawnBullet(Vector2 position, Vector2 direction)
+        public static Entity SpawnBullet(Vector3 position, Vector2 direction)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
-            var projectileTransform = new Transform2DComponent(new Transform2D(position, direction.ToRotation()));
+            // Since it is a texture the rotation is in World Space (I guess)
+            float dirRot = -Camera2D.WorldToPerspective(direction).ToRotation() + MathHelper.Pi;
+
+            var projectileTransform = new Transform3DComponent(new Transform3D(position, rotation: new Vector3(0,0,dirRot)));
             entity.Set(projectileTransform);
             entity.Set(new WorldSpaceComponent());
 
             var aabb = new AABB(new Vector2(-0.2f, -0.2f), new Vector2(0.2f, 0.2f));
             var element = new Element<Entity>(aabb);
-            element.Span.LowerBound += position;
-            element.Span.UpperBound += position;
+            element.Span.LowerBound += position.ToVector2();
+            element.Span.UpperBound += position.ToVector2();
             element.Value = entity;
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, false));
             SpawnHelper.quadtree.AddNode(element);

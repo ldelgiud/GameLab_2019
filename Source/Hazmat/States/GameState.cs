@@ -50,8 +50,8 @@ namespace Hazmat.States
             this.inputManager = new InputManager();
             this.SetUpInputManager();
             this.SetInstance(this.inputManager);
-
             this.window = game.Window;
+ 
 
             Score score = new Score(time);
             this.SetInstance(score);
@@ -66,7 +66,7 @@ namespace Hazmat.States
                     UpperBound = Constants.TOP_RIGHT_CORNER// new Vector2(10000, 10000)
                 },
                 10, 7));
-
+            
             this.screenCamera = new Camera2D(
                 new Transform2D(),
                 1920,
@@ -135,7 +135,6 @@ namespace Hazmat.States
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
-                shootingSystem,
                 eventSystem,
                 interactionSystem,
                 collisionSystem,
@@ -202,22 +201,12 @@ namespace Hazmat.States
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
-            SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
+            // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
             // Create a power up pick up
-            SpawnHelper.SpawnPowerUp(Vector2.One * 20f);
-            SpawnHelper.SpawnPowerUp(Vector2.One * 10f);
-            SpawnHelper.SpawnPowerUp(Vector2.One * -10f);
             SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
-
             SpawnHelper.SpawnHouse(new Vector2(0, 0));
-
-
-            //SpawnHelper.SpawnEvent(new Vector2(0, 0));
-
-            // Create lootbox
-            //SpawnHelper.SpawnLootBox(new Vector2(30, -10));
 
             // Event trigger
             SpawnHelper.SpawnEvent(new Vector2(0, -20));

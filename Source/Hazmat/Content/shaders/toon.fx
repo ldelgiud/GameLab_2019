@@ -220,9 +220,9 @@ technique Toon
 		VertexShader = compile VS_SHADERMODEL GlowVertexShader();
 		PixelShader = compile PS_SHADERMODEL GlowPixelShader();
 		CullMode = CW;
-		AlphaBlendEnable = true;
-		SrcBlend = SrcAlpha;
-		DestBlend = InvSrcAlpha;
+		//AlphaBlendEnable = true;
+		//SrcBlend = SrcAlpha;
+		//DestBlend = InvSrcAlpha;
 	}
 
 	pass Pass2
@@ -230,9 +230,9 @@ technique Toon
 		VertexShader = compile VS_SHADERMODEL OutlineVertexShader();
 		PixelShader = compile PS_SHADERMODEL OutlinePixelShader();
 		CullMode = CW;
-		AlphaBlendEnable = true;
-		SrcBlend = SrcAlpha;
-		DestBlend = InvSrcAlpha;
+		//AlphaBlendEnable = true;
+		//SrcBlend = SrcAlpha;
+		//DestBlend = InvSrcAlpha;
 	}
 
 	pass Pass3
