@@ -69,7 +69,7 @@ namespace Hazmat.Utilities
             AABB testAABB = aabb;
             testAABB.LowerBound += position;
             testAABB.UpperBound += position;
-            List<Entity> entities = SpawnHelper.CollisionCheck(testAABB);
+            List<Entity> entities = SpawnHelper.CollisionCheck(testAABB, true);
             foreach (Entity ent in entities)
             {
                 ent.Delete();
@@ -267,19 +267,19 @@ namespace Hazmat.Utilities
                 if (streetFound) break;
             }
 
-            List<Entity> entities = SpawnHelper.CollisionCheck(aabb);
+            List<Entity> entities = SpawnHelper.CollisionCheck(aabb, true);
             double rot = DirToFace * Math.PI / 2;
             Vector3 rotation = new Vector3(Vector2.Zero, (float)rot);
             if (entities.Count == 0) SpawnHelper.SpawnHouse(position, rotation);
         }
 
-        public static List<Entity> CollisionCheck(AABB aabb)
+        public static List<Entity> CollisionCheck(AABB aabb, bool solid)
         {
             List<Entity> entities = new List<Entity>();
             SpawnHelper.quadtree.QueryAABB((Element<Entity> collidee) =>
             {
                 AABBComponent collideeAABB = collidee.Value.Get<AABBComponent>();
-                if (collideeAABB.solid)
+                if (collideeAABB.solid == solid)
                 {
                     entities.Add(collidee.Value);
                 }
@@ -306,6 +306,26 @@ namespace Hazmat.Utilities
             SpawnHelper.AddAABB(entity, position, new Vector2(-5, -5), new Vector2(5, 5), true);
         }
 
+        public static void SpawnSidewalk(Vector2 position, Vector3 rotation)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = "Sidewalk" });
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: rotation
+                )));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"buildings\sidewalk\sidewalk_01",
+                scale: new Vector3(6f)
+                )));
+            entity.Set(new WorldSpaceComponent());
+
+            AABB aabb = new AABB(position, 3, 3);
+            List<Entity> entities = SpawnHelper.CollisionCheck(aabb, false);
+            foreach (Entity ent in entities) ent.Delete();
+
+            SpawnHelper.AddAABB(entity, position, new Vector2(-2.5f), new Vector2(2.5f), false);
+        }
         /// <summary>
         /// Spawns a battery entity with given position and size
         /// </summary>
@@ -519,16 +539,24 @@ namespace Hazmat.Utilities
             
         }
 
-        public static void SpawnRoadBlock(Vector2 position)
+        public static void SpawnRoadBlock(Vector2 position, int direction)
         {
-            var boulder = SpawnHelper.World.CreateEntity();
-            boulder.Set(new NameComponent() { name = "RoadBlock" });
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = "RoadBlock" });
+            if (direction == 0)
+            {
+                SpawnHelper.AddAABB(entity, position, new Vector2(-2, -5), new Vector2(2, 5), true);
+            } else
+            {
+                SpawnHelper.AddAABB(entity, position, new Vector2(-5, -2), new Vector2(5, 2), true);
+            }
 
-            SpawnHelper.AddAABB(boulder, position, new Vector2(-5,-2), new Vector2(5,2), true);
-            
             //Create entity and attach its components
-            boulder.Set(new Transform2DComponent(new Transform2D(position)));
-            boulder.Set(new WorldSpaceComponent());
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: new Vector3(Vector2.Zero, -(1-direction)*MathF.PI/2)
+                )));
+            entity.Set(new WorldSpaceComponent());
         }
 
         public static void AddAABB(Entity entity, Vector2 position, Vector2 lowerBound, Vector2 upperBound, bool solid)
