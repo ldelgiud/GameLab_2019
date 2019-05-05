@@ -74,7 +74,6 @@ namespace Hazmat.Systems
                             ref Texture2DComponent texture = ref entity.Get<Texture2DComponent>();
                             texture.SetTemporaryEffect(interactionEffect, "time");
                             interactable.playerNearby = true;
-                            Debug.WriteLine("Interactable");
                         }
                         else if (!interactable.playerNearby && entity.Has<ModelComponent>())
                         {

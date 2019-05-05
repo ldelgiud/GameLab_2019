@@ -34,6 +34,21 @@ namespace Hazmat.Utilities
         }
     }
 
+    struct TextAlias : IDisposable
+    {
+        public SpriteFont font;
+
+        public TextAlias(SpriteFont font)
+        {
+            this.font = font;
+        }
+
+        public void Dispose()
+        {
+
+        }
+    }
+
     struct SkeletonDataAlias : IDisposable
     {
         public SkeletonData skeletonData;

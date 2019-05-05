@@ -8,8 +8,20 @@ using Spine;
 
 namespace Hazmat.Utilities
 {
-    struct Texture2DInfo
+    interface Transform2DInfo
     {
+        Vector2 Translation { get; }
+        float Rotation { get; }
+        Vector2 Scale { get; }
+    }
+
+
+    struct Texture2DInfo : Transform2DInfo
+    {
+        public Vector2 Translation { get { return this.translation; } }
+        public float Rotation { get { return this.rotation; } }
+        public Vector2 Scale { get { return this.scale; } }
+
         public String name;
         public Vector2 translation;
         public float rotation;
@@ -86,6 +98,30 @@ namespace Hazmat.Utilities
 
             this.width = 0;
             this.height = 0;
+        }
+    }
+
+    struct TextInfo : Transform2DInfo
+    {
+        public Vector2 Translation { get { return this.translation; } }
+        public float Rotation { get { return this.rotation; } }
+        public Vector2 Scale { get { return this.scale; } }
+
+        public String text;
+        public String font;
+        public Color color;
+        public Vector2 translation;
+        public float rotation;
+        public Vector2 scale;
+
+        public TextInfo(String text, String font, Color? color, Vector2? translation = null, float? rotation = null, Vector2? scale = null)
+        {
+            this.text = text;
+            this.font = font;
+            this.color = color ?? Color.Black;
+            this.translation = translation ?? Vector2.Zero;
+            this.rotation = rotation ?? 0;
+            this.scale = scale ?? Vector2.One;
         }
     }
 

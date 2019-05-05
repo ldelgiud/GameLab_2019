@@ -10,6 +10,7 @@ using Hazmat.Input;
 using Hazmat.Components;
 using Hazmat.Graphics;
 using Hazmat.State;
+using Hazmat.States;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
 
@@ -43,7 +44,7 @@ namespace Hazmat.Event
         }
 
 
-        public override void Update(World world)
+        public override void Update(Time time, World world)
         {
             var inputEvent = this.inputManager.GetEvent(0, Buttons.A);
 
@@ -76,7 +77,9 @@ namespace Hazmat.Event
                     }
                     break;
                 case State.Done:
-                    Hazmat.Instance.ActiveState.stateTransition = new PopStateTransition(null);
+                    var score = Hazmat.Instance.ActiveState.GetInstance<Score>();
+                    score.Complete(time);
+                    Hazmat.Instance.ActiveState.stateTransition = new SwapStateTransition(new ScoreState(score));
                     this.eventEntity.Delete();
                     break;
             }
