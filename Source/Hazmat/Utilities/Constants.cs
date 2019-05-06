@@ -17,7 +17,7 @@ namespace Hazmat.Utilities
         public static double STREET_SPAWN_RATE = 0.6;
         public static int SPEED_UPGRADE = 5;
         //POWERPLANT STATS
-        public static double PLANT_PLAYER_DISTANCE = 1300;
+        public static double PLANT_PLAYER_DISTANCE = 750;
         public static double MIN_DEGREE = 20;
         public static double MAX_DEGREE = 70;
         public static double MIN_RADIAN = Constants.MIN_DEGREE * (Math.PI / 180);
@@ -72,8 +72,8 @@ namespace Hazmat.Utilities
         // size of tiles for procedural generation
         public static float TILE_SIZE = 10;
         public static float LEFT_BORDER = -200;
-        public static float RIGHT_BORDER = 1500;
-        public static float TOP_BORDER = 1500;
+        public static float RIGHT_BORDER = 800;
+        public static float TOP_BORDER = 800;
         public static float BOTTOM_BORDER = -200;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
