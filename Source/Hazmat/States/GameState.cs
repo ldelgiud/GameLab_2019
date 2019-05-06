@@ -149,7 +149,8 @@ namespace Hazmat.States
                 powerplantSystem,
                 cameraSystem,
                 TTLSystem,
-                pathFinderSystem
+                pathFinderSystem,
+                new EnergyEventSystem(energy, score)
                 );
 
             //TERRAIN GENERATION

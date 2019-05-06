@@ -145,6 +145,7 @@
     <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\AllianceMaskComponent.cs" />
     <Compile Include="Components\DisplayPowerUpChoiceComponent.cs" />
+    <Compile Include="Components\EnergyEventSystem.cs" />
     <Compile Include="Components\InputHandlers\PowerUpInputHandler.cs" />
     <Compile Include="Components\ModelAnimationComponent.cs" />
     <Compile Include="Components\PowerUpComponent.cs" />
