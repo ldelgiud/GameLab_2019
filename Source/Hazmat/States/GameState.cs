@@ -89,7 +89,7 @@ namespace Hazmat.States
             this.SetInstance(this.world);
 
             // Music
-            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.InGameSong);
+            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.InGameSong, loop: true);
 
             // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
