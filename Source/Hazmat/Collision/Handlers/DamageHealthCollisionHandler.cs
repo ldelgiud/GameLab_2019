@@ -13,11 +13,15 @@ namespace Hazmat.Collision.Handlers
 {
     class DamageHealthCollisionHandler : CollisionHandler
     {
-        public DamageHealthCollisionHandler(World world) : base(
+        Score score;
+
+        public DamageHealthCollisionHandler(World world, Score score) : base(
             new Type[] { typeof(DamageComponent), typeof(AABBComponent), typeof(AllianceMaskComponent)},
             new Type[] { typeof(HealthComponent), typeof(AABBComponent), typeof(AllianceMaskComponent)}
             )
-        { }
+        {
+            this.score = score;
+        }
 
         public override void HandleCollision(CollisionType type, Entity collider, Entity collidee)
         {
@@ -31,6 +35,7 @@ namespace Hazmat.Collision.Handlers
             health.DealDamage(damage.Damage);
             if (health.isDead())
             {
+                this.score.Kills += 1;
                 bool drop = Constants.RANDOM.NextDouble() < HelperFunctions.DropRate();
                 if (drop) SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, collideePos.ToVector2());
                 collidee.Delete();

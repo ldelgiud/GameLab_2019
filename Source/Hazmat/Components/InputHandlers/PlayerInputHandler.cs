@@ -21,6 +21,8 @@ namespace Hazmat.Components.InputHandlers
             ref StatsComponent player = ref entity.Get<StatsComponent>();
             ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
 
+            bool gamepadDirection = false;
+
             velComp.velocity = Vector2.Zero;
 
             // GamePad
@@ -34,9 +36,10 @@ namespace Hazmat.Components.InputHandlers
             switch (inputManager.GetEvent(0, ThumbSticks.Right))
             {
                 case ValueEvent<Vector2> value:
-                    var current = value.current;
+                    var current = Camera2D.PerspectiveToWorld(value.current);
                     if (current.LengthSquared() != 0)
-                    { 
+                    {
+                        gamepadDirection = true;
                         current.Normalize();
                         var rotation = transform.value.Rotation;
                         transform.value.Rotation = new Vector3(rotation.X, rotation.Y, current.ToRotation());
@@ -48,7 +51,7 @@ namespace Hazmat.Components.InputHandlers
             MouseState mState = Mouse.GetState();
             Vector2 dir = Camera2D.WorldToPerspective(mState.Position.ToVector2() - Hazmat.Instance.Window.ClientBounds.Center.ToVector2());
             dir.Normalize();
-            if (dir.LengthSquared() != 0)
+            if (dir.LengthSquared() != 0 && !gamepadDirection)
             {
                 var rotation = transform.value.Rotation;
                 transform.value.Rotation = new Vector3(rotation.X, rotation.Y, -dir.ToRotation());
