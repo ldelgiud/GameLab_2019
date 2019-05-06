@@ -26,7 +26,7 @@
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
-    <PackageCertificateThumbprint>08C98D2F42EFC8C680E022655AF275F7D6AFD836</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>C7236ABBB68EA3D12A082C0D927718FEB7AEA378</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -101,21 +101,16 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Reference Include="Aether.Animation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Aether.Animation, Version=1.0.6296.14402, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Aether.Animation.dll</HintPath>
-    </Reference>
-    <Reference Include="Aether.Atlas">
-      <HintPath>Lib\Aether.Atlas.dll</HintPath>
-    </Reference>
-    <Reference Include="Aether.Content.Pipeline.AnimationImporters">
-      <HintPath>Lib\Aether.Content.Pipeline.AnimationImporters.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\WindowsUniversal\MonoGame.Framework.dll</HintPath>
