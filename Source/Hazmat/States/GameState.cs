@@ -101,6 +101,12 @@ namespace Hazmat.States
             this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"items\SPS_StaticSprites");
             this.atlasTextureResourceManager.Manage(this.world);
 
+            // Resource Preloading
+            this.spineAnimationResourceManager.Load(@"ui\SPS_Screens");
+            this.spineAnimationResourceManager.Load(@"items\SPS_Collectables");
+            this.spineAnimationResourceManager.Load(@"items\SPS_Projectiles");
+            this.spineAnimationResourceManager.Load(@"items\SPS_StaticSprites");
+
             // Miscellaneous
             this.tileMap = new TileMap(game.GraphicsDevice, @"items\SPS_StaticSprites");
             this.SetInstance(tileMap);
