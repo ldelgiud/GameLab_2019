@@ -12,9 +12,11 @@ namespace Hazmat.Utilities
         //RANDOM NUMBER GENERATOR USED THROUGHOUT THE GAME
         public static Random RANDOM = new Random();
 
+        public static float PLAYER_RELOAD_TIME = 0.3f; //TESTED
+        public static float BULLET_SIZE = 1f; //TESTED
         public static double STREET_SPAWN_RATE = 0.6;
-        //PLANT IS ALWAYS 3 MINUTES DISTANT FROM PLAYER
-        public static double PLANT_PLAYER_DISTANCE = 960;
+        //POWERPLANT STATS
+        public static double PLANT_PLAYER_DISTANCE = 1300;
         public static double MIN_DEGREE = 20;
         public static double MAX_DEGREE = 70;
         public static double MIN_RADIAN = Constants.MIN_DEGREE * (Math.PI / 180);
@@ -36,7 +38,7 @@ namespace Hazmat.Utilities
         public static float BULLET_SPEED = 45; // TESTED
         public static float MAILBOX_RELOAD_TIME = 1f;
         //GRID GENERATION VALUES
-            public static float NODE_RADIUS = 0.5f;
+            public static float NODE_RADIUS = 1f;
             public static float NODE_HIT_RADIUS = 3f;
         //AI values for FSM transitions
             public static double OFFLINE_TO_STANDBY_DIST = 60;
@@ -68,10 +70,10 @@ namespace Hazmat.Utilities
 
         // size of tiles for procedural generation
         public static float TILE_SIZE = 10;
-        public static float LEFT_BORDER = -300;
-        public static float RIGHT_BORDER = 1000;
-        public static float TOP_BORDER = 1000;
-        public static float BOTTOM_BORDER = -300;
+        public static float LEFT_BORDER = -200;
+        public static float RIGHT_BORDER = 1500;
+        public static float TOP_BORDER = 1500;
+        public static float BOTTOM_BORDER = -200;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
         public static Vector2 BOTTOM_LEFT_CORNER =

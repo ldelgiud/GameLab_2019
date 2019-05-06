@@ -184,7 +184,7 @@ namespace Hazmat.Utilities
                 damage: 35f,
                 projectileSpeed: Constants.BULLET_SPEED,
                 radiusRange: -1f,
-                reloadTime: 0.2f,
+                reloadTime: Constants.PLAYER_RELOAD_TIME,
                 projTex: "shooting/bullet",
                 alliance: Alliance.Player));
 
@@ -202,6 +202,9 @@ namespace Hazmat.Utilities
             gunEntity.Set(new NameComponent() { name = "gun" });
             gunEntity.Set(new InteractableComponent());
             gunEntity.Set(new PickUpGunComponent());
+
+            List<Entity> entities = SpawnHelper.CollisionCheck(gunEntity.Get<AABBComponent>().aabb, true);
+            foreach (Entity ent in entities) ent.Delete();
             return gunEntity;
         }
 
@@ -816,8 +819,8 @@ namespace Hazmat.Utilities
             var projectileTransform = new Transform3DComponent(new Transform3D(position, rotation: new Vector3(0,0,dirRot)));
             entity.Set(projectileTransform);
             entity.Set(new WorldSpaceComponent());
-
-            var aabb = new AABB(new Vector2(-0.2f, -0.2f), new Vector2(0.2f, 0.2f));
+            float corner = Constants.BULLET_SIZE/2;
+            var aabb = new AABB(new Vector2(-corner, -corner), new Vector2(corner, corner));
             var element = new Element<Entity>(aabb);
             element.Span.LowerBound += position.ToVector2();
             element.Span.UpperBound += position.ToVector2();
