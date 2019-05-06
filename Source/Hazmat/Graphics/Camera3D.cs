@@ -38,7 +38,7 @@ namespace Hazmat.Graphics
         {
             get
             {
-                return Matrix.CreateOrthographic(width, height, 0, this.height + this.distance * MathF.Sqrt(2) + 0.1f);
+                return Matrix.CreateOrthographic(width, height, -10f, this.height + this.distance * MathF.Sqrt(2) + 10f);
             }
         }
 
