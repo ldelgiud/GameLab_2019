@@ -60,6 +60,8 @@ namespace Hazmat.Utilities.Extensions
 
         public static void Delete(this Entity entity)
         {
+            if (!entity.IsAlive) return;
+
             if (entity.Has<AABBComponent>())
             {
                 ref AABBComponent aabb = ref entity.Get<AABBComponent>();

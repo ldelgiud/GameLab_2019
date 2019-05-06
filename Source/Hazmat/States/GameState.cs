@@ -111,7 +111,8 @@ namespace Hazmat.States
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
                 new PlayerDamageCollisionHandler(this.world, energy),
-                new PowerUpPickUpCollisionHandler(this.world)
+                new PowerUpPickUpCollisionHandler(this.world),
+                new DamageSolidCollisionHandler(this.world),
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);

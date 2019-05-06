@@ -83,7 +83,7 @@ namespace Hazmat.States
                 entity.Set(new ScreenSpaceComponent());
                 entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 170))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
-                    new DateTime((long)((this.score.TimeEnd - this.score.TimeStart) * 10e4f)).ToString("mm:ss"),
+                    new DateTime((long)((this.score.TimeEnd - this.score.TimeStart) * 10e6f)).ToString("mm:ss"),
                     @"font\Playtime",
                     color: color
                     )));

@@ -67,7 +67,7 @@ namespace Hazmat.Graphics
 
             set
             {
-                this.Translation = this.Parent == null ? value : value - this.Parent.TransformMatrix.Translation();
+                this.LocalTranslation = this.Parent == null ? value : value - this.Parent.TransformMatrix.Translation();
             }
         }
 

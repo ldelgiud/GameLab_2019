@@ -50,7 +50,7 @@ namespace Hazmat.Interaction.Handlers
                     interactee.Set(new InputComponent(new ShootingInputHandler(world, playerStats)));
                     interactee.SetAsChildOf(interactor);
                     gunTransform.value.Parent = playerTransform.value;
-                    gunTransform.value.LocalTranslation = new Vector3(1.414f, 1.414f, 1f);
+                    gunTransform.value.LocalTranslation = Vector3.Zero;
 
 
                     interactor.Set(new WeaponComponent(interactee)); 

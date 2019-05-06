@@ -190,11 +190,11 @@ namespace Hazmat.Utilities
                 @"weapons\MED_WP_MatGunBasic_01",
                 @"weapons\TEX_WP_MatGunBasic_01",
                 translation: new Vector3(0, 0, 0f),
-                rotation: new Vector3(MathF.PI / 2, 0, 0),
-                scale: new Vector3(0.06f),
+                rotation: new Vector3(0, 0, MathF.PI / 2),
+                scale: new Vector3(0.07f),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                 updateTimeEffect: true,
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("GlowLineThickness", 1f), new Tuple<string, float>("LineThickness", 1f) }
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("GlowLineThickness", 0.02f), new Tuple<string, float>("LineThickness", 0.02f) }
                 )));
 
             gunEntity.Set(new NameComponent() { name = "gun" });
@@ -480,7 +480,6 @@ namespace Hazmat.Utilities
                 UpperBound = new Vector2(1f, 1f)
             };
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
-            element.Span.LowerBound += position;
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;
             SpawnHelper.quadtree.AddNode(element);

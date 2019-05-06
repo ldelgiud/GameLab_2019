@@ -134,6 +134,7 @@
     <Compile Include="Collision\CollisionHandler.cs" />
     <Compile Include="Collision\CollisionType.cs" />
     <Compile Include="Collision\Handlers\DamageHealthCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\DamageSolidCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EnergyPickupCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EventTriggerCollisionHandler.cs" />
