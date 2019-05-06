@@ -75,8 +75,8 @@ namespace Hazmat.States
 
             this.worldCamera = new Camera3D(
                 new Transform3D(),
-                40,
-                71,
+                50,
+                81,
                 45
                 );
             
@@ -206,9 +206,8 @@ namespace Hazmat.States
             // Create energy pickup
             // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
             
-
             // Create a power up pick up
-            SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
+            //SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
             // Event trigger
             //SpawnHelper.SpawnEvent(new Vector2(0, -20));

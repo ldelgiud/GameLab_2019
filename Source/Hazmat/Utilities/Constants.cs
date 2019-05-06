@@ -30,28 +30,36 @@ namespace Hazmat.Utilities
         public static float SHOOTER_SPEED = 13;
         public static int PLAYER_SPEED = 50;
         public static float TTL_BULLET = 5f;
-
+        public static float MAILBOX_DAMAGE = 100;
+        public static float BULLET_SPEED = 100;
+        public static float MAILBOX_RELOAD_TIME = 1f;
         //GRID GENERATION VALUES
             public static float NODE_RADIUS = 0.5f;
             public static float NODE_HIT_RADIUS = 3f;
         //AI values for FSM transitions
-            public static double OFFLINE_TO_STANDBY_DIST = 70;
-            public static double STANDBY_TO_OFFLINE_DIST = 80;
-            public static double STANDBY_TO_SEARCH_DIST = 50;
-            public static double SEARCH_TO_STANDBY_DIST = 60;
-            public static double BLIND_STANDBY_TO_SEARCH_DIST = 30;
-            public static double SEARCH_TO_ATTACK_DIST = 25;
-            public static double ATTACK_TO_SEARCH_DIST = 30;
+            public static double OFFLINE_TO_STANDBY_DIST = 60;
+            public static double OFFLINE_TO_ATTACK_DIST = 20; // Only for mailbox!
+            public static double STANDBY_TO_OFFLINE_DIST = 70;
+            public static double STANDBY_TO_SEARCH_DIST = 40;
+            public static double SEARCH_TO_STANDBY_DIST = 50;
+            public static double BLIND_STANDBY_TO_SEARCH_DIST = 15;
+            public static double SEARCH_TO_ATTACK_DIST = 10;
+            public static double ATTACK_TO_SEARCH_DIST = 20;
+            public static double ATTACK_TO_OFFLINE_DIST = 30; //ONLY FOR MAILBOX!
+            public static double DIRECT_ATTACK_DIST = 4; 
         //SQUARED VERSIONS OF PREV NUMBERS 
             public static double OFFLINE_TO_STANDBY_SQRD_DIST = OFFLINE_TO_STANDBY_DIST * OFFLINE_TO_STANDBY_DIST;
+            public static double OFFLINE_TO_ATTACK_SQRD_DIST = OFFLINE_TO_ATTACK_DIST * OFFLINE_TO_ATTACK_DIST;
             public static double STANDBY_TO_OFFLINE_SQRD_DIST = STANDBY_TO_OFFLINE_DIST * STANDBY_TO_OFFLINE_DIST;
             public static double STANDBY_TO_SEARCH_SQRD_DIST = STANDBY_TO_SEARCH_DIST * STANDBY_TO_SEARCH_DIST;
             public static double BLIND_STANDBY_TO_SEARCH_SQRD_DIST = BLIND_STANDBY_TO_SEARCH_DIST * BLIND_STANDBY_TO_SEARCH_DIST;
             public static double SEARCH_TO_STANDBY_SQRD_DIST = SEARCH_TO_STANDBY_DIST * SEARCH_TO_STANDBY_DIST;
             public static double SEARCH_TO_ATTACK_SQRD_DIST = SEARCH_TO_ATTACK_DIST * SEARCH_TO_ATTACK_DIST;
             public static double ATTACK_TO_SEARCH_SQRD_DIST = ATTACK_TO_SEARCH_DIST * ATTACK_TO_SEARCH_DIST;
+            public static double ATTACK_TO_OFFLINE_SQRD_DIST = ATTACK_TO_OFFLINE_DIST * ATTACK_TO_OFFLINE_DIST;
+            public static double DIRECT_ATTACK_SQRD_DIST = DIRECT_ATTACK_DIST * DIRECT_ATTACK_DIST;
         //Maximum energy for players
-            public static double MAX_ENERGY = 1000;
+        public static double MAX_ENERGY = 1000;
         //debug value to stop generating enemies in EnemySpawnSystem
         public static uint MAX_AMOUNT_OF_ENEMIES = 15;
         public static uint INTERACTION_DISTANCE = 7;

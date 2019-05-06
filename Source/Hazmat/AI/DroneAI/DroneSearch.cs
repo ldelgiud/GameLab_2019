@@ -25,7 +25,8 @@ namespace Hazmat.AI
             Time time)
         {
             //Update information about myself
-            this.myPos = entity.Get<Transform3DComponent>().value.Translation.ToVector2();
+            Transform3DComponent transform = entity.Get<Transform3DComponent>();
+            this.myPos = transform.value.Translation.ToVector2();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
 
             //Find closest player
@@ -46,14 +47,16 @@ namespace Hazmat.AI
 
             this.UpdatePath(time);
             Vector2 newVel;
-
             //STEP
-            if (this.IsPathClear(entity.Get<AABBComponent>(), this.target))
+            if (this.IsPathClear(entity.Get<AABBComponent>(), this.target, entity) || 
+                sqrdDistance <= Constants.DIRECT_ATTACK_SQRD_DIST)
             {
                 newVel = (this.target - this.myPos);
                 newVel.Normalize();
                 velocity.velocity = newVel * Constants.DRONE_SPEED;
-            } else if (path != null)
+                transform.value.Rotation = new Vector3(Vector2.Zero, newVel.ToRotation());
+            }
+            else if (path != null)
             {
                 (Vector2, Line) nextNode;
                 bool followingPath;
@@ -73,9 +76,12 @@ namespace Hazmat.AI
                     newVel = nextNode.Item1 - myPos;
                     newVel.Normalize();
                     velocity.velocity = newVel * Constants.DRONE_SPEED;
-                } 
+                    transform.value.Rotation = new Vector3(Vector2.Zero, newVel.ToRotation());
+                }
+
             }
-            
+
+
             //UPDATE STATE
             if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
             {

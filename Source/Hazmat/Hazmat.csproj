@@ -125,6 +125,8 @@
     <Compile Include="AI\AIState.cs" />
     <Compile Include="AI\DroneAI\DroneOffline.cs" />
     <Compile Include="AI\EnemyType.cs" />
+    <Compile Include="AI\MailboxAI\MailboxAttack.cs" />
+    <Compile Include="AI\MailboxAI\MailboxOffline.cs" />
     <Compile Include="AI\ShooterAI\ShooterOffline.cs" />
     <Compile Include="AI\ShooterAI\ShooterSearch.cs" />
     <Compile Include="AI\ShooterAI\ShooterStandby.cs" />
@@ -234,6 +236,7 @@
     <Compile Include="Graphics\Transform3D.cs" />
     <Compile Include="Systems\SkeletonUpdateSystem.cs" />
     <Compile Include="Utilities\Extensions\AABBExtensions.cs" />
+    <Compile Include="Utilities\Extensions\QuadtreeExtension.cs" />
     <Compile Include="Utilities\SpawnMap.cs" />
     <Compile Include="Systems\SpineSkeleton2DDrawSystem.cs" />
     <Compile Include="Systems\SpineSkeleton3DDrawSystem.cs" />
