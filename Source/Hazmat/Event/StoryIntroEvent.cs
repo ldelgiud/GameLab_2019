@@ -23,6 +23,8 @@ namespace Hazmat.Event
             Start,
             Intro1,
             Intro2,
+            Waiting,
+            Tutorial,
             Done
         }
 
@@ -32,6 +34,7 @@ namespace Hazmat.Event
         Entity eventEntity;
 
         Entity introEntity;
+        float timestamp;
 
         public override void Initialize(World world, Entity entity)
         {
@@ -69,8 +72,6 @@ namespace Hazmat.Event
                     switch (inputEvent)
                     {
                         case PressEvent _:
-                            //this.intro1Entity.Delete();
-
                             ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
                             ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
 
@@ -86,6 +87,32 @@ namespace Hazmat.Event
                     }
                     break;
                 case State.Intro2:
+                    switch (inputEvent)
+                    {
+                        case PressEvent _:
+                            this.inputManager.RemoveEvent(Keys.E);
+                            this.inputManager.RemoveEvent(0, Buttons.A);
+                            this.introEntity.Remove<SpineSkeletonComponent>();
+                            this.introEntity.Remove<SpineAnimationComponent>();
+                            this.state = State.Waiting;
+                            this.timestamp = time.Absolute + 5;
+                            break;
+                    }
+                    break;
+                case State.Waiting:
+                    if (timestamp <= time.Absolute)
+                    {
+                        ref var transform = ref this.introEntity.Get<Transform2DComponent>();
+                        transform.value.LocalTranslation = transform.value.LocalTranslation * new Vector2(1, 0) + new Vector2(0, 450);
+                        this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                            new SpineAnimationInfo(@"ui\SPS_Screens",
+                            new SkeletonInfo(745, 360, skin: "tip_after_first_steps"),
+                            new AnimationStateInfo("press_A_to_continue", true)
+                        )));
+                        this.state = State.Tutorial;
+                    }
+                    break;
+                case State.Tutorial:
                     switch (inputEvent)
                     {
                         case PressEvent _:

@@ -150,6 +150,7 @@ namespace Hazmat.States
                 cameraSystem,
                 TTLSystem,
                 pathFinderSystem,
+                new TutorialSystem(world, powerPlant),
                 new EnergyEventSystem(energy, score)
                 );
 
@@ -207,18 +208,18 @@ namespace Hazmat.States
             //SPAWNING 
             //ENEMY SPAWNING
             ProcGen.SpawnHotspots();
-            SpawnHelper.SpawnEnemyCamp(new Vector2(70,70));
+            SpawnHelper.SpawnEnemyCamp(new Vector2(70, 70));
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
             // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
-            
+
 
             // Create a power up pick up
             SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
             SpawnHelper.SpawnLootStation(new Vector2(-10, 10));
-            //SpawnHelper.SpawnCollectableGun(new Vector3(20,20,2));
+            SpawnHelper.SpawnCollectableGun(new Vector3(-20, -20, 0));
 
             SpawnHelper.SpawnPlayerHouse();
 

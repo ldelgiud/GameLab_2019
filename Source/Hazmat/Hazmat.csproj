@@ -182,6 +182,7 @@
     <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Event\Event.cs" />
+    <Compile Include="Event\TipEvent.cs" />
     <Compile Include="Event\StoryConclusionEvent.cs" />
     <Compile Include="Event\StoryIntroEvent.cs" />
     <Compile Include="Components\MenuPulseComponent.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
     <Compile Include="Systems\SkeletonUpdateSystem.cs" />
+    <Compile Include="Systems\TutorialSystem.cs" />
     <Compile Include="Utilities\Extensions\AABBExtensions.cs" />
     <Compile Include="Utilities\SpawnMap.cs" />
     <Compile Include="Systems\SpineSkeleton2DDrawSystem.cs" />

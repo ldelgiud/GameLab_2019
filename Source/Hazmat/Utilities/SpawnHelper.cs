@@ -114,13 +114,13 @@ namespace Hazmat.Utilities
             }
 
             {
-                var maskEntity = SpawnHelper.World.CreateEntity();
-                maskEntity.SetAsChildOf(entity);
+                var backpackEntity = SpawnHelper.World.CreateEntity();
+                backpackEntity.SetAsChildOf(entity);
 
-                maskEntity.Set(new NameComponent() { name = "player_backpack" });
-                maskEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
-                maskEntity.Set(new WorldSpaceComponent());
-                maskEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                backpackEntity.Set(new NameComponent() { name = "player_backpack" });
+                backpackEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
+                backpackEntity.Set(new WorldSpaceComponent());
+                backpackEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                     @"characters\armor\MED_AR_MatBackpack_01",
                     @"characters\armor\TEX_AR_TanksMasksBP_01",
                     rotation: new Vector3(0, 0, MathF.PI / 2),
@@ -131,8 +131,6 @@ namespace Hazmat.Utilities
             }
 
             entity.SetModelAnimation("Take 001");
-
-            SpawnHelper.SpawnCollectableGun(new Vector3(-5, -10, 2));
         }
         
         /// <summary>
@@ -177,6 +175,9 @@ namespace Hazmat.Utilities
             Transform3DComponent gunTransform = new Transform3DComponent(new Transform3D(position: localPosition));
             gunEntity.Set(gunTransform);
             gunEntity.Set(new WorldSpaceComponent());
+
+            // TODO: Remove AABB on pickup
+            SpawnHelper.AddAABB(gunEntity, pos.ToVector2(), -Vector2.One, Vector2.One, false);
 
             gunEntity.Set(new SmallGunComponent(
                 damage: 35f,
@@ -570,6 +571,8 @@ namespace Hazmat.Utilities
         {
             var entity = SpawnHelper.World.CreateEntity();
 
+            
+
             // Create 2 more entities since we need 2 aabbs.
             Vector2 offset = new Vector2(3.3f, 0);
             
@@ -617,6 +620,9 @@ namespace Hazmat.Utilities
                 new Tuple<string, float>("GlowLineThickness", 1f),
                 new Tuple<string, float>("LineThickness", 0.4f)}
             )));
+
+            // AABB for main entity, not solid
+            SpawnHelper.AddAABB(entity, position, new Vector2(1), new Vector2(1), false);
 
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
