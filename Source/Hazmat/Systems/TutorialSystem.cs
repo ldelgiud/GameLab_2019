@@ -164,7 +164,7 @@ namespace Hazmat.Systems
 
                     this.quadtree.QueryAABB((element) =>
                     {
-                        if (element.Value.Has<SmallGunComponent>())
+                        if (element.Value.Has<SmallGunComponent>() && element.Value.Has<InteractableComponent>())
                         {
                             var entity = this.world.CreateEntity();
                             var _event = new TipEvent("tip_weapon");
