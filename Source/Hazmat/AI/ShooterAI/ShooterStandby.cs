@@ -38,7 +38,7 @@ namespace Hazmat.AI
                     return new ShooterOffline();
                 }
                 else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
-                    if (this.IsInSight(this.myPos, this.target))
+                    if (this.IsInSight(this.myPos, this.target, entity))
                     {
                         //Debug.WriteLine("SHOOTY MC FACE: SAW YOU!!");
                         return new ShooterSearch();

@@ -85,49 +85,48 @@ namespace Hazmat.Utilities
             }
         }
 
+        public static bool ToCloseTooStreet(Vector2 position)
+        {
+            bool streetFound = false;
+            AABB testAABB = new AABB()
+            {
+                LowerBound = new Vector2(-7f, -7f),
+                UpperBound = new Vector2(7f, 7f)
+            };
+            testAABB.LowerBound += position;
+            testAABB.UpperBound += position;
+
+            ProcGen.TileMap.quadtree.QueryAABB((Element<Entity> collidee) =>
+            {
+                if (collidee.Value.Has<NameComponent>())
+                {
+                    if (collidee.Value.Get<NameComponent>().name == Constants.STREET_TILE_NAME)
+                    {
+                        streetFound = true;
+                        return false;
+                    }
+                }
+                return true;
+            }, ref testAABB);
+                
+            return streetFound;
+        }
+
         public static void BuildExtras()
         {
             Debug.WriteLine("Objects Generation");
-
-            float x = Constants.LEFT_BORDER;
-            float y = Constants.BOTTOM_BORDER;
             float tile = Constants.TILE_SIZE;
-            while (y <= Constants.TOP_BORDER)
+            for (float y = Constants.BOTTOM_BORDER; y <= Constants.TOP_BORDER; y+= Constants.TILE_SIZE)
             {
-                while (x <= Constants.RIGHT_BORDER)
+                for (float x = Constants.LEFT_BORDER; x <= Constants.RIGHT_BORDER; x += Constants.TILE_SIZE)
                 {
-                    var position = new Vector2(x, y);
-                    bool streetFound = false;
-
-                    AABB testAABB = new AABB()
-                    {
-                        LowerBound = new Vector2(-1f, -1f),
-                        UpperBound = new Vector2(1f, 1f)
-                    };
-                    testAABB.LowerBound += position;
-                    testAABB.UpperBound += position;
-
-                    ProcGen.TileMap.quadtree.QueryAABB((Element<Entity> collidee) =>
-                    {
-                        if (collidee.Value.Has<NameComponent>())
-                        {
-                            if (collidee.Value.Get<NameComponent>().name == Constants.STREET_TILE_NAME)
-                            {
-                                streetFound = true;
-                            }
-                        }
-                        return true;
-                    }, ref testAABB);
-
-                    if (streetFound)
-                    {
-                        x += Constants.TILE_SIZE;
-                        continue;
-                    }
                     
+                    Vector2 position = new Vector2(x, y);
+                    if (ProcGen.ToCloseTooStreet(position)) continue;
+                    if (position.Length() <= 20) continue;
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
-                    if (rand <= 20)
+                    if (rand <= 15)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
@@ -135,15 +134,15 @@ namespace Hazmat.Utilities
                             "dirtTile"
                             );
                     }
-                    else if (rand <= 25)
+                    else if (rand <= 19)
                     {
                         SpawnHelper.SpawnRandomHouse(position);
                     }
-
-                    x += Constants.TILE_SIZE;
+                    else if (rand <= 23)
+                    {
+                        SpawnHelper.SpawnRock(position, Constants.RANDOM.Next(1, 5));
+                    }
                 }
-                x = Constants.LEFT_BORDER;
-                y += Constants.TILE_SIZE;
             }
         }
 
@@ -166,7 +165,7 @@ namespace Hazmat.Utilities
             }
         }
 
-        public static void PlaceStreetTile(Vector2 position, int direction, bool changeDir)
+        public static void PlaceStreetTile(Vector2 position, int direction, bool changeDir, int parity)
         {
 
             ProcGen.TileMap.RemoveTiles(new Transform2D(position));
@@ -195,6 +194,7 @@ namespace Hazmat.Utilities
                     //Down
                     lowerSidewalkPos1 = new Vector2(position.X - step, position.Y - 3 * Constants.TILE_SIZE / 4);
                     lowerSidewalkPos2 = new Vector2(position.X + step, position.Y - 3 * Constants.TILE_SIZE / 4);
+                    
                     //Right
                     upperSidewalkPos1 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y - step);
                     upperSidewalkPos2 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y + step);
@@ -214,7 +214,7 @@ namespace Hazmat.Utilities
                     extraSideWalk = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y + 3* Constants.TILE_SIZE / 4);
 
                 }
-
+                SpawnHelper.SpawnLamp(extraSideWalk, -MathF.PI/4);
                 SpawnHelper.SpawnSidewalk(upperSidewalkPos1, Vector3.Zero);
                 SpawnHelper.SpawnSidewalk(upperSidewalkPos2, Vector3.Zero);
                 SpawnHelper.SpawnSidewalk(lowerSidewalkPos1, Vector3.Zero);
@@ -253,11 +253,14 @@ namespace Hazmat.Utilities
                     upperSidewalkPos2 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y + step);
                     
                 }
-
+                
                 SpawnHelper.SpawnSidewalk(upperSidewalkPos1, Vector3.Zero);
                 SpawnHelper.SpawnSidewalk(upperSidewalkPos2, Vector3.Zero);
                 SpawnHelper.SpawnSidewalk(lowerSidewalkPos1, Vector3.Zero);
                 SpawnHelper.SpawnSidewalk(lowerSidewalkPos2, Vector3.Zero);
+                    
+                if (parity==3) SpawnHelper.SpawnLamp(lowerSidewalkPos1, rotation.Z);
+                else if (parity == 1) SpawnHelper.SpawnLamp(upperSidewalkPos1, rotation.Z);
                 // Right
                 ProcGen.TileMap.AddTile(
                     new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: rotation),
@@ -284,10 +287,11 @@ namespace Hazmat.Utilities
             Vector2 target = new Vector2(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE);
             //0 = right; 1 = top;
             int currentDir = Constants.RANDOM.Next(2);
+            int parity = 0;
             while (curr.X < target.X && curr.Y < target.Y)
             {
                 bool changeDir = Constants.RANDOM.Next(8) == 1;
-                ProcGen.PlaceStreetTile(curr, currentDir, changeDir);
+                ProcGen.PlaceStreetTile(curr, currentDir, changeDir, parity);
                 if ((changeDir && currentDir == 0) || (!changeDir && currentDir == 1))
                 {
                     curr.Y += Constants.TILE_SIZE;
@@ -295,29 +299,35 @@ namespace Hazmat.Utilities
                 {
                     curr.X += Constants.TILE_SIZE;
                 }
-                if (changeDir) currentDir = 1 - currentDir;
+                if (changeDir)
+                {
+                    currentDir = 1 - currentDir;
+                    parity = 0;
+                }
+                else parity = (++parity)%4;
             }
 
             while (curr.X < target.X)
             {
                 //Go right
-                if (currentDir == 0) ProcGen.PlaceStreetTile(curr, currentDir, false);
-                else ProcGen.PlaceStreetTile(curr, currentDir, true);
+                if (currentDir == 0) ProcGen.PlaceStreetTile(curr, currentDir, false, parity);
+                else ProcGen.PlaceStreetTile(curr, currentDir, true, parity);
 
                 curr.X += Constants.TILE_SIZE;
                 currentDir = 0;
-                
+                parity = (++parity)%4;
 
             }
 
             while (curr.Y < target.Y)
             {
-                if (currentDir == 0) ProcGen.PlaceStreetTile(curr, currentDir, true);
-                else ProcGen.PlaceStreetTile(curr, 1, false);
+                if (currentDir == 0) ProcGen.PlaceStreetTile(curr, currentDir, true, parity);
+                else ProcGen.PlaceStreetTile(curr, 1, false, parity);
                 
                 //Go to next Tile
                 currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
+                parity = (++parity)%4;
             }
         }
 

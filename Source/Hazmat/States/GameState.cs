@@ -80,7 +80,7 @@ namespace Hazmat.States
 
             this.worldCamera = new Camera3D(
                 new Transform3D(),
-                40,
+                50,
                 71,
                 45
                 );
@@ -170,7 +170,6 @@ namespace Hazmat.States
             ProcGen.BuildBackground();
             SpawnHelper.SpawnNuclearPowerPlant(powerPlant);
             ProcGen.BuildStreet(powerPlant);
-            SpawnHelper.SpawnPlayerHouse();
             ProcGen.BuildExtras();
             ProcGen.SetSpawnRates();
             Grid grid = new Grid();
@@ -231,11 +230,8 @@ namespace Hazmat.States
             // Create energy pickup
             // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
 
-
             // Create a power up pick up
             SpawnHelper.SpawnCollectableGun(new Vector3(-20, -20, 0));
-
-            SpawnHelper.SpawnPlayerHouse();
 
             //SpawnHelper.SpawnEvent(new Vector2(0, 0));
 

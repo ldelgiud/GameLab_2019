@@ -26,5 +26,12 @@ namespace Hazmat.Utilities.Extensions
             return new Vector3(vector, 0);
         }
 
+        public static Vector2 Rotate(this Vector2 vector, float radians)
+        {
+            float x = vector.X * MathF.Cos(radians) - vector.Y * MathF.Sin(radians);
+            float y = vector.X * MathF.Sin(radians) + vector.Y * MathF.Cos(radians);
+
+            return new Vector2(x, y);
+        }
     }
 }

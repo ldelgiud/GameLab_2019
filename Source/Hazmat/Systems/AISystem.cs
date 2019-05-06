@@ -22,7 +22,6 @@ namespace Hazmat.Systems
 
         public AISystem(World world) : base(
             world.GetEntities()
-            .With<VelocityComponent>()
             .With<Transform3DComponent>()
             .With<WorldSpaceComponent>()
             .With<AIComponent>()
@@ -45,11 +44,8 @@ namespace Hazmat.Systems
             foreach(Entity entity in entities)
             {
                 ref AIComponent aIState = ref entity.Get<AIComponent>();
-                
-
                 aIState.State =
                     aIState.State.UpdateState(playerInfos, entity, state);
-
             }
             
 

@@ -10,6 +10,6 @@ namespace Hazmat.AI
     {
         Drone,
         Shooter,
-        Laser
+        Mailbox
     }
 }

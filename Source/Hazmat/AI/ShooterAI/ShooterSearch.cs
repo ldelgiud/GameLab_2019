@@ -69,7 +69,7 @@ namespace Hazmat.AI
 
 
             //UPDATE STATE
-            if (sqrdDistance <= Constants.SEARCH_TO_ATTACK_SQRD_DIST && this.IsInSight(this.myPos, this.target))
+            if (sqrdDistance <= Constants.SEARCH_TO_ATTACK_SQRD_DIST && this.IsInSight(this.myPos, this.target, entity))
             {
                 velocity.velocity = new Vector2(0);
                 //Debug.WriteLine("going into ATTACK");

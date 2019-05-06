@@ -13,6 +13,7 @@ using System.Collections;
 using Hazmat.Components;
 using System.Diagnostics;
 using tainicom.Aether.Physics2D.Collision;
+using Hazmat.Utilities.Extensions;
 
 namespace Hazmat.AI
 {
@@ -68,12 +69,8 @@ namespace Hazmat.AI
             }
         }
         
-        protected bool IsInSight(Vector2 source, Vector2 target)
+        protected bool IsInSight(Vector2 source, Vector2 target, Entity me)
         {
-            /*Vector2 dirvec = target - source;
-            dirvec.Normalize();
-            //Necessary to avoid starting inside the enemy!! Adjust factor
-            source = source + dirvec * 1.5f;
             RayCastInput rayCastInput = new RayCastInput
             {
                 MaxFraction = 1,
@@ -81,34 +78,39 @@ namespace Hazmat.AI
                 Point2 = target
             };
             bool isInSight = false;
-            AIState.quadtree.RayCast((RayCastInput ray, Element<Entity> collidee) =>
+            
+            AIState.quadtree.MyRayCast((RayCastInput ray, Element<Entity> collidee) =>
             {
-                //TODO: check this check
-                if (!collidee.Value.Get<AABBComponent>().solid) return -1f;
-                if (collidee.Value.Has<PlayerComponent>())
+                //if (collidee.Value.Equals(me)) return -1f;
+                if (collidee.Value.Has<AABBComponent>())
                 {
-                    isInSight = true;
+                    if (collidee.Value.Has<PlayerComponent>())
+                    {
+                        //Player found, return 
+                        isInSight = true;
+                        return 0f;
+                    }
+                    else if (collidee.Value.Get<AABBComponent>().solid) return 0f;
                 }
-                return 0f;
+                return 0.0f;
             }, ref rayCastInput);
 
-            return isInSight;*/
-
-            return false;
+            return isInSight;
         }
 
-        protected bool IsPathClear(AABBComponent aabb, Vector2 target)
+        protected bool IsPathClear(AABBComponent aabb, Vector2 target, Entity me)
         {
-            return false;
             /*
             Vector2 bottomLeft = aabb.element.Span.LowerBound;
             Vector2 topRight = aabb.element.Span.UpperBound;
             Vector2 bottomRight = new Vector2(topRight.X, bottomLeft.Y);
             Vector2 topLeft = new Vector2(bottomLeft.X, topRight.Y);
-            return IsInSight(bottomLeft, target)
-                && IsInSight(bottomRight, target)
-                && IsInSight(topLeft, target)
-                && IsInSight(topRight, target);*/
+            return IsInSight(bottomLeft, target, me )
+                && IsInSight(bottomRight, target, me )
+                && IsInSight(topLeft, target, me)
+                && IsInSight(topRight, target, me);*/
+
+            return false;
         }
     }
 }

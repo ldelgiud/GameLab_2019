@@ -84,7 +84,7 @@ namespace Hazmat.AI
                 distVector);
 
             //UPDATE STATE
-            if (sqrdDistance >= Constants.ATTACK_TO_SEARCH_SQRD_DIST || !this.IsInSight(this.myPos, this.target))
+            if (sqrdDistance >= Constants.ATTACK_TO_SEARCH_SQRD_DIST || !this.IsInSight(this.myPos, this.target, entity))
             {
                 //Debug.WriteLine("going into SEARCH");
                 return new ShooterSearch();

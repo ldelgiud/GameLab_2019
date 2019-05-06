@@ -34,16 +34,16 @@ namespace Hazmat.AI
 
                 if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST) return new DroneOffline();
                 else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
-                    if (this.IsInSight(this.myPos, this.target))
+                    if (this.IsInSight(this.myPos, this.target, entity))
                     {
-                        //Debug.WriteLine("DRONY: SAW YOU BITCH!!");
-                        //Debug.WriteLine("DISTANCE: " + Math.Sqrt(sqrdDist));
+                        Debug.WriteLine("DRONY: SAW YOU BITCH!!");
+                        Debug.WriteLine("DISTANCE: " + Math.Sqrt(sqrdDist));
                         return new DroneSearch();
                     }
                     else if (sqrdDist <= Constants.BLIND_STANDBY_TO_SEARCH_SQRD_DIST)
                     {
-                        //Debug.WriteLine("DRONY: TOO CLOSE BITCH!!");
-                        //Debug.WriteLine("SQRD DISTANCE: " + Math.Sqrt(sqrdDist));
+                        Debug.WriteLine("DRONY: TOO CLOSE BITCH!!");
+                        Debug.WriteLine("SQRD DISTANCE: " + Math.Sqrt(sqrdDist));
                         return new DroneSearch();
                     }
             }
