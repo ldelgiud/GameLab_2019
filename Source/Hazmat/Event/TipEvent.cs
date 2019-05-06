@@ -43,7 +43,7 @@ namespace Hazmat.Event
             this.eventEntity = entity;
 
             this.tipEntity = world.CreateEntity();
-            this.tipEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 300))));
+            this.tipEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 300), scale: new Vector2(0.75f))));
             this.tipEntity.Set(new ScreenSpaceComponent());
             this.tipEntity.Set(new NameComponent() { name = "tip" });
 
@@ -66,7 +66,7 @@ namespace Hazmat.Event
                 case State.Start:
                     this.tipEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                         new SpineAnimationInfo(@"ui\SPS_Screens",
-                        new SkeletonInfo(745, 360, skin: this.name),
+                        new SkeletonInfo(596, 288, skin: this.name),
                         new AnimationStateInfo("press_A_to_continue", true)
                         )));
 

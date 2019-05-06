@@ -43,7 +43,7 @@ namespace Hazmat.Event
             this.introEntity = world.CreateEntity();
             this.introEntity.Set(new ScreenSpaceComponent());
             this.introEntity.Set(new NameComponent() { name = "intro" });
-            this.introEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
+            this.introEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260), scale: new Vector2(0.75f))));
 
             this.inputManager = Hazmat.Instance.ActiveState.GetInstance<InputManager>();
         }
@@ -63,7 +63,7 @@ namespace Hazmat.Event
                 case State.Start:
                     this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                         new SpineAnimationInfo(@"ui\SPS_Screens",
-                        new SkeletonInfo(745, 360, skin: "story_01"),
+                        new SkeletonInfo(skin: "story_01"),
                         new AnimationStateInfo("press_A_to_continue", true)
                         )));
                     this.state = State.Intro1;
@@ -103,10 +103,10 @@ namespace Hazmat.Event
                     if (timestamp <= time.Absolute)
                     {
                         ref var transform = ref this.introEntity.Get<Transform2DComponent>();
-                        transform.value.LocalTranslation = transform.value.LocalTranslation * new Vector2(1, 0) + new Vector2(0, 450);
+                        transform.value.LocalTranslation = transform.value.LocalTranslation * new Vector2(1, 0) + new Vector2(0, 300);
                         this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                             new SpineAnimationInfo(@"ui\SPS_Screens",
-                            new SkeletonInfo(745, 360, skin: "tip_after_first_steps"),
+                            new SkeletonInfo(596, 288, skin: "tip_after_first_steps"),
                             new AnimationStateInfo("press_A_to_continue", true)
                         )));
                         this.state = State.Tutorial;

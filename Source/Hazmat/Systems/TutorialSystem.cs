@@ -75,8 +75,8 @@ namespace Hazmat.Systems
                 {
                     ref var aabbRef = ref playerEntity.Get<AABBComponent>();
                     var aabb = aabbRef.element.Span;
-                    aabb.UpperBound += new Vector2(40, 40);
-                    aabb.LowerBound -= new Vector2(40, 40);
+                    aabb.UpperBound += new Vector2(10, 10);
+                    aabb.LowerBound -= new Vector2(10, 10);
 
                     this.quadtree.QueryAABB((element) =>
                     {
@@ -103,8 +103,8 @@ namespace Hazmat.Systems
                 {
                     ref var aabbRef = ref playerEntity.Get<AABBComponent>();
                     var aabb = aabbRef.element.Span;
-                    aabb.UpperBound += new Vector2(30, 30);
-                    aabb.LowerBound -= new Vector2(30, 30);
+                    aabb.UpperBound += new Vector2(20, 20);
+                    aabb.LowerBound -= new Vector2(20, 20);
 
                     this.quadtree.QueryAABB((element) =>
                     {
