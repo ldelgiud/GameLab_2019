@@ -237,7 +237,14 @@ namespace Hazmat.Utilities
             //Create entity and attach the components to it
             entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
             entity.Set(new WorldSpaceComponent());
-            entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_EN_Tile_PowerPlant_01", 14.14f, 8.165f)));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"buildings\houses\MES_EN_Powerplant_01",
+                @"buildings\houses\TEX_EN_Powerplant_01",
+                scale: new Vector3(0.1f, 0.1f, 0.05f),
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
+                updateTimeEffect: true,
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
+            )));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new PowerPlantComponent());
             entity.Set(new InteractableComponent());

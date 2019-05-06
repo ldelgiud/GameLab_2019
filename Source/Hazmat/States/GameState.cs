@@ -80,9 +80,9 @@ namespace Hazmat.States
 
             this.worldCamera = new Camera3D(
                 new Transform3D(),
-                50,
+                40,
                 71,
-                45
+                40
                 );
             
             this.world = new World();
