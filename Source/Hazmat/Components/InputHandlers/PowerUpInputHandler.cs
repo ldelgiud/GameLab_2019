@@ -15,12 +15,13 @@ namespace Hazmat.Components.InputHandlers
 {
     class PowerUpInputHandler : IInputHandler
     {
-
+        Score score;
         World world;
 
-        public PowerUpInputHandler(World world)
+        public PowerUpInputHandler(World world, Score score)
         {
             this.world = world;
+            this.score = score;
         }
 
         /* Assumption: a power up object when instantiated needs to have
@@ -63,6 +64,9 @@ namespace Hazmat.Components.InputHandlers
                 case HoldEvent _:
                 case PressEvent _:
                     // TODO: add logic for choosing right
+                    this.score.WeaponUpgrades += 1;
+                    stats.UpgradeSpeed(30);
+                    entity.Delete();
                     break;
             }
 
@@ -71,6 +75,9 @@ namespace Hazmat.Components.InputHandlers
                 case HoldEvent _:
                 case PressEvent _:
                     // TODO: add logic for choosing left
+                    this.score.ArmorUpgrades += 1;
+                    stats.UpgradeDamage(30);
+                    entity.Delete();
                     break;
             }
         }

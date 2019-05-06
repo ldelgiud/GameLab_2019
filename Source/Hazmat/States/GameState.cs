@@ -113,11 +113,11 @@ namespace Hazmat.States
 
             CollisionSystem collisionSystem = new CollisionSystem(new CollisionHandler[] {
                 //new DebugCollisionHandler(this.world),
-                new DamageHealthCollisionHandler(this.world),
-                new EnergyPickupCollisionHandler(this.world, energy),
+                new DamageHealthCollisionHandler(this.world, score),
+                new EnergyPickupCollisionHandler(this.world, energy, score),
                 new EventTriggerCollisionHandler(this.world),
                 new PlayerDamageCollisionHandler(this.world, energy),
-                new PowerUpPickUpCollisionHandler(this.world),
+                new PowerUpPickUpCollisionHandler(this.world, score),
                 new DamageSolidCollisionHandler(this.world),
             });
 
