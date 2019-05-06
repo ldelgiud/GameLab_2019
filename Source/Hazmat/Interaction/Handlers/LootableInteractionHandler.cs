@@ -24,7 +24,7 @@ namespace Hazmat.Interaction.Handlers
             .Build(),
             world.GetEntities()
             .With<LootableComponent>()
-            .With<Transform2DComponent>()
+            .With<Transform3DComponent>()
             .With<WorldSpaceComponent>()
             .Build()
             )
@@ -38,17 +38,34 @@ namespace Hazmat.Interaction.Handlers
             {
                 // In case interaction happened do:
                 case PressEvent _:
-                    ref var transform = ref interactee.Get<Transform2DComponent>();
+                    ref var transform = ref interactee.Get<Transform3DComponent>();
+                    ref ModelComponent model = ref interactee.Get<ModelComponent>();
 
                     // Cannot interact anymore
                     interactee.Remove<InteractableComponent>();
 
                     // Graphical hint disappear
-                    ref Texture2DComponent texture = ref interactee.Get<Texture2DComponent>();
-                    texture.RemoveTemporaryEffect();
+                    model.DisableToonGlow();
 
                     // Spawn battery
-                    SpawnHelper.SpawnBattery(Constants.MEDIUM_BATTERY_SIZE, transform.value.Translation + new Vector2(-3,0));
+                    //Big Battery
+                    SpawnHelper.SpawnBattery(
+                        Constants.BIG_BATTERY_SIZE,
+                        transform.value.Translation.ToVector2(),
+                        Constants.BIG_BATTERY_SCALE
+                        );
+
+                    //Normal Batteries 
+                    Vector2 disp =  new Vector2((float)Constants.RANDOM.NextDouble() * 2f, (float)Constants.RANDOM.NextDouble() * 2f);
+                    SpawnHelper.SpawnBattery(
+                        Constants.MEDIUM_BATTERY_SIZE,
+                        transform.value.Translation.ToVector2() + disp
+                        );
+                    SpawnHelper.SpawnBattery(
+                        Constants.MEDIUM_BATTERY_SIZE, 
+                        transform.value.Translation.ToVector2() - disp
+                        );
+
 
                     return true;
             }

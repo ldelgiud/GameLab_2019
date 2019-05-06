@@ -53,7 +53,7 @@ namespace Hazmat.Components
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"items\SPS_Projectiles",
-                    new SkeletonInfo(2f, 2f, skin: "MatProjectile_01", translation: new Vector3(0, 0, 0.5f)),
+                    new SkeletonInfo(2f, 2f, skin: "MatProjectile_01", translation: new Vector3(0, 0, 1f)),
                     new AnimationStateInfo("ProjectileMat_01", true)
                 )
             ));

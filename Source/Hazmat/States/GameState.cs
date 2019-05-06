@@ -25,6 +25,7 @@ using Hazmat.Interaction.Handlers;
 using Hazmat.Graphics;
 using Hazmat.Systems.Debugging;
 using Hazmat.Pathfinding;
+using Hazmat.PostProcessor;
 
 namespace Hazmat.States
 {
@@ -37,6 +38,9 @@ namespace Hazmat.States
         World world;
         ISystem<Time> updateSystem;
         ISystem<Time> drawSystem;
+
+        RenderCapture renderCapture;
+        PostProcessing postprocessor;
 
         TextureResourceManager textureResourceManager;
         ModelResourceManager modelResourceManager;
@@ -51,7 +55,8 @@ namespace Hazmat.States
             this.SetUpInputManager();
             this.SetInstance(this.inputManager);
             this.window = game.Window;
- 
+
+            ConfigurePostProcessor(game);
 
             Score score = new Score(time);
             this.SetInstance(score);
@@ -96,6 +101,12 @@ namespace Hazmat.States
             this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"items\SPS_StaticSprites");
             this.atlasTextureResourceManager.Manage(this.world);
 
+            // Resource Preloading
+            this.spineAnimationResourceManager.Load(@"ui\SPS_Screens");
+            this.spineAnimationResourceManager.Load(@"items\SPS_Collectables");
+            this.spineAnimationResourceManager.Load(@"items\SPS_Projectiles");
+            this.spineAnimationResourceManager.Load(@"items\SPS_StaticSprites");
+
             // Miscellaneous
             this.tileMap = new TileMap(game.GraphicsDevice, @"items\SPS_StaticSprites");
             this.SetInstance(tileMap);
@@ -106,7 +117,8 @@ namespace Hazmat.States
                 new EnergyPickupCollisionHandler(this.world, energy),
                 new EventTriggerCollisionHandler(this.world),
                 new PlayerDamageCollisionHandler(this.world, energy),
-                new PowerUpPickUpCollisionHandler(this.world)
+                new PowerUpPickUpCollisionHandler(this.world),
+                new DamageSolidCollisionHandler(this.world),
             });
 
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
@@ -143,7 +155,9 @@ namespace Hazmat.States
                 powerplantSystem,
                 cameraSystem,
                 TTLSystem,
-                pathFinderSystem
+                pathFinderSystem,
+                new TutorialSystem(world, powerPlant),
+                new EnergyEventSystem(energy, score)
                 );
 
             //TERRAIN GENERATION
@@ -200,7 +214,7 @@ namespace Hazmat.States
             //SPAWNING 
             //ENEMY SPAWNING
             ProcGen.SpawnHotspots();
-            SpawnHelper.SpawnEnemyCamp(new Vector2(70,70));
+            SpawnHelper.SpawnEnemyCamp(new Vector2(70, 70));
             // Create player
             SpawnHelper.SpawnPlayer(0);
             // Create energy pickup
@@ -208,6 +222,17 @@ namespace Hazmat.States
             
             // Create a power up pick up
             //SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
+
+            SpawnHelper.SpawnLootStation(new Vector2(-10, 10));
+            SpawnHelper.SpawnCollectableGun(new Vector3(-20, -20, 0));
+
+            SpawnHelper.SpawnPlayerHouse();
+
+
+            //SpawnHelper.SpawnEvent(new Vector2(0, 0));
+
+            // Create lootbox
+            //SpawnHelper.SpawnLootBox(new Vector2(30, -10));
 
             // Event trigger
             //SpawnHelper.SpawnEvent(new Vector2(0, -20));
@@ -228,6 +253,26 @@ namespace Hazmat.States
         }
 
         // Helper Methods
+        private void ConfigurePostProcessor(Hazmat game)
+        {
+            // PostProcessing
+            renderCapture = new RenderCapture(Hazmat.Instance.GraphicsDevice);
+            Effect contrastEffect = game.Content.Load<Effect>(@"shaders/post");
+            // Vignette
+            contrastEffect.Parameters["radiusX"].SetValue(0.5f);
+            contrastEffect.Parameters["radiusY"].SetValue(0.37f);
+            contrastEffect.Parameters["alpha"].SetValue(0.5f);
+            // Colors
+            contrastEffect.Parameters["Contrast"].SetValue(0.2f);
+            contrastEffect.Parameters["Brightness"].SetValue(0.05f);
+            contrastEffect.Parameters["Hue"].SetValue(0f);
+            contrastEffect.Parameters["Saturation"].SetValue(1.4f);
+            postprocessor = new PostProcessing(contrastEffect, Hazmat.Instance.GraphicsDevice);
+
+            SetInstance(this.renderCapture);
+            SetInstance(this.postprocessor);
+        }
+
         private void SetUpInputManager()
         {
             // KEYBOARD

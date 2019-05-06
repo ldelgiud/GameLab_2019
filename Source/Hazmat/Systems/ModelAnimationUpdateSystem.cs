@@ -9,9 +9,9 @@ using DefaultEcs.System;
 
 using tainicom.Aether.Animation;
 
-
 using Hazmat.Components;
 using Hazmat.Utilities;
+using Hazmat.PostProcessor;
 
 namespace Hazmat.Systems
 {
@@ -24,6 +24,12 @@ namespace Hazmat.Systems
             .Build()
             )
         { }
+
+
+        protected override void PreUpdate(Time state)
+        {
+            Hazmat.Instance.ActiveState.GetInstance<RenderCapture>().Begin();
+        }
 
         protected override void Update(Time state, in Entity entity)
         {

@@ -25,7 +25,9 @@ namespace Hazmat.Utilities
         public static uint MEDIUM_BATTERY_SIZE = 500;
         public static uint BIG_BATTERY_SIZE = 1000;
 
-        //ENTITY PROPERTIES
+        //BATTERY SCALE
+        public static Vector2 BIG_BATTERY_SCALE = new Vector2(4f, 4f);
+
         public static float DRONE_SPEED = 16;
         public static float SHOOTER_SPEED = 13;
         public static int PLAYER_SPEED = 50;

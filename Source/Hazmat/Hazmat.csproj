@@ -136,6 +136,7 @@
     <Compile Include="Collision\CollisionHandler.cs" />
     <Compile Include="Collision\CollisionType.cs" />
     <Compile Include="Collision\Handlers\DamageHealthCollisionHandler.cs" />
+    <Compile Include="Collision\Handlers\DamageSolidCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\DebugCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EnergyPickupCollisionHandler.cs" />
     <Compile Include="Collision\Handlers\EventTriggerCollisionHandler.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\AllianceMaskComponent.cs" />
     <Compile Include="Components\DisplayPowerUpChoiceComponent.cs" />
+    <Compile Include="Components\EnergyEventSystem.cs" />
     <Compile Include="Components\InputHandlers\PowerUpInputHandler.cs" />
     <Compile Include="Components\ModelAnimationComponent.cs" />
     <Compile Include="Components\PowerUpComponent.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="Components\WeaponComponent.cs" />
     <Compile Include="Components\VelocityComponent.cs" />
     <Compile Include="Event\Event.cs" />
+    <Compile Include="Event\TipEvent.cs" />
     <Compile Include="Event\StoryConclusionEvent.cs" />
     <Compile Include="Event\StoryIntroEvent.cs" />
     <Compile Include="Components\MenuPulseComponent.cs" />
@@ -202,6 +205,8 @@
     <Compile Include="Pathfinding\Path.cs" />
     <Compile Include="Pathfinding\PathFinder.cs" />
     <Compile Include="Pathfinding\PathRequestManager.cs" />
+    <Compile Include="PostProcessor\PostProcessing.cs" />
+    <Compile Include="PostProcessor\RenderCapture.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Hazmat.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -235,6 +240,7 @@
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
     <Compile Include="Systems\SkeletonUpdateSystem.cs" />
+    <Compile Include="Systems\TutorialSystem.cs" />
     <Compile Include="Utilities\Extensions\AABBExtensions.cs" />
     <Compile Include="Utilities\Extensions\QuadtreeExtension.cs" />
     <Compile Include="Utilities\SpawnMap.cs" />

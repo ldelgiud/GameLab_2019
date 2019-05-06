@@ -46,6 +46,37 @@
 /processorParam:TextureFormat=Color
 /build:buildings/barrier/barrier_01_tex.png
 
+#begin buildings/environment/MES_EN_LootStation_01.FBX
+/importer:FbxImporter
+/processor:ModelProcessor
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:buildings/environment/MES_EN_LootStation_01.FBX
+
+#begin buildings/environment/TEX_EN_LootStation_01.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:buildings/environment/TEX_EN_LootStation_01.png
+
 #begin buildings/houses/house1.fbx
 /importer:FbxImporter
 /processor:ModelProcessor
@@ -674,6 +705,18 @@
 /processorParam:TextureFormat=Compressed
 /build:font/Splatch.spritefont
 
+#begin gradient_tex.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gradient_tex.png
+
 #begin items/SPS_Collectables.atlas
 /copy:items/SPS_Collectables.atlas
 
@@ -719,6 +762,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/chrome.fx
 
+#begin shaders/contrast.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/contrast.fx
+
 #begin shaders/glowing3D.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -730,6 +779,18 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:shaders/outline.fx
+
+#begin shaders/post.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/post.fx
+
+#begin shaders/standard_px.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/standard_px.fx
 
 #begin shaders/texture-shader.fx
 /importer:EffectImporter
@@ -743,6 +804,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/toon.fx
 
+#begin shaders/vignette.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/vignette.fx
+
 #begin ui/SPS_Screens.atlas
 /copy:ui/SPS_Screens.atlas
 
@@ -752,9 +819,38 @@
 #begin ui/SPS_Screens.png
 /copy:ui/SPS_Screens.png
 
+#begin weapons/MED_WP_Laser_Base.fbx
+/importer:FbxImporter
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
+/processorParam:ColorKeyColor=0,0,0,0
+/processorParam:ColorKeyEnabled=True
+/processorParam:DefaultEffect=BasicEffect
+/processorParam:GenerateMipmaps=True
+/processorParam:GenerateTangentFrames=False
+/processorParam:PremultiplyTextureAlpha=True
+/processorParam:PremultiplyVertexColors=True
+/processorParam:ResizeTexturesToPowerOfTwo=False
+/processorParam:RotationX=0
+/processorParam:RotationY=0
+/processorParam:RotationZ=0
+/processorParam:Scale=1
+/processorParam:SwapWindingOrder=False
+/processorParam:TextureFormat=Compressed
+/build:weapons/MED_WP_Laser_Base.fbx
+
 #begin weapons/MED_WP_MatGunBasic_01.fbx
 /importer:FbxImporter
-/processor:ModelProcessor
+/processor:CpuAnimatedModelProcessor
+/processorParam:VertexBufferType=DynamicWriteOnly
+/processorParam:IndexBufferType=Default
+/processorParam:MaxBones=72
+/processorParam:GenerateKeyframesFrequency=0
+/processorParam:FixRealBoneRoot=False
 /processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
 /processorParam:DefaultEffect=BasicEffect

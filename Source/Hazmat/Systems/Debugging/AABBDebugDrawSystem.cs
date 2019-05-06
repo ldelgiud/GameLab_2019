@@ -9,6 +9,7 @@ using Hazmat.Components;
 using Hazmat.Graphics;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
+using Hazmat.PostProcessor;
 
 namespace Hazmat.Systems
 {
@@ -84,7 +85,16 @@ namespace Hazmat.Systems
                 pass.Apply();
                 this.graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
             }
+            
+        }
 
+        protected override void PostUpdate(Time state)
+        {
+            RenderCapture renderCapture = Hazmat.Instance.ActiveState.GetInstance<RenderCapture>();
+            PostProcessing postProcessor = Hazmat.Instance.ActiveState.GetInstance<PostProcessing>();
+            renderCapture.End();
+            postProcessor.Input = renderCapture.GetTexture();
+            postProcessor.Draw();
         }
     }
 }

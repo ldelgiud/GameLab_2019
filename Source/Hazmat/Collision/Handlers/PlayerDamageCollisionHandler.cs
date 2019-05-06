@@ -24,8 +24,6 @@ namespace Hazmat.Collision.Handlers
         }
         public override void HandleCollision(CollisionType type, Entity collider, Entity collidee)
         {
-            //TODO: change this check to a mask
-
             switch(type) {
                 case CollisionType.Start:
                     Alliance playerAlliance = collider.Get<AllianceMaskComponent>().alliance;

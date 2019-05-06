@@ -20,21 +20,33 @@ namespace Hazmat.ResourceManagers
 
         XnaTextureLoader loader;
 
-        Dictionary<String, SkeletonData> skeletonCache = new Dictionary<String, SkeletonData>();
+        Dictionary<String, SkeletonData> skeletonDataCache = new Dictionary<String, SkeletonData>();
+        Dictionary<String, Atlas> atlasCache = new Dictionary<String, Atlas>();
 
         public SpineAnimationResourceManager(GraphicsDevice graphicsDevice)
         {
+            Debug.WriteLine(graphicsDevice.GraphicsDeviceStatus);
             this.loader = new XnaTextureLoader(graphicsDevice);
+        }
+
+        public void Load(String name)
+        {
+            var atlas = new Atlas(@"Content\" + name + ".atlas", this.loader);
+            this.atlasCache[name] = atlas;
+
+            var skeletonJson = new SkeletonJson(atlas);
+            this.skeletonDataCache[name] = skeletonJson.ReadSkeletonData(@"Content\" + name + ".json");
         }
 
         protected override SkeletonDataAlias Load(SpineAnimationInfo info)
         {
-                var atlas = new Atlas(@"Content\" + info.name + ".atlas", this.loader);
-                var skeletonJson = new SkeletonJson(atlas);
-                var skeletonData = skeletonJson.ReadSkeletonData(@"Content\" + info.name + ".json");
+            if (!this.skeletonDataCache.ContainsKey(info.name))
+            {
+                this.Load(info.name);
+            }
 
             return new SkeletonDataAlias(
-                    skeletonData
+                this.skeletonDataCache[info.name]
                 );
         }
 
