@@ -191,7 +191,7 @@ namespace Hazmat.Utilities
                 @"weapons\MED_WP_MatGunBasic_01",
                 @"weapons\TEX_WP_MatGunBasic_01",
                 translation: new Vector3(0, 0, 0f),
-                rotation: new Vector3(0, 0, MathF.PI / 2),
+                rotation: new Vector3(0, 0, MathF.PI),
                 scale: new Vector3(0.07f),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                 updateTimeEffect: true,
