@@ -50,11 +50,10 @@ namespace Hazmat.Utilities
         /// Helper function, spawns player at position (0,0) with zero velocity
         /// </summary>
         /// <param name="playerID">starts at 0, and linearly increase, NO RANDOM VARIABLES</param>
-        public static void SpawnPlayer(int playerID)
+        public static void SpawnPlayer(int playerID, Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
-            Vector2 position = new Vector2(-10, -10);
             Vector2 velocity = new Vector2(0, 0);
 
             AABB aabb = new AABB()
@@ -581,6 +580,20 @@ namespace Hazmat.Utilities
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new NameComponent() { name = "enemy" });
+
+            // Health Bar Entity
+            //var healthBarEntity = SpawnHelper.World.CreateEntity();
+            //healthBarEntity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
+            ////healthBarEntity.Set(new WorldSpaceComponent());
+            //healthBarEntity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(
+            //    new Texture2DInfo(
+            //        @"static_sprites/SPT_UI_HUD_EnergyBack"
+            //        //scale: new Vector2(10,10)
+            //        )
+            //    ));
+
+            //healthBarEntity.SetAsChildOf(healthBarEntity);
+
             return entity;
         }
 

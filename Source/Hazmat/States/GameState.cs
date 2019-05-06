@@ -88,6 +88,9 @@ namespace Hazmat.States
             this.world = new World();
             this.SetInstance(this.world);
 
+            // Music
+            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.InGameSong, loop: true);
+
             // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
             this.textureResourceManager.Manage(this.world);
@@ -180,7 +183,13 @@ namespace Hazmat.States
                     );
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(game.GraphicsDevice, this.worldCamera, this.world);
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>(@"debugging\bounding_box"));
-
+            HealthDrawSystem healthDrawSystem = new HealthDrawSystem(
+                world, 
+                game.GraphicsDevice, 
+                this.worldCamera, 
+                game.Content.Load<Texture2D>(@"ui\HealthBar_W"),
+                game.Content.Load<Texture2D>(@"ui\HealthBar_G")
+                );
 
             //GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
             //    grid : grid, 
@@ -202,7 +211,9 @@ namespace Hazmat.States
                 //gridDrawSystem,
                 new SpineSkeleton2DDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world),
                 new SpineSkeleton3DDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
+                healthDrawSystem,
                 aabbDebugDrawSystem,
+
 
                 // Screen draw systems
                 energyDrawSystem,
@@ -215,23 +226,17 @@ namespace Hazmat.States
             ProcGen.SpawnHotspots();
             SpawnHelper.SpawnEnemyCamp(new Vector2(70, 70));
             // Create player
-            SpawnHelper.SpawnPlayer(0);
+            SpawnHelper.SpawnPlayer(0, new Vector2(-10, -10));
             // Create energy pickup
             // SpawnHelper.SpawnBattery(Constants.BIG_BATTERY_SIZE, new Vector2(-20, 20));
-            
-            // Create a power up pick up
-            //SpawnHelper.SpawnPowerUp(Vector2.One * -20f);
 
-            SpawnHelper.SpawnLootStation(new Vector2(-10, 10));
+            // Create a power up pick up
             SpawnHelper.SpawnCollectableGun(new Vector3(-20, -20, 0));
 
             //SpawnHelper.SpawnEvent(new Vector2(0, 0));
 
-            // Create lootbox
-            //SpawnHelper.SpawnLootBox(new Vector2(30, -10));
-
             // Event trigger
-            //SpawnHelper.SpawnEvent(new Vector2(0, -20));
+            SpawnHelper.SpawnEvent(new Vector2(-10, -10));
         }
 
         public override IStateTransition Update(Time time)

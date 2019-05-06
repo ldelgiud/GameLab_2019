@@ -9,23 +9,24 @@ namespace Hazmat.Components
     // Used for entities such as enemies etc.
     class HealthComponent
     {
-
-        float health;
+        public float TotalHealth { get; private set; }
+        public float Health { get; private set; }
 
         public HealthComponent(float health)
         {
-            this.health = health;
+            this.Health = health;
+            this.TotalHealth = health;
         }
 
         public void DealDamage(float damage)
         {
-            this.health -= damage;
-            if (this.health < 0) this.health = 0;
+            this.Health -= damage;
+            if (this.Health < 0) this.Health = 0;
         }
 
         public bool isDead()
         {
-            return this.health == 0;
+            return this.Health == 0;
         }
 
     }

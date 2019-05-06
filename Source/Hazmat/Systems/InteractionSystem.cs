@@ -66,7 +66,16 @@ namespace Hazmat.Systems
                     ref var entityTransform = ref entity.Get<Transform3DComponent>();
                     ref InteractableComponent interactable = ref entity.Get<InteractableComponent>();
 
-                    if (Vector2.Distance(entityTransform.value.Translation.ToVector2(), playerTransform.value.Translation.ToVector2()) < Constants.INTERACTION_DISTANCE)
+                    var interactionDistance = (float)Constants.INTERACTION_DISTANCE;
+
+                    if (entity.Has<AABBComponent>())
+                    {
+                        // Quick fix for interactable objects
+                        ref var aabb = ref entity.Get<AABBComponent>();
+                        interactionDistance += MathF.Max((float)aabb.aabb.Height, (float)aabb.aabb.Width);
+                    }
+
+                    if (Vector2.Distance(entityTransform.value.Translation.ToVector2(), playerTransform.value.Translation.ToVector2()) < interactionDistance)
                     {
                         // If player wasn't already nearby the interactable object then trigger the glowing (only once until player moves out of distance)
                         if (!interactable.playerNearby && entity.Has<Texture2DComponent>())

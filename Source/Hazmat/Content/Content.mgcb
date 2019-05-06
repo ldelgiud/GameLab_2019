@@ -744,6 +744,18 @@
 #begin items/SPS_StaticSprites.png
 /copy:items/SPS_StaticSprites.png
 
+#begin music/inGameSong.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/inGameSong.mp3
+
+#begin music/Sci-Fi-Gun_Sfx.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:music/Sci-Fi-Gun_Sfx.wav
+
 #begin shaders/blackAndWhite.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -809,6 +821,30 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:shaders/vignette.fx
+
+#begin ui/HealthBar_G.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/HealthBar_G.png
+
+#begin ui/HealthBar_W.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/HealthBar_W.png
 
 #begin ui/SPS_Screens.atlas
 /copy:ui/SPS_Screens.atlas

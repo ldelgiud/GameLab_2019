@@ -42,6 +42,9 @@ namespace Hazmat.Components
         {
             if ((absoluteTime - timeLastShot) < reloadTime) { return; }
 
+            // Play Sound Effect
+            Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.Shooting_Sfx);
+
             if (direction != Vector2.Zero)
             {
                 direction.Normalize();
