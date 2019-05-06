@@ -43,7 +43,7 @@ namespace Hazmat.Components.InputHandlers
                 case HoldEvent _:
                 case PressEvent _:
                     // TODO: add logic for choosing right
-                    stats.UpgradeSpeed(30);
+                    stats.UpgradeSpeed(Constants.SPEED_UPGRADE);
                     entity.Delete();
                     break;
             }
@@ -59,18 +59,18 @@ namespace Hazmat.Components.InputHandlers
             }
 
             // GAMEPAD
-            switch (inputManager.GetEvent(0, Buttons.RightShoulder))
+            switch (inputManager.GetEvent(0, Buttons.LeftShoulder))
             {
                 case HoldEvent _:
                 case PressEvent _:
                     // TODO: add logic for choosing right
                     this.score.WeaponUpgrades += 1;
-                    stats.UpgradeSpeed(30);
+                    stats.UpgradeSpeed(Constants.SPEED_UPGRADE);
                     entity.Delete();
                     break;
             }
 
-            switch (inputManager.GetEvent(0, Buttons.LeftShoulder))
+            switch (inputManager.GetEvent(0, Buttons.RightShoulder))
             {
                 case HoldEvent _:
                 case PressEvent _:

@@ -15,6 +15,7 @@ namespace Hazmat.Utilities
         public static float PLAYER_RELOAD_TIME = 0.3f; //TESTED
         public static float BULLET_SIZE = 1f; //TESTED
         public static double STREET_SPAWN_RATE = 0.6;
+        public static int SPEED_UPGRADE = 5;
         //POWERPLANT STATS
         public static double PLANT_PLAYER_DISTANCE = 1300;
         public static double MIN_DEGREE = 20;

@@ -330,7 +330,7 @@ namespace Hazmat.Utilities
                 if (houseNr == 0) SpawnHelper.SpawnHouse0(position, DirToFace);
                 else SpawnHelper.SpawnHouse1(position, DirToFace);
                 
-                if (spawnMailbox)
+                if (spawnMailbox && position.Length()>=40)
                 {
                     Vector2 correctionVec = new Vector2(4, -7.5f);
                     Vector2 mailboxPosition = position + correctionVec.Rotate(DirToFace * MathF.PI / 2);
@@ -814,6 +814,7 @@ namespace Hazmat.Utilities
         public static void SpawnEnemyCamp(Vector2 position) 
         {
             int enemyCount = Constants.RANDOM.Next(5, 8);
+            SpawnHelper.SpawnPowerUp(position);
 
             for (int i = 0; i < enemyCount; ++i)
             {

@@ -138,7 +138,7 @@ namespace Hazmat.Utilities
                     {
                         SpawnHelper.SpawnRandomHouse(position);
                     }
-                    else if (rand <= 23)
+                    else if (rand <= 21)
                     {
                         SpawnHelper.SpawnRock(position, Constants.RANDOM.Next(1, 5));
                     }
