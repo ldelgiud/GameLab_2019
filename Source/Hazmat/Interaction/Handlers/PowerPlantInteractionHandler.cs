@@ -32,9 +32,6 @@ namespace Hazmat.Interaction.Handlers
             {
                 case ReleaseEvent _:
                     {
-                        ref Texture2DComponent texture = ref interactee.Get<Texture2DComponent>();
-                        texture.RemoveTemporaryEffect();
-
                         var entity = this.world.CreateEntity();
 
                         var _event = new StoryConclusionEvent();

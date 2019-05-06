@@ -152,7 +152,7 @@ namespace Hazmat.Utilities
             Alliance alliance = parent.Get<AllianceMaskComponent>().alliance;
             gunEntity.Set(new SmallGunComponent(
                 damage : 35f, 
-                projectileSpeed : 25f, 
+                projectileSpeed : Constants.BULLET_SPEED, 
                 radiusRange : -1f, 
                 reloadTime : 0.5f, 
                 projTex : "shooting/bullet", 
@@ -182,7 +182,7 @@ namespace Hazmat.Utilities
 
             gunEntity.Set(new SmallGunComponent(
                 damage: 35f,
-                projectileSpeed: 25f,
+                projectileSpeed: Constants.BULLET_SPEED,
                 radiusRange: -1f,
                 reloadTime: 0.2f,
                 projTex: "shooting/bullet",

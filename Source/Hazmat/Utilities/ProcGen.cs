@@ -120,8 +120,10 @@ namespace Hazmat.Utilities
             {
                 for (float x = Constants.LEFT_BORDER; x <= Constants.RIGHT_BORDER; x += Constants.TILE_SIZE)
                 {
+                    
                     Vector2 position = new Vector2(x, y);
                     if (ProcGen.ToCloseTooStreet(position)) continue;
+                    if (position.Length() <= 20) continue;
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
                     if (rand <= 15)

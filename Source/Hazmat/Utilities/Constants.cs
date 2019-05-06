@@ -28,19 +28,19 @@ namespace Hazmat.Utilities
         //BATTERY SCALE
         public static Vector2 BIG_BATTERY_SCALE = new Vector2(4f, 4f);
 
-        public static float DRONE_SPEED = 16;
-        public static float SHOOTER_SPEED = 13;
-        public static int PLAYER_SPEED = 50;
-        public static float TTL_BULLET = 5f;
+        public static float DRONE_SPEED = 23; //TESTED
+        public static float SHOOTER_SPEED = 20;
+        public static int PLAYER_SPEED = 20; //TESTED
+        public static float TTL_BULLET = 5f; //TESTED
         public static float MAILBOX_DAMAGE = 100;
-        public static float BULLET_SPEED = 100;
+        public static float BULLET_SPEED = 45; // TESTED
         public static float MAILBOX_RELOAD_TIME = 1f;
         //GRID GENERATION VALUES
             public static float NODE_RADIUS = 0.5f;
             public static float NODE_HIT_RADIUS = 3f;
         //AI values for FSM transitions
             public static double OFFLINE_TO_STANDBY_DIST = 60;
-            public static double OFFLINE_TO_ATTACK_DIST = 20; // Only for mailbox!
+            public static double OFFLINE_TO_ATTACK_DIST = 30; // Only for mailbox!
             public static double STANDBY_TO_OFFLINE_DIST = 70;
             public static double STANDBY_TO_SEARCH_DIST = 40;
             public static double SEARCH_TO_STANDBY_DIST = 50;
