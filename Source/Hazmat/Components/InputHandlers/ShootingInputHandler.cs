@@ -11,7 +11,7 @@ using Hazmat.Utilities;
 using Hazmat.Graphics;
 using Hazmat.Utilities.Extensions;
 using Hazmat.Components.InputHandlers;
-
+using Hazmat.Music;
 
 namespace Hazmat.Components.InputHandlers
 {

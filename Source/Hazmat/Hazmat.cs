@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Hazmat.State;
 using Hazmat.States;
 using Hazmat.Utilities;
+using Hazmat.Music;
 
 namespace Hazmat
 {
@@ -25,12 +26,16 @@ namespace Hazmat
 
         GraphicsDeviceManager graphics;
 
+        public SoundManager SoundManager { get; private set; }
+
         public Hazmat()
         {
             Hazmat.Instance = this;
-
+          
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            SoundManager = new SoundManager(Content);
         }
 
         /// <summary>
@@ -139,5 +144,6 @@ namespace Hazmat
             this.ActiveState.Draw(this.drawTime);
             base.Draw(gameTime);
         }
+        
     }
 }

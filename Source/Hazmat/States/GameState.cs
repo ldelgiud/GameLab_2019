@@ -88,6 +88,9 @@ namespace Hazmat.States
             this.world = new World();
             this.SetInstance(this.world);
 
+            // Music
+            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.InGameSong);
+
             // Resource Managers
             this.textureResourceManager = new TextureResourceManager(game.Content);
             this.textureResourceManager.Manage(this.world);
@@ -172,7 +175,13 @@ namespace Hazmat.States
                     );
             ModelDrawSystem modelDrawSystem = new ModelDrawSystem(game.GraphicsDevice, this.worldCamera, this.world);
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>(@"debugging\bounding_box"));
-
+            HealthDrawSystem healthDrawSystem = new HealthDrawSystem(
+                world, 
+                game.GraphicsDevice, 
+                this.worldCamera, 
+                game.Content.Load<Texture2D>(@"ui\HealthBar_W"),
+                game.Content.Load<Texture2D>(@"ui\HealthBar_G")
+                );
 
             //GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
             //    grid : grid, 
@@ -194,7 +203,9 @@ namespace Hazmat.States
                 //gridDrawSystem,
                 new SpineSkeleton2DDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world),
                 new SpineSkeleton3DDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
+                healthDrawSystem,
                 aabbDebugDrawSystem,
+
 
                 // Screen draw systems
                 energyDrawSystem,
@@ -219,7 +230,6 @@ namespace Hazmat.States
             //SpawnHelper.SpawnCollectableGun(new Vector3(20,20,2));
 
             SpawnHelper.SpawnPlayerHouse();
-
 
             //SpawnHelper.SpawnEvent(new Vector2(0, 0));
 

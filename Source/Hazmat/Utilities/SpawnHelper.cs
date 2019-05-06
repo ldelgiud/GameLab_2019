@@ -481,7 +481,6 @@ namespace Hazmat.Utilities
             };
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
-            element.Span.LowerBound += position;
             element.Span.UpperBound += position;
             SpawnHelper.quadtree.AddNode(element);
 
@@ -493,6 +492,20 @@ namespace Hazmat.Utilities
             entity.Set(new HealthComponent(100));
             entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new NameComponent() { name = "enemy" });
+
+            // Health Bar Entity
+            //var healthBarEntity = SpawnHelper.World.CreateEntity();
+            //healthBarEntity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
+            ////healthBarEntity.Set(new WorldSpaceComponent());
+            //healthBarEntity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(
+            //    new Texture2DInfo(
+            //        @"static_sprites/SPT_UI_HUD_EnergyBack"
+            //        //scale: new Vector2(10,10)
+            //        )
+            //    ));
+
+            //healthBarEntity.SetAsChildOf(healthBarEntity);
+
             return entity;
         }
 
