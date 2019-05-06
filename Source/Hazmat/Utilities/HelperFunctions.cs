@@ -19,7 +19,7 @@ namespace Hazmat.Utilities
 
         public static double DropRate()
         {
-            return 0.4f;
+            return 0.2f;
         }
     }
 }

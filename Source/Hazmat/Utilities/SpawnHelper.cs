@@ -821,7 +821,9 @@ namespace Hazmat.Utilities
         public static void SpawnEnemyCamp(Vector2 position) 
         {
             int enemyCount = Constants.RANDOM.Next(5, 8);
-            SpawnHelper.SpawnPowerUp(position);
+            bool upgrade = Constants.RANDOM.Next(10) <= 7; 
+            //TODO: Check that it doesn't spawn inside other objects
+            if (upgrade) SpawnHelper.SpawnPowerUp(position);
 
             for (int i = 0; i < enemyCount; ++i)
             {
