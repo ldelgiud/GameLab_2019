@@ -85,6 +85,52 @@ namespace Hazmat.Utilities
             }
         }
 
+        /// <summary>
+        /// Spawn Nuclear Power Plant with all entities and attach respective components
+        /// </summary>
+        /// <param name="plant">Powerlplant object</param>
+        public static void BuildPowerPlant(PowerPlant plant)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = Constants.POWERPLANT_NAME });
+
+            //Generate random position
+            double angle = Constants.RANDOM.NextDouble() * (Constants.MAX_RADIAN - Constants.MIN_RADIAN) + Constants.MIN_RADIAN;
+            double x = Math.Round(Constants.PLANT_PLAYER_DISTANCE * Math.Cos(angle) / 10) * 10;
+            //TODO: change this once camera work is done
+            double y = Math.Round(Constants.PLANT_PLAYER_DISTANCE * Math.Sin(angle) / 10) * 10;
+            Vector2 position = new Vector2((float)x, (float)y);
+            plant.Position = position;
+
+            //Bounding box stuff
+            AABB aabb = new AABB()
+            {
+                LowerBound = new Vector2(-5, -5),
+                UpperBound = new Vector2(5, 5)
+            };
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
+            element.Span.LowerBound += position;
+            element.Span.UpperBound += position;
+
+            //Create entity and attach the components to it
+            entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"buildings\houses\MES_EN_Powerplant_01",
+                @"buildings\houses\TEX_EN_Powerplant_01",
+                scale: new Vector3(0.1f, 0.1f, 0.05f),
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
+                updateTimeEffect: true,
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
+            )));
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
+            entity.Set(new PowerPlantComponent());
+            entity.Set(new InteractableComponent());
+
+            SpawnHelper.quadtree.AddNode(element);
+        }
+
+
         public static bool ToCloseTooStreet(Vector2 position)
         {
             bool streetFound = false;
@@ -361,24 +407,5 @@ namespace Hazmat.Utilities
             }
         }
 
-        public static void SpawnHotspots()
-        {
-            Debug.WriteLine("Spawning Enemy Camps");
-            int step = (int)Constants.TILE_SIZE * 10;
-            for (int y = 100; y < Constants.TOP_BORDER; y += step)
-            {
-                for (int x = 100; x < Constants.RIGHT_BORDER; x += step)
-                {
-                    Vector2 curr = new Vector2(x, y);
-                    bool gen =
-                        Constants.RANDOM.NextDouble() < ProcGen.SpawnMap.map[y/step][x/step];
-                    if (gen)
-                    {
-                        Debug.WriteLine("New Hotspot at: " + curr);
-                        SpawnHelper.SpawnEnemyCamp(curr);
-                    }
-                }
-            }
-        }
     }
 }

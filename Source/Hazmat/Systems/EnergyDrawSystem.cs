@@ -59,7 +59,7 @@ namespace Hazmat.Systems
             // TODO: Shift to proper location
 
             // Scale to proper size
-            transform.value.Scale = new Vector2((float)(this.energy.CurrentEnergy / Constants.MAX_ENERGY), 1);
+            transform.value.Scale = new Vector2((float)(this.energy.CurrentEnergy / Constants.PLAYER_INITIAL_ENERGY), 1);
         }
 
         public void Dispose()

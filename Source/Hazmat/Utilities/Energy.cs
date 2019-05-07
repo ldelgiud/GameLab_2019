@@ -18,7 +18,7 @@ namespace Hazmat.Utilities
 
             set
             {
-                this.currentEnergy = Math.Max(0, Math.Min(value, Constants.MAX_ENERGY));
+                this.currentEnergy = Math.Max(0, Math.Min(value, Constants.PLAYER_INITIAL_ENERGY));
             }
         }
 
@@ -27,7 +27,7 @@ namespace Hazmat.Utilities
         /// </summary>
         public Energy()
         {
-            this.CurrentEnergy = Constants.MAX_ENERGY;
+            this.CurrentEnergy = Constants.PLAYER_INITIAL_ENERGY;
         }
     }
 }
