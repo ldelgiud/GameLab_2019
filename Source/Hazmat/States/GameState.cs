@@ -166,6 +166,8 @@ namespace Hazmat.States
             //TERRAIN GENERATION
             SpawnMap spawnMap = new SpawnMap();
             this.SetInstance(spawnMap);
+            Street street = new Street();
+            this.SetInstance(street);
 
             ProcGen.BuildBackground();
             ProcGen.BuildPowerPlant(powerPlant);
@@ -227,11 +229,11 @@ namespace Hazmat.States
             SpawnHelper.SpawnEnemyCamps();
             SpawnHelper.SpawnEnemyCamp(new Vector2(70, 70));
             // Create player
-            SpawnHelper.SpawnPlayer(0, new Vector2(-10, -10));
+            SpawnHelper.SpawnPlayer(0, new Vector2(-10));
             // Create a power up pick up
             SpawnHelper.SpawnCollectableGun(new Vector3(-20, -20, 0));
             // Event trigger
-            SpawnHelper.SpawnEvent(new Vector2(-10, -10));
+            SpawnHelper.SpawnEvent(Vector2.Zero);
             //-----------------------END SPAWNING-----------------------
         }
 

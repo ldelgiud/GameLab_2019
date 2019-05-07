@@ -49,10 +49,17 @@ namespace Hazmat.Utilities
             }
         }
 
+        public static Street Street
+        {
+            get
+            {
+                return Hazmat.Instance.ActiveState.GetInstance<Street>();
+            }
+        }
+
         public static void BuildBackground()
         {
-            Debug.WriteLine("Background Generation");
-
+            Debug.WriteLine("START: Background Generation");
             float x = Constants.LEFT_BORDER;
             float y = Constants.TOP_BORDER;
             float tile = Constants.TILE_SIZE;
@@ -83,14 +90,12 @@ namespace Hazmat.Utilities
                 x = Constants.LEFT_BORDER;
                 y -= Constants.TILE_SIZE;
             }
+            Debug.WriteLine("END: Background Generation");
         }
 
-        /// <summary>
-        /// Spawn Nuclear Power Plant with all entities and attach respective components
-        /// </summary>
-        /// <param name="plant">Powerlplant object</param>
         public static void BuildPowerPlant(PowerPlant plant)
         {
+            Debug.WriteLine("START: Powerplant Generation");
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = Constants.POWERPLANT_NAME });
 
@@ -128,8 +133,10 @@ namespace Hazmat.Utilities
             entity.Set(new InteractableComponent());
 
             SpawnHelper.quadtree.AddNode(element);
-        }
 
+            Debug.WriteLine("End: Powerplant Generation");
+
+        }
 
         public static bool ToCloseTooStreet(Vector2 position)
         {
@@ -160,7 +167,8 @@ namespace Hazmat.Utilities
 
         public static void BuildExtras()
         {
-            Debug.WriteLine("Objects Generation");
+            Debug.WriteLine("START: Objects Generation");
+
             float tile = Constants.TILE_SIZE;
             for (float y = Constants.BOTTOM_BORDER; y <= Constants.TOP_BORDER; y+= Constants.TILE_SIZE)
             {
@@ -168,8 +176,10 @@ namespace Hazmat.Utilities
                 {
                     
                     Vector2 position = new Vector2(x, y);
-                    if (ProcGen.ToCloseTooStreet(position)) continue;
-                    if (position.Length() <= 20) continue;
+                    Vector2 closestTile = Street.FindClosestTile(position);
+                    float streetSqrdDist = (position- closestTile).LengthSquared();
+                    
+                    if (position.LengthSquared() <= 30*30 || streetSqrdDist <= 20*20) continue;
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
                     if (rand <= 15)
@@ -190,6 +200,8 @@ namespace Hazmat.Utilities
                     }
                 }
             }
+            Debug.WriteLine("END: Objects Generation");
+
         }
 
         static void RemoveObjects(Vector2 position)
@@ -213,16 +225,13 @@ namespace Hazmat.Utilities
 
         public static void PlaceStreetTile(Vector2 position, int direction, bool changeDir, int parity)
         {
-
+            ProcGen.Street.AddTile(position);
             ProcGen.TileMap.RemoveTiles(new Transform2D(position));
 
             //Add boulder
             bool block = Constants.RANDOM.Next(8) == 1;
             if (block && !changeDir) SpawnHelper.SpawnRoadBlock(position, direction);
 
-            ProcGen.SpawnMap.map
-                    [(int)(position.Y / (Constants.TILE_SIZE * 10))]
-                    [(int)(position.X / (Constants.TILE_SIZE * 10))] = Constants.STREET_SPAWN_RATE;
             Vector3 rotation = Vector3.Zero;
 
             Vector2 lowerSidewalkPos1;
@@ -321,7 +330,7 @@ namespace Hazmat.Utilities
 
         public static void BuildStreet(PowerPlant plant)
         {
-            Debug.WriteLine("Street Generation");
+            Debug.WriteLine("START: Street Generation");
 
             Vector2 curr = Vector2.Zero;
             Vector3 scale = new Vector3(0.2f, 0.2f, 1);
@@ -379,33 +388,23 @@ namespace Hazmat.Utilities
 
         public static void SetSpawnRates()
         {
-            Debug.WriteLine("Setting Spawning Rates");
-            int Y = (int) (Constants.TOP_BORDER / (Constants.TILE_SIZE * 10)) - 1;
-            int X = (int) (Constants.RIGHT_BORDER / (Constants.TILE_SIZE * 10)) - 1;
-            int x = 0;
-            int y = 0;
-            
-            while (x < X && y < Y)
+            Debug.WriteLine("START: Set Spawning Rates");
+            foreach (Vector2 tile in Street.positions)
             {
-                //Debug.WriteLine("Position: " + new Vector2(x,y));
-                for (int i = 0; i < 5; i++)
+                for (int i = -5; i <= 5; i++)
                 {
-                    double divisor = Math.Pow(2.0, i);
-                    if (x+i < X) ProcGen.SpawnMap.map[y][x+i] = 
-                            Math.Max(ProcGen.SpawnMap.map[y][x], Constants.STREET_SPAWN_RATE / divisor);
-                    if (x-i > 0) ProcGen.SpawnMap.map[y][x - i] =
-                            Math.Max(ProcGen.SpawnMap.map[y][x], Constants.STREET_SPAWN_RATE / divisor);
-                }
+                    float x = tile.X + i * ProcGen.SpawnMap.tilesize;
+                    Vector2 myTile =
+                        new Vector2(x, tile.Y);
+                    double divisor = Math.Pow(2, Math.Abs(i));
 
-                if ((ProcGen.SpawnMap.map[y + 1][x] == Constants.STREET_SPAWN_RATE)) y++;
-                else if (ProcGen.SpawnMap.map[y][x + 1] == Constants.STREET_SPAWN_RATE) x++;
-                else
-                {
-                    //Debug.WriteLine("No More street at: (" + x + "," + y + ")");
-                    break;
+                    if (x > Constants.LEFT_BORDER && x < Constants.RIGHT_BORDER)
+                    {
+                        ProcGen.SpawnMap.SetSpawnRate(myTile, Constants.STREET_SPAWN_RATE/divisor);
+                    }
                 }
             }
+            Debug.WriteLine("END: Set Spawning Rates");
         }
-
     }
 }

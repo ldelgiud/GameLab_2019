@@ -315,6 +315,7 @@
     <Compile Include="Utilities\Spine\spine-xna\Util.cs" />
     <Compile Include="Utilities\Spine\spine-xna\VertexEffect.cs" />
     <Compile Include="Utilities\Spine\spine-xna\XnaTextureLoader.cs" />
+    <Compile Include="Utilities\Street.cs" />
     <Compile Include="Utilities\TileMap.cs" />
     <Compile Include="Utilities\Time.cs" />
   </ItemGroup>

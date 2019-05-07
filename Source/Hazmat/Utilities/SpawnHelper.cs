@@ -46,33 +46,40 @@ namespace Hazmat.Utilities
             }
         }
 
+        public static Street Street
+        {
+            get
+            {
+                return Hazmat.Instance.ActiveState.GetInstance<Street>();
+            }
+        }
+
         /// <summary>
         /// Helper function, spawns player at position (0,0) with zero velocity
         /// </summary>
         /// <param name="playerID">starts at 0, and linearly increase, NO RANDOM VARIABLES</param>
         public static void SpawnPlayer(int playerID, Vector2 position)
         {
-            var entity = SpawnHelper.World.CreateEntity();
+            Debug.WriteLine("START: generation of player_0" + playerID);
 
-            SpawnHelper.AttachAABB(entity, position, 2, 2, true);
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = Constants.PLAYER_NAME + playerID });
 
             AABB testAABB = new AABB(position,2,2);
-            testAABB.LowerBound += position;
-            testAABB.UpperBound += position;
             List<Entity> entities = SpawnHelper.CollisionCheck(testAABB, true);
             foreach (Entity ent in entities)
             {
                 ent.Delete();
             }
+            SpawnHelper.AttachAABB(entity, position, 2, 2, true);
 
-            Vector2 velocity = Vector2.Zero;
             var transform = new Transform3D(position.ToVector3());
             entity.Set(new PlayerComponent(playerID));
             entity.Set(new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0));
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform3DComponent(transform));
             entity.Set(new WorldSpaceComponent());
-            entity.Set(new VelocityComponent(velocity));
+            entity.Set(new VelocityComponent());
             entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_PlayerMat_01",
@@ -82,7 +89,6 @@ namespace Hazmat.Utilities
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
                 )));
-            entity.Set(new NameComponent() { name =  Constants.PLAYER_NAME + playerID});
 
             {
                 var maskEntity = SpawnHelper.World.CreateEntity();
@@ -100,6 +106,7 @@ namespace Hazmat.Utilities
                     standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
                 )));
             }
+
 
             {
                 var backpackEntity = SpawnHelper.World.CreateEntity();
@@ -119,8 +126,10 @@ namespace Hazmat.Utilities
             }
 
             entity.SetModelAnimation("Take 001");
+
+            Debug.WriteLine("END: generation of player_0" + playerID);
         }
-        
+
         /// <summary>
         /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
         /// </summary>
@@ -199,91 +208,19 @@ namespace Hazmat.Utilities
         {
             //TODO: refactor
             int houseNr = Constants.RANDOM.Next(2);
-            AABB aabb;
-            if (houseNr == 0)
-            {
-                Vector2 lowerBound = new Vector2(position.X - 5, position.Y - 5);
-                Vector2 upperBound = new Vector2(position.X + 5, position.Y + 5);
-                aabb = new AABB(lowerBound, upperBound);
-            } else
-            {
-                Vector2 lowerBound = new Vector2(position.X - 5, position.Y - 5);
-                Vector2 upperBound = new Vector2(position.X + 5, position.Y + 10);
-                aabb = new AABB(lowerBound, upperBound);
-            }
-            
            
             //Find correct rotation
-            float DirToFace = 0;
-            bool streetFound = false;
-            for (int dist = 1; dist < 10; dist++)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    AABB testAABB = new AABB()
-                    {
-                        LowerBound = new Vector2(-1f, -1f),
-                        UpperBound = new Vector2(1f, 1f)
-                    };
-                    testAABB.LowerBound += position;
-                    testAABB.UpperBound += position;
-
-                    switch (i)
-                    {
-                        case 0:
-                            testAABB.LowerBound += new Vector2(Constants.TILE_SIZE * dist, 0);
-                            testAABB.UpperBound += new Vector2(Constants.TILE_SIZE * dist, 0);
-                            break;
-                        case 1:
-                            testAABB.LowerBound += new Vector2(0, Constants.TILE_SIZE * dist);
-                            testAABB.UpperBound += new Vector2(0, Constants.TILE_SIZE * dist);
-                            break;
-                        case 2:
-                            testAABB.LowerBound -= new Vector2(Constants.TILE_SIZE * dist, 0);
-                            testAABB.UpperBound -= new Vector2(Constants.TILE_SIZE * dist, 0);
-                            break;
-                        case 3:
-                            testAABB.LowerBound -= new Vector2(0, Constants.TILE_SIZE * dist);
-                            testAABB.UpperBound -= new Vector2(0, Constants.TILE_SIZE * dist);
-                            break;
-                        default:
-                            break;
-                    }
-                    SpawnHelper.TileMap.quadtree.QueryAABB((Element<Entity> collidee) =>
-                    {
-                        if (collidee.Value.Has<NameComponent>())
-                        {
-                            if (collidee.Value.Get<NameComponent>().name == Constants.STREET_TILE_NAME)
-                            {
-                                DirToFace = (i+1) % 4;
-                                streetFound = true;
-                                return false;
-                            }
-                        }
-                        return true;
-                    }, ref testAABB);
-                }
-                if (streetFound) break;
-            }
-
-
+            float DirToFace = Street.FindClosestDirection(position);
             
-            AABB rotatedAABB = aabb.rotate((int)DirToFace);
-            List<Entity> entities = SpawnHelper.CollisionCheck(rotatedAABB, true);
-            if (entities.Count == 0)
-            {
-                bool spawnMailbox = Constants.RANDOM.Next(5) == 1;
-                if (houseNr == 0) SpawnHelper.SpawnHouse0(position, DirToFace);
-                else SpawnHelper.SpawnHouse1(position, DirToFace);
+            bool spawnMailbox = Constants.RANDOM.Next(5) == 1;
+            if (houseNr == 0) SpawnHelper.SpawnHouse0(position, DirToFace);
+            else SpawnHelper.SpawnHouse1(position, DirToFace);
                 
-                if (spawnMailbox && position.Length()>=40)
-                {
-                    Vector2 correctionVec = new Vector2(4, -7.5f);
-                    Vector2 mailboxPosition = position + correctionVec.Rotate(DirToFace * MathF.PI / 2);
-                    SpawnMailBox(mailboxPosition);
-                }
-
-
+            if (spawnMailbox && position.Length()>=50)
+            {
+                Vector2 correctionVec = new Vector2(4, -7.5f);
+                Vector2 mailboxPosition = position + correctionVec.Rotate(DirToFace * MathF.PI / 2);
+                SpawnMailBox(mailboxPosition);
             }
         }
 
@@ -739,23 +676,26 @@ namespace Hazmat.Utilities
 
         public static void SpawnEnemyCamps()
         {
-            Debug.WriteLine("Spawning Enemy Camps");
+            Debug.WriteLine("START: Spawning Enemy Camps");
             int step = (int)Constants.TILE_SIZE * 10;
+
             for (float y = Constants.BOTTOM_BORDER; y < Constants.TOP_BORDER; y += step)
             {
-                for (float x = Constants.TOP_BORDER; x < Constants.RIGHT_BORDER; x += step)
+                for (float x = Constants.LEFT_BORDER; x < Constants.RIGHT_BORDER; x += step)
                 {
                     Vector2 curr = new Vector2(x, y);
                     if (curr.LengthSquared() <= (100 * 100)) continue;
                     bool gen =
-                        Constants.RANDOM.NextDouble() < ProcGen.SpawnMap.map[(int)y / step][(int)x / step];
+                        Constants.RANDOM.NextDouble() < ProcGen.SpawnMap.GetSpawnRate(curr);
                     if (gen)
                     {
-                        Debug.WriteLine("New Hotspot at: " + curr);
+                        //Debug.WriteLine("New Hotspot at: " + curr);
                         SpawnHelper.SpawnEnemyCamp(curr);
                     }
                 }
             }
+            Debug.WriteLine("END: Spawning Enemy Camps");
+
         }
 
         public static Entity SpawnBullet(Vector3 position, Vector2 direction)
