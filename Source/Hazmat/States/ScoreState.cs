@@ -26,9 +26,6 @@ namespace Hazmat.States
         Score score;
         World world;
 
-        TextResourceManager textResourceManager;
-        SpineAnimationResourceManager spineAnimationResourceManager;
-
         ISystem<Time> drawSystem;
 
         public ScoreState(Score score)

@@ -32,8 +32,6 @@ namespace Hazmat.States
         World world;
         Camera2D screenCamera;
 
-        SpineAnimationResourceManager spineAnimationResourceManager;
-
         ISystem<Time> drawSystem;
 
         public override void Initialize(Time time, Hazmat game)

@@ -42,11 +42,6 @@ namespace Hazmat.States
         RenderCapture renderCapture;
         PostProcessing postprocessor;
 
-        TextureResourceManager textureResourceManager;
-        ModelResourceManager modelResourceManager;
-        SpineAnimationResourceManager spineAnimationResourceManager;
-        AtlasTextureResourceManager atlasTextureResourceManager;
-
         TileMap tileMap;
 
         public override void Initialize(Time time, Hazmat game)
