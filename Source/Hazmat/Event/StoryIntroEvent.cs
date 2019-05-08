@@ -31,6 +31,7 @@ namespace Hazmat.Event
         private enum State
         {
             Start,
+            Intro0,
             Intro1,
             Intro2,
             Waiting,
@@ -71,14 +72,38 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
-                    this.playing = this.soundManager.PlaySoundEffectInstance(
-                        effect: soundManager.BossIntro01);
+                    this.playing = this.soundManager.PlaySoundEffectInstance(effect: soundManager.Ringtone, loop: true);
+
                     this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
-                        new SpineAnimationInfo(@"ui\SPS_Screens",
-                        new SkeletonInfo(skin: "story_01"),
-                        new AnimationStateInfo("press_A_to_continue", true)
-                        )));
-                    this.state = State.Intro1;
+                                new SpineAnimationInfo(@"ui\SPS_Screens",
+                                new SkeletonInfo(skin: "story_0"),
+                                new AnimationStateInfo("press_A_to_pickup_phone", true)
+                                )));
+
+                    this.state = State.Intro0;
+                    break;
+                case State.Intro0:
+                    switch (inputEvent)
+                    {
+                        case PressEvent _:
+                            this.soundManager.StopSoundEffectInstance(this.playing);
+
+                            ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
+                            ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
+
+                            this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                                new SpineAnimationInfo(@"ui\SPS_Screens",
+                                new SkeletonInfo(skin: "story_01"),
+                                new AnimationStateInfo("press_A_to_continue", true)
+                                )));
+
+                            this.playing = this.soundManager.PlaySoundEffectInstance(effect: soundManager.BossIntro01);
+                            this.state = State.Intro1;
+
+                            this.inputManager.RemoveEvent(Keys.E);
+                            this.inputManager.RemoveEvent(0, Buttons.A);
+                            break;
+                    }
                     break;
                 case State.Intro1:
                     switch (inputEvent)
@@ -88,10 +113,11 @@ namespace Hazmat.Event
                             ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
                             ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
 
-                            skeleton.info.skin = "story_02";
-                            skeleton.value.SetSkin("story_02");
-
-                            animation.value.SetAnimation(0, "press_A_to_continue", true);
+                            this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                                new SpineAnimationInfo(@"ui\SPS_Screens",
+                                new SkeletonInfo(skin: "story_02"),
+                                new AnimationStateInfo("press_A_to_pickup_phone", true)
+                                )));
 
                             this.inputManager.RemoveEvent(Keys.E);
                             this.inputManager.RemoveEvent(0, Buttons.A);
