@@ -103,7 +103,7 @@ namespace Hazmat.Event
                     if (timestamp <= time.Absolute)
                     {
                         ref var transform = ref this.introEntity.Get<Transform2DComponent>();
-                        transform.value.LocalTranslation = transform.value.LocalTranslation * new Vector2(1, 0) + new Vector2(0, 300);
+                        transform.value.LocalTranslation = transform.value.LocalTranslation * new Vector2(1, 0) + new Vector2(0, -350);
                         this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                             new SpineAnimationInfo(@"ui\SPS_Screens",
                             new SkeletonInfo(596, 288, skin: "tip_after_first_steps"),

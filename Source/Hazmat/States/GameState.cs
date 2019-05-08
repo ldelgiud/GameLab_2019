@@ -212,7 +212,6 @@ namespace Hazmat.States
                 //new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
                 modelDrawSystem,
                 //gridDrawSystem,
-                new SpineSkeleton2DDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world),
                 new SpineSkeleton3DDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
                 healthDrawSystem,
                 aabbDebugDrawSystem,
@@ -220,6 +219,7 @@ namespace Hazmat.States
 
                 // Screen draw systems
                 energyDrawSystem,
+                new SpineSkeleton2DDrawSystem<ScreenSpaceComponent>(game.GraphicsDevice, this.screenCamera, this.world),
                 new ScreenTextureSystem(game.GraphicsDevice, this.screenCamera, this.world)
                 );
 
