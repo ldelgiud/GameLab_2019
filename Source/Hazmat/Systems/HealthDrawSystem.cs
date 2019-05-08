@@ -79,7 +79,7 @@ namespace Hazmat.Systems
                 Matrix.CreateScale(transform.value.Scale * new Vector3(-1, 1, 1)) * Matrix.CreateScale(1.5f, 0.3f, 1f) *
                 Matrix.CreateRotationX(transform.value.LocalRotation.X) *
                 Matrix.CreateRotationY(transform.value.LocalRotation.Y) *
-                Matrix.CreateRotationZ(transform.value.LocalRotation.Z) *
+                //Matrix.CreateRotationZ(transform.value.LocalRotation.Z) * // Removed to clamp health bars to fixed rotation
                 Matrix.CreateBillboard(Vector3.Zero, this.camera.distance * Camera3D.ISOMETRIC_OFFSET, Camera3D.ISOMETRIC_UP, Camera3D.ISOMETRIC_OFFSET) *
                 Matrix.CreateTranslation(transform.value.Translation) * Matrix.CreateTranslation(0, 0, 6f);
 
