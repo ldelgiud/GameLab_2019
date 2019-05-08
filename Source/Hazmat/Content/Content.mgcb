@@ -296,18 +296,6 @@
 /processorParam:TextureFormat=Compressed
 /build:buildings/rock/rock_05.fbx
 
-#begin buildings/rock/rock_tex.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:buildings/rock/rock_tex.png
-
 #begin buildings/rock/rock_tex.psd
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -883,6 +871,102 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:shaders/vignette.fx
+
+#begin sounds/Boss_01intro.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_01intro.wav
+
+#begin sounds/Boss_02energyLevels.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_02energyLevels.wav
+
+#begin sounds/Boss_03gearUp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_03gearUp.wav
+
+#begin sounds/Boss_04enemyEncounter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_04enemyEncounter.wav
+
+#begin sounds/Boss_05batteryPowerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_05batteryPowerup.wav
+
+#begin sounds/Boss_06lootBox.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_06lootBox.wav
+
+#begin sounds/Boss_07streetA.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_07streetA.wav
+
+#begin sounds/Boss_07streetB.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_07streetB.wav
+
+#begin sounds/Boss_08reachPlant.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_08reachPlant.wav
+
+#begin sounds/Boss_09resolution.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Boss_09resolution.wav
+
+#begin sounds/Mat_dying.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Mat_dying.wav
+
+#begin sounds/Mat_getHit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Mat_getHit.wav
+
+#begin sounds/Mat_ok.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Mat_ok.wav
+
+#begin sounds/Mat_pickFirstCall.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Mat_pickFirstCall.wav
+
+#begin sounds/Mat_win.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Mat_win.wav
+
+#begin sounds/Phone_Ringtone.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Phone_Ringtone.wav
 
 #begin ui/HealthBar_G.png
 /importer:TextureImporter

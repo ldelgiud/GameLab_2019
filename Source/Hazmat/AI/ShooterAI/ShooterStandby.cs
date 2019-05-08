@@ -33,6 +33,9 @@ namespace Hazmat.AI
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
             this.target = FindClosestPlayer(playerInfos);
 
+            bool mad = this.AmIMad(time);
+            if (mad) return new ShooterAttack(this.me, this.target);
+
             if (this.SqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST)
             {
                 //Debug.WriteLine("going into offline");

@@ -13,6 +13,8 @@ using Hazmat.State;
 using Hazmat.States;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
+using Hazmat.Music;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Hazmat.Event
 {
@@ -27,15 +29,26 @@ namespace Hazmat.Event
 
         String name;
 
+        SoundManager soundManager
+        {
+            get
+            {
+                return Hazmat.Instance.SoundManager;
+            }
+        }
+
         InputManager inputManager;
 
         State state = State.Start;
         Entity eventEntity;
         Entity tipEntity;
+        SoundEffect sound;
+        SoundEffectInstance playing;
 
-        public TipEvent(String name)
+        public TipEvent(String name, SoundEffect sound)
         {
             this.name = name;
+            this.sound = sound;
         }
 
         public override void Initialize(World world, Entity entity)
@@ -64,6 +77,7 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
+                    this.playing = soundManager.PlaySoundEffectInstance(sound);
                     this.tipEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                         new SpineAnimationInfo(@"ui\SPS_Screens",
                         new SkeletonInfo(596, 288, skin: this.name),
@@ -85,6 +99,8 @@ namespace Hazmat.Event
                     }
                     break;
                 case State.Done:
+                    soundManager.StopSoundEffectInstance(playing);
+
                     this.eventEntity.Delete();
                     break;
             }

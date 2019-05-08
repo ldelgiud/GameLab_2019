@@ -13,6 +13,8 @@ using Hazmat.State;
 using Hazmat.States;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
+using Microsoft.Xna.Framework.Audio;
+using Hazmat.Music;
 
 namespace Hazmat.Event
 {
@@ -25,6 +27,15 @@ namespace Hazmat.Event
             Done,
         }
 
+        SoundManager soundManager
+        {
+            get
+            {
+                return Hazmat.Instance.SoundManager;
+            }
+        }
+
+        SoundEffectInstance playing;
         InputManager inputManager;
 
         State state = State.Start;
@@ -57,6 +68,8 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
+                    this.playing = this.soundManager.PlaySoundEffectInstance(
+                        effect: soundManager.BossResolution09);
                     this.conclusionEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                         new SpineAnimationInfo(@"ui\SPS_Screens",
                         new SkeletonInfo(745, 360, skin: "story_end_01"),
@@ -70,7 +83,7 @@ namespace Hazmat.Event
                     {
                         case PressEvent _:
                             this.conclusionEntity.Delete();
-
+                            this.soundManager.StopSoundEffectInstance(playing);
                             this.inputManager.RemoveEvent(Keys.E);
                             this.state = State.Done;
                             break;
@@ -79,6 +92,7 @@ namespace Hazmat.Event
                 case State.Done:
                     var score = Hazmat.Instance.ActiveState.GetInstance<Score>();
                     score.Complete(time);
+                    this.soundManager.PlaySoundEffectInstance(soundManager.MatWin);
                     Hazmat.Instance.ActiveState.stateTransition = new SwapStateTransition(new ScoreState(score));
                     this.eventEntity.Delete();
                     break;

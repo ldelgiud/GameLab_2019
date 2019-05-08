@@ -13,11 +13,21 @@ using Hazmat.Input;
 using Hazmat.Graphics;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
+using Hazmat.Music;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Hazmat.Event
 {
     class StoryIntroEvent : Event
     {
+        SoundManager soundManager
+        {
+            get
+            {
+                return Hazmat.Instance.SoundManager;
+            }
+        }
+
         private enum State
         {
             Start,
@@ -32,7 +42,7 @@ namespace Hazmat.Event
         State state = State.Start;
 
         Entity eventEntity;
-
+        SoundEffectInstance playing;
         Entity introEntity;
         float timestamp;
 
@@ -61,6 +71,8 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
+                    this.playing = this.soundManager.PlaySoundEffectInstance(
+                        effect: soundManager.BossIntro01);
                     this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                         new SpineAnimationInfo(@"ui\SPS_Screens",
                         new SkeletonInfo(skin: "story_01"),
@@ -72,6 +84,7 @@ namespace Hazmat.Event
                     switch (inputEvent)
                     {
                         case PressEvent _:
+                            
                             ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
                             ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
 
@@ -96,6 +109,8 @@ namespace Hazmat.Event
                             this.introEntity.Remove<SpineAnimationComponent>();
                             this.state = State.Waiting;
                             this.timestamp = time.Absolute + 5;
+                            this.soundManager.StopSoundEffectInstance(playing);
+                            this.playing = this.soundManager.PlaySoundEffectInstance(soundManager.MatOk);
                             break;
                     }
                     break;
@@ -110,12 +125,15 @@ namespace Hazmat.Event
                             new AnimationStateInfo("press_A_to_continue", true)
                         )));
                         this.state = State.Tutorial;
+                        this.soundManager.StopSoundEffectInstance(playing);
+                        this.playing = this.soundManager.PlaySoundEffectInstance(soundManager.BossEnergy02);
                     }
                     break;
                 case State.Tutorial:
                     switch (inputEvent)
                     {
                         case PressEvent _:
+                            
                             this.inputManager.RemoveEvent(Keys.E);
                             this.inputManager.RemoveEvent(0, Buttons.A);
                             this.introEntity.Delete();
@@ -125,6 +143,7 @@ namespace Hazmat.Event
                     break;
                 case State.Done:
                     this.eventEntity.Delete();
+                    this.soundManager.StopSoundEffectInstance(playing);
                     break;
             }
         }

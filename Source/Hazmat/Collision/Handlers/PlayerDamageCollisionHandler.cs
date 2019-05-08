@@ -5,6 +5,7 @@ using DefaultEcs;
 
 using Hazmat.Collision;
 using Hazmat.Components;
+using Hazmat.Music;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
 
@@ -12,6 +13,13 @@ namespace Hazmat.Collision.Handlers
 {
     class PlayerDamageCollisionHandler : CollisionHandler
     {
+        SoundManager soundManager
+        {
+            get
+            {
+                return Hazmat.Instance.SoundManager;
+            }
+        }
         Energy energy;
 
         public PlayerDamageCollisionHandler(World world, Energy energy) : base(
@@ -31,6 +39,13 @@ namespace Hazmat.Collision.Handlers
                     if (((int)playerAlliance | (int)collideeAlliance) != (int)playerAlliance)
                     {
                         energy.CurrentEnergy -= collidee.Get<DamageComponent>().Damage;
+                        if (energy.CurrentEnergy == 0)
+                        {
+                            soundManager.PlaySoundEffect(soundManager.MatDying);
+                        } else
+                        {
+                            soundManager.PlaySoundEffect(soundManager.MatHit);
+                        }
                         collidee.Delete();
                     }
                     break;

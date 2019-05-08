@@ -47,10 +47,11 @@ namespace Hazmat.Utilities
         public static uint BIG_BATTERY_SIZE = 1000;
 
         //DRONES
-        public static float DRONE_SPEED = 12;//23; //TESTED
+        public static float MEMORY_OF_HIT = 5f;
+        public static float DRONE_SPEED = 23; //TESTED
 
         //SHOOTERS
-        public static float SHOOTER_SPEED = 10;//20;
+        public static float SHOOTER_SPEED = 20;//20;
 
         //MAILBOXES
         public static float MAILBOX_DAMAGE = 100;

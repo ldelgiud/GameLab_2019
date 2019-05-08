@@ -12,6 +12,7 @@ using Hazmat.Components;
 using Hazmat.Event;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
+using Hazmat.Music;
 
 namespace Hazmat.Systems
 {
@@ -32,6 +33,13 @@ namespace Hazmat.Systems
         World world;
         QuadTree<Entity> quadtree;
 
+        SoundManager soundManager
+        {
+            get
+            {
+                return Hazmat.Instance.SoundManager;
+            }
+        }
         public bool IsEnabled { get; set; }
 
         HashSet<Tutorial> tutorialComplete = new HashSet<Tutorial>();
@@ -60,7 +68,7 @@ namespace Hazmat.Systems
                     if (Vector2.Distance(powerPlant.Position, transform.value.Translation.ToVector2()) <= 40)
                     {
                         var entity = this.world.CreateEntity();
-                        var _event = new TipEvent("tip_at_the_powerplant");
+                        var _event = new TipEvent("tip_at_the_powerplant", soundManager.BossResolution09);
                         _event.Initialize(this.world, entity);
                         entity.Set(new EventComponent(_event));
                         entity.Set(new NameComponent() { name = "event" });
@@ -83,7 +91,7 @@ namespace Hazmat.Systems
                         if (element.Value.Has<EnergyPickupComponent>() || element.Value.Has<PowerUpComponent>())
                         {
                             var entity = this.world.CreateEntity();
-                            var _event = new TipEvent("tip_battery_powerup");
+                            var _event = new TipEvent("tip_battery_powerup", soundManager.BossBattery05);
                             _event.Initialize(this.world, entity);
                             entity.Set(new EventComponent(_event));
                             entity.Set(new NameComponent() { name = "event" });
@@ -111,7 +119,7 @@ namespace Hazmat.Systems
                         if (element.Value.Has<AIComponent>())
                         {
                             var entity = this.world.CreateEntity();
-                            var _event = new TipEvent("tip_first_enemy");
+                            var _event = new TipEvent("tip_first_enemy", soundManager.BossEnemy04);
                             _event.Initialize(this.world, entity);
                             entity.Set(new EventComponent(_event));
                             entity.Set(new NameComponent() { name = "event" });
@@ -139,7 +147,7 @@ namespace Hazmat.Systems
                         if (element.Value.Has<LootableComponent>())
                         {
                             var entity = this.world.CreateEntity();
-                            var _event = new TipEvent("tip_lootbox");
+                            var _event = new TipEvent("tip_lootbox", soundManager.BossLootBox06);
                             _event.Initialize(this.world, entity);
                             entity.Set(new EventComponent(_event));
                             entity.Set(new NameComponent() { name = "event" });
@@ -167,7 +175,7 @@ namespace Hazmat.Systems
                         if (element.Value.Has<SmallGunComponent>() && element.Value.Has<InteractableComponent>())
                         {
                             var entity = this.world.CreateEntity();
-                            var _event = new TipEvent("tip_weapon");
+                            var _event = new TipEvent("tip_weapon", soundManager.BossGear03);
                             _event.Initialize(this.world, entity);
                             entity.Set(new EventComponent(_event));
                             entity.Set(new NameComponent() { name = "event" });
@@ -180,8 +188,6 @@ namespace Hazmat.Systems
                     }, ref aabb);
                 }
             }
-
-
         }
 
         public void Dispose()
