@@ -15,7 +15,7 @@ namespace Hazmat.Utilities
         //PLAYER STATS
         public static float PLAYER_RELOAD_TIME = 0.3f;              //TESTED
         public static float BULLET_SIZE = 1f;                       //TESTED
-        public static int PLAYER_INITIAL_SPEED = 20; //TESTED
+        public static int PLAYER_INITIAL_SPEED = 100; //TESTED
         public static double PLAYER_INITIAL_ENERGY = 1000;
         //PLAYER UPGRADES
         public static int SPEED_UPGRADE = 3;
