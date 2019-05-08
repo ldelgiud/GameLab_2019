@@ -45,7 +45,7 @@ namespace Hazmat.Systems
             {
                 ref AIComponent aIState = ref entity.Get<AIComponent>();
                 aIState.State =
-                    aIState.State.UpdateState(playerInfos, entity, state);
+                    aIState.State.UpdateState(playerInfos, state);
             }
             
 

@@ -47,10 +47,10 @@ namespace Hazmat.Utilities
         public static uint BIG_BATTERY_SIZE = 1000;
 
         //DRONES
-        public static float DRONE_SPEED = 23; //TESTED
+        public static float DRONE_SPEED = 12;//23; //TESTED
 
         //SHOOTERS
-        public static float SHOOTER_SPEED = 20;
+        public static float SHOOTER_SPEED = 10;//20;
 
         //MAILBOXES
         public static float MAILBOX_DAMAGE = 100;
@@ -66,14 +66,14 @@ namespace Hazmat.Utilities
 
         //AI values for FSM transitions
         public static double OFFLINE_TO_STANDBY_DIST = 60;
-        public static double OFFLINE_TO_ATTACK_DIST = 30; // Only for mailbox!
+        public static double OFFLINE_TO_ATTACK_DIST = 35;       //ONLY FOR MAILBOX!
         public static double STANDBY_TO_OFFLINE_DIST = 70;
-        public static double STANDBY_TO_SEARCH_DIST = 40;
+        public static double STANDBY_TO_SEARCH_DIST = 45;
         public static double SEARCH_TO_STANDBY_DIST = 50;
-        public static double BLIND_STANDBY_TO_SEARCH_DIST = 15;
-        public static double SEARCH_TO_ATTACK_DIST = 10;
-        public static double ATTACK_TO_SEARCH_DIST = 20;
-        public static double ATTACK_TO_OFFLINE_DIST = 30; //ONLY FOR MAILBOX!
+        public static double BLIND_STANDBY_TO_SEARCH_DIST = 20;
+        public static double SEARCH_TO_ATTACK_DIST = 35;        //ONLY FOR SHOOTER
+        public static double ATTACK_TO_SEARCH_DIST = 40;        //ONLY FOR SHOOTER
+        public static double ATTACK_TO_OFFLINE_DIST = 30;       //ONLY FOR MAILBOX!
         public static double DIRECT_ATTACK_DIST = 4; 
         //SQUARED VERSIONS OF PREV NUMBERS 
         public static double OFFLINE_TO_STANDBY_SQRD_DIST = OFFLINE_TO_STANDBY_DIST * OFFLINE_TO_STANDBY_DIST;

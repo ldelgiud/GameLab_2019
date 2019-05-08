@@ -35,9 +35,10 @@ namespace Hazmat.AI
             }
         }
 
+        protected Entity me;
         protected Vector2 myPos;
         protected Vector2 target;
-        Vector2 oldTarget;
+        protected Vector2 oldTarget;
         float timeOfLastUpdate; 
         protected Path path;
         int turnDist = 1;
@@ -45,7 +46,16 @@ namespace Hazmat.AI
         public const float sqrdUpdateThreshold = AIState.updateThreshold * AIState.updateThreshold;
         const float minPathUpdateTime = 0.5f;
         const float maxPathUpdateTime = 2f;
-        abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Entity entity, Time time);
+
+        abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Time time);
+
+        protected float SqrdDist
+        {
+            get
+            {
+                return (this.myPos - this.target).LengthSquared();
+            }
+        }
 
         protected void UpdatePath(Time time)
         {
@@ -61,6 +71,40 @@ namespace Hazmat.AI
             }
         }
 
+        protected Vector2 FindClosestPlayer(List<PlayerInfo> playerInfos)
+        {
+            Vector2 myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            float minSqrdDist = 1000000;
+            Vector2 closest =playerInfos[0].transform.Translation.ToVector2();
+            foreach (PlayerInfo player in playerInfos)
+            {
+                Vector2 curr = player.transform.Translation.ToVector2();
+                float sqrdDist = (curr - myPos).LengthSquared();
+
+                if(minSqrdDist > sqrdDist)
+                {
+                    minSqrdDist = sqrdDist;
+                    closest = curr;
+                }
+                
+            }
+            return closest;
+        }
+
+        protected void FollowTarget(float speed)
+        {
+            this.GoTo(this.target, speed);
+        }
+
+        protected void GoTo(Vector2 position, float speed)
+        {
+            ref VelocityComponent velocity = ref this.me.Get<VelocityComponent>();
+            Vector2 newVel = (position - this.myPos);
+            newVel.Normalize();
+            velocity.velocity = newVel * speed;
+            this.me.Get<Transform3DComponent>().value.Rotation = new Vector3(Vector2.Zero, newVel.ToRotation());
+        }
+
         protected void OnPathFound(Vector2[] waypoints, bool success)
         {
             if (success)
@@ -69,16 +113,22 @@ namespace Hazmat.AI
             }
         }
         
-        protected bool IsInSight(Vector2 source, Vector2 target, Entity me)
+        protected bool IsTargetInSight()
+        {
+            return IsInSight(this.myPos, this.target);   
+        }
+
+        protected bool IsInSight(Vector2 src, Vector2 target)
         {
             RayCastInput rayCastInput = new RayCastInput
             {
                 MaxFraction = 1,
-                Point1 = source,
+                Point1 = src,
                 Point2 = target
             };
+
             bool isInSight = false;
-            
+
             AIState.quadtree.MyRayCast((RayCastInput ray, Element<Entity> collidee) =>
             {
                 //if (collidee.Value.Equals(me)) return -1f;
@@ -97,20 +147,6 @@ namespace Hazmat.AI
 
             return isInSight;
         }
-
-        protected bool IsPathClear(AABBComponent aabb, Vector2 target, Entity me)
-        {
-            /*
-            Vector2 bottomLeft = aabb.element.Span.LowerBound;
-            Vector2 topRight = aabb.element.Span.UpperBound;
-            Vector2 bottomRight = new Vector2(topRight.X, bottomLeft.Y);
-            Vector2 topLeft = new Vector2(bottomLeft.X, topRight.Y);
-            return IsInSight(bottomLeft, target, me )
-                && IsInSight(bottomRight, target, me )
-                && IsInSight(topLeft, target, me)
-                && IsInSight(topRight, target, me);*/
-
-            return false;
-        }
+        
     }
 }
