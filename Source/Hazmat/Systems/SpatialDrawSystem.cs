@@ -194,6 +194,10 @@ namespace Hazmat.Systems
         {
             var bounds = this.camera.ViewBounds;
 
+            // Add small buffer to bounds
+            bounds.LowerBound -= 10 * Vector2.One;
+            bounds.UpperBound += 10 * Vector2.One;
+
             this.quadtree.QueryAABB((element) =>
             {
                 var entity = element.Value;
