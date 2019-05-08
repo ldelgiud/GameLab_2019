@@ -37,11 +37,14 @@ namespace Hazmat.Components.InputHandlers
             
             Vector2 direction = new Vector2(MathF.Cos(gunTransform.value.Rotation.Z), MathF.Sin(gunTransform.value.Rotation.Z));
 
-            switch (inputManager.GetEvent(0, Buttons.RightTrigger))
+            switch (inputManager.GetEvent(0, ThumbSticks.Right))
             {
-                case HoldEvent _: 
-                case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform.value, direction);
+                case ValueEvent<Vector2> value:
+                    if (value.current.LengthSquared() != 0)
+                    {
+                        smallGun.Shoot(time.Absolute, gunTransform.value, Camera2D.PerspectiveToWorld(value.current));
+                    }
+                    
                     break;
             }
 
