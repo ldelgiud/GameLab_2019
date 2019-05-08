@@ -54,8 +54,7 @@ namespace Hazmat.States
             this.world = new World();
 
             // Resource Managers
-            this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
-            this.spineAnimationResourceManager.Manage(this.world);
+            Hazmat.Instance.spineAnimationResourceManager.Manage(this.world);
 
             // Systems
             this.drawSystem = new SequentialSystem<Time>(

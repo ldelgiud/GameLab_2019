@@ -26,8 +26,7 @@ namespace Hazmat.Utilities
 
         public TileMap(GraphicsDevice graphicsDevice, string atlasPath)
         {
-            this.tileModelResourceManager = new TileModelResourceManager(graphicsDevice, atlasPath);
-            this.tileModelResourceManager.Manage(this.world);
+            Hazmat.Instance.tileModelResourceManager.Manage(this.world);
         }
 
         public void AddTile(Transform3D transform, TileModelInfo info, String name)

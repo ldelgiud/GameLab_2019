@@ -92,23 +92,10 @@ namespace Hazmat.States
             Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.InGameSong, loop: true);
 
             // Resource Managers
-            this.textureResourceManager = new TextureResourceManager(game.Content);
-            this.textureResourceManager.Manage(this.world);
-
-            this.modelResourceManager = new ModelResourceManager(game.Content);
-            this.modelResourceManager.Manage(this.world);
-
-            this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
-            this.spineAnimationResourceManager.Manage(this.world);
-
-            this.atlasTextureResourceManager = new AtlasTextureResourceManager(game.GraphicsDevice, @"items\SPS_StaticSprites");
-            this.atlasTextureResourceManager.Manage(this.world);
-
-            // Resource Preloading
-            this.spineAnimationResourceManager.Load(@"ui\SPS_Screens");
-            this.spineAnimationResourceManager.Load(@"items\SPS_Collectables");
-            this.spineAnimationResourceManager.Load(@"items\SPS_Projectiles");
-            this.spineAnimationResourceManager.Load(@"items\SPS_StaticSprites");
+            Hazmat.Instance.textureResourceManager.Manage(this.world);
+            Hazmat.Instance.modelResourceManager.Manage(this.world);
+            Hazmat.Instance.spineAnimationResourceManager.Manage(this.world);
+            Hazmat.Instance.atlasTextureResourceManager.Manage(this.world);
 
             // Miscellaneous
             this.tileMap = new TileMap(game.GraphicsDevice, @"items\SPS_StaticSprites");
