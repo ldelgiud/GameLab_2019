@@ -84,7 +84,7 @@ namespace Hazmat.States
             this.SetInstance(this.world);
 
             // Music
-            //Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.InGameSong, loop: true);
+            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.InGameSong, loop: true);
             // Resource Managers
             Hazmat.Instance.textureResourceManager.Manage(this.world);
             Hazmat.Instance.modelResourceManager.Manage(this.world);

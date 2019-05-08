@@ -39,6 +39,8 @@ namespace Hazmat.AI
         protected Vector2 myPos;
         protected Vector2 target;
         protected Vector2 oldTarget;
+        protected float oldLife;
+        float timeOfLastAttack;
         float timeOfLastUpdate; 
         protected Path path;
         int turnDist = 1;
@@ -47,6 +49,20 @@ namespace Hazmat.AI
         const float minPathUpdateTime = 0.5f;
         const float maxPathUpdateTime = 2f;
 
+        protected bool AmIMad(Time time)
+        {
+            bool wasAttacked = (this.me.Get<HealthComponent>().Health < this.oldLife);
+            this.oldLife = this.me.Get<HealthComponent>().Health;
+            float timeSinceLastAttack = time.Absolute - this.timeOfLastAttack;
+            if (wasAttacked)
+            {
+                this.timeOfLastAttack = time.Absolute;
+                return true;
+            }
+            else if (timeSinceLastAttack <= Constants.MEMORY_OF_HIT) return true;
+
+            return false;
+        }
         abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Time time);
 
         protected float SqrdDist

@@ -67,7 +67,9 @@ namespace Hazmat.AI
             }
 
             //UPDATE STATE
-            if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
+            bool mad = this.AmIMad(time);
+
+            if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST && !mad)
             {
                 velocity.velocity = Vector2.Zero;
                 return new DroneStandby(this.me);

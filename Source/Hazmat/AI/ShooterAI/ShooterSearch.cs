@@ -56,6 +56,9 @@ namespace Hazmat.AI
             }
 
             //UPDATE STATE
+            bool mad = this.AmIMad(time);
+            if (mad) return new ShooterAttack(this.me, this.target);
+
             if (this.SqrdDist <= Constants.SEARCH_TO_ATTACK_SQRD_DIST && this.IsTargetInSight())
             {
                 //Debug.WriteLine("going into ATTACK");

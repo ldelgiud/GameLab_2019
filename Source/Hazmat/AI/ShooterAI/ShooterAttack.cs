@@ -69,6 +69,9 @@ namespace Hazmat.AI
                 (this.target - this.myPos));
 
             //UPDATE STATE
+            bool mad = this.AmIMad(time);
+            if (mad) return this;
+
             if (this.SqrdDist >= Constants.ATTACK_TO_SEARCH_SQRD_DIST || !this.IsTargetInSight())
             {
                 //Debug.WriteLine("going into SEARCH");

@@ -33,6 +33,8 @@ namespace Hazmat.AI
             float sqrdDist = (this.myPos - this.target).LengthSquared();
 
             //UPDATE STATE
+            bool mad = this.AmIMad(time);
+            if (mad) return new DroneSearch(this.me, this.target);
             if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST) return new DroneOffline(this.me);
             else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
             {
