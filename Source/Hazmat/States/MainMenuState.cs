@@ -32,8 +32,6 @@ namespace Hazmat.States
         World world;
         Camera2D screenCamera;
 
-        SpineAnimationResourceManager spineAnimationResourceManager;
-
         ISystem<Time> drawSystem;
 
         public override void Initialize(Time time, Hazmat game)
@@ -54,8 +52,7 @@ namespace Hazmat.States
                 );
 
             // Resource Managers
-            this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
-            this.spineAnimationResourceManager.Manage(this.world);
+            Hazmat.Instance.spineAnimationResourceManager.Manage(this.world);
 
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),

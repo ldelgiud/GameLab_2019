@@ -211,7 +211,7 @@
     <Compile Include="ResourceManagers\SpineAnimationResourceManager.cs" />
     <Compile Include="ResourceManagers\TextResourceManager.cs" />
     <Compile Include="ResourceManagers\TextureResourceManager.cs" />
-    <Compile Include="ResourceManagers\TileResourceManager.cs" />
+    <Compile Include="ResourceManagers\TileModelResourceManager.cs" />
     <Compile Include="States\ControlsState.cs" />
     <Compile Include="States\CoverState.cs" />
     <Compile Include="States\GameState.cs" />

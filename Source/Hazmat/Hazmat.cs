@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using Hazmat.State;
 using Hazmat.States;
+using Hazmat.ResourceManagers;
 using Hazmat.Utilities;
 using Hazmat.Music;
 
@@ -25,6 +26,13 @@ namespace Hazmat
         Time drawTime;
 
         GraphicsDeviceManager graphics;
+
+        internal AtlasTextureResourceManager atlasTextureResourceManager;
+        internal ModelResourceManager modelResourceManager;
+        internal SpineAnimationResourceManager spineAnimationResourceManager;
+        internal TextResourceManager textResourceManager;
+        internal TextureResourceManager textureResourceManager;
+        internal TileModelResourceManager tileModelResourceManager;
 
         public SoundManager SoundManager { get; private set; }
 
@@ -54,6 +62,13 @@ namespace Hazmat
 
             this.IsMouseVisible = true; // it is fucking visible OK!
 
+            this.atlasTextureResourceManager = new AtlasTextureResourceManager(this.GraphicsDevice, @"items\SPS_StaticSprites");
+            this.modelResourceManager = new ModelResourceManager(this.Content);
+            this.spineAnimationResourceManager = new SpineAnimationResourceManager(this.GraphicsDevice);
+            this.textResourceManager = new TextResourceManager(this.Content);
+            this.textureResourceManager = new TextureResourceManager(this.Content);
+            this.tileModelResourceManager = new TileModelResourceManager(this.GraphicsDevice, @"items\SPS_StaticSprites");
+
             base.Initialize();
         }
 
@@ -65,7 +80,13 @@ namespace Hazmat
         {
             var initialState = new CoverState();
             this.stateStack.Push(initialState);
-            
+
+            // Resource Preloading
+            this.spineAnimationResourceManager.Load(@"ui\SPS_Screens");
+            this.spineAnimationResourceManager.Load(@"items\SPS_Collectables");
+            this.spineAnimationResourceManager.Load(@"items\SPS_Projectiles");
+            this.spineAnimationResourceManager.Load(@"items\SPS_StaticSprites");
+
             // Time is null for cover state, shouldn't cause any problems
             initialState.Initialize(null, this);
         }

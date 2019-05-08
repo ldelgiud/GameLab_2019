@@ -26,9 +26,6 @@ namespace Hazmat.States
         Score score;
         World world;
 
-        TextResourceManager textResourceManager;
-        SpineAnimationResourceManager spineAnimationResourceManager;
-
         ISystem<Time> drawSystem;
 
         public ScoreState(Score score)
@@ -52,11 +49,8 @@ namespace Hazmat.States
                 );
 
             // Resource Managers
-            this.spineAnimationResourceManager = new SpineAnimationResourceManager(game.GraphicsDevice);
-            this.spineAnimationResourceManager.Manage(this.world);
-
-            this.textResourceManager = new TextResourceManager(game.Content);
-            this.textResourceManager.Manage(this.world);
+            Hazmat.Instance.spineAnimationResourceManager.Manage(this.world);
+            Hazmat.Instance.textResourceManager.Manage(this.world);
 
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
