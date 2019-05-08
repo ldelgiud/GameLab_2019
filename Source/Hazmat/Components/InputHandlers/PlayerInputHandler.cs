@@ -47,15 +47,19 @@ namespace Hazmat.Components.InputHandlers
                     break;
             }
 
-            // Mouse Rotation
-            MouseState mState = Mouse.GetState();
-            Vector2 dir = Camera2D.WorldToPerspective(mState.Position.ToVector2() - Hazmat.Instance.Window.ClientBounds.Center.ToVector2());
-            dir.Normalize();
-            if (dir.LengthSquared() != 0 && !gamepadDirection)
+            if (!GamePad.GetState(0).IsConnected)
             {
-                var rotation = transform.value.Rotation;
-                transform.value.Rotation = new Vector3(rotation.X, rotation.Y, -dir.ToRotation());
+                // Mouse Rotation
+                MouseState mState = Mouse.GetState();
+                Vector2 dir = Camera2D.WorldToPerspective(mState.Position.ToVector2() - Hazmat.Instance.Window.ClientBounds.Center.ToVector2());
+                dir.Normalize();
+                if (dir.LengthSquared() != 0 && !gamepadDirection)
+                {
+                    var rotation = transform.value.Rotation;
+                    transform.value.Rotation = new Vector3(rotation.X, rotation.Y, -dir.ToRotation());
+                }
             }
+            
 
             // KeyBoard
             switch (inputManager.GetEvent(Keys.Left))

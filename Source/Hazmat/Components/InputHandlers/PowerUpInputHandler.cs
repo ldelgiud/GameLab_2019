@@ -43,6 +43,7 @@ namespace Hazmat.Components.InputHandlers
                 case HoldEvent _:
                 case PressEvent _:
                     // TODO: add logic for choosing right
+                    this.score.ArmorUpgrades += 1;
                     stats.UpgradeSpeed(Constants.SPEED_UPGRADE);
                     entity.Delete();
                     break;
@@ -53,6 +54,7 @@ namespace Hazmat.Components.InputHandlers
                 case HoldEvent _:
                 case PressEvent _:
                     // TODO: add logic for choosing right
+                    this.score.WeaponUpgrades += 1;
                     stats.UpgradeDamage(Constants.DAMAGE_UPGRADE);
                     entity.Delete();
                     break;
