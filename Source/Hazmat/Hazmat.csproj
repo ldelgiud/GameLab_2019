@@ -139,6 +139,7 @@
     <Compile Include="Collision\Handlers\PowerUpPickUpCollisionHandler.cs" />
     <Compile Include="Collision\ICollisionSet.cs" />
     <Compile Include="Components\AABBComponent.cs" />
+    <Compile Include="Components\AABBTetherComponent.cs" />
     <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\AllianceMaskComponent.cs" />
     <Compile Include="Components\DisplayPowerUpChoiceComponent.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="States\ScoreState.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="State\IStateTransition.cs" />
+    <Compile Include="Systems\AABBTetherSystem.cs" />
     <Compile Include="Systems\AnimationStateUpdateSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
     <Compile Include="Systems\HealthDrawSystem.cs" />

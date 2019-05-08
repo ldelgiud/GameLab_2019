@@ -38,6 +38,8 @@ namespace Hazmat.Collision.Handlers
             Entity entity = this.world.CreateEntity();
             entity.Set(playerStats);
             entity.Set(new DisplayPowerUpChoiceComponent(Constants.POWERUP_DISPLAY_TIME));
+            SpawnHelper.AttachAABB(entity, Vector2.Zero, 1, 1, false);
+            entity.Set(new AABBTetherComponent(collider));
             entity.Set(new InputComponent(inputHandler: new PowerUpInputHandler(this.world, this.score)));
             entity.Set(new Transform3DComponent(new Transform3D(position: new Vector3(0f, 0f, 7f), parent: playerTransform.value)));
             entity.Set(new WorldSpaceComponent());

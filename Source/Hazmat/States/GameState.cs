@@ -132,6 +132,7 @@ namespace Hazmat.States
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
                 physicsSystem,
+                new AABBTetherSystem(this.world),
                 eventSystem,
                 interactionSystem,
                 collisionSystem,
@@ -206,10 +207,7 @@ namespace Hazmat.States
             SpawnHelper.SpawnEnemyCamp(new Vector2(70, 70));
             // Create player
             SpawnHelper.SpawnPlayer(0, new Vector2(-10));
-            // Create a power up pick up
-            SpawnHelper.SpawnCollectableGun(new Vector3(-20, -20, 0));
-            // Event trigger
-            SpawnHelper.SpawnEvent(Vector2.Zero);
+            SpawnHelper.SpawnEvent();
             //-----------------------END SPAWNING-----------------------
         }
 

@@ -75,7 +75,8 @@ namespace Hazmat.Utilities
 
             var transform = new Transform3D(position.ToVector3());
             entity.Set(new PlayerComponent(playerID));
-            entity.Set(new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0));
+            var playerStats = new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0);
+            entity.Set(playerStats);
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform3DComponent(transform));
             entity.Set(new WorldSpaceComponent());
@@ -93,6 +94,8 @@ namespace Hazmat.Utilities
             {
                 var maskEntity = SpawnHelper.World.CreateEntity();
                 maskEntity.SetAsChildOf(entity);
+                SpawnHelper.AttachAABB(maskEntity, Vector2.Zero, -Vector2.One, Vector2.One, false);
+                maskEntity.Set(new AABBTetherComponent(entity));
 
                 maskEntity.Set(new NameComponent() { name = "player_mask" });
                 maskEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
@@ -111,6 +114,8 @@ namespace Hazmat.Utilities
             {
                 var backpackEntity = SpawnHelper.World.CreateEntity();
                 backpackEntity.SetAsChildOf(entity);
+                SpawnHelper.AttachAABB(backpackEntity, Vector2.Zero, -Vector2.One, Vector2.One, false);
+                backpackEntity.Set(new AABBTetherComponent(entity));
 
                 backpackEntity.Set(new NameComponent() { name = "player_backpack" });
                 backpackEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
@@ -123,6 +128,42 @@ namespace Hazmat.Utilities
                     standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                     standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.5f) }
                 )));
+            }
+
+            {
+                var gunEntity = SpawnHelper.World.CreateEntity();
+
+                gunEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
+                gunEntity.Set(new WorldSpaceComponent());
+
+                SpawnHelper.AttachAABB(gunEntity, Vector2.Zero, -Vector2.One, Vector2.One, false);
+                gunEntity.Set(new AABBTetherComponent(parent: entity));
+                gunEntity.Set(new InputComponent(new ShootingInputHandler(SpawnHelper.World, playerStats)));
+                gunEntity.SetAsChildOf(entity);
+
+                gunEntity.Set(new SmallGunComponent(
+                    damage: 35f,
+                    projectileSpeed: Constants.BULLET_SPEED,
+                    radiusRange: -1f,
+                    reloadTime: Constants.PLAYER_RELOAD_TIME,
+                    projTex: "shooting/bullet",
+                    alliance: Alliance.Player));
+
+                gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                    @"weapons\MED_WP_MatGunBasic_01",
+                    @"weapons\TEX_WP_MatGunBasic_01",
+                    translation: new Vector3(0, 0, 0f),
+                    rotation: new Vector3(0, 0, MathF.PI),
+                    scale: new Vector3(0.07f),
+                    standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
+                    updateTimeEffect: true,
+                    standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("GlowLineThickness", 0.02f), new Tuple<string, float>("LineThickness", 0.02f) }
+                    )));
+
+
+                gunEntity.Set(new NameComponent() { name = Constants.GUN_NAME });
+
+                entity.Set(new WeaponComponent(gunEntity));
             }
 
             entity.SetModelAnimation("Take 001");
@@ -726,18 +767,15 @@ namespace Hazmat.Utilities
             return entity;
         }
 
-        public static Entity SpawnEvent(Vector2 position)
+        public static void SpawnEvent()
         {
             var entity = SpawnHelper.World.CreateEntity();
 
-            SpawnHelper.AttachAABB(entity, position, 5, 5, false);
-            
-            entity.Set(new Transform2DComponent() { value = new Transform2D(position) });
-            entity.Set(new WorldSpaceComponent());
-            entity.Set(new EventTriggerComponent(new StoryIntroEvent()));
-            entity.Set(new NameComponent() { name = "intro_event_trigger" });
+            var _event = new StoryIntroEvent();
+            _event.Initialize(SpawnHelper.World, entity);
 
-            return entity;
+            entity.Set(new EventComponent(_event));
+            entity.Set(new NameComponent() { name = "intro_event" });
         }
 
         public static void SpawnBasicWall(Vector2 center, float height, float width)
