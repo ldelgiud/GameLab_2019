@@ -228,7 +228,6 @@
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
     <Compile Include="Systems\ModelAnimationUpdateSystem.cs" />
-    <Compile Include="Systems\ModelDrawSystem.cs" />
     <Compile Include="Systems\PathFinderSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
     <Compile Include="Systems\PowerUpSystem.cs" />
@@ -237,12 +236,12 @@
     <Compile Include="Systems\ShootingSystem.cs" />
     <Compile Include="Graphics\Transform3D.cs" />
     <Compile Include="Systems\SkeletonUpdateSystem.cs" />
+    <Compile Include="Systems\SpatialDrawSystem.cs" />
     <Compile Include="Systems\TutorialSystem.cs" />
     <Compile Include="Utilities\Extensions\AABBExtensions.cs" />
     <Compile Include="Utilities\Extensions\QuadtreeExtension.cs" />
     <Compile Include="Utilities\SpawnMap.cs" />
     <Compile Include="Systems\SpineSkeleton2DDrawSystem.cs" />
-    <Compile Include="Systems\SpineSkeleton3DDrawSystem.cs" />
     <Compile Include="Systems\TileMapDrawSystem.cs" />
     <Compile Include="Systems\TTLSystem.cs" />
     <Compile Include="Utilities\Extensions\ModelExtensions.cs" />

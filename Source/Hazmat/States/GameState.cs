@@ -165,15 +165,7 @@ namespace Hazmat.States
                     energy,
                     this.world
                     );
-            ModelDrawSystem modelDrawSystem = new ModelDrawSystem(game.GraphicsDevice, this.worldCamera, this.world);
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>(@"debugging\bounding_box"));
-            HealthDrawSystem healthDrawSystem = new HealthDrawSystem(
-                world, 
-                game.GraphicsDevice, 
-                this.worldCamera, 
-                game.Content.Load<Texture2D>(@"ui\HealthBar_W"),
-                game.Content.Load<Texture2D>(@"ui\HealthBar_G")
-                );
 
             //GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
             //    grid : grid, 
@@ -190,11 +182,13 @@ namespace Hazmat.States
 
                 // World draw systems
                 new TileMapDrawSystem(game.GraphicsDevice, this.worldCamera, this.tileMap),
-                //new TextureDrawSystem(game.GraphicsDevice, this.worldCamera, this.world),
-                modelDrawSystem,
+                new SpatialDrawSystem(game.GraphicsDevice,
+                    this.world,
+                    this.worldCamera,
+                    game.Content.Load<Texture2D>(@"ui\HealthBar_W"),
+                    game.Content.Load<Texture2D>(@"ui\HealthBar_G")
+                    ),
                 //gridDrawSystem,
-                new SpineSkeleton3DDrawSystem<WorldSpaceComponent>(game.GraphicsDevice, this.worldCamera, this.world),
-                healthDrawSystem,
                 aabbDebugDrawSystem,
 
 
