@@ -13,34 +13,29 @@ namespace Hazmat.AI
 {
     class ShooterSearch : AIState
     {
+        public ShooterSearch(Entity me, Vector2 target)
+        {
+            this.me = me;
+            this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            this.target = target;
+        }
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
-            Entity entity,
             Time time)
         {
             //Debug.WriteLine("Shooter Search");
-            this.myPos = entity.Get<Transform3DComponent>().value.Translation.ToVector2();
-            ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
-
-            //Find closest player
-            double minDist = Double.MaxValue;
-            //TODO: NullCheck next line!!
-            PlayerInfo closestPlayer = playerInfos[0];
-            foreach (PlayerInfo player in playerInfos)
-            {
-                Vector2 dist = player.transform.Translation.ToVector2() - this.myPos;
-                if (dist.Length() < minDist) closestPlayer = player;
-
-            }
-            this.target = closestPlayer.transform.Translation.ToVector2();
-            float sqrdDistance = (this.target - this.myPos).LengthSquared();
+            this.myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            this.target = this.FindClosestPlayer(playerInfos);
+            
             //SEARCH
             this.UpdatePath(time);
+            /*
             if (path == null)
             {
                 this.PathRequestManager.RequestPath(this.myPos, this.target, OnPathFound);
-            }
+            }*/
+
             //STEP
             if (path != null)
             {
@@ -57,29 +52,19 @@ namespace Hazmat.AI
                         break;
                     }
                 }
-                if (followingPath)
-                {
-                    Vector2 newVel = nextNode.Item1 - myPos;
-                    newVel.Normalize();
-                    velocity.velocity = newVel * Constants.SHOOTER_SPEED;
-
-                }
+                if (followingPath) this.GoTo(nextNode.Item1, Constants.SHOOTER_SPEED);
             }
-            //TODO: if raycasting hits player start already to shoot
-
 
             //UPDATE STATE
-            if (sqrdDistance <= Constants.SEARCH_TO_ATTACK_SQRD_DIST && this.IsInSight(this.myPos, this.target, entity))
+            if (this.SqrdDist <= Constants.SEARCH_TO_ATTACK_SQRD_DIST && this.IsTargetInSight())
             {
-                velocity.velocity = new Vector2(0);
                 //Debug.WriteLine("going into ATTACK");
-                return new ShooterAttack();
+                return new ShooterAttack(this.me, this.target);
             }
-            if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
+            if (this.SqrdDist >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
             {
-                velocity.velocity = new Vector2(0);
                 //Debug.WriteLine("going into STANDBY");
-                return new ShooterStandby();
+                return new ShooterStandby(this.me);
             }
             return this;
         }

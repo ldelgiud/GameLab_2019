@@ -14,33 +14,24 @@ namespace Hazmat.AI
 {
     class ShooterAttack : AIState
     {
-
+        public ShooterAttack(Entity me, Vector2 target)
+        {
+            this.me = me;
+            this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            this.target = target;
+        }
         
         public override AIState UpdateState(
-            List<PlayerInfo> playerInfos, 
-            Entity entity,
-            Time time) 
-            
+            List<PlayerInfo> playerInfos,
+            Time time)
+
         {
             //Debug.WriteLine("Shooter Attack");
-            this.myPos = entity.Get<Transform3DComponent>().value.Translation.ToVector2();
+            this.myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            this.target = this.FindClosestPlayer(playerInfos);
 
-            ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
-            //Find closest player
-            double minDist = Double.MaxValue;
-            //TODO: Nullcheck next line!!
-            PlayerInfo closestPlayer = playerInfos[0];
-            foreach (PlayerInfo player in playerInfos)
-            {
-                Vector2 dist = player.transform.Translation.ToVector2() - this.myPos;
-                if (dist.Length() < minDist) closestPlayer = player;
-
-            }
-            this.target = closestPlayer.transform.Translation.ToVector2();
-            Vector2 distVector = this.target - this.myPos;
-            float sqrdDistance = distVector.LengthSquared();
             //MOVEMENT LOGIC
-            if (sqrdDistance >= 100)
+            if (this.SqrdDist >= 15*15)
             {
                 this.UpdatePath(time);
                 if (path == null)
@@ -63,33 +54,26 @@ namespace Hazmat.AI
                             break;
                         }
                     }
-                    if (followingPath)
-                    {
-                        Vector2 newVel = nextNode.Item1 - myPos;
-                        newVel.Normalize();
-                        velocity.velocity = newVel * Constants.SHOOTER_SPEED;
-
-                    }
+                    if (followingPath) this.GoTo(nextNode.Item1, Constants.SHOOTER_SPEED);
                 }
             } else
             {
+                ref var velocity = ref this.me.Get<VelocityComponent>();
                 velocity.velocity = Vector2.Zero;
             }
             //ATTACK LOGIC
-            Entity weapon = entity.Get<WeaponComponent>().weapon;
-            Debug.Assert(weapon.Get<SmallGunComponent>() != null);
-            weapon.Get<SmallGunComponent>().Shoot(
-                time.Absolute, 
-                weapon.Get<Transform3DComponent>().value,
-                distVector);
+            Debug.Assert(this.me.Has<SmallGunComponent>());
+            this.me.Get<SmallGunComponent>().Shoot(
+                time.Absolute,
+                this.me.Get<Transform3DComponent>().value,
+                (this.target - this.myPos));
 
             //UPDATE STATE
-            if (sqrdDistance >= Constants.ATTACK_TO_SEARCH_SQRD_DIST || !this.IsInSight(this.myPos, this.target, entity))
+            if (this.SqrdDist >= Constants.ATTACK_TO_SEARCH_SQRD_DIST || !this.IsTargetInSight())
             {
                 //Debug.WriteLine("going into SEARCH");
-                return new ShooterSearch();
+                return new ShooterSearch(this.me, this.target);
             }
-
             return this;
         }
     }

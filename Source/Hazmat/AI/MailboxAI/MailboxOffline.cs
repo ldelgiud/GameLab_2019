@@ -14,21 +14,22 @@ namespace Hazmat.AI.MailBoxAI
 {
     class MailboxOffline : AIState
     {
+        public MailboxOffline(Entity me)
+        {
+            this.me = me;
+            this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
+        }
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
-            Entity entity,
             Time time)
         {
-            this.myPos = entity.Get<Transform3DComponent>().value.Translation.ToVector2();
-            foreach (PlayerInfo player in playerInfos)
-            {
-                float sqrdDist = (player.transform.Translation.ToVector2() - this.myPos).LengthSquared();
-                if (sqrdDist <= Constants.OFFLINE_TO_ATTACK_SQRD_DIST)
-                    //entity.SetModelAnimation("Armature|Shooting");
-                    return new MailboxAttack();
-            }
-            return this;
+            this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            float sqrdDist = (this.myPos - this.FindClosestPlayer(playerInfos)).LengthSquared();
+
+            if (sqrdDist <= Constants.OFFLINE_TO_ATTACK_SQRD_DIST)
+                return new MailboxAttack(this.me, this.target);
+            else return this;
         }
     }
 }

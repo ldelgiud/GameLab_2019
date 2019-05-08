@@ -565,31 +565,43 @@ namespace Hazmat.Utilities
         //ENEMY SPAWNING
         public static void SpawnShooter(Vector2 position)
         {
-            return;
-            /*
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
+            entity.Set(new NameComponent() { name = Constants.SHOOTER_NAME });
 
+            entity.Set(new VelocityComponent());
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"characters\MED_CH_EnemyBicycle_01",
+                @"characters\TEX_CH_EnemyBicycle_01",
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+                standardEffectInitialize: new Tuple<string, float>[] {
+                    new Tuple<string, float>("LineThickness", 0.1f)}
+            )));
+
+            entity.Set(new SmallGunComponent(
+                damage: Constants.MAILBOX_DAMAGE,
+                projectileSpeed: Constants.BULLET_SPEED,
+                radiusRange: -1f,
+                reloadTime: Constants.MAILBOX_RELOAD_TIME,
+                projTex: "shooting/bullet",
+                alliance: Alliance.Hostile));
+            entity.Set(new AIComponent(new ShooterOffline(entity)));
             entity.Set(new NameComponent() { name = Constants.SHOOTER_NAME });
-            entity.Remove<VelocityComponent>();
-            entity.Set(new AIComponent(new ShooterOffline()));
-            entity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("placeholder", 2, 2)));
-            entity.Set(new NameComponent() { name = Constants.SHOOTER_NAME });
-            SpawnHelper.SpawnGun(entity);*/
         }
         
-        public static void SpawnDrone (Vector2 position)
+        public static void SpawnKamikaze (Vector2 position)
         {
             Entity entity = SpawnHelper.SpawnBasicEnemy(position);
             entity.Set(new NameComponent() { name = Constants.DRONE_NAME });
 
             entity.Set(new VelocityComponent());
-            entity.Set(new AIComponent(new DroneOffline()));
+            entity.Set(new AIComponent(new DroneOffline(entity)));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"characters\MED_CH_EnemyBicycle_01",
-                @"characters\TEX_CH_EnemyBicycle_01",
+                @"characters\kamikaze\MED_CH_GenericDrone_01",
+                @"characters\kamikaze\TEX_CH_GenericDrone_01",
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"), 
                 standardEffectInitialize: new Tuple<string, float>[] {
-                    new Tuple<string, float>("LineThickness", 0.1f)}
+                    new Tuple<string, float>("LineThickness", 0.01f)},
+                scale: new Vector3(6f)
                 )));
             entity.Set(new DamageComponent(200f));
         }
@@ -607,7 +619,7 @@ namespace Hazmat.Utilities
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.05f) }
                 )));
-            entity.Set(new AIComponent(new MailboxOffline()));
+            entity.Set(new AIComponent(new MailboxOffline(entity)));
 
             entity.Set(new SmallGunComponent(
                 damage: Constants.MAILBOX_DAMAGE,
@@ -619,7 +631,7 @@ namespace Hazmat.Utilities
 
         }
 
-        public static void SpawnRandomEnemy(bool drone, Vector2 seed, int range)
+        public static void SpawnRandomEnemy(bool shooter, Vector2 seed, int range)
         {
             bool collides;
             int sanityCheck = 0;
@@ -655,8 +667,8 @@ namespace Hazmat.Utilities
 
             if (collides) return;
 
-            if (drone) SpawnHelper.SpawnDrone(position);
-            else SpawnHelper.SpawnShooter(position);
+            if (shooter) SpawnHelper.SpawnShooter(position);
+            else SpawnHelper.SpawnKamikaze(position);
 
         }
 
@@ -669,8 +681,8 @@ namespace Hazmat.Utilities
 
             for (int i = 0; i < enemyCount; ++i)
             {
-                bool drone = true; //Constants.RANDOM.Next(3) == 0;
-                SpawnHelper.SpawnRandomEnemy(drone, position, 50);
+                bool shooter = Constants.RANDOM.Next(3) == 0;
+                SpawnHelper.SpawnRandomEnemy(shooter, position, 50);
             }
         }
 
