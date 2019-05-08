@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using tainicom.Aether.Physics2D.Collision;
+
 using Hazmat.Graphics;
+using Hazmat.Utilities;
+using Hazmat.Utilities.Extensions;
 
 namespace Hazmat.Graphics
 {
@@ -17,6 +22,41 @@ namespace Hazmat.Graphics
 
         public float width;
         public float height;
+
+        public AABB ViewBounds
+        {
+            get
+            {
+                var transformMatrix =
+                    Matrix.CreateRotationX(MathF.PI / 4) *
+                    Matrix.CreateRotationZ(-MathF.PI / 4) *
+                    Matrix.CreateTranslation(this.Translation);
+                var topLeft = Vector3.Transform(new Vector3(-this.width / 2, this.height / 2, 0), transformMatrix) + this.Translation;
+                var topRight = Vector3.Transform(new Vector3(this.width / 2, this.height / 2, 0), transformMatrix) + this.Translation;
+                var bottomLeft = Vector3.Transform(new Vector3(-this.width / 2, -this.height / 2, 0), transformMatrix) + this.Translation;
+                var bottomRight = Vector3.Transform(new Vector3(this.width / 2, -this.height / 2, 0), transformMatrix) + this.Translation;
+
+                var direction = -Camera3D.ISOMETRIC_OFFSET;
+                var normal = Vector3.UnitZ;
+                var planePoint = Vector3.Zero;
+
+                var topLeftT = Vector3.Dot(normal, planePoint - topLeft) / Vector3.Dot(normal, direction);
+                var topRightT = Vector3.Dot(normal, planePoint - topRight) / Vector3.Dot(normal, direction);
+                var bottomLeftT = Vector3.Dot(normal, planePoint - bottomLeft) / Vector3.Dot(normal, direction);
+                var bottomRightT = Vector3.Dot(normal, planePoint - bottomRight) / Vector3.Dot(normal, direction);
+
+
+                var topLeftIntersection = topLeft + direction * topLeftT;
+                var topRightIntersection = topRight + direction * topRightT;
+                var bottomLeftIntersection = bottomLeft + direction * bottomLeftT;
+                var bottomRightIntersection = bottomRight + direction * bottomRightT;
+
+                var width = topRightIntersection.X - bottomLeftIntersection.X;
+                var height = topLeftIntersection.Y - bottomRightIntersection.Y;
+
+                return new AABB(this.Transform.Translation.ToVector2(), width, height);
+            }
+        }
 
         public Vector3 Translation
         {
