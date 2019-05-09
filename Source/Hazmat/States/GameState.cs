@@ -225,6 +225,10 @@ namespace Hazmat.States
 
 
             //-----------------------SPAWNING-----------------------
+            SpawnHelper.SpawnPowerUp(new Vector2(-10,10));
+            SpawnHelper.SpawnPowerUp(new Vector2(-13, 10));
+            SpawnHelper.SpawnPowerUp(new Vector2(-16, 10));
+            SpawnHelper.SpawnPowerUp(new Vector2(-20, 10));
             //ENEMY SPAWNING
             SpawnHelper.SpawnEnemyCamps();
             SpawnHelper.SpawnEnemyCamp(new Vector2(70, 70));

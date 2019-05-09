@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using DefaultEcs;
+using DefaultEcs.Resource;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
@@ -10,6 +11,7 @@ using Hazmat.Input;
 using Hazmat.Utilities;
 using Hazmat.Graphics;
 using Hazmat.Utilities.Extensions;
+
 
 namespace Hazmat.Components.InputHandlers
 {
@@ -31,54 +33,96 @@ namespace Hazmat.Components.InputHandlers
         public void HandleInput(InputManager inputManager, Time time, Entity entity)
         {
             // Need to remove in case a button is pressed.
-            // ref DisplayPowerUpChoiceComponent displayPowerUp = ref entity.Get<DisplayPowerUpChoiceComponent>();
+            ref DisplayPowerUpChoiceComponent displayPowerUp = ref entity.Get<DisplayPowerUpChoiceComponent>();
 
             // StatsComponent of the player need for upgrades in case button is pressed.
             ref StatsComponent stats = ref entity.Get<StatsComponent>();
 
-
-            // Choose between left and right power up
-            switch (inputManager.GetEvent(Keys.R))
+            if (!displayPowerUp.UpgradeAlreadyChoosen)
             {
-                case HoldEvent _:
-                case PressEvent _:
-                    // TODO: add logic for choosing right
-                    stats.UpgradeSpeed(Constants.SPEED_UPGRADE);
-                    entity.Delete();
-                    break;
-            }
+                // Choose between left and right power up
+                switch (inputManager.GetEvent(Keys.R))
+                {
+                    case PressEvent _:
+                        // TODO: add logic for choosing right
+                        stats.UpgradeDefense();
 
-            switch (inputManager.GetEvent(Keys.T))
-            {
-                case HoldEvent _:
-                case PressEvent _:
-                    // TODO: add logic for choosing right
-                    stats.UpgradeDamage(Constants.DAMAGE_UPGRADE);
-                    entity.Delete();
-                    break;
-            }
+                        entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                               new SpineAnimationInfo(
+                                   @"ui\SPS_Screens",
+                                   new SkeletonInfo(10f, 7f, skin: "upgrade_popup"),
+                                   new AnimationStateInfo("upgrade_left", false)
+                               )
+                           ));
 
-            // GAMEPAD
-            switch (inputManager.GetEvent(0, Buttons.LeftShoulder))
-            {
-                case HoldEvent _:
-                case PressEvent _:
-                    // TODO: add logic for choosing right
-                    this.score.ArmorUpgrades += 1;
-                    stats.UpgradeSpeed(Constants.SPEED_UPGRADE);
-                    entity.Delete();
-                    break;
-            }
+                        stats.CurrentlyDisplayingOtherPowerUp = false;
+                        displayPowerUp.DisplayForChoiceAnimation();
+                        displayPowerUp.UpgradeAlreadyChoosen = true;
+                        break;
+                }
 
-            switch (inputManager.GetEvent(0, Buttons.RightShoulder))
-            {
-                case HoldEvent _:
-                case PressEvent _:
-                    // TODO: add logic for choosing left
-                    this.score.WeaponUpgrades += 1;
-                    stats.UpgradeDamage(Constants.DAMAGE_UPGRADE);
-                    entity.Delete();
-                    break;
+                switch (inputManager.GetEvent(Keys.T))
+                {
+                    case PressEvent _:
+                        // TODO: add logic for choosing right
+                        stats.UpgradeDamage(Constants.DAMAGE_UPGRADE);
+
+                        entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                               new SpineAnimationInfo(
+                                   @"ui\SPS_Screens",
+                                   new SkeletonInfo(10f, 7f, skin: "upgrade_popup"),
+                                   new AnimationStateInfo("upgrade_right", false)
+                               )
+                           ));
+
+                        stats.CurrentlyDisplayingOtherPowerUp = false;
+                        displayPowerUp.DisplayForChoiceAnimation();
+                        displayPowerUp.UpgradeAlreadyChoosen = true;
+                        break;
+                }
+
+                // GAMEPAD
+                switch (inputManager.GetEvent(0, Buttons.LeftShoulder))
+                {
+                    case PressEvent _:
+                        // TODO: add logic for choosing right
+                        this.score.ArmorUpgrades += 1;
+                        stats.UpgradeDefense();
+
+                        entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                           new SpineAnimationInfo(
+                               @"ui\SPS_Screens",
+                               new SkeletonInfo(10f, 7f, skin: "upgrade_popup"),
+                               new AnimationStateInfo("upgrade_right", false)
+                           )
+                       ));
+
+                        stats.CurrentlyDisplayingOtherPowerUp = false;
+                        displayPowerUp.DisplayForChoiceAnimation();
+                        displayPowerUp.UpgradeAlreadyChoosen = true;
+                        break;
+                }
+
+                switch (inputManager.GetEvent(0, Buttons.RightShoulder))
+                {
+                    case PressEvent _:
+                        // TODO: add logic for choosing left
+                        this.score.WeaponUpgrades += 1;
+                        stats.UpgradeDamage(Constants.DAMAGE_UPGRADE);
+
+                        entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                           new SpineAnimationInfo(
+                               @"ui\SPS_Screens",
+                               new SkeletonInfo(10f, 7f, skin: "upgrade_popup"),
+                               new AnimationStateInfo("upgrade_right", false)
+                           )
+                       ));
+
+                        stats.CurrentlyDisplayingOtherPowerUp = false;
+                        displayPowerUp.DisplayForChoiceAnimation();
+                        displayPowerUp.UpgradeAlreadyChoosen = true;
+                        break;
+                }
             }
         }
 

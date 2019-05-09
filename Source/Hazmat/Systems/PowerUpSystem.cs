@@ -27,9 +27,7 @@ namespace Hazmat.Systems
         protected override void Update(Time time, in Entity entity)
         {
             ref DisplayPowerUpChoiceComponent displayPowerUp = ref entity.Get<DisplayPowerUpChoiceComponent>();
-
-
-
+            
             // Displaying power up choice
             if (displayPowerUp.CurrentShowTime < displayPowerUp.ShowTime)
             {
@@ -37,13 +35,15 @@ namespace Hazmat.Systems
             }
             else
             {
-                DisablePowerUpDisplay(entity);
+
+                DisablePowerUpDisplay(entity, displayPowerUp);
             }
         }
 
 
-        void DisablePowerUpDisplay(Entity entity)
+        void DisablePowerUpDisplay(Entity entity, DisplayPowerUpChoiceComponent disp)
         {
+            disp.EndDisplay();
             entity.Delete();
         }
 
