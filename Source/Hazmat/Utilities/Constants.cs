@@ -69,7 +69,7 @@ namespace Hazmat.Utilities
         public static double OFFLINE_TO_STANDBY_DIST = 60;
         public static double OFFLINE_TO_ATTACK_DIST = 35;       //ONLY FOR MAILBOX!
         public static double STANDBY_TO_OFFLINE_DIST = 70;
-        public static double STANDBY_TO_SEARCH_DIST = 45;
+        public static double STANDBY_TO_SEARCH_DIST = 40;
         public static double SEARCH_TO_STANDBY_DIST = 50;
         public static double BLIND_STANDBY_TO_SEARCH_DIST = 20;
         public static double SEARCH_TO_ATTACK_DIST = 35;        //ONLY FOR SHOOTER

@@ -203,7 +203,7 @@ namespace Hazmat.States
             //-----------------------SPAWNING-----------------------
             //ENEMY SPAWNING
             SpawnHelper.SpawnEnemyCamps();
-            SpawnHelper.SpawnEnemyCamp(new Vector2(70, 70));
+            SpawnHelper.SpawnEnemyCamp(new Vector2(100, 100));
             // Create player
             SpawnHelper.SpawnPlayer(0, new Vector2(0));
             // Story Intro Event

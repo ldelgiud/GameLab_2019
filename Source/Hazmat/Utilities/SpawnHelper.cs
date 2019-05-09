@@ -258,7 +258,7 @@ namespace Hazmat.Utilities
             if (houseNr == 0) SpawnHelper.SpawnHouse0(position, DirToFace);
             else SpawnHelper.SpawnHouse1(position, DirToFace);
                 
-            if (spawnMailbox && position.Length()>=50)
+            if (spawnMailbox && position.Length()>=60)
             {
                 Vector2 correctionVec = new Vector2(4, -7.5f);
                 Vector2 mailboxPosition = position + correctionVec.Rotate(DirToFace * MathF.PI / 2);

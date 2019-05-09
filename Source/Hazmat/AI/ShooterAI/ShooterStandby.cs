@@ -34,7 +34,11 @@ namespace Hazmat.AI
             this.target = FindClosestPlayer(playerInfos);
 
             bool mad = this.AmIMad(time);
-            if (mad) return new ShooterAttack(this.me, this.target);
+            if (mad)
+            {
+                return new ShooterAttack(this.me, this.target);
+                Debug.WriteLine("You Hit me!");
+            }
 
             if (this.SqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST)
             {
@@ -45,12 +49,13 @@ namespace Hazmat.AI
             {
                 if (this.IsTargetInSight())
                 {
-                    //Debug.WriteLine("SHOOTY MC FACE: SAW YOU!!");
+                    Debug.WriteLine("SHOOTY MC FACE: SAW YOU!!");
+                    Debug.Write("Distance: " + MathF.Sqrt(this.SqrdDist));
                     return new ShooterSearch(this.me, this.target);
                 }
                 else if (this.SqrdDist <= Constants.BLIND_STANDBY_TO_SEARCH_SQRD_DIST)
                 {
-                    //Debug.WriteLine("SHOOTY MC FACE: TOO CLOSE");
+                    Debug.WriteLine("SHOOTY MC FACE: TOO CLOSE");
                     return new ShooterSearch(this.me, this.target);
                 }
             }
