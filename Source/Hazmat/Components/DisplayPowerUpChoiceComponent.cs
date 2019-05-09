@@ -9,21 +9,26 @@ namespace Hazmat.Components
 {
     class DisplayPowerUpChoiceComponent
     {
-        /// <summary>
-        /// Time specifying for how lonf the power up choice will be displayed
-        /// </summary>
-        public float ShowTime { get; }
+        private StatsComponent PlayerStats;
+
+        public bool UpgradeAlreadyChoosen { get; set; }
 
         /// <summary>
-        /// Time specifying for how lonf the power up choice has been displayed
+        /// Time specifying for how long the power up choice will be displayed
+        /// </summary>
+        public float ShowTime { get; private set; }
+
+        /// <summary>
+        /// Time specifying for how long the power up choice has been displayed
         /// </summary>
         public float CurrentShowTime { get; private set; }
 
 
-        public DisplayPowerUpChoiceComponent(float time)
+        public DisplayPowerUpChoiceComponent(float time, StatsComponent playerStats)
         {
             this.ShowTime = time;
             this.CurrentShowTime = 0;
+            this.PlayerStats = playerStats;
         }
 
         public void IncrementCurrentShowTime(float amount)
@@ -31,6 +36,20 @@ namespace Hazmat.Components
             this.CurrentShowTime += amount;
         }
 
+        /// <summary>
+        /// When a button has been displayed play the animation for choice, so it should 
+        /// be displaied for a second. See PowerUpInputHandler.
+        /// </summary>
+        public void DisplayForChoiceAnimation()
+        {
+                this.ShowTime = 1f;
+                this.CurrentShowTime = 0f;
+        }
+
+        public void EndDisplay()
+        {
+            this.PlayerStats.CurrentlyDisplayingOtherPowerUp = false;
+        }
 
     }
 }

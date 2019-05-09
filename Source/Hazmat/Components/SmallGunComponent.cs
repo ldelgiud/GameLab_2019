@@ -19,7 +19,11 @@ namespace Hazmat.Components
 {
     class SmallGunComponent : AGun
     {
-        
+
+        public string ProjectileSkinName { get; private set; }
+        public string ProjectileAnimationName { get; private set; }
+
+
         public SmallGunComponent(
             float damage, 
             float projectileSpeed, 
@@ -36,6 +40,9 @@ namespace Hazmat.Components
             this.reloadTime = reloadTime;
             this.timeLastShot = 0f;
             this.alliance = alliance;
+
+            this.ProjectileSkinName = "MatProjectile_01";
+            this.ProjectileAnimationName = "MatProjectile_01"; //taken from items\SPS_Projectiles
         }
 
         public override void Shoot(float absoluteTime, Transform3D transform, Vector2 direction)
@@ -56,8 +63,8 @@ namespace Hazmat.Components
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"items\SPS_Projectiles",
-                    new SkeletonInfo(2f, 2f, skin: "MatProjectile_01", translation: new Vector3(0, 0, 1f)),
-                    new AnimationStateInfo("ProjectileMat_01", true)
+                    new SkeletonInfo(3f, 3f, skin: this.ProjectileSkinName, translation: new Vector3(0, 0, 1f)),
+                    new AnimationStateInfo(this.ProjectileAnimationName, true)
                 )
             ));
 
@@ -66,6 +73,12 @@ namespace Hazmat.Components
             entity.Set(new TTLComponent(Constants.TTL_BULLET));
             entity.Set(new AllianceMaskComponent(this.alliance));
             timeLastShot = absoluteTime;
+        }
+
+        public void ChangeProjectiles(string projSkinName, string projAnimName = "MatProjectile_01")
+        {
+            this.ProjectileSkinName = projSkinName;
+            this.ProjectileAnimationName = projAnimName;
         }
     }
 }

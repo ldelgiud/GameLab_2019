@@ -34,24 +34,28 @@ namespace Hazmat.Collision.Handlers
             ref Transform3DComponent playerTransform = ref collider.Get<Transform3DComponent>();
             ref StatsComponent playerStats = ref collider.Get<StatsComponent>();
 
-            // Attach a DisplayPowerUpChoiceComponent
-            Entity entity = this.world.CreateEntity();
-            entity.Set(playerStats);
-            entity.Set(new DisplayPowerUpChoiceComponent(Constants.POWERUP_DISPLAY_TIME));
-            SpawnHelper.AttachAABB(entity, Vector2.Zero, 1, 1, false);
-            entity.Set(new AABBTetherComponent(collider));
-            entity.Set(new InputComponent(inputHandler: new PowerUpInputHandler(this.world, this.score)));
-            entity.Set(new Transform3DComponent(new Transform3D(position: new Vector3(0f, 0f, 7f), parent: playerTransform.value)));
-            entity.Set(new WorldSpaceComponent());
-            entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
-               new SpineAnimationInfo(
-                   @"ui\SPS_Screens",
-                   new SkeletonInfo(10f, 7f, skin: "upgrade_popup"),
-                   new AnimationStateInfo("upgrade_popup", false)
-               )
-           ));
+            if (!playerStats.CurrentlyDisplayingOtherPowerUp)
+            {
+                // Attach a DisplayPowerUpChoiceComponent
+                Entity entity = this.world.CreateEntity();
+                entity.Set(playerStats);
+                entity.Set(new DisplayPowerUpChoiceComponent(Constants.POWERUP_DISPLAY_TIME, playerStats));
+                SpawnHelper.AttachAABB(entity, Vector2.Zero, 1, 1, false);
+            	entity.Set(new AABBTetherComponent(collider));
+                entity.Set(new InputComponent(inputHandler: new PowerUpInputHandler(this.world, this.score)));
+                entity.Set(new Transform3DComponent(new Transform3D(position: new Vector3(0f, 0f, 7f), parent: playerTransform.value)));
+                entity.Set(new WorldSpaceComponent());
+                entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                   new SpineAnimationInfo(
+                       @"ui\SPS_Screens",
+                       new SkeletonInfo(10f, 7f, skin: "upgrade_popup"),
+                       new AnimationStateInfo("upgrade_popup", false)
+                   )
+               ));
 
-            collidee.Delete();
+                playerStats.CurrentlyDisplayingOtherPowerUp = true;
+                collidee.Delete();
+            }
         }
     }
 }

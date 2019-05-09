@@ -2,10 +2,13 @@
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using DefaultEcs;
-
+using DefaultEcs.Resource;
 using Hazmat.Components;
+using Hazmat.Graphics;
+using Hazmat.ResourceManagers;
 
 namespace Hazmat.Utilities.Extensions
 {
@@ -70,5 +73,50 @@ namespace Hazmat.Utilities.Extensions
 
             entity.Dispose();
         }
+
+
+        public static Entity SetAttachment(
+            this Entity entity, 
+            string modelName, 
+            string modelTexture,
+            Vector3? position = null,
+            Vector3? scale = null,
+            Vector3? rotation = null,
+            string shaderName = "toon", 
+            float lineThickness = 0.5f)
+        {
+            if (!entity.Has<Transform3DComponent>())
+            {
+                throw new Exception("Cannot attach an object to an entity that has no Transform3DComponent!");
+            } 
+            else
+            {
+     
+                ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
+
+                var childEntity = SpawnHelper.World.CreateEntity();
+                childEntity.SetAsChildOf(entity);
+
+                Vector3 position_ = position == null ? new Vector3(0f) : position.Value;
+                Vector3 scale_ = scale == null ? new Vector3(0.07f) : scale.Value;
+                Vector3 rotation_ = rotation == null ? new Vector3(0, 0, MathHelper.PiOver2) : rotation.Value;
+
+                childEntity.Set(new NameComponent() { name = "attachement" });
+                childEntity.Set(new Transform3DComponent(new Transform3D(parent: transform.value, position: position_)));
+                childEntity.Set(new WorldSpaceComponent());
+                childEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                    modelName,
+                    modelTexture,
+                    rotation: rotation_,
+                    scale: scale_,
+                    standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/" + shaderName),
+                    standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", lineThickness) }
+                )));
+                SpawnHelper.AttachAABB(childEntity, Vector2.Zero, 1, 1, false);
+                childEntity.Set(new AABBTetherComponent(entity));
+                return childEntity;
+            }
+        }
+
     }
 }

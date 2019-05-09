@@ -1,19 +1,47 @@
 
 SPS_Projectiles.png
-size: 256,256
+size: 1024,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+animated_sprites/SPT_ENV_ProjectileDeath_01
+  rotate: false
+  xy: 2, 27
+  size: 249, 227
+  orig: 249, 227
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_ENV_ProjectileEnemy_01
+  rotate: false
+  xy: 593, 143
+  size: 118, 111
+  orig: 118, 111
+  offset: 0, 0
+  index: -1
 animated_sprites/SPT_ENV_ProjectileMatTail_01
   rotate: false
-  xy: 2, 129
+  xy: 253, 144
   size: 210, 110
   orig: 210, 110
   offset: 0, 0
   index: -1
+animated_sprites/SPT_ENV_ProjectileMatTail_02
+  rotate: false
+  xy: 253, 45
+  size: 187, 97
+  orig: 187, 97
+  offset: 0, 0
+  index: -1
 animated_sprites/SPT_ENV_ProjectileMat_01
   rotate: false
-  xy: 2, 2
+  xy: 465, 129
+  size: 126, 125
+  orig: 126, 125
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_ENV_ProjectileMat_02
+  rotate: false
+  xy: 442, 2
   size: 126, 125
   orig: 126, 125
   offset: 0, 0

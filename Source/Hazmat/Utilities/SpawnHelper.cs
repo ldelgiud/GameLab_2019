@@ -75,10 +75,11 @@ namespace Hazmat.Utilities
 
             var transform = new Transform3D(position.ToVector3());
             entity.Set(new PlayerComponent(playerID));
-            var playerStats = new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0);
+            var playerStats = new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0, entity);
             entity.Set(playerStats);
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform3DComponent(transform));
+            entity.Set(new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0, entity));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent());
             entity.Set(new InputComponent(new PlayerInputHandler()));

@@ -38,7 +38,11 @@ namespace Hazmat.Collision.Handlers
                     Alliance collideeAlliance = collidee.Get<AllianceMaskComponent>().alliance;
                     if (((int)playerAlliance | (int)collideeAlliance) != (int)playerAlliance)
                     {
-                        energy.CurrentEnergy -= collidee.Get<DamageComponent>().Damage;
+
+                        ref StatsComponent playerStats = ref collider.Get<StatsComponent>();
+
+                        energy.CurrentEnergy -= (collidee.Get<DamageComponent>().Damage * (1f - playerStats.Defense));
+
                         if (energy.CurrentEnergy == 0)
                         {
                             soundManager.PlaySoundEffect(soundManager.MatDying);
