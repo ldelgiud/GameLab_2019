@@ -134,7 +134,7 @@ namespace Hazmat.Event
                             this.introEntity.Remove<SpineSkeletonComponent>();
                             this.introEntity.Remove<SpineAnimationComponent>();
                             this.state = State.Waiting;
-                            this.timestamp = time.Absolute + 5;
+                            this.timestamp = time.Absolute + 2.5f;
                             this.soundManager.StopSoundEffectInstance(playing);
                             this.playing = this.soundManager.PlaySoundEffectInstance(soundManager.MatOk);
                             break;

@@ -45,10 +45,13 @@ namespace Hazmat.Event
         SoundEffect sound;
         SoundEffectInstance playing;
 
-        public TipEvent(String name, SoundEffect sound)
+        Vector2 positionDelta;
+
+        public TipEvent(String name, SoundEffect sound, Vector2? positionDelta = null)
         {
             this.name = name;
             this.sound = sound;
+            this.positionDelta = positionDelta ?? Vector2.Zero;
         }
 
         public override void Initialize(World world, Entity entity)
@@ -56,7 +59,7 @@ namespace Hazmat.Event
             this.eventEntity = entity;
 
             this.tipEntity = world.CreateEntity();
-            this.tipEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -350), scale: new Vector2(0.75f))));
+            this.tipEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -350) + this.positionDelta, scale: new Vector2(0.75f))));
             this.tipEntity.Set(new ScreenSpaceComponent());
             this.tipEntity.Set(new NameComponent() { name = "tip" });
 

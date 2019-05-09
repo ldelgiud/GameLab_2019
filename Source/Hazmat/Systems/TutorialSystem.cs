@@ -91,7 +91,7 @@ namespace Hazmat.Systems
                         if (element.Value.Has<EnergyPickupComponent>() || element.Value.Has<PowerUpComponent>())
                         {
                             var entity = this.world.CreateEntity();
-                            var _event = new TipEvent("tip_battery_powerup", soundManager.BossBattery05);
+                            var _event = new TipEvent("tip_battery_powerup", soundManager.BossBattery05, new Vector2(0, 35));
                             _event.Initialize(this.world, entity);
                             entity.Set(new EventComponent(_event));
                             entity.Set(new NameComponent() { name = "event" });

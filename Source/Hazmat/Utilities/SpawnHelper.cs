@@ -640,6 +640,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\kamikaze\MED_CH_GenericDrone_01",
                 @"characters\kamikaze\TEX_CH_GenericDrone_01",
+                rotation: new Vector3(0, 0, MathF.PI / 2),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"), 
                 standardEffectInitialize: new Tuple<string, float>[] {
                     new Tuple<string, float>("LineThickness", 0.01f)},
