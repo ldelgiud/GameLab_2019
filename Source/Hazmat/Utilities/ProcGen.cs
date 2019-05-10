@@ -182,22 +182,36 @@ namespace Hazmat.Utilities
                     if (position.LengthSquared() <= 30*30 || streetSqrdDist <= 20*20) continue;
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
-                    if (rand <= 15)
+                    if (rand <= 10)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02"),
                             "dirtTile"
                             );
+                    } else if (rand <= 20)
+                    {
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_03"),
+                            "dirtTile"
+                            );
+                    } else if (rand <= 30)
+                    {
+                        ProcGen.TileMap.AddTile(
+                            new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
+                            new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_04"),
+                            "dirtTile"
+                            );
                     }
-                    else if (rand <= 19)
+                    else if (rand <= 34)
                     {
                         SpawnHelper.SpawnRandomHouse(position);
                     }
-                    else if (rand <= 21)
+                    else if (rand <= 37)
                     {
                         SpawnHelper.SpawnRock(position, Constants.RANDOM.Next(1, 5));
-                    }
+                    } 
                 }
             }
             Debug.WriteLine("END: Objects Generation");
