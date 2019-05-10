@@ -14,6 +14,7 @@ using Hazmat.Systems;
 using Hazmat.Input;
 using Hazmat.Graphics;
 using Hazmat.Utilities;
+using Hazmat.Utilities.Extensions;
 
 namespace Hazmat.States
 {
@@ -22,15 +23,18 @@ namespace Hazmat.States
         GameWindow window;
         InputManager inputManager;
         Camera2D screenCamera;
-
+        EntitySet players;
+        PowerPlant plant;
         Score score;
         World world;
 
         ISystem<Time> drawSystem;
 
-        public ScoreState(Score score)
+        public ScoreState(Score score, PowerPlant plant, EntitySet players)
         {
             this.score = score;
+            this.plant = plant;
+            this.players = players;
         }
 
         public override void Initialize(Time time, Hazmat game)
@@ -124,6 +128,30 @@ namespace Hazmat.States
                     @"font\Playtime",
                     color: color
                     )));
+            }
+
+            {
+                Vector2 avgDist = Vector2.Zero;
+                foreach(Entity player in this.players.GetEntities())
+                {
+                    avgDist += player.Get<Transform3DComponent>().value.Translation.ToVector2();
+                }
+                avgDist /= players.Count;
+                avgDist = plant.Position - avgDist;
+                double percentage = (avgDist.Length() / Constants.PLANT_PLAYER_DISTANCE);
+                percentage = Math.Min(1,percentage);
+                percentage = (1 - percentage) * 100;
+                int myVal = (int)percentage;
+                var entity = this.world.CreateEntity();
+                entity.Set(new ScreenSpaceComponent());
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(20, -135))));
+                entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
+                    "Distance Covered " + myVal.ToString() + "%",
+                    @"font\Playtime",
+                    color: color
+                    )));
+
+
             }
 
         }

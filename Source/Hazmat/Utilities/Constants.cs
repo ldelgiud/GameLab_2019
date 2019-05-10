@@ -122,5 +122,6 @@ namespace Hazmat.Utilities
         public static string LOOTING_STATION_NAME = "loot_station";
         public static string WALL_NAME = "wall";
         public static string ROADBLOCK_NAME = "roadblock";
+        public static string SIDEWALK_WALL_NAME = "sidewalk_wall";
     }
 }

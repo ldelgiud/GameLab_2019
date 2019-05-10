@@ -37,7 +37,16 @@ namespace Hazmat.Collision.Handlers
             {
                 this.score.Kills += 1;
                 bool drop = Constants.RANDOM.NextDouble() < HelperFunctions.DropRate();
-                if (drop) SpawnHelper.SpawnBattery(Constants.SMALL_BATTERY_SIZE, collideePos.ToVector2());
+                if (drop)
+                {
+                    int size = Constants.RANDOM.Next(100);
+                    uint batterySize;
+                    if (size <= 60) batterySize = Constants.SMALL_BATTERY_SIZE;
+                    else if (size < 90) batterySize = Constants.MEDIUM_BATTERY_SIZE;
+                    else batterySize = Constants.BIG_BATTERY_SIZE;
+                    SpawnHelper.SpawnBattery(batterySize, collideePos.ToVector2());
+
+                }
                 collidee.Delete();
             }
 

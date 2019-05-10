@@ -360,15 +360,14 @@ namespace Hazmat.Utilities
             //Debug.WriteLine("AABB upperBound: " + rotatedAABB.UpperBound);
         }
 
-        public static void SpawnSidewalk(Vector2 position, Vector3 rotation)
+        public static void SpawnSideWalk(Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
             SpawnHelper.AttachAABB(entity, position, new Vector2(-2.5f), new Vector2(2.5f), false);
             entity.Set(new NameComponent() { name = Constants.SIDEWALK_NAME });
 
             entity.Set(new Transform3DComponent(new Transform3D(
-                position: new Vector3(position, 0),
-                rotation: rotation
+                position: new Vector3(position, 0)
                 )));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"buildings\sidewalk\sidewalk_01",
@@ -376,10 +375,37 @@ namespace Hazmat.Utilities
                 scale: new Vector3(6f)
                 )));
             entity.Set(new WorldSpaceComponent());
+
+
         }
 
-        public static void SpawnSidewalkWalls(Vector2 position)
+        public static void SpawnSidewalkWalls(Vector2 position, int dir)
         {
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = Constants.SIDEWALK_WALL_NAME });
+
+            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 1, 5, false);
+            else SpawnHelper.AttachAABB(entity, position, 5, 1, false);
+
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: new Vector3(Vector2.Zero, dir * MathF.PI / 2)
+                )));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"buildings\sidewalk\sidewalk_barrier_01",
+                @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
+                rotation: new Vector3(Vector2.Zero, MathF.PI/2),
+                scale: new Vector3(3f)
+                )));
+            entity.Set(new WorldSpaceComponent());
+        }
+
+        public static void SpawnSidewalkWithWall(Vector2 position, int dir)
+        {
+            SpawnHelper.SpawnSideWalk(position);
+            Vector2 offSet = new Vector2(2.5f, 0).Rotate(dir*MathF.PI/2);
+            SpawnHelper.SpawnSidewalkWalls(position + offSet, (dir+1)%4);
+
         }
 
         public static void SpawnLamp(Vector2 position, float radian)
@@ -428,15 +454,25 @@ namespace Hazmat.Utilities
 
         public static void SpawnBattery(uint size, Vector2 position)
         {
-            var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, 1, 1, false);
 
+            float borderSize =  3f;
+            if (size == Constants.MEDIUM_BATTERY_SIZE) borderSize = 4f;
+            else if (size == Constants.BIG_BATTERY_SIZE) borderSize = 5f;
+            
+            var entity = SpawnHelper.World.CreateEntity();
+            SpawnHelper.AttachAABB(entity, position, borderSize, borderSize, false);
+
+            
             entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, Constants.LAYER_FOREGROUND))));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"items\SPS_Collectables",
-                    new SkeletonInfo(2f, 2f, skin: "battery_01", translation: new Vector3(0, 0, 0.5f)),
+                    new SkeletonInfo(
+                        width: borderSize, 
+                        height: borderSize, 
+                        skin: "battery_01", 
+                        translation: new Vector3(0, 0, 1f)),
                     new AnimationStateInfo("battery_01", true)
                 )
             ));
@@ -481,14 +517,14 @@ namespace Hazmat.Utilities
         public static void SpawnPowerUp(Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, 1, 1, false);
+            SpawnHelper.AttachAABB(entity, position, 3, 3, false);
 
             entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"items\SPS_Collectables",
-                    new SkeletonInfo(2f, 2f, skin: "chip_01", translation: new Vector3(0, 0, 0.1f)),
+                    new SkeletonInfo(3f, 3f, skin: "chip_01", translation: new Vector3(0, 0, 1)),
                     new AnimationStateInfo("chip_01", true)
                 )
             ));

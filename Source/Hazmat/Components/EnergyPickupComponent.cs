@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Hazmat.Components
 {
+    
     public struct EnergyPickupComponent
     {
         public uint value;
-
+        
         public EnergyPickupComponent(uint value)
         {
             this.value = value;

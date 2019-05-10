@@ -58,7 +58,7 @@ namespace Hazmat.States
 
             Energy energy = new Energy();
             PowerPlant powerPlant = new PowerPlant();
-
+            this.SetInstance(powerPlant);
             this.SetInstance(new QuadTree<Entity>(
                 new AABB()
                 {
@@ -142,7 +142,7 @@ namespace Hazmat.States
                 TTLSystem,
                 pathFinderSystem,
                 new TutorialSystem(world, powerPlant),
-                new EnergyEventSystem(energy, score)
+                new EnergyEventSystem(energy, score, powerPlant, world)
                 );
 
             //TERRAIN GENERATION
@@ -160,6 +160,7 @@ namespace Hazmat.States
 
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
 
+            
             //DRAWING SYSTEMS
             EnergyDrawSystem energyDrawSystem =
                 new EnergyDrawSystem(
@@ -205,7 +206,10 @@ namespace Hazmat.States
             SpawnHelper.SpawnEnemyCamps();
             SpawnHelper.SpawnEnemyCamp(new Vector2(100, 100));
             // Create player
-            SpawnHelper.SpawnPlayer(0, new Vector2(0));
+
+            SpawnHelper.SpawnPlayer(0, Vector2.Zero);
+
+
             // Story Intro Event
             SpawnHelper.SpawnEvent();
             //-----------------------END SPAWNING-----------------------

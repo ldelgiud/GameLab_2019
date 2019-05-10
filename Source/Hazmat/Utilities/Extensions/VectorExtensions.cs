@@ -33,5 +33,10 @@ namespace Hazmat.Utilities.Extensions
 
             return new Vector2(x, y);
         }
+
+        public static Vector2 RotateAroundPoint(Vector2 Vector2rot, float radians, Vector2 origin)
+        {
+            return origin + Rotate(Vector2rot - origin, radians);
+        }
     }
 }

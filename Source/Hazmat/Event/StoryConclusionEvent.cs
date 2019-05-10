@@ -37,7 +37,8 @@ namespace Hazmat.Event
 
         SoundEffectInstance playing;
         InputManager inputManager;
-
+        EntitySet players;
+        PowerPlant plant;
         State state = State.Start;
         Entity eventEntity;
         Entity conclusionEntity;
@@ -45,7 +46,8 @@ namespace Hazmat.Event
         public override void Initialize(World world, Entity entity)
         {
             this.eventEntity = entity;
-
+            this.players = world.GetEntities().With<PlayerComponent>().Build();
+            this.plant = Hazmat.Instance.ActiveState.GetInstance<PowerPlant>();
             this.conclusionEntity = world.CreateEntity();
             this.conclusionEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
             this.conclusionEntity.Set(new ScreenSpaceComponent());
@@ -93,7 +95,8 @@ namespace Hazmat.Event
                     var score = Hazmat.Instance.ActiveState.GetInstance<Score>();
                     score.Complete(time);
                     this.soundManager.PlaySoundEffectInstance(soundManager.MatWin);
-                    Hazmat.Instance.ActiveState.stateTransition = new SwapStateTransition(new ScoreState(score));
+                    Hazmat.Instance.ActiveState.stateTransition = 
+                        new SwapStateTransition(new ScoreState(score, this.plant, this.players));
                     this.eventEntity.Delete();
                     break;
             }

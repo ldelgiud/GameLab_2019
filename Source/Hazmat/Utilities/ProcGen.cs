@@ -239,6 +239,7 @@ namespace Hazmat.Utilities
             Vector2 upperSidewalkPos1;
             Vector2 upperSidewalkPos2;
             float step = Constants.TILE_SIZE / 4;
+            int dir1, dir2;
 
             if (changeDir)
             {
@@ -249,10 +250,11 @@ namespace Hazmat.Utilities
                     //Down
                     lowerSidewalkPos1 = new Vector2(position.X - step, position.Y - 3 * Constants.TILE_SIZE / 4);
                     lowerSidewalkPos2 = new Vector2(position.X + step, position.Y - 3 * Constants.TILE_SIZE / 4);
-                    
+                    dir1 = 2;
                     //Right
                     upperSidewalkPos1 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y - step);
                     upperSidewalkPos2 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y + step);
+                    dir2 = 1;
                     //Down & right
                     extraSideWalk = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y - 3 * Constants.TILE_SIZE / 4);
                     // Left turn
@@ -262,19 +264,22 @@ namespace Hazmat.Utilities
                     //Up
                     upperSidewalkPos1 = new Vector2(position.X - step, position.Y + 3 * Constants.TILE_SIZE / 4);
                     upperSidewalkPos2 = new Vector2(position.X + step, position.Y + 3 * Constants.TILE_SIZE / 4);
+                    dir1 = 3;
                     //Left
                     lowerSidewalkPos1 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y - step);
                     lowerSidewalkPos2 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y + step);
+                    dir2 = 0;
                     //Up & Left
                     extraSideWalk = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y + 3* Constants.TILE_SIZE / 4);
 
                 }
                 SpawnHelper.SpawnLamp(extraSideWalk, -MathF.PI/4);
-                SpawnHelper.SpawnSidewalk(upperSidewalkPos1, Vector3.Zero);
-                SpawnHelper.SpawnSidewalk(upperSidewalkPos2, Vector3.Zero);
-                SpawnHelper.SpawnSidewalk(lowerSidewalkPos1, Vector3.Zero);
-                SpawnHelper.SpawnSidewalk(lowerSidewalkPos2, Vector3.Zero);
-                SpawnHelper.SpawnSidewalk(extraSideWalk, Vector3.Zero);
+                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos1, dir1);
+                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos2, dir1);
+                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos1, dir2);
+                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos2, dir2);
+                SpawnHelper.SpawnSideWalk(extraSideWalk);
+
                 ProcGen.TileMap.AddTile(
                         new Transform3D(
                             new Vector3(position, Constants.LAYER_BACKGROUND),
@@ -294,25 +299,28 @@ namespace Hazmat.Utilities
                     //Down
                     lowerSidewalkPos1 = new Vector2(position.X - step, position.Y - 3 * Constants.TILE_SIZE / 4);
                     lowerSidewalkPos2 = new Vector2(position.X + step, position.Y - 3 * Constants.TILE_SIZE / 4);
+                    dir1 = 1;
                     //Up
                     upperSidewalkPos1 = new Vector2(position.X - step, position.Y + 3 * Constants.TILE_SIZE / 4);
                     upperSidewalkPos2 = new Vector2(position.X + step, position.Y + 3 * Constants.TILE_SIZE / 4);
-                    
+                    dir2 = 3;
                 } else
                 {
                     //Left
                     lowerSidewalkPos1 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y - step);
                     lowerSidewalkPos2 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y + step);
+                    dir1 = 0;
                     //Right
                     upperSidewalkPos1 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y - step);
                     upperSidewalkPos2 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y + step);
-                    
+                    dir2 = 2;
+
                 }
-                
-                SpawnHelper.SpawnSidewalk(upperSidewalkPos1, Vector3.Zero);
-                SpawnHelper.SpawnSidewalk(upperSidewalkPos2, Vector3.Zero);
-                SpawnHelper.SpawnSidewalk(lowerSidewalkPos1, Vector3.Zero);
-                SpawnHelper.SpawnSidewalk(lowerSidewalkPos2, Vector3.Zero);
+
+                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos1, dir2);
+                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos2, dir2);
+                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos1, dir1);
+                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos2, dir1);
                     
                 if (parity==3) SpawnHelper.SpawnLamp(lowerSidewalkPos1, rotation.Z);
                 else if (parity == 1) SpawnHelper.SpawnLamp(upperSidewalkPos1, rotation.Z);
