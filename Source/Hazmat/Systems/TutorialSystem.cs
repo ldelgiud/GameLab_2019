@@ -32,7 +32,7 @@ namespace Hazmat.Systems
         PowerPlant powerPlant;
         World world;
         QuadTree<Entity> quadtree;
-
+        float SpawnTime; 
         SoundManager soundManager
         {
             get

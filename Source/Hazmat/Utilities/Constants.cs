@@ -13,7 +13,7 @@ namespace Hazmat.Utilities
         public static Random RANDOM = new Random();
 
         //PLAYER STATS
-        public static float PLAYER_RELOAD_TIME = 0.3f;              //TESTED
+        public static float PLAYER_RELOAD_TIME = 0.15f;              //TESTED
         public static float BULLET_SIZE = 1f;                       //TESTED
         public static int PLAYER_INITIAL_SPEED = 20; //TESTED
         public static double PLAYER_INITIAL_ENERGY = 1000;
@@ -59,7 +59,7 @@ namespace Hazmat.Utilities
 
         //SHOOTING
         public static float TTL_BULLET = 5f; //TESTED
-        public static float BULLET_SPEED = 45; // TESTED
+        public static float BULLET_SPEED = 80;  //TESTED
 
         //GRID GENERATION VALUES
         public static float NODE_RADIUS = 1f;

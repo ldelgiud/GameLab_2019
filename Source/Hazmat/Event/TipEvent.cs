@@ -44,7 +44,7 @@ namespace Hazmat.Event
         Entity tipEntity;
         SoundEffect sound;
         SoundEffectInstance playing;
-
+        float timeStamp;
         Vector2 positionDelta;
 
         public TipEvent(String name, SoundEffect sound, Vector2? positionDelta = null)
@@ -86,19 +86,18 @@ namespace Hazmat.Event
                         new SkeletonInfo(596, 288, skin: this.name),
                         new AnimationStateInfo("press_A_to_continue", true)
                         )));
-
+                    this.timeStamp = time.Absolute + 10;
                     this.state = State.Tip;
                     break;
                 case State.Tip:
-                    switch (inputEvent)
+                    if ((inputEvent != null && inputEvent.GetType() == typeof(PressEvent)) ||
+                        time.Absolute >= this.timeStamp)
                     {
-                        case PressEvent _:
-                            this.tipEntity.Delete();
+                        this.tipEntity.Delete();
 
-                            this.inputManager.RemoveEvent(Keys.E);
-                            this.inputManager.RemoveEvent(0, Buttons.A);
-                            this.state = State.Done;
-                            break;
+                        this.inputManager.RemoveEvent(Keys.E);
+                        this.inputManager.RemoveEvent(0, Buttons.A);
+                        this.state = State.Done;
                     }
                     break;
                 case State.Done:

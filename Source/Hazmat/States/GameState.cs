@@ -209,7 +209,6 @@ namespace Hazmat.States
 
             SpawnHelper.SpawnPlayer(0, Vector2.Zero);
 
-
             // Story Intro Event
             SpawnHelper.SpawnEvent();
             //-----------------------END SPAWNING-----------------------

@@ -392,10 +392,10 @@ namespace Hazmat.Utilities
                 rotation: new Vector3(Vector2.Zero, dir * MathF.PI / 2)
                 )));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"buildings\sidewalk\sidewalk_barrier_01",
+                @"buildings\sidewalk\sidewalk_barrier_03",
                 @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
                 rotation: new Vector3(Vector2.Zero, MathF.PI/2),
-                scale: new Vector3(3f)
+                scale: new Vector3(3f,13f,1.5f)
                 )));
             entity.Set(new WorldSpaceComponent());
         }
@@ -524,7 +524,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
                     @"items\SPS_Collectables",
-                    new SkeletonInfo(3f, 3f, skin: "chip_01", translation: new Vector3(0, 0, 1)),
+                    new SkeletonInfo(3f, 5f, skin: "chip_01", translation: new Vector3(0, 0, 1)),
                     new AnimationStateInfo("chip_01", true)
                 )
             ));
