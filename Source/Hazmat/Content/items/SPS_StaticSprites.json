@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "kZxPjOA2pN69xNFfheMT+9CzG2w", "spine": "3.6.53", "width": 500, "height": 310, "images": "" },
+"skeleton": { "hash": "l4MOXRKguhqckoEnp8A0CYz8fhA", "spine": "3.7.93", "width": 0, "height": 0, "images": "", "audio": "" },
 "bones": [
 	{ "name": "root", "x": 0.58 }
 ],
@@ -22,8 +22,10 @@
 			"static_sprites/SPT_EN_Tile_Sidewalk_01": { "width": 500, "height": 310 }
 		},
 		"static_sprites/SPT_EN_Tile_Grass": {
-			"static_sprites/SPT_EN_Tile_Grass_01": { "width": 900, "height": 900 },
-			"static_sprites/SPT_EN_Tile_Grass_02": { "width": 730, "height": 537 }
+			"static_sprites/SPT_EN_Tile_Grass_01": { "width": 2048, "height": 2048 },
+			"static_sprites/SPT_EN_Tile_Grass_02": { "width": 730, "height": 537 },
+			"static_sprites/SPT_EN_Tile_Grass_03": { "x": 0.5, "y": 0.5, "width": 749, "height": 561 },
+			"static_sprites/SPT_EN_Tile_Grass_04": { "x": 0.5, "y": 0.5, "width": 973, "height": 829 }
 		},
 		"static_sprites/SPT_EN_Tile_MainStreet": {
 			"static_sprites/SPT_EN_Tile_MainStreetCorner_01": { "width": 900, "height": 900 },
@@ -34,5 +36,8 @@
 			"static_sprites/SPT_EN_Tile_PowerPlant_01": { "width": 2000, "height": 1160 }
 		}
 	}
+},
+"animations": {
+	"empty_animation": {}
 }
 }
