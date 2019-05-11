@@ -39,6 +39,11 @@ namespace Hazmat.Components.InputHandlers
                     var current = Camera2D.PerspectiveToWorld(value.current);
                     if (current.LengthSquared() != 0)
                     {
+                        if (entity.Has<WeaponComponent>() && entity.Get<WeaponComponent>().weapon.Has<SmallGunComponent>())
+                        {
+                            entity.Get<WeaponComponent>().weapon.Get<SmallGunComponent>()
+                                .Shoot(time.Absolute, entity.Get<WeaponComponent>().weapon.Get<Transform3DComponent>().value, current);
+                        }
                         gamepadDirection = true;
                         current.Normalize();
                         var rotation = transform.value.Rotation;
