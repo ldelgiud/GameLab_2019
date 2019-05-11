@@ -206,7 +206,7 @@ namespace Hazmat.Utilities
                     }
                     else if (rand <= 34)
                     {
-                        SpawnHelper.SpawnRandomHouse(position);
+                        SpawnHelper.SpawnRandomHouse(position,100);
                     }
                     else if (rand <= 37)
                     {
@@ -237,107 +237,109 @@ namespace Hazmat.Utilities
             }
         }
 
-        public static void PlaceStreetTile(Vector2 position, int direction, bool changeDir, int parity)
+        public static void PlaceStreetTile(
+            Vector2 position, 
+            int direction, 
+            bool changeDir, 
+            int parity, 
+            bool walls, 
+            bool turnedBefore,
+            bool willTurnNext)
         {
             ProcGen.Street.AddTile(position);
             ProcGen.TileMap.RemoveTiles(new Transform2D(position));
-
-            //Add boulder
+            float radian = direction * MathF.PI / 2;
+            //Add roadblock
             bool block = Constants.RANDOM.Next(8) == 1;
-            if (block && !changeDir) SpawnHelper.SpawnRoadBlock(position, direction);
-
-            Vector3 rotation = Vector3.Zero;
-
-            Vector2 lowerSidewalkPos1;
-            Vector2 lowerSidewalkPos2;
-            Vector2 upperSidewalkPos1;
-            Vector2 upperSidewalkPos2;
+            if (block && !changeDir)
+            {
+                Vector2 roadblockOffset = new Vector2(0, 4f).Rotate(radian);
+                if (Constants.RANDOM.Next(2) == 0) roadblockOffset *= -1;
+                SpawnHelper.SpawnRoadBlock(position+roadblockOffset, direction);
+            }
+            //Add house
+            bool house1 = Constants.RANDOM.Next(2) == 1;
+            bool house2 = Constants.RANDOM.Next(2) == 1;
+            if (walls && !changeDir && !turnedBefore && !willTurnNext)
+            {
+                Vector2 houseOffset = new Vector2(0,20).Rotate(radian);
+                if (house1) SpawnHelper.SpawnRandomHouse(position+houseOffset, (direction-1)%4);
+                if (house2) SpawnHelper.SpawnRandomHouse(position-houseOffset, (direction+1)%4);
+            }
+            Vector3 rotation = new Vector3(Vector2.Zero, (1-direction)*MathF.PI/2);
             float step = Constants.TILE_SIZE / 4;
-            int dir1, dir2;
 
             if (changeDir)
             {
-                Vector2 extraSideWalk;
+                Vector2 extraSideWalkOffset =
+                    new Vector2(3 * Constants.TILE_SIZE / 4, -3 * Constants.TILE_SIZE / 4)
+                    .Rotate(direction * MathF.PI);
                 //Turn Left
-                if (direction == 0)
+                Vector2 extraSidewalkBarrierOffset1 =
+                    new Vector2(Constants.TILE_SIZE, - 3 * Constants.TILE_SIZE / 4)
+                    .Rotate(direction * MathF.PI);
+                Vector2 extraSidewalkBarrierOffset2 =
+                     new Vector2(3 * Constants.TILE_SIZE / 4, -Constants.TILE_SIZE)
+                     .Rotate(direction * MathF.PI);
+                SpawnHelper.SpawnCompleteSidewalk(position, direction, walls);
+                SpawnHelper.SpawnCompleteSidewalk(position, 3-direction, walls);
+                SpawnHelper.SpawnSideWalk(position + extraSideWalkOffset, 100);
+                if (walls )
                 {
-                    //Down
-                    lowerSidewalkPos1 = new Vector2(position.X - step, position.Y - 3 * Constants.TILE_SIZE / 4);
-                    lowerSidewalkPos2 = new Vector2(position.X + step, position.Y - 3 * Constants.TILE_SIZE / 4);
-                    dir1 = 2;
-                    //Right
-                    upperSidewalkPos1 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y - step);
-                    upperSidewalkPos2 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y + step);
-                    dir2 = 1;
-                    //Down & right
-                    extraSideWalk = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y - 3 * Constants.TILE_SIZE / 4);
-                    // Left turn
-                    rotation = new Vector3(0, 0, MathF.PI);
-                } else
-                {
-                    //Up
-                    upperSidewalkPos1 = new Vector2(position.X - step, position.Y + 3 * Constants.TILE_SIZE / 4);
-                    upperSidewalkPos2 = new Vector2(position.X + step, position.Y + 3 * Constants.TILE_SIZE / 4);
-                    dir1 = 3;
-                    //Left
-                    lowerSidewalkPos1 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y - step);
-                    lowerSidewalkPos2 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y + step);
-                    dir2 = 0;
-                    //Up & Left
-                    extraSideWalk = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y + 3* Constants.TILE_SIZE / 4);
-
+                    SpawnHelper.SpawnSmallSidewalkBarrier(position + extraSidewalkBarrierOffset1, 1);
+                    SpawnHelper.SpawnSmallSidewalkBarrier(position + extraSidewalkBarrierOffset2, 0);
                 }
-                SpawnHelper.SpawnLamp(extraSideWalk, -MathF.PI/4);
-                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos1, dir1);
-                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos2, dir1);
-                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos1, dir2);
-                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos2, dir2);
-                SpawnHelper.SpawnSideWalk(extraSideWalk);
-
                 ProcGen.TileMap.AddTile(
                         new Transform3D(
                             new Vector3(position, Constants.LAYER_BACKGROUND),
                             rotation: rotation,
                             scale: new Vector3(5f)),
-                        new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreetCorner_01"),
+                        new TileModelInfo(
+                            "static_sprites/SPT_EN_Tile_MainStreetCorner_01"),
                         Constants.STREET_TILE_NAME
                         );
             }
             else
             {
-                
-                //Go right
-                if (direction == 0)
+                if ((!willTurnNext && !turnedBefore) || !walls)
                 {
-                    rotation = new Vector3(0, 0, -MathF.PI / 2);
-                    //Down
-                    lowerSidewalkPos1 = new Vector2(position.X - step, position.Y - 3 * Constants.TILE_SIZE / 4);
-                    lowerSidewalkPos2 = new Vector2(position.X + step, position.Y - 3 * Constants.TILE_SIZE / 4);
-                    dir1 = 1;
-                    //Up
-                    upperSidewalkPos1 = new Vector2(position.X - step, position.Y + 3 * Constants.TILE_SIZE / 4);
-                    upperSidewalkPos2 = new Vector2(position.X + step, position.Y + 3 * Constants.TILE_SIZE / 4);
-                    dir2 = 3;
-                } else
+                    SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, walls);
+                    SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, walls);
+                } else if (willTurnNext)
                 {
-                    //Left
-                    lowerSidewalkPos1 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y - step);
-                    lowerSidewalkPos2 = new Vector2(position.X - 3 * Constants.TILE_SIZE / 4, position.Y + step);
-                    dir1 = 0;
-                    //Right
-                    upperSidewalkPos1 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y - step);
-                    upperSidewalkPos2 = new Vector2(position.X + 3 * Constants.TILE_SIZE / 4, position.Y + step);
-                    dir2 = 2;
+                    if (direction == 0)
+                    {
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, walls);
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, false);
+                        Vector2 BarrierOffset = new Vector2(-Constants.TILE_SIZE / 4, Constants.TILE_SIZE);
+                        SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 0);
+                    } else
+                    {
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, walls);
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, false);
+                        Vector2 BarrierOffset = new Vector2(Constants.TILE_SIZE, -Constants.TILE_SIZE / 4);
+                        SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 1);
+                    }
 
                 }
-
-                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos1, dir2);
-                SpawnHelper.SpawnSidewalkWithWall(upperSidewalkPos2, dir2);
-                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos1, dir1);
-                SpawnHelper.SpawnSidewalkWithWall(lowerSidewalkPos2, dir1);
-                    
-                if (parity==3) SpawnHelper.SpawnLamp(lowerSidewalkPos1, rotation.Z);
-                else if (parity == 1) SpawnHelper.SpawnLamp(upperSidewalkPos1, rotation.Z);
+                else if (turnedBefore)
+                {
+                    if (direction == 0)
+                    {
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, false);
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, walls);
+                        Vector2 BarrierOffset = new Vector2(Constants.TILE_SIZE / 4, -Constants.TILE_SIZE);
+                        SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 0);
+                    }
+                    else
+                    {
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, false);
+                        SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, walls);
+                        Vector2 BarrierOffset = new Vector2(-Constants.TILE_SIZE, Constants.TILE_SIZE / 4);
+                        SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 1);
+                    }
+                }
+                
                 // Right
                 ProcGen.TileMap.AddTile(
                     new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: rotation),
@@ -345,9 +347,6 @@ namespace Hazmat.Utilities
                     Constants.STREET_TILE_NAME
                     );
             }
-
-            
-
         }
 
         public static void BuildStreet(PowerPlant plant)
@@ -364,11 +363,18 @@ namespace Hazmat.Utilities
             Vector2 target = new Vector2(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE);
             //0 = right; 1 = top;
             int currentDir = Constants.RANDOM.Next(2);
+            bool walls = false;
             int parity = 0;
+            bool changeDir = false;
+            bool prevChangeDir = changeDir;
+            bool nextChangeDir;
+
             while (curr.X < target.X && curr.Y < target.Y)
             {
-                bool changeDir = Constants.RANDOM.Next(8) == 1;
-                ProcGen.PlaceStreetTile(curr, currentDir, changeDir, parity);
+                nextChangeDir = Constants.RANDOM.Next(7) == 1 && (!prevChangeDir) && (!changeDir);
+
+                ProcGen.PlaceStreetTile(
+                    curr, currentDir, changeDir, parity, walls, prevChangeDir, nextChangeDir);
                 if ((changeDir && currentDir == 0) || (!changeDir && currentDir == 1))
                 {
                     curr.Y += Constants.TILE_SIZE;
@@ -382,29 +388,58 @@ namespace Hazmat.Utilities
                     parity = 0;
                 }
                 else parity = (++parity)%4;
+                if (walls)
+                {
+                    walls = Constants.RANDOM.Next(100) <= 80;
+                } else walls = Constants.RANDOM.Next(100) > 80;
+                if ((curr.X + Constants.TILE_SIZE) >= target.X || (curr.Y + Constants.TILE_SIZE) >= target.Y)
+                {
+                    walls = false;
+                }
+                prevChangeDir = changeDir;
+                changeDir = nextChangeDir;
             }
 
             while (curr.X < target.X)
             {
                 //Go right
-                if (currentDir == 0) ProcGen.PlaceStreetTile(curr, currentDir, false, parity);
-                else ProcGen.PlaceStreetTile(curr, currentDir, true, parity);
+                if (currentDir == 0)
+                {
+                    ProcGen.PlaceStreetTile(curr, 0, false, parity, walls,prevChangeDir,false);
+                    prevChangeDir = false;
+                }
+                else
+                {
+                    ProcGen.PlaceStreetTile(curr, 1, true, parity, walls, prevChangeDir, false);
+                    currentDir = 0;
+                    prevChangeDir = true;
+                } 
 
                 curr.X += Constants.TILE_SIZE;
-                currentDir = 0;
                 parity = (++parity)%4;
-
+                if (walls) walls = Constants.RANDOM.Next(100) <= 50;
+                else walls = Constants.RANDOM.Next(100) > 50;
             }
 
             while (curr.Y < target.Y)
             {
-                if (currentDir == 0) ProcGen.PlaceStreetTile(curr, currentDir, true, parity);
-                else ProcGen.PlaceStreetTile(curr, 1, false, parity);
-                
+                if (currentDir == 1)
+                {
+                    ProcGen.PlaceStreetTile(curr, 1, false, parity, walls,prevChangeDir, false);
+                    prevChangeDir = false;
+                }
+                else
+                {
+                    ProcGen.PlaceStreetTile(curr, currentDir, true, parity, walls, prevChangeDir, false);
+                    prevChangeDir = true;
+                    currentDir = 1;
+                }
+
                 //Go to next Tile
-                currentDir = 1;
                 curr.Y += Constants.TILE_SIZE;
                 parity = (++parity)%4;
+                if (walls) walls = Constants.RANDOM.Next(100) <= 50;
+                else walls = Constants.RANDOM.Next(100) > 50;
             }
         }
 

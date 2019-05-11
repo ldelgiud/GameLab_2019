@@ -44,11 +44,14 @@ namespace Mazmat.AI.MailboxAI
             transform.value.Rotation = new Vector3(Vector2.Zero, distVector.ToRotation());
 
             //ATTACK LOGIC
-            Debug.Assert(this.me.Has<SmallGunComponent>());
-            this.me.Get<SmallGunComponent>().Shoot(
-                time.Absolute,
-                this.me.Get<Transform3DComponent>().value,
-                distVector);
+            if (this.IsTargetInSight())
+            {
+                Debug.Assert(this.me.Has<SmallGunComponent>());
+                this.me.Get<SmallGunComponent>().Shoot(
+                    time.Absolute,
+                    this.me.Get<Transform3DComponent>().value,
+                    distVector);
+            }
 
             //UPDATE STATE
             if (sqrdDistance >= Constants.ATTACK_TO_SEARCH_SQRD_DIST || !this.IsTargetInSight())

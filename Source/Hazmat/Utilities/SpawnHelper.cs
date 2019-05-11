@@ -246,23 +246,28 @@ namespace Hazmat.Utilities
             return gunEntity;
         }
 
-        public static void SpawnRandomHouse(Vector2 position)
+        public static void SpawnRandomHouse(Vector2 position, int dir)
         {
-            //TODO: refactor
             int houseNr = Constants.RANDOM.Next(2);
-           
             //Find correct rotation
-            float DirToFace = Street.FindClosestDirection(position);
-            
+            if (dir == 100) dir = Street.FindClosestDirection(position);
+            if (SpawnHelper.CollisionCheck(new AABB(position, 5, 5), true).Count != 0)
+                return;
+            if (houseNr == 0) SpawnHelper.SpawnHouse0(position, dir);
+            else SpawnHelper.SpawnHouse1(position, dir);
+
             bool spawnMailbox = Constants.RANDOM.Next(5) == 1;
-            if (houseNr == 0) SpawnHelper.SpawnHouse0(position, DirToFace);
-            else SpawnHelper.SpawnHouse1(position, DirToFace);
-                
             if (spawnMailbox && position.Length()>=60)
             {
-                Vector2 correctionVec = new Vector2(4, -7.5f);
-                Vector2 mailboxPosition = position + correctionVec.Rotate(DirToFace * MathF.PI / 2);
-                SpawnMailBox(mailboxPosition);
+                Vector2 mailboxOffset = new Vector2(4, -7.5f);
+                int count = SpawnHelper.CollisionCheck(
+                    new AABB(position+mailboxOffset, 2, 2), true).Count;
+                if (count == 0)
+                {
+                    Vector2 mailboxPosition = position + mailboxOffset.Rotate(dir * MathF.PI / 2);
+                    SpawnMailBox(mailboxPosition);
+                }
+                
             }
         }
 
@@ -298,6 +303,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
             @"buildings\houses\house1",
             @"buildings\houses\house1_tex",
+            rotation: new Vector3(Vector2.Zero, MathF.PI/2),
             scale: new Vector3(3f),
             standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
             standardEffectInitialize: new Tuple<string, float>[] {  new Tuple<string, float>("LineThickness", 0.04f) }
@@ -311,6 +317,7 @@ namespace Hazmat.Utilities
         {
             //TODO: refactor
             var entity = SpawnHelper.World.CreateEntity();
+
             Vector3 rotation = new Vector3(Vector2.Zero, dirToFace * MathF.PI / 2);
             entity.Set(new NameComponent() { name = Constants.HOUSE_1_NAME });
             entity.Set(new Transform3DComponent(new Transform3D(
@@ -318,49 +325,29 @@ namespace Hazmat.Utilities
                 rotation: rotation
                 )));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-            @"buildings\houses\house2",
+            @"buildings\houses\house2_centered",
             @"buildings\houses\house2_tex",
             scale: new Vector3(3f),
+            rotation: new Vector3(Vector2.Zero, MathF.PI/2),
             standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
             standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.04f) }
             )));
 
             entity.Set(new WorldSpaceComponent());
-
-            AABB aabb = new AABB(new Vector2(-5, -5), new Vector2(5, 10));
-            AABB rotatedAABB = aabb.rotate((int)dirToFace);
-            if (dirToFace == 1)
-            {
-                rotatedAABB.LowerBound =
-                    new Vector2(rotatedAABB.LowerBound.X - 2, rotatedAABB.LowerBound.Y - 3);
-                rotatedAABB.UpperBound =
-                    new Vector2(rotatedAABB.UpperBound.X - 2, rotatedAABB.UpperBound.Y - 3);
-            } else if (dirToFace == 2)
-            {
-                rotatedAABB.LowerBound =
-                    new Vector2(rotatedAABB.LowerBound.X, rotatedAABB.LowerBound.Y - 5);
-                rotatedAABB.UpperBound =
-                    new Vector2(rotatedAABB.UpperBound.X, rotatedAABB.UpperBound.Y - 5);
-            } else if (dirToFace == 3)
-            {
-                rotatedAABB.LowerBound =
-                    new Vector2(rotatedAABB.LowerBound.X+3, rotatedAABB.LowerBound.Y-2);
-                rotatedAABB.UpperBound =
-                    new Vector2(rotatedAABB.UpperBound.X+3, rotatedAABB.UpperBound.Y-2);
-            }
-            Element<Entity> element = new Element<Entity>(rotatedAABB) { Value = entity };
+            AABB aabb = new AABB(new Vector2(-7.5f,-5),new Vector2(7.5f,5)).rotate((int)dirToFace);
+            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;
 
             SpawnHelper.quadtree.AddNode(element);
-            entity.Set(new AABBComponent(SpawnHelper.quadtree, rotatedAABB, element, true));
+            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
 
             //Debug.WriteLine("Position: " + position);
             //Debug.WriteLine("AABB lowerBound: " + rotatedAABB.LowerBound );
             //Debug.WriteLine("AABB upperBound: " + rotatedAABB.UpperBound);
         }
 
-        public static void SpawnSideWalk(Vector2 position)
+        public static void SpawnSideWalk(Vector2 position, int dir)
         {
             var entity = SpawnHelper.World.CreateEntity();
             SpawnHelper.AttachAABB(entity, position, new Vector2(-2.5f), new Vector2(2.5f), false);
@@ -376,13 +363,16 @@ namespace Hazmat.Utilities
                 )));
             entity.Set(new WorldSpaceComponent());
 
+            if (dir == 100)  return;
 
+            Vector2 borderOffset = (new Vector2(Constants.TILE_SIZE / 4, 0)).Rotate(dir * MathF.PI / 2);
+            SpawnHelper.SpawnSidewalkBorder(position + borderOffset, (dir+1)%4);
         }
 
-        public static void SpawnSidewalkWalls(Vector2 position, int dir)
+        public static void SpawnSidewalkBorder(Vector2 position, int dir)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            entity.Set(new NameComponent() { name = Constants.SIDEWALK_WALL_NAME });
+            entity.Set(new NameComponent() { name = Constants.SIDEWALK_BORDER_NAME });
 
             if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 1, 5, false);
             else SpawnHelper.AttachAABB(entity, position, 5, 1, false);
@@ -392,20 +382,72 @@ namespace Hazmat.Utilities
                 rotation: new Vector3(Vector2.Zero, dir * MathF.PI / 2)
                 )));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
-                @"buildings\sidewalk\sidewalk_barrier_03",
+                @"buildings\sidewalk\sidewalk_border_01",
                 @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
                 rotation: new Vector3(Vector2.Zero, MathF.PI/2),
-                scale: new Vector3(3f,13f,1.5f)
+                scale: new Vector3(6f,6f,6f)
                 )));
             entity.Set(new WorldSpaceComponent());
         }
 
-        public static void SpawnSidewalkWithWall(Vector2 position, int dir)
+        public static void SpawnSidewalkBarrier(Vector2 position, int dir)
         {
-            SpawnHelper.SpawnSideWalk(position);
-            Vector2 offSet = new Vector2(2.5f, 0).Rotate(dir*MathF.PI/2);
-            SpawnHelper.SpawnSidewalkWalls(position + offSet, (dir+1)%4);
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = Constants.SIDEWALK_BARRIER_NAME });
 
+            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 2, 10, true);
+            else SpawnHelper.AttachAABB(entity, position, 10, 2, true);
+
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: new Vector3(Vector2.Zero, dir * MathF.PI / 2)
+                )));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"buildings\sidewalk\sidewalk_barrier_01",
+                @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
+                rotation: new Vector3(Vector2.Zero, MathF.PI / 2),
+                scale: new Vector3(6f, 6f, 6f)
+                )));
+            entity.Set(new WorldSpaceComponent());
+        }
+
+        public static void SpawnSmallSidewalkBarrier(Vector2 position, int dir)
+        {
+            var entity = SpawnHelper.World.CreateEntity();
+            entity.Set(new NameComponent() { name = Constants.SIDEWALK_BARRIER_NAME });
+
+            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 2, 4, true);
+            else SpawnHelper.AttachAABB(entity, position, 4, 2, true);
+
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: new Vector3(Vector2.Zero, dir * MathF.PI / 2)
+                )));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"buildings\sidewalk\sidewalk_barrier_02",
+                @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
+                rotation: new Vector3(Vector2.Zero, MathF.PI / 2),
+                scale: new Vector3(6f, 6f, 6f)
+                )));
+            entity.Set(new WorldSpaceComponent());
+        }
+
+        public static void SpawnCompleteSidewalk(Vector2 position, int dir, bool wall)
+        {
+            float radian = dir * MathF.PI / 2;
+            float SidewalkX = 3 * Constants.TILE_SIZE / 4;
+            float SidewalkY = Constants.TILE_SIZE / 4;
+
+            Vector2 sidewalk1 = (new Vector2(SidewalkX, SidewalkY)).Rotate(radian);
+            Vector2 sidewalk2 = (new Vector2(SidewalkX, -SidewalkY)).Rotate(radian);
+            SpawnHelper.SpawnSideWalk(position + sidewalk1, (dir + 2) % 4);
+            SpawnHelper.SpawnSideWalk(position + sidewalk2, (dir + 2) % 4);
+
+            if (wall)
+            {
+                Vector2 BarrierOffset = (new Vector2(Constants.TILE_SIZE, 0)).Rotate(radian);
+                SpawnHelper.SpawnSidewalkBarrier(position + BarrierOffset, (dir + 1) % 4);
+            }
         }
 
         public static void SpawnLamp(Vector2 position, float radian)
