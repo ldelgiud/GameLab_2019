@@ -36,7 +36,6 @@ namespace Hazmat.Event
                 return Hazmat.Instance.SoundManager;
             }
         }
-
         InputManager inputManager;
 
         State state = State.Start;

@@ -47,6 +47,7 @@ namespace Hazmat.Event
         Entity introEntity;
         float timestamp;
         float timeToStop;
+        public bool Answered;
         public override void Initialize(World world, Entity entity)
         {
             this.eventEntity = entity;
@@ -55,19 +56,24 @@ namespace Hazmat.Event
             this.introEntity.Set(new ScreenSpaceComponent());
             this.introEntity.Set(new NameComponent() { name = "intro" });
             this.introEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260), scale: new Vector2(0.75f))));
-
+            this.Answered = false;
             this.inputManager = Hazmat.Instance.ActiveState.GetInstance<InputManager>();
         }
 
         public override void Update(Time time, World world)
         {
             var inputEvent = this.inputManager.GetEvent(0, Buttons.A);
+            var closeEvent = this.inputManager.GetEvent(0, Buttons.B);
 
             if (inputEvent == null)
             {
                 inputEvent = this.inputManager.GetEvent(Keys.E);
             }
 
+            if (closeEvent == null)
+            {
+                closeEvent = this.inputManager.GetEvent(Keys.Q);
+            }
 
             switch (this.state)
             {
@@ -78,19 +84,23 @@ namespace Hazmat.Event
                                 new SkeletonInfo(skin: "story_0"),
                                 new AnimationStateInfo("press_A_to_pickup_phone", true)
                                 )));
-                    this.timeToStop = time.Absolute + 10;
+                    this.timeToStop = time.Absolute + 15;
                     this.state = State.Intro0;
                     break;
                 case State.Intro0:
-                    if (time.Absolute >= this.timeToStop)
+                    if (time.Absolute >= this.timeToStop || 
+                        (closeEvent != null && closeEvent.GetType() == typeof(PressEvent)))
                     {
                         this.state = State.Tutorial;
+                        this.Answered = false;
                     }
                     else if ((inputEvent != null && inputEvent.GetType() == typeof(PressEvent)))
                     {
+                        this.Answered = true;
+
                         this.soundManager.StopSoundEffectInstance(this.playing);
                         this.playing = this.soundManager.PlaySoundEffectInstance(effect: soundManager.BossIntro01);
-                        this.timeToStop = time.Absolute + 10;
+                        this.timeToStop = time.Absolute + 12;
 
                         ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
                         ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
@@ -113,7 +123,7 @@ namespace Hazmat.Event
                     if ((inputEvent != null && inputEvent.GetType() == typeof(PressEvent)) || 
                         time.Absolute >= this.timeToStop)
                     {
-                        this.timeToStop = time.Absolute + 10;
+                        this.timeToStop = time.Absolute + 12;
                         ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
                         ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
 
@@ -138,7 +148,7 @@ namespace Hazmat.Event
                         this.introEntity.Remove<SpineSkeletonComponent>();
                         this.introEntity.Remove<SpineAnimationComponent>();
                         this.state = State.Waiting;
-                        this.timestamp = time.Absolute + 2.5f;
+                        this.timestamp = time.Absolute + 4f;
                         this.soundManager.StopSoundEffectInstance(playing);
                         this.playing = this.soundManager.PlaySoundEffectInstance(soundManager.MatOk);
                         this.state = State.Waiting;
@@ -162,10 +172,13 @@ namespace Hazmat.Event
                     break;
                 case State.Tutorial:
                     if ((inputEvent != null && inputEvent.GetType() == typeof(PressEvent)) ||
-                       time.Absolute >= this.timeToStop)
+                       time.Absolute >= this.timeToStop || 
+                       !this.Answered)
                     { 
                         this.inputManager.RemoveEvent(Keys.E);
                         this.inputManager.RemoveEvent(0, Buttons.A);
+                        this.inputManager.RemoveEvent(0, Buttons.B);
+                        this.inputManager.RemoveEvent(Keys.Q);
                         this.introEntity.Delete();
                         this.state = State.Done;
                     }

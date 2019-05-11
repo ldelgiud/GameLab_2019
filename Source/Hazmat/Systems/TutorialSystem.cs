@@ -43,6 +43,13 @@ namespace Hazmat.Systems
         public bool IsEnabled { get; set; }
 
         HashSet<Tutorial> tutorialComplete = new HashSet<Tutorial>();
+        StoryIntroEvent intro
+        {
+            get
+            {
+                return Hazmat.Instance.ActiveState.GetInstance<StoryIntroEvent>();
+            }
+        }
 
         EntitySet players;
 
@@ -59,6 +66,7 @@ namespace Hazmat.Systems
 
         public void Update(Time time)
         {
+            if (!intro.Answered) return;
             if (!this.tutorialComplete.Contains(Tutorial.AtPowerPlant))
             {
                 foreach (var playerEntity in this.players.GetEntities())

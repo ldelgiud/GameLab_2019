@@ -215,7 +215,8 @@ namespace Hazmat.States
             SpawnHelper.SpawnPlayer(0, Vector2.Zero);
             SpawnHelper.SpawnSmallSidewalkBarrier(new Vector2(-10), 0);
             // Story Intro Event
-            SpawnHelper.SpawnEvent();
+            StoryIntroEvent intro = SpawnHelper.SpawnEvent();
+            this.SetInstance(intro);
             //-----------------------END SPAWNING-----------------------
         }
 
@@ -273,6 +274,7 @@ namespace Hazmat.States
 
             // Event - Keyboard
             this.inputManager.Register(Keys.E);
+            this.inputManager.Register(Keys.Q);
 
             // Powerup - Keyboard
             this.inputManager.Register(Keys.R); // Left
@@ -288,10 +290,10 @@ namespace Hazmat.States
 
             // Interact - Gamepad
             this.inputManager.Register(Buttons.X);
-            this.inputManager.Register(Buttons.A);
 
             // Event - Keyboard
             this.inputManager.Register(Buttons.B);
+            this.inputManager.Register(Buttons.A);
 
             // Powerup - Keyboard
             this.inputManager.Register(Buttons.LeftShoulder);
