@@ -204,11 +204,11 @@ namespace Hazmat.Utilities
                             "dirtTile"
                             );
                     }
-                    else if (rand <= 34 && streetSqrdDist >= 20 * 20)
+                    else if (rand <= 36 && streetSqrdDist >= 20 * 20)
                     {
                         SpawnHelper.SpawnRandomHouse(position,100);
                     }
-                    else if (rand <= 37 && streetSqrdDist >= 20 * 20)
+                    else if (rand <= 41 && streetSqrdDist >= 30 * 30)
                     {
                         SpawnHelper.SpawnRock(position, Constants.RANDOM.Next(1, 5));
                     } 
@@ -258,8 +258,8 @@ namespace Hazmat.Utilities
                 SpawnHelper.SpawnRoadBlock(position+roadblockOffset, direction);
             }
             //Add house
-            bool house1 = Constants.RANDOM.Next(2) == 1;
-            bool house2 = Constants.RANDOM.Next(2) == 1;
+            bool house1 = Constants.RANDOM.Next(100) <= 60;
+            bool house2 = Constants.RANDOM.Next(100) <= 60;
             if (walls && !changeDir && !turnedBefore && !willTurnNext)
             {
                 Vector2 houseOffset = new Vector2(0,20).Rotate(radian);

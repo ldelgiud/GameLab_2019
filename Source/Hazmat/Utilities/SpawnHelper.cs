@@ -453,7 +453,7 @@ namespace Hazmat.Utilities
         public static void SpawnLamp(Vector2 position, float radian)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, new Vector2(-0.5f), new Vector2(0.5f), true);
+            SpawnHelper.AttachAABB(entity, position, new Vector2(-0.25f), new Vector2(0.25f), true);
             entity.Set(new NameComponent() { name = Constants.LAMP_NAME });
 
             entity.Set(new Transform3DComponent(new Transform3D(
@@ -559,6 +559,12 @@ namespace Hazmat.Utilities
         public static void SpawnPowerUp(Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
+            int safetyCheck = 0;
+            while (safetyCheck <20 && SpawnHelper.CollisionCheck(new AABB(position, 3,3),true).Count != 0)
+            {
+                position += Vector2.One * 2.5f;
+            }
+
             SpawnHelper.AttachAABB(entity, position, 3, 3, false);
 
             entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
@@ -847,7 +853,7 @@ namespace Hazmat.Utilities
             return entity;
         }
 
-        public static void SpawnEvent()
+        public static StoryIntroEvent SpawnEvent()
         {
             var entity = SpawnHelper.World.CreateEntity();
 
@@ -856,6 +862,7 @@ namespace Hazmat.Utilities
 
             entity.Set(new EventComponent(_event));
             entity.Set(new NameComponent() { name = "intro_event" });
+            return _event;
         }
 
         public static void SpawnBasicWall(Vector2 center, float height, float width)
