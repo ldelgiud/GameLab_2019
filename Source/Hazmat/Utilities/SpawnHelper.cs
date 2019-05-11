@@ -530,7 +530,7 @@ namespace Hazmat.Utilities
         private static Entity SpawnBasicEnemy(Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, 2, 2,true);
+            SpawnHelper.AttachAABB(entity, position, 3.5f, 3.5f,true);
             
 
             //Create entity and attach its components

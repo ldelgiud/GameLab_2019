@@ -179,24 +179,24 @@ namespace Hazmat.Utilities
                     Vector2 closestTile = Street.FindClosestTile(position);
                     float streetSqrdDist = (position- closestTile).LengthSquared();
                     
-                    if (position.LengthSquared() <= 30*30 || streetSqrdDist <= 20*20) continue;
+                    if (position.LengthSquared() <= 30*30) continue;
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
-                    if (rand <= 10)
+                    if (rand <= 10 && streetSqrdDist >= 10 * 10)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02"),
                             "dirtTile"
                             );
-                    } else if (rand <= 20)
+                    } else if (rand <= 20 && streetSqrdDist >= 10 * 10)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_03"),
                             "dirtTile"
                             );
-                    } else if (rand <= 30)
+                    } else if (rand <= 30 && streetSqrdDist >= 10 * 10)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), scale: new Vector3(5f)),
@@ -204,11 +204,11 @@ namespace Hazmat.Utilities
                             "dirtTile"
                             );
                     }
-                    else if (rand <= 34)
+                    else if (rand <= 34 && streetSqrdDist >= 20 * 20)
                     {
                         SpawnHelper.SpawnRandomHouse(position,100);
                     }
-                    else if (rand <= 37)
+                    else if (rand <= 37 && streetSqrdDist >= 20 * 20)
                     {
                         SpawnHelper.SpawnRock(position, Constants.RANDOM.Next(1, 5));
                     } 
@@ -284,11 +284,14 @@ namespace Hazmat.Utilities
                 SpawnHelper.SpawnCompleteSidewalk(position, direction, walls);
                 SpawnHelper.SpawnCompleteSidewalk(position, 3-direction, walls);
                 SpawnHelper.SpawnSideWalk(position + extraSideWalkOffset, 100);
+                SpawnHelper.SpawnLamp(position + extraSideWalkOffset, MathF.PI / 4);
+
                 if (walls )
                 {
                     SpawnHelper.SpawnSmallSidewalkBarrier(position + extraSidewalkBarrierOffset1, 1);
                     SpawnHelper.SpawnSmallSidewalkBarrier(position + extraSidewalkBarrierOffset2, 0);
                 }
+
                 ProcGen.TileMap.AddTile(
                         new Transform3D(
                             new Vector3(position, Constants.LAYER_BACKGROUND),
@@ -339,7 +342,18 @@ namespace Hazmat.Utilities
                         SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 1);
                     }
                 }
-                
+                if (parity==1)
+                {
+                    Vector2 LampOffset = new Vector2(Constants.TILE_SIZE / 4, 3 * Constants.TILE_SIZE / 4)
+                        .Rotate(radian);
+                    SpawnHelper.SpawnLamp(position + LampOffset, MathF.PI / 2 - radian);
+                }
+                else if (parity == 3)
+                {
+                    Vector2 LampOffset = new Vector2(Constants.TILE_SIZE / 4,- 3 * Constants.TILE_SIZE / 4)
+                        .Rotate(radian);
+                    SpawnHelper.SpawnLamp(position + LampOffset, MathF.PI / 2 - radian);
+                }
                 // Right
                 ProcGen.TileMap.AddTile(
                     new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: rotation),
