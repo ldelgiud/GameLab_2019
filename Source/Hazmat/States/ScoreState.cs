@@ -154,6 +154,9 @@ namespace Hazmat.States
 
             }
 
+            this.inputManager.Clear();
+            this.inputManager.Sleep(10);
+
         }
 
         public override IStateTransition Update(Time time)
