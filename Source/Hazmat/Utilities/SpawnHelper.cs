@@ -230,7 +230,7 @@ namespace Hazmat.Utilities
             if (houseNr == 0) SpawnHelper.SpawnHouse0(position, dir);
             else SpawnHelper.SpawnHouse1(position, dir);
 
-            bool spawnMailbox = Constants.RANDOM.Next(100) <= 80;
+            bool spawnMailbox = Constants.RANDOM.Next(100) <= 60;
             if (spawnMailbox && position.Length()>=60)
             {
                 Vector2 mailboxOffset = new Vector2(13, -13f).Rotate(dir * MathF.PI / 2);

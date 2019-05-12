@@ -41,8 +41,8 @@ namespace Hazmat.Systems
             center /= players.Count;
             Vector2 distVec = center - powerPlant.Position;
             double dist = Math.Min(Math.Max(distVec.Length(), minDist),maxDist);
-            //This allows for a drain between 2 and 20 scaling linearly with the distance
-            double decrease = (maxDist - (dist - minDist))/50;
+            //This allows for a drain between 1 and 10 scaling linearly with the distance
+            double decrease = (maxDist - (dist - minDist))/100;
 
             this.energy.CurrentEnergy -= decrease * gameTime.Delta;
 
