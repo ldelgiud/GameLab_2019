@@ -670,6 +670,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_EnemyBicycle_01",
                 @"characters\TEX_CH_EnemyBicycle_01",
+                rotation: new Vector3(0, 0, -MathF.PI / 2),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
                 standardEffectInitialize: new Tuple<string, float>[] {
                     new Tuple<string, float>("LineThickness", 0.1f)}
@@ -714,7 +715,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_Mailbox_01",
                 @"characters\mailbox_tex",
-                rotation: new Vector3(Vector2.Zero, MathF.PI / 2),
+                rotation: new Vector3(Vector2.Zero, -MathF.PI / 2),
                 scale: new Vector3(3f),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.05f) }

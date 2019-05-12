@@ -678,12 +678,7 @@
 
 #begin characters/MED_CH_EnemyBicycle_01.fbx
 /importer:FbxImporter
-/processor:CpuAnimatedModelProcessor
-/processorParam:VertexBufferType=DynamicWriteOnly
-/processorParam:IndexBufferType=Default
-/processorParam:MaxBones=72
-/processorParam:GenerateKeyframesFrequency=0
-/processorParam:FixRealBoneRoot=False
+/processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
 /processorParam:DefaultEffect=BasicEffect
@@ -702,12 +697,7 @@
 
 #begin characters/MED_CH_Mailbox_01.fbx
 /importer:FbxImporter
-/processor:CpuAnimatedModelProcessor
-/processorParam:VertexBufferType=DynamicWriteOnly
-/processorParam:IndexBufferType=Default
-/processorParam:MaxBones=72
-/processorParam:GenerateKeyframesFrequency=0
-/processorParam:FixRealBoneRoot=False
+/processor:ModelProcessor
 /processorParam:ColorKeyColor=0,0,0,0
 /processorParam:ColorKeyEnabled=True
 /processorParam:DefaultEffect=BasicEffect
