@@ -206,14 +206,7 @@ namespace Hazmat.States
             SpawnHelper.SpawnEnemyCamps();
             SpawnHelper.SpawnEnemyCamp(new Vector2(100, 100));
             // Create player
-            SpawnHelper.SpawnHouse1(new Vector2(-10), 0);
-            SpawnHelper.SpawnHouse1(new Vector2(-20), 1);
-            SpawnHelper.SpawnHouse1(new Vector2(-30), 2);
-            SpawnHelper.SpawnHouse1(new Vector2(-40), 3);
-
-
             SpawnHelper.SpawnPlayer(0, Vector2.Zero);
-            SpawnHelper.SpawnSmallSidewalkBarrier(new Vector2(-10), 0);
             // Story Intro Event
             StoryIntroEvent intro = SpawnHelper.SpawnEvent();
             this.SetInstance(intro);

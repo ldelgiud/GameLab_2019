@@ -295,7 +295,6 @@ namespace Hazmat.Utilities
             entity.Set(new NameComponent() { name = Constants.HOUSE_0_NAME });
 
             Vector3 rotation = new Vector3(Vector2.Zero, dirToFace * MathF.PI / 2);
-            //TODO: LEO ask SVEN if rotation is correct here
             entity.Set(new Transform3DComponent(new Transform3D(
                 position: new Vector3(position, 0),
                 rotation: rotation
@@ -563,7 +562,7 @@ namespace Hazmat.Utilities
             while (safetyCheck <20 && SpawnHelper.CollisionCheck(new AABB(position, 3,3),true).Count != 0)
             {
                 position += Vector2.One * 2.5f;
-            }
+            } if (safetyCheck >= 20) return;
 
             SpawnHelper.AttachAABB(entity, position, 3, 3, false);
 

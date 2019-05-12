@@ -22,7 +22,7 @@ namespace Hazmat.Utilities
         public static int DAMAGE_UPGRADE = 30;
 
         //PROCGEN
-        public static double STREET_SPAWN_RATE = 0.6;
+        public static double STREET_SPAWN_RATE = 0.7;
         public static float TILE_SIZE = 10;
         public static float LEFT_BORDER = -200;
         public static float RIGHT_BORDER = 800;

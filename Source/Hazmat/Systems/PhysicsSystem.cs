@@ -36,19 +36,31 @@ namespace Hazmat.Systems
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
             ref NameComponent name = ref entity.Get<NameComponent>();
 
+            int sliding = 1;
+            bool moveMe; 
             bool collision = false;
             if (entity.Has<AABBComponent>())
             {
                 ref AABBComponent aabb = ref entity.Get<AABBComponent>();
                 Element<Entity> element = aabb.element;
-
+                Vector2 movement = velocity.velocity * time.Delta;
                 AABB target = new AABB {
-                    LowerBound = element.Span.LowerBound + velocity.velocity * time.Delta,
-                    UpperBound = element.Span.UpperBound + velocity.velocity * time.Delta
+                    LowerBound = element.Span.LowerBound + movement,
+                    UpperBound = element.Span.UpperBound + movement
                 };
-
+                AABB testVert = new AABB
+                {
+                    LowerBound = element.Span.LowerBound + new Vector2(0, movement.Y),
+                    UpperBound = element.Span.UpperBound + new Vector2(0, movement.Y)
+                };
+                AABB testHor = new AABB
+                {
+                    LowerBound = element.Span.LowerBound + new Vector2(movement.X, 0),
+                    UpperBound = element.Span.UpperBound + new Vector2(movement.X, 0)
+                };
                 bool solid = aabb.solid;
                 List<Entity> collisions = new List<Entity>();
+                List<AABB> hardCollisions = new List<AABB>();
                 this.quadtree.QueryAABB((Element<Entity> collidee) =>
                 {
                     AABBComponent collideeAABB = collidee.Value.Get<AABBComponent>();
@@ -61,6 +73,7 @@ namespace Hazmat.Systems
                     }
                     else
                     {
+                        hardCollisions.Add(collidee.Span);
                         collisions.Add(collidee.Value);
                         collision = true;
                     }
@@ -79,12 +92,44 @@ namespace Hazmat.Systems
                     element.Span = target;
                     quadtree.AddNode(element);
                 }
+                else
+                {
+                    foreach(var solidHit in hardCollisions)
+                    {
+                        AABB hitAABB = solidHit;
+                        if (!AABB.TestOverlap(ref testHor, ref hitAABB))
+                        {
+                            sliding *= 2;
+                            target = testHor;
+                            velocity.velocity = new Vector2(velocity.velocity.X, 0);
+                            
+                        }
+                        else if (!AABB.TestOverlap(ref testVert, ref hitAABB))
+                        {
+                            sliding *= 3;
+                            target = testVert;
+                            velocity.velocity = new Vector2(0, velocity.velocity.Y);
+                            
+                        }
+                    }
+                    if ((sliding % 2 == 0) && !(sliding % 6 == 0))
+                    {
+                        quadtree.RemoveNode(element);
+                        element.Span = testHor;
+                        quadtree.AddNode(element);
+                    } else if ((sliding % 3 == 0) && !(sliding % 6 == 0))
+                    {
+                        quadtree.RemoveNode(element);
+                        element.Span = testVert;
+                        quadtree.AddNode(element);
+                    }
+                }
             }
-
-            if (!collision)
+            moveMe = ((sliding % 2 == 0) || (sliding % 3 == 0)) && !(sliding % 6 == 0);
+            if (!collision || moveMe)
             {
                 transform.value.LocalTranslation += (velocity.velocity * time.Delta).ToVector3();
-            }
+            } 
         }
     }
 }
