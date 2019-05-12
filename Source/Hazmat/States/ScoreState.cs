@@ -141,6 +141,7 @@ namespace Hazmat.States
             }
 
             {
+
                 Vector2 avgDist = Vector2.Zero;
                 foreach(Entity player in this.players.GetEntities())
                 {
@@ -151,7 +152,9 @@ namespace Hazmat.States
                 double percentage = (avgDist.Length() / Constants.PLANT_PLAYER_DISTANCE);
                 percentage = Math.Min(1,percentage);
                 //TODO: Pass win lose value
-                percentage = Math.Min((1 - percentage) * 100 + 2, 100);
+                percentage = Math.Min((1 - percentage) * 100 , 100);
+                if (this.score.Won) percentage = 100;
+                
                 int myVal = (int)percentage;
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
