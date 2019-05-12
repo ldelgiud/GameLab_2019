@@ -251,8 +251,10 @@ namespace Hazmat.Utilities
             int houseNr = Constants.RANDOM.Next(2);
             //Find correct rotation
             if (dir == 100) dir = Street.FindClosestDirection(position);
-            if (SpawnHelper.CollisionCheck(new AABB(position, 5, 5), true).Count != 0)
-                return;
+            if ((houseNr == 0 && SpawnHelper.CollisionCheck(new AABB(position, 20, 20), true).Count != 0) ||
+                (houseNr == 1 && SpawnHelper.CollisionCheck(new AABB(position, 30, 20).rotate(dir), true).Count != 0))
+                   return;
+
             if (houseNr == 0) SpawnHelper.SpawnHouse0(position, dir);
             else SpawnHelper.SpawnHouse1(position, dir);
 
@@ -291,7 +293,7 @@ namespace Hazmat.Utilities
         {
 
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, new Vector2(-7.5f, -7.5f), new Vector2(7.5f, 7.5f), true);
+            SpawnHelper.AttachAABB(entity, position, new Vector2(-10f, -10f), new Vector2(10f, 10f), true);
             entity.Set(new NameComponent() { name = Constants.HOUSE_0_NAME });
 
             Vector3 rotation = new Vector3(Vector2.Zero, dirToFace * MathF.PI / 2);
@@ -303,7 +305,7 @@ namespace Hazmat.Utilities
             @"buildings\houses\house1",
             @"buildings\houses\house1_tex",
             rotation: new Vector3(Vector2.Zero, MathF.PI/2),
-            scale: new Vector3(5f,5f,4f),
+            scale: new Vector3(6f,6f,5f),
             standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
             standardEffectInitialize: new Tuple<string, float>[] {  new Tuple<string, float>("LineThickness", 0.04f) }
             )));
@@ -326,14 +328,14 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
             @"buildings\houses\house2_centered",
             @"buildings\houses\house2_tex",
-            scale: new Vector3(3f),
+            scale: new Vector3(6f,6f,5f),
             rotation: new Vector3(Vector2.Zero, MathF.PI/2),
             standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
             standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.04f) }
             )));
 
             entity.Set(new WorldSpaceComponent());
-            AABB aabb = new AABB(new Vector2(-7.5f,-5),new Vector2(7.5f,5)).rotate((int)dirToFace);
+            AABB aabb = new AABB(new Vector2(-15f,-10),new Vector2(15f,10)).rotate((int)dirToFace);
             Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
             element.Span.LowerBound += position;
             element.Span.UpperBound += position;

@@ -262,7 +262,7 @@ namespace Hazmat.Utilities
             bool house2 = Constants.RANDOM.Next(100) <= 60;
             if (walls && !changeDir && !turnedBefore && !willTurnNext)
             {
-                Vector2 houseOffset = new Vector2(0,20).Rotate(radian);
+                Vector2 houseOffset = new Vector2(0,25).Rotate(radian);
                 if (house1) SpawnHelper.SpawnRandomHouse(position+houseOffset, (direction-1)%4);
                 if (house2) SpawnHelper.SpawnRandomHouse(position-houseOffset, (direction+1)%4);
             }

@@ -168,13 +168,14 @@ namespace Hazmat.States
                     this.world
                     );
             AABBDebugDrawSystem aabbDebugDrawSystem = new AABBDebugDrawSystem(world, game.GraphicsDevice, this.worldCamera, game.Content.Load<Texture2D>(@"debugging\bounding_box"));
-
-            //GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
-            //    grid : grid, 
-            //    graphicsDevice : game.GraphicsDevice,
-            //    camera : this.worldCamera,
-            //    circle : game.Content.Load<Texture2D>("graph/circle-16")
-            //    );
+            /*
+            GraphDrawSystem gridDrawSystem = new GraphDrawSystem(
+                grid : grid, 
+                graphicsDevice : game.GraphicsDevice,
+                camera : this.worldCamera,
+                circle : game.Content.Load<Texture2D>("graph/circle-16")
+                );
+            */
 
             this.drawSystem = new SequentialSystem<Time>(
                 // State update systems
