@@ -55,7 +55,7 @@ namespace Hazmat.ResourceManagers
                 info.rotation += -MathF.PI / 2;
             }
 
-            entity.Set(new Texture2DComponent(resource.value, info));
+            entity.Set(new Texture2DComponent(resource.value, info, rotated: resource.rotate));
         }
     }
 }

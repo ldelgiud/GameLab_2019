@@ -35,8 +35,8 @@ namespace Hazmat.Systems
                 var entity = world.CreateEntity();
 
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -520))));
-                entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_EnergyBack")));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -510))));
+                entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_EnergyBack", scale: new Vector2(1, 2))));
 
                 this.energyBarBackgroundEntity = entity;
             }
@@ -45,8 +45,8 @@ namespace Hazmat.Systems
                 var entity = world.CreateEntity();
 
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -520))));
-                entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_EnergyFront")));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -510))));
+                entity.Set(new ManagedResource<Texture2DInfo, AtlasTextureAlias>(new Texture2DInfo(@"static_sprites/SPT_UI_HUD_EnergyFront", scale: new Vector2(1, 2))));
 
                 this.energyBarEntity = entity;
             }

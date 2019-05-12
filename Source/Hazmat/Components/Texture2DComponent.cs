@@ -9,11 +9,13 @@ namespace Hazmat.Components
     {
         public Texture2D value;
         public Texture2DInfo info;
+        public bool rotated;
         
-        public Texture2DComponent(Texture2D value, Texture2DInfo info)
+        public Texture2DComponent(Texture2D value, Texture2DInfo info, bool? rotated = null)
         {
             this.value = value;
             this.info = info;
+            this.rotated = rotated ?? false;
         }
 
 
