@@ -29,20 +29,20 @@ namespace Hazmat.Components
             float projectileSpeed, 
             float radiusRange,
             float reloadTime, 
-            string projTex,
+            string projectileSkin,
+            string projectileAnimation,
             Alliance alliance)
         {
             this.damage = damage;
             this.projectileSpeed = projectileSpeed;
             this.radiusRange = radiusRange;
             this.reloadTime = reloadTime;
-            this.projectileTexture = projTex;
             this.reloadTime = reloadTime;
             this.timeLastShot = 0f;
             this.alliance = alliance;
 
-            this.ProjectileSkinName = "MatProjectile_01";
-            this.ProjectileAnimationName = "MatProjectile_01"; //taken from items\SPS_Projectiles
+            this.ProjectileSkinName = projectileSkin;// "MatProjectile_01";
+            this.ProjectileAnimationName = projectileAnimation;// "MatProjectile_01"; //taken from items\SPS_Projectiles
         }
 
         public override void Shoot(float absoluteTime, Transform3D transform, Vector2 direction)
