@@ -36,9 +36,10 @@ namespace Hazmat.Music
         public SoundEffect MatFirstTutorial { get; private set; }
         public SoundEffect MatWin { get; private set; }
         public SoundEffect Ringtone { get; private set; }
-
         // List of Songs
         public Song InGameSong { get; private set; }
+        public Song MenuSong { get; private set; }
+
 
         public SoundManager(ContentManager Content, float? Volume = null, float? Pan = null, float? Pitch = null)
         {
@@ -102,6 +103,7 @@ namespace Hazmat.Music
 
         public void PlayBackgroundMusic(Song song, float? changeVolume = null, bool loop = false)
         {
+            MediaPlayer.Stop();
             float v = changeVolume == null ? Volume : Volume + changeVolume.Value;
             MediaPlayer.IsRepeating = loop;
             MediaPlayer.Volume = v;
@@ -112,7 +114,8 @@ namespace Hazmat.Music
         public void PreLoadSoundEffectsAndSongs()
         {
             // Songs
-            InGameSong = Content.Load<Song>(@"music\inGameSong");
+            this.InGameSong = Content.Load<Song>(@"music\Hazmat_Ingame");
+            this.MenuSong = Content.Load<Song>(@"music\Hazmat_MainMenu");
 
             // Sound Effects
             this.Shooting_Sfx = Content.Load<SoundEffect>(@"music\Sci-Fi-Gun_Sfx");

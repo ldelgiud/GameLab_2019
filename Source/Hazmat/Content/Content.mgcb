@@ -885,6 +885,18 @@
 #begin items/SPS_StaticSprites.png
 /copy:items/SPS_StaticSprites.png
 
+#begin music/Hazmat_Ingame.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/Hazmat_Ingame.mp3
+
+#begin music/Hazmat_MainMenu.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/Hazmat_MainMenu.mp3
+
 #begin music/inGameSong.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

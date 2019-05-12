@@ -53,6 +53,7 @@ namespace Hazmat.States
 
             // Resource Managers
             Hazmat.Instance.spineAnimationResourceManager.Manage(this.world);
+            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.MenuSong, loop: true);
 
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
@@ -76,6 +77,7 @@ namespace Hazmat.States
 
         public override void Resume(object data)
         {
+            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.MenuSong, loop: true);
             this.inputManager.Clear();
             this.inputManager.Sleep(10);
             base.Resume(data);

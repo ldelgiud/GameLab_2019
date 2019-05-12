@@ -291,7 +291,7 @@ namespace Hazmat.Utilities
         {
 
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, new Vector2(-5, -5), new Vector2(5, 5), true);
+            SpawnHelper.AttachAABB(entity, position, new Vector2(-7.5f, -7.5f), new Vector2(7.5f, 7.5f), true);
             entity.Set(new NameComponent() { name = Constants.HOUSE_0_NAME });
 
             Vector3 rotation = new Vector3(Vector2.Zero, dirToFace * MathF.PI / 2);
@@ -303,7 +303,7 @@ namespace Hazmat.Utilities
             @"buildings\houses\house1",
             @"buildings\houses\house1_tex",
             rotation: new Vector3(Vector2.Zero, MathF.PI/2),
-            scale: new Vector3(3f),
+            scale: new Vector3(5f,5f,4f),
             standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
             standardEffectInitialize: new Tuple<string, float>[] {  new Tuple<string, float>("LineThickness", 0.04f) }
             )));

@@ -1,14 +1,15 @@
 {
-"skeleton": { "hash": "l4MOXRKguhqckoEnp8A0CYz8fhA", "spine": "3.7.93", "width": 0, "height": 0, "images": "", "audio": "" },
+"skeleton": { "hash": "8hr1CHA7vOFEtqG1j+YeML/XXxs", "spine": "3.7.93", "width": 0, "height": 0, "images": "", "audio": "" },
 "bones": [
 	{ "name": "root", "x": 0.58 }
 ],
 "slots": [
-	{ "name": "static_sprites/SPT_EN_Tile_Grass", "bone": "root" },
-	{ "name": "static_sprites/SPT_EN_Tile_MainStreet", "bone": "root" },
+	{ "name": "grass", "bone": "root" },
+	{ "name": "main_street", "bone": "root" },
 	{ "name": "HUD", "bone": "root" },
-	{ "name": "static_sprites/SPT_EN_Tile_UniqueSprites", "bone": "root" },
-	{ "name": "city", "bone": "root" }
+	{ "name": "unique_sprites", "bone": "root" },
+	{ "name": "city", "bone": "root" },
+	{ "name": "clothes", "bone": "root" }
 ],
 "skins": {
 	"default": {
@@ -21,17 +22,26 @@
 		"city": {
 			"static_sprites/SPT_EN_Tile_Sidewalk_01": { "width": 500, "height": 310 }
 		},
-		"static_sprites/SPT_EN_Tile_Grass": {
+		"clothes": {
+			"static_sprites/SPT_EN_Clothes_01": { "x": 0.5, "y": 0.5, "width": 297, "height": 167 },
+			"static_sprites/SPT_EN_Clothes_02": { "x": 0.5, "width": 335, "height": 240 },
+			"static_sprites/SPT_EN_Clothes_03": { "y": 0.5, "width": 290, "height": 167 },
+			"static_sprites/SPT_EN_Clothes_04": { "width": 100, "height": 80 },
+			"static_sprites/SPT_EN_Clothes_05": { "width": 138, "height": 88 },
+			"static_sprites/SPT_EN_Clothes_06": { "x": 0.5, "y": 0.5, "width": 109, "height": 51 },
+			"static_sprites/SPT_EN_Clothes_07": { "y": 0.5, "width": 192, "height": 107 }
+		},
+		"grass": {
 			"static_sprites/SPT_EN_Tile_Grass_01": { "width": 2048, "height": 2048 },
 			"static_sprites/SPT_EN_Tile_Grass_02": { "width": 730, "height": 537 },
 			"static_sprites/SPT_EN_Tile_Grass_03": { "x": 0.5, "y": 0.5, "width": 749, "height": 561 },
 			"static_sprites/SPT_EN_Tile_Grass_04": { "x": 0.5, "y": 0.5, "width": 973, "height": 829 }
 		},
-		"static_sprites/SPT_EN_Tile_MainStreet": {
+		"main_street": {
 			"static_sprites/SPT_EN_Tile_MainStreetCorner_01": { "width": 900, "height": 900 },
 			"static_sprites/SPT_EN_Tile_MainStreet_01": { "width": 900, "height": 900 }
 		},
-		"static_sprites/SPT_EN_Tile_UniqueSprites": {
+		"unique_sprites": {
 			"static_sprites/SPT_EN_Tile_PlayerHouse_01": { "width": 1000, "height": 580 },
 			"static_sprites/SPT_EN_Tile_PowerPlant_01": { "width": 2000, "height": 1160 }
 		}
