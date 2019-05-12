@@ -388,6 +388,7 @@ namespace Hazmat.Utilities
             }
             
         }
+
         public static void BuildStreet(PowerPlant plant)
         {
             Debug.WriteLine("START: Street Generation");

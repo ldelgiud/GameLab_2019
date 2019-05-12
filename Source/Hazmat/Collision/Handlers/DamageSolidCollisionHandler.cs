@@ -22,7 +22,7 @@ namespace Hazmat.Collision.Handlers
         {
             // Only handle solid non-damage components
             if (collidee.Has<AllianceMaskComponent>() || !collidee.Get<AABBComponent>().solid) return;
-
+            if (collider.Has<AIComponent>()) return;
             switch (type)
             {
                 case CollisionType.Start:

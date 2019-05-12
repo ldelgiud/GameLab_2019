@@ -63,7 +63,7 @@ namespace Hazmat.Utilities
 
         //GRID GENERATION VALUES
         public static float NODE_RADIUS = 1f;
-        public static float NODE_HIT_RADIUS = 3f;
+        public static float NODE_HIT_RADIUS = 2f;
 
         //AI values for FSM transitions
         public static double OFFLINE_TO_STANDBY_DIST = 60;
