@@ -58,7 +58,7 @@ namespace Hazmat.Event
             this.eventEntity = entity;
 
             this.tipEntity = world.CreateEntity();
-            this.tipEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -350) + this.positionDelta, scale: new Vector2(0.75f))));
+            this.tipEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, -330) + this.positionDelta, scale: new Vector2(0.75f))));
             this.tipEntity.Set(new ScreenSpaceComponent());
             this.tipEntity.Set(new NameComponent() { name = "tip" });
 

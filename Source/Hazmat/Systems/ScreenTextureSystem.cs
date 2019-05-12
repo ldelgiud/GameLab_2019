@@ -45,6 +45,13 @@ namespace Hazmat.Systems
 
             var (position, rotation, scale) = this.camera.ToScreenCoordinates(transform.value, texture.info);
 
+            if (texture.rotated)
+            {
+                var temp = scale;
+                scale.X = temp.Y;
+                scale.Y = temp.X;
+            }
+
             var bounds = texture.info.bounds ?? texture.value.Bounds;
             var origin = bounds.Size.ToVector2() / 2;
 

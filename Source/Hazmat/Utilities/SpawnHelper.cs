@@ -147,7 +147,8 @@ namespace Hazmat.Utilities
                     projectileSpeed: Constants.BULLET_SPEED,
                     radiusRange: -1f,
                     reloadTime: Constants.PLAYER_RELOAD_TIME,
-                    projTex: "shooting/bullet",
+                    projectileSkin: "MatProjectile_01",
+                    projectileAnimation: "MatProjectile_01",
                     alliance: Alliance.Player));
 
                 gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
@@ -173,36 +174,6 @@ namespace Hazmat.Utilities
         }
 
         /// <summary>
-        /// Assuming parent has WorldTransformComponent and AllianceMaskComponent
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <returns></returns>
-        public static Entity SpawnGun(Entity parent) {
-            // Gun entity
-            var gunEntity = SpawnHelper.World.CreateEntity();
-            Vector2 localPosition = new Vector2(0, 0);
-
-            var gunTransform = new Transform2DComponent(new Transform2D(localPosition, parent: parent.Get<Transform2DComponent>().value));
-
-            gunEntity.Set(gunTransform);
-            gunEntity.Set(new WorldSpaceComponent());
-
-            Alliance alliance = parent.Get<AllianceMaskComponent>().alliance;
-            gunEntity.Set(new SmallGunComponent(
-                damage : 35f, 
-                projectileSpeed : Constants.BULLET_SPEED, 
-                radiusRange : -1f, 
-                reloadTime : 0.5f, 
-                projTex : "shooting/bullet", 
-                alliance : alliance));
-            gunEntity.Set(new ManagedResource<Texture2DInfo, Texture2DAlias>(new Texture2DInfo("shooting/smallGun", 1f, 0.4f)));
-            gunEntity.Set(new NameComponent() { name = Constants.GUN_NAME });
-            gunEntity.SetAsChildOf(parent);
-            parent.Set(new WeaponComponent(gunEntity));
-            return gunEntity;
-        }
-
-        /// <summary>
         /// Spawns a collectable gun without an initial parent.
         /// </summary>
         public static Entity SpawnCollectableGun(Vector3 pos)
@@ -223,7 +194,8 @@ namespace Hazmat.Utilities
                 projectileSpeed: Constants.BULLET_SPEED,
                 radiusRange: -1f,
                 reloadTime: Constants.PLAYER_RELOAD_TIME,
-                projTex: "shooting/bullet",
+                projectileSkin: "MatProjectile_01",
+                projectileAnimation: "MatProjectile_01",
                 alliance: Alliance.Player));
 
             gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
@@ -699,6 +671,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_EnemyBicycle_01",
                 @"characters\TEX_CH_EnemyBicycle_01",
+                rotation: new Vector3(0, 0, -MathF.PI / 2),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
                 standardEffectInitialize: new Tuple<string, float>[] {
                     new Tuple<string, float>("LineThickness", 0.1f)}
@@ -709,7 +682,8 @@ namespace Hazmat.Utilities
                 projectileSpeed: Constants.BULLET_SPEED,
                 radiusRange: -1f,
                 reloadTime: Constants.MAILBOX_RELOAD_TIME,
-                projTex: "shooting/bullet",
+                projectileSkin: "EnemyProjectile_01",
+                projectileAnimation: "EnemyProjectile_01",
                 alliance: Alliance.Hostile));
             entity.Set(new AIComponent(new ShooterOffline(entity)));
             entity.Set(new NameComponent() { name = Constants.SHOOTER_NAME });
@@ -742,7 +716,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_Mailbox_01",
                 @"characters\mailbox_tex",
-                rotation: new Vector3(Vector2.Zero, MathF.PI / 2),
+                rotation: new Vector3(Vector2.Zero, -MathF.PI / 2),
                 scale: new Vector3(3f),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.05f) }
@@ -754,7 +728,8 @@ namespace Hazmat.Utilities
                 projectileSpeed: Constants.BULLET_SPEED,
                 radiusRange: -1f,
                 reloadTime: Constants.MAILBOX_RELOAD_TIME,
-                projTex: "shooting/bullet",
+                projectileSkin: "EnemyProjectile_01",
+                projectileAnimation: "EnemyProjectile_01",
                 alliance: Alliance.Hostile));
 
         }
