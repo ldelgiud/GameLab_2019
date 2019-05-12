@@ -8,6 +8,8 @@ namespace Hazmat.Utilities
 {
     class Energy
     {
+        public bool Active = true;
+
         private double currentEnergy;
         public double CurrentEnergy
         {
@@ -18,7 +20,10 @@ namespace Hazmat.Utilities
 
             set
             {
-                this.currentEnergy = Math.Max(0, Math.Min(value, Constants.PLAYER_INITIAL_ENERGY));
+                if (this.Active)
+                {
+                    this.currentEnergy = Math.Max(0, Math.Min(value, Constants.PLAYER_INITIAL_ENERGY));
+                }
             }
         }
 

@@ -79,10 +79,8 @@ namespace Hazmat.Utilities
             entity.Set(playerStats);
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform3DComponent(transform));
-            entity.Set(new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0, entity));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent());
-            entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_PlayerMat_01",
                 @"characters\MAT_CH_PlayerMat_01",

@@ -4,6 +4,8 @@ namespace Hazmat.Utilities
 {
     class Score
     {
+        public bool Won;
+
         public float TimeStart;
         public float TimeEnd;
         public int Kills = 0;
@@ -16,9 +18,10 @@ namespace Hazmat.Utilities
             this.TimeStart = time.Absolute;
         }
 
-        public void Complete(Time time)
+        public void Complete(Time time, bool won)
         {
             this.TimeEnd = time.Absolute;
+            this.Won = won;
         }
 
     }

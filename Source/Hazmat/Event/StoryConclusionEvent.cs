@@ -70,6 +70,8 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
+                    Hazmat.Instance.ActiveState.GetInstance<Energy>().Active = false;
+
                     this.playing = this.soundManager.PlaySoundEffectInstance(
                         effect: soundManager.BossResolution09);
                     this.conclusionEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
@@ -93,7 +95,7 @@ namespace Hazmat.Event
                     break;
                 case State.Done:
                     var score = Hazmat.Instance.ActiveState.GetInstance<Score>();
-                    score.Complete(time);
+                    score.Complete(time, true);
                     this.soundManager.PlaySoundEffectInstance(soundManager.MatWin);
                     Hazmat.Instance.ActiveState.stateTransition = 
                         new SwapStateTransition(new ScoreState(score, this.plant, this.players));
