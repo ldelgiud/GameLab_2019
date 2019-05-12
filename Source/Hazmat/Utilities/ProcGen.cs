@@ -259,18 +259,19 @@ namespace Hazmat.Utilities
             }
             //Add house
             bool house1 = Constants.RANDOM.Next(100) <= 60;
-            bool house2 = Constants.RANDOM.Next(100) <= 60;
+            bool house2 = Constants.RANDOM.Next(100) <= 60; 
             if (walls && !changeDir && !turnedBefore && !willTurnNext)
             {
                 Vector2 houseOffset = new Vector2(0,25).Rotate(radian);
                 if (house1) SpawnHelper.SpawnRandomHouse(position+houseOffset, (direction-1)%4);
                 if (house2) SpawnHelper.SpawnRandomHouse(position-houseOffset, (direction+1)%4);
             }
-            Vector3 rotation = new Vector3(Vector2.Zero, (1-direction)*MathF.PI/2);
+            Vector3 rotation = new Vector3(Vector2.Zero, (1 - direction) * MathF.PI / 2);
             float step = Constants.TILE_SIZE / 4;
 
             if (changeDir)
             {
+                if (direction == 0) rotation.Z += MathF.PI / 2; 
                 Vector2 extraSideWalkOffset =
                     new Vector2(3 * Constants.TILE_SIZE / 4, -3 * Constants.TILE_SIZE / 4)
                     .Rotate(direction * MathF.PI);
@@ -361,8 +362,32 @@ namespace Hazmat.Utilities
                     Constants.STREET_TILE_NAME
                     );
             }
+            ProcGen.SpreadClothes(position);
         }
 
+        private static void SpreadClothes(Vector2 position)
+        {
+            float radian = (float) Constants.RANDOM.NextDouble() * MathF.PI * 2;
+            int counter = 0;
+            Vector2 offset = new Vector2(2.5f, 0);
+            float radianOffset = (MathF.PI + (float)Constants.RANDOM.NextDouble() * MathF.PI) / 4;
+            while(Constants.RANDOM.Next(2)==0 && counter < 4)
+            {
+                counter++;
+                offset = offset.Rotate(radianOffset);
+                int clotheType = Constants.RANDOM.Next(1, 7);
+                ProcGen.TileMap.AddTile(
+                        new Transform3D(
+                            new Vector3(position+offset, 0.1f),
+                            rotation: new Vector3(Vector2.Zero, radian),
+                            scale: new Vector3(1f)),
+                        new TileModelInfo(
+                            "static_sprites/SPT_EN_Clothes_0" + clotheType),
+                        "clothes"
+                        );
+            }
+            
+        }
         public static void BuildStreet(PowerPlant plant)
         {
             Debug.WriteLine("START: Street Generation");

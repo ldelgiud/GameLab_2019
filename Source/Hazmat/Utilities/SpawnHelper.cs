@@ -230,18 +230,13 @@ namespace Hazmat.Utilities
             if (houseNr == 0) SpawnHelper.SpawnHouse0(position, dir);
             else SpawnHelper.SpawnHouse1(position, dir);
 
-            bool spawnMailbox = Constants.RANDOM.Next(5) == 1;
+            bool spawnMailbox = Constants.RANDOM.Next(100) <= 80;
             if (spawnMailbox && position.Length()>=60)
             {
-                Vector2 mailboxOffset = new Vector2(4, -7.5f);
+                Vector2 mailboxOffset = new Vector2(13, -13f).Rotate(dir * MathF.PI / 2);
                 int count = SpawnHelper.CollisionCheck(
                     new AABB(position+mailboxOffset, 2, 2), true).Count;
-                if (count == 0)
-                {
-                    Vector2 mailboxPosition = position + mailboxOffset.Rotate(dir * MathF.PI / 2);
-                    SpawnMailBox(mailboxPosition);
-                }
-                
+                if (count == 0) SpawnMailBox(position + mailboxOffset);
             }
         }
 
@@ -263,7 +258,6 @@ namespace Hazmat.Utilities
 
         public static void SpawnHouse0(Vector2 position, float dirToFace)
         {
-
             var entity = SpawnHelper.World.CreateEntity();
             SpawnHelper.AttachAABB(entity, position, new Vector2(-10f, -10f), new Vector2(10f, 10f), true);
             entity.Set(new NameComponent() { name = Constants.HOUSE_0_NAME });
@@ -277,7 +271,7 @@ namespace Hazmat.Utilities
             @"buildings\houses\house1",
             @"buildings\houses\house1_tex",
             rotation: new Vector3(Vector2.Zero, MathF.PI/2),
-            scale: new Vector3(6f,6f,5f),
+            scale: new Vector3(6f),
             standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
             standardEffectInitialize: new Tuple<string, float>[] {  new Tuple<string, float>("LineThickness", 0.04f) }
             )));
@@ -300,7 +294,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
             @"buildings\houses\house2_centered",
             @"buildings\houses\house2_tex",
-            scale: new Vector3(6f,6f,5f),
+            scale: new Vector3(6f),
             rotation: new Vector3(Vector2.Zero, MathF.PI/2),
             standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
             standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.04f) }
