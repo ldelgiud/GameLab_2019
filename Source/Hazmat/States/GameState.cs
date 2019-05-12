@@ -57,6 +57,7 @@ namespace Hazmat.States
             this.SetInstance(score);
 
             Energy energy = new Energy();
+            this.SetInstance(energy);
             PowerPlant powerPlant = new PowerPlant();
             this.SetInstance(powerPlant);
             this.SetInstance(new QuadTree<Entity>(

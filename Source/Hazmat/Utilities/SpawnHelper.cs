@@ -81,7 +81,6 @@ namespace Hazmat.Utilities
             entity.Set(new Transform3DComponent(transform));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new VelocityComponent());
-            entity.Set(new InputComponent(new PlayerInputHandler()));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\MED_CH_PlayerMat_01",
                 @"characters\MAT_CH_PlayerMat_01",

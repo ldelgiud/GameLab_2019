@@ -31,7 +31,7 @@ namespace Hazmat.Components
         {
             if (energy.CurrentEnergy <= 0)
             {
-                this.score.Complete(time);
+                this.score.Complete(time, false);
                 EntitySet players = world.GetEntities().With<PlayerComponent>().Build();
                 Hazmat.Instance.ActiveState.stateTransition = new SwapStateTransition(new ScoreState(this.score, this.plant, players));
             }

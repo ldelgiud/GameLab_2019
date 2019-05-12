@@ -9,6 +9,7 @@ using DefaultEcs;
 using DefaultEcs.Resource;
 
 using Hazmat.Components;
+using Hazmat.Components.InputHandlers;
 using Hazmat.Input;
 using Hazmat.Graphics;
 using Hazmat.Utilities;
@@ -42,6 +43,8 @@ namespace Hazmat.Event
         InputManager inputManager;
         State state = State.Start;
 
+        EntitySet players;
+
         Entity eventEntity;
         SoundEffectInstance playing;
         Entity introEntity;
@@ -50,6 +53,7 @@ namespace Hazmat.Event
         public bool Answered;
         public override void Initialize(World world, Entity entity)
         {
+            this.players = world.GetEntities().With<PlayerComponent>().Build();
             this.eventEntity = entity;
 
             this.introEntity = world.CreateEntity();
@@ -78,6 +82,7 @@ namespace Hazmat.Event
             switch (this.state)
             {
                 case State.Start:
+                    Hazmat.Instance.ActiveState.GetInstance<Energy>().Active = false;
                     this.playing = this.soundManager.PlaySoundEffectInstance(effect: soundManager.Ringtone, loop: true);
                     this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                                 new SpineAnimationInfo(@"ui\SPS_Screens",
@@ -91,6 +96,12 @@ namespace Hazmat.Event
                     if (time.Absolute >= this.timeToStop || 
                         (closeEvent != null && closeEvent.GetType() == typeof(PressEvent)))
                     {
+                        Hazmat.Instance.ActiveState.GetInstance<Energy>().Active = true;
+                        foreach (var player in this.players.GetEntities())
+                        {
+                            player.Set(new InputComponent(new PlayerInputHandler()));
+                        }
+
                         this.state = State.Tutorial;
                         this.Answered = false;
                     }
@@ -142,7 +153,12 @@ namespace Hazmat.Event
                     if ((inputEvent != null && inputEvent.GetType() == typeof(PressEvent)) ||
                        time.Absolute >= this.timeToStop)
                     {
-                       
+                        Hazmat.Instance.ActiveState.GetInstance<Energy>().Active = true;
+                        foreach (var player in this.players.GetEntities())
+                        {
+                            player.Set(new InputComponent(new PlayerInputHandler()));
+                        }
+
                         this.inputManager.RemoveEvent(Keys.E);
                         this.inputManager.RemoveEvent(0, Buttons.A);
                         this.introEntity.Remove<SpineSkeletonComponent>();
