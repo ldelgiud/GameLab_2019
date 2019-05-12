@@ -140,7 +140,8 @@ namespace Hazmat.States
                 avgDist = plant.Position - avgDist;
                 double percentage = (avgDist.Length() / Constants.PLANT_PLAYER_DISTANCE);
                 percentage = Math.Min(1,percentage);
-                percentage = (1 - percentage) * 100;
+                //TODO: Pass win lose value
+                percentage = Math.Min((1 - percentage) * 100 + 2, 100);
                 int myVal = (int)percentage;
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
