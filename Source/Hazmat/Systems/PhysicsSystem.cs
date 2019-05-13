@@ -35,7 +35,7 @@ namespace Hazmat.Systems
             ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
             ref VelocityComponent velocity = ref entity.Get<VelocityComponent>();
             ref NameComponent name = ref entity.Get<NameComponent>();
-
+            if (velocity.velocity.LengthSquared() == 0) return;
             int sliding = 1;
             bool moveMe; 
             bool collision = false;

@@ -26,6 +26,7 @@ namespace Hazmat.Pathfinding
         
         public void FindPath(Vector2 start, Vector2 end)
         {
+            int safetycheck = 0;
             Node source = grid.VectorToNode(start);
             Node target = grid.VectorToNode(end);
             Vector2[] wayPoints = new Vector2[0];
@@ -48,6 +49,9 @@ namespace Hazmat.Pathfinding
 
                 while (Open.Count > 0)
                 {
+                    safetycheck++;
+                    if (safetycheck >= 2000)
+                        break;
                     Node current = Open.PopMin();
                     Closed.Add(current);
 

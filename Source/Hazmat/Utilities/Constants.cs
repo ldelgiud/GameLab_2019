@@ -17,10 +17,10 @@ namespace Hazmat.Utilities
         public static float BULLET_SIZE = 1f;                       //TESTED
         public static int PLAYER_INITIAL_SPEED = 20; //TESTED
         public static double PLAYER_INITIAL_ENERGY = 1000;
-        public static float PLAYER_INITIAL_DAMAGE = 60;
+        public static float PLAYER_INITIAL_DAMAGE = 40;
         //PLAYER UPGRADES
         public static int SPEED_UPGRADE = 3;
-        public static int DAMAGE_UPGRADE = 45;
+        public static int DAMAGE_UPGRADE = 25;
 
         //PROCGEN
         public static double STREET_SPAWN_RATE = 0.75;
