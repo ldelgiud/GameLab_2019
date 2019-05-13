@@ -44,10 +44,10 @@ namespace Hazmat.AI
         float timeOfLastUpdate; 
         protected Path path;
         int turnDist = 1;
-        public const float updateThreshold = 1;
+        public const float updateThreshold = 0.5f;
         public const float sqrdUpdateThreshold = AIState.updateThreshold * AIState.updateThreshold;
         const float minPathUpdateTime = 0.5f;
-        const float maxPathUpdateTime = 2f;
+        const float maxPathUpdateTime = 1f;
 
         protected bool AmIMad(Time time)
         {
@@ -63,6 +63,7 @@ namespace Hazmat.AI
 
             return false;
         }
+
         abstract public AIState UpdateState(List<PlayerInfo> playerInfos, Time time);
 
         protected float SqrdDist

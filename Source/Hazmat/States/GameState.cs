@@ -109,7 +109,7 @@ namespace Hazmat.States
             PhysicsSystem physicsSystem = new PhysicsSystem(this.world, this.GetInstance<QuadTree<Entity>>(), collisionSystem);
             InputSystem inputSystem = new InputSystem(this.world, this.inputManager);
             EventSystem eventSystem = new EventSystem(this.world);
-            AISystem aISystem = new AISystem(this.world);
+            AISystem aISystem = new AISystem(this.world, this.worldCamera);
             PowerplantSystem powerplantSystem =
                 new PowerplantSystem(this.world, energy, powerPlant);
 

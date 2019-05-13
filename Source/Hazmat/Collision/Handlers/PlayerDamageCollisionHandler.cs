@@ -38,7 +38,7 @@ namespace Hazmat.Collision.Handlers
                     Alliance collideeAlliance = collidee.Get<AllianceMaskComponent>().alliance;
                     if (((int)playerAlliance | (int)collideeAlliance) != (int)playerAlliance)
                     {
-
+                        
                         ref StatsComponent playerStats = ref collider.Get<StatsComponent>();
                         ref ModelComponent playerModel = ref collider.Get<ModelComponent>();
 

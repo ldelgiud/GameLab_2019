@@ -16,8 +16,6 @@ namespace Hazmat.Utilities
     class PowerPlant
     {
         public Vector2 Position { get; set; }
-        //public Texture2D texture;
-        public const int R = 900;
 
 
         /// <summary>
