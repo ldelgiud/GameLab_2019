@@ -41,7 +41,7 @@ namespace Hazmat.Components.InputHandlers
             {
                 case HoldEvent _: 
                 case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform.value, direction);
+                    smallGun.Shoot(time.Absolute, gunTransform.value, direction, new Vector3(1.05f, 0, 1.0f));
                     break;
             }
 
@@ -50,7 +50,7 @@ namespace Hazmat.Components.InputHandlers
                 case ReleaseEvent _: break;
                 case HoldEvent _: break;
                 case PressEvent _:
-                    smallGun.Shoot(time.Absolute, gunTransform.value,direction); 
+                    smallGun.Shoot(time.Absolute, gunTransform.value,direction, new Vector3(1.05f, 0, 1.0f)); 
                     break;
             }
         }

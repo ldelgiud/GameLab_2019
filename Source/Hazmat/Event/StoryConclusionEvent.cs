@@ -49,7 +49,7 @@ namespace Hazmat.Event
             this.players = world.GetEntities().With<PlayerComponent>().Build();
             this.plant = Hazmat.Instance.ActiveState.GetInstance<PowerPlant>();
             this.conclusionEntity = world.CreateEntity();
-            this.conclusionEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 260))));
+            this.conclusionEntity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 240))));
             this.conclusionEntity.Set(new ScreenSpaceComponent());
             this.conclusionEntity.Set(new NameComponent() { name = "conclusion" });
 

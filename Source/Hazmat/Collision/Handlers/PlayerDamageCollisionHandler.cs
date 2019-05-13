@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
 using DefaultEcs;
 
 using Hazmat.Collision;
@@ -69,6 +72,9 @@ namespace Hazmat.Collision.Handlers
                             soundManager.PlaySoundEffect(soundManager.MatHit);
                         }
                         collidee.Delete();
+
+                        GamePad.SetVibration(0, 1, 1);
+                        GamePad.SetVibration(0, 0, 0);
                     }
                     break;
             }
