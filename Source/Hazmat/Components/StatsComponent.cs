@@ -65,7 +65,8 @@ namespace Hazmat.Components
                         PlayerEntity.SetAttachment(
                             @"weapons\MED_WP_MatGunBasic_upgrade1",
                             @"weapons\TEX_WP_MatGunBasic_01",
-                            rotation: new Vector3(0f,0f,MathHelper.Pi)
+                            rotation: new Vector3(0f,0f,MathHelper.Pi),
+                            position: new Vector3(-1.15f, -1f, 0.25f)
                             );
                         break;
                     case 1:
@@ -73,7 +74,8 @@ namespace Hazmat.Components
                         PlayerEntity.SetAttachment(
                             @"weapons\MED_WP_MatGunBasic_upgrade2",
                             @"weapons\TEX_WP_MatGunBasic_01",
-                            rotation: new Vector3(0f, 0f, MathHelper.Pi)
+                            rotation: new Vector3(0f, 0f, MathHelper.Pi),
+                            position: new Vector3(-1.15f, -1f, 0.25f)
                             );
                         break;
                     case 2:

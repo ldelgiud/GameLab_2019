@@ -42,7 +42,7 @@ namespace Hazmat.Components.InputHandlers
                         if (entity.Has<WeaponComponent>() && entity.Get<WeaponComponent>().weapon.Has<SmallGunComponent>())
                         {
                             entity.Get<WeaponComponent>().weapon.Get<SmallGunComponent>()
-                                .Shoot(time.Absolute, entity.Get<WeaponComponent>().weapon.Get<Transform3DComponent>().value, current);
+                                .Shoot(time.Absolute, entity.Get<WeaponComponent>().weapon.Get<Transform3DComponent>().value, current, new Vector3(1.5f, 0f, 1.0f));
                         }
                         gamepadDirection = true;
                         current.Normalize();
