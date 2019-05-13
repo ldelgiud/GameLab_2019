@@ -41,7 +41,7 @@ namespace Hazmat.Collision.Handlers
                     Alliance collideeAlliance = collidee.Get<AllianceMaskComponent>().alliance;
                     if (((int)playerAlliance | (int)collideeAlliance) != (int)playerAlliance)
                     {
-                        
+                        GamePad.SetVibration(0, 1, 1);
                         ref StatsComponent playerStats = ref collider.Get<StatsComponent>();
                         ref ModelComponent playerModel = ref collider.Get<ModelComponent>();
 
@@ -73,7 +73,6 @@ namespace Hazmat.Collision.Handlers
                         }
                         collidee.Delete();
 
-                        GamePad.SetVibration(0, 1, 1);
                         GamePad.SetVibration(0, 0, 0);
                     }
                     break;

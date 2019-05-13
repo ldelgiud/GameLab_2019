@@ -174,7 +174,7 @@ namespace Hazmat.Utilities
             {
                 for (float x = Constants.LEFT_BORDER; x <= Constants.RIGHT_BORDER; x += Constants.TILE_SIZE)
                 {
-                    float randRadian = (float) (Constants.RANDOM.NextDouble() * Math.PI / 2);
+                    float randRradian = (float) (Constants.RANDOM.NextDouble() * Math.PI / 2);
                     Vector2 position = new Vector2(x, y);
                     Vector2 closestTile = Street.FindClosestTile(position);
                     float streetSqrdDist = (position- closestTile).LengthSquared();
@@ -187,8 +187,7 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
                                 new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), 
-                                scale: new Vector3(5f),
-                                rotation: new Vector3(Vector2.Zero, randRadian)),
+                                scale: new Vector3(5f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02"),
                             "dirtTile"
                             );
@@ -197,8 +196,7 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
                                 new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), 
-                                scale: new Vector3(5f),
-                                rotation: new Vector3(Vector2.Zero, randRadian)),
+                                scale: new Vector3(5f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_03"),
                             "dirtTile"
                             );
@@ -207,8 +205,7 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
                                 new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), 
-                                scale: new Vector3(5f),
-                                rotation: new Vector3(Vector2.Zero, randRadian)),
+                                scale: new Vector3(5f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_04"),
                             "dirtTile"
                             );

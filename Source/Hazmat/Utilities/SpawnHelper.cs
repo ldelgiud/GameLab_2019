@@ -337,7 +337,30 @@ namespace Hazmat.Utilities
             Vector2 borderOffset = (new Vector2(Constants.TILE_SIZE / 4, 0)).Rotate(dir * MathF.PI / 2);
             SpawnHelper.SpawnSidewalkBorder(position + borderOffset, (dir+1)%4);
         }
+        /*
+        public static void SpawnRandomSuitcase(Vector2 position)
+        {
+            if (!SpawnHelper.IsCollisionFree(new AABB(position, 1, 1), true)) return;
+            string suitcaseType = Constants.RANDOM.Next(1,2) == 1  ? "A" : "B";
+            float radian = (int) (Constants.RANDOM.NextDouble() * Math.PI * 2);
 
+            var entity = SpawnHelper.World.CreateEntity();
+            SpawnHelper.AttachAABB(entity, position, new Vector2(1), new Vector2(1), true);
+            entity.Set(new NameComponent() { name = Constants.SUITCASE_NAME + suitcaseType});
+
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: new Vector3(Vector2.Zero, radian)
+                )));
+
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                @"buildings\suitcases\MES_EN_suitcase" + suitcaseType + "_01",
+                @"buildings\suitcases\TEX_EN_suitcases",
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) },
+                scale: new Vector3(0.1f)
+                )));
+        }*/
         public static void SpawnSidewalkBorder(Vector2 position, int dir)
         {
             var entity = SpawnHelper.World.CreateEntity();

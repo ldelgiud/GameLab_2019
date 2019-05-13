@@ -26,8 +26,8 @@ namespace Hazmat.Utilities
         public static double STREET_SPAWN_RATE = 0.75;
         public static float TILE_SIZE = 10;
         public static float LEFT_BORDER = -200;
-        public static float RIGHT_BORDER = 2500;
-        public static float TOP_BORDER = 2500;
+        public static float RIGHT_BORDER = 1800;
+        public static float TOP_BORDER = 1800;
         public static float BOTTOM_BORDER = -200;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
@@ -35,7 +35,7 @@ namespace Hazmat.Utilities
             new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
         //POWERPLANT STATS
-        public static double PLANT_PLAYER_DISTANCE = 2300;
+        public static double PLANT_PLAYER_DISTANCE = 1700;
         public static double MIN_DEGREE = 20;
         public static double MAX_DEGREE = 70;
         public static double MIN_RADIAN = Constants.MIN_DEGREE * (Math.PI / 180);
@@ -125,5 +125,6 @@ namespace Hazmat.Utilities
         public static string ROADBLOCK_NAME = "roadblock";
         public static string SIDEWALK_BARRIER_NAME = "sidewalk_wall";
         public static string SIDEWALK_BORDER_NAME = "sidealk_border";
+        public static string SUITCASE_NAME = "suitcase_0";
     }
 }
