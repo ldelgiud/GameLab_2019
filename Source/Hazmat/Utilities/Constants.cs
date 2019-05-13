@@ -17,16 +17,17 @@ namespace Hazmat.Utilities
         public static float BULLET_SIZE = 1f;                       //TESTED
         public static int PLAYER_INITIAL_SPEED = 20; //TESTED
         public static double PLAYER_INITIAL_ENERGY = 1000;
+        public static float PLAYER_INITIAL_DAMAGE = 60;
         //PLAYER UPGRADES
         public static int SPEED_UPGRADE = 3;
-        public static int DAMAGE_UPGRADE = 30;
+        public static int DAMAGE_UPGRADE = 45;
 
         //PROCGEN
-        public static double STREET_SPAWN_RATE = 0.7;
+        public static double STREET_SPAWN_RATE = 0.75;
         public static float TILE_SIZE = 10;
         public static float LEFT_BORDER = -200;
-        public static float RIGHT_BORDER = 800;
-        public static float TOP_BORDER = 800;
+        public static float RIGHT_BORDER = 1500;
+        public static float TOP_BORDER = 1500;
         public static float BOTTOM_BORDER = -200;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
@@ -34,7 +35,7 @@ namespace Hazmat.Utilities
             new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
         //POWERPLANT STATS
-        public static double PLANT_PLAYER_DISTANCE = 750;
+        public static double PLANT_PLAYER_DISTANCE = 1400;
         public static double MIN_DEGREE = 20;
         public static double MAX_DEGREE = 70;
         public static double MIN_RADIAN = Constants.MIN_DEGREE * (Math.PI / 180);

@@ -141,7 +141,7 @@ namespace Hazmat.Utilities
                 gunEntity.SetAsChildOf(entity);
 
                 gunEntity.Set(new SmallGunComponent(
-                    damage: 35f,
+                    damage: Constants.PLAYER_INITIAL_DAMAGE,
                     projectileSpeed: Constants.BULLET_SPEED,
                     radiusRange: -1f,
                     reloadTime: Constants.PLAYER_RELOAD_TIME,
@@ -221,8 +221,8 @@ namespace Hazmat.Utilities
             int houseNr = Constants.RANDOM.Next(2);
             //Find correct rotation
             if (dir == 100) dir = Street.FindClosestDirection(position);
-            if ((houseNr == 0 && SpawnHelper.CollisionCheck(new AABB(position, 20, 20), true).Count != 0) ||
-                (houseNr == 1 && SpawnHelper.CollisionCheck(new AABB(position, 30, 20).rotate(dir), true).Count != 0))
+            if ((houseNr == 0 && !SpawnHelper.IsCollisionFree(new AABB(position, 20, 20), true)) ||
+                (houseNr == 1 && !SpawnHelper.IsCollisionFree(new AABB(position, 30, 20).rotate(dir), true)))
                    return;
 
             if (houseNr == 0) SpawnHelper.SpawnHouse0(position, dir);
@@ -232,9 +232,8 @@ namespace Hazmat.Utilities
             if (spawnMailbox && position.Length()>=60)
             {
                 Vector2 mailboxOffset = new Vector2(13, -13f).Rotate(dir * MathF.PI / 2);
-                int count = SpawnHelper.CollisionCheck(
-                    new AABB(position+mailboxOffset, 2, 2), true).Count;
-                if (count == 0) SpawnMailBox(position + mailboxOffset);
+                if (SpawnHelper.IsCollisionFree(new AABB(position + mailboxOffset, 2, 2), true))
+                    SpawnMailBox(position + mailboxOffset);
             }
         }
 
@@ -252,6 +251,11 @@ namespace Hazmat.Utilities
             }, ref aabb);
 
             return entities;
+        }
+
+        public static bool IsCollisionFree(AABB aabb, bool solid)
+        {
+            return SpawnHelper.CollisionCheck(aabb, solid).Count == 0;
         }
 
         public static void SpawnHouse0(Vector2 position, float dirToFace)
@@ -496,13 +500,13 @@ namespace Hazmat.Utilities
         {
             var entity = SpawnHelper.World.CreateEntity();
             SpawnHelper.AttachAABB(entity, position, 3.5f, 3.5f,true);
-            
-
+            float offset = Math.Min((position.Length() / (float)Constants.PLANT_PLAYER_DISTANCE) * 200, 200)+10;
+            int extraHealth = ((int)offset / 50) * 50;
             //Create entity and attach its components
             entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new AllianceMaskComponent(Alliance.Hostile));
-            entity.Set(new HealthComponent(100));
+            entity.Set(new HealthComponent(100 + extraHealth));
 
             //TODO: NIHAT
             // Health Bar Entity
@@ -525,7 +529,7 @@ namespace Hazmat.Utilities
         {
             var entity = SpawnHelper.World.CreateEntity();
             int safetyCheck = 0;
-            while (safetyCheck <20 && SpawnHelper.CollisionCheck(new AABB(position, 3,3),true).Count != 0)
+            while (safetyCheck < 20 && !SpawnHelper.IsCollisionFree(new AABB(position, 3,3),true))
             {
                 position += Vector2.One * 2.5f;
             } if (safetyCheck >= 20) return;
@@ -770,8 +774,7 @@ namespace Hazmat.Utilities
         public static void SpawnEnemyCamp(Vector2 position) 
         {
             int enemyCount = Constants.RANDOM.Next(5, 8);
-            bool upgrade = Constants.RANDOM.Next(100) <= 70; 
-            //TODO: Check that it doesn't spawn inside other objects
+            bool upgrade = Constants.RANDOM.NextDouble() <= HelperFunctions.PowerUpRate(); 
             if (upgrade) SpawnHelper.SpawnPowerUp(position);
 
             for (int i = 0; i < enemyCount; ++i)
