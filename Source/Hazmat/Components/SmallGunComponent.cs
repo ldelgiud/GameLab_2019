@@ -49,6 +49,8 @@ namespace Hazmat.Components
         {
             if ((absoluteTime - timeLastShot) < reloadTime) { return; }
 
+            var bulletTransform = new Transform3D(parent: transform, position: offset);
+
             // Play Sound Effect
             Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.Shooting_Sfx);
 
@@ -57,7 +59,7 @@ namespace Hazmat.Components
                 direction.Normalize();
             }
             
-            Entity entity = SpawnHelper.SpawnBullet(transform.Translation + (offset.HasValue ? offset.Value : Vector3.Zero), direction);
+            Entity entity = SpawnHelper.SpawnBullet(bulletTransform.Translation, direction);
 
             entity.Set(new VelocityComponent(direction * this.projectileSpeed));
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
