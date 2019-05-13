@@ -39,6 +39,7 @@ namespace Hazmat.Systems
                 center += entity.Get<Transform3DComponent>().value.Translation.ToVector2();
             }
             center /= players.Count;
+            if (center.LengthSquared() <= 30 * 30) return;
             Vector2 distVec = center - powerPlant.Position;
             double dist = Math.Min(Math.Max(distVec.Length(), minDist),maxDist);
             //This allows for a drain between 1 and 10 scaling linearly with the distance
