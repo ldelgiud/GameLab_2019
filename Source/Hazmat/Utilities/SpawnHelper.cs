@@ -132,7 +132,7 @@ namespace Hazmat.Utilities
             {
                 var gunEntity = SpawnHelper.World.CreateEntity();
 
-                gunEntity.Set(new Transform3DComponent(new Transform3D(parent: transform)));
+                gunEntity.Set(new Transform3DComponent(new Transform3D(parent: transform, position: new Vector3(-1.15f, -1f, 0.25f))));
                 gunEntity.Set(new WorldSpaceComponent());
 
                 SpawnHelper.AttachAABB(gunEntity, Vector2.Zero, -Vector2.One, Vector2.One, false);

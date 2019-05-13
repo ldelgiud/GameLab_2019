@@ -45,7 +45,7 @@ namespace Hazmat.Components
             this.ProjectileAnimationName = projectileAnimation;// "MatProjectile_01"; //taken from items\SPS_Projectiles
         }
 
-        public override void Shoot(float absoluteTime, Transform3D transform, Vector2 direction)
+        public override void Shoot(float absoluteTime, Transform3D transform, Vector2 direction, Vector3? offset = null)
         {
             if ((absoluteTime - timeLastShot) < reloadTime) { return; }
 
@@ -57,7 +57,7 @@ namespace Hazmat.Components
                 direction.Normalize();
             }
             
-            Entity entity = SpawnHelper.SpawnBullet(transform.Translation, direction);
+            Entity entity = SpawnHelper.SpawnBullet(transform.Translation + (offset.HasValue ? offset.Value : Vector3.Zero), direction);
 
             entity.Set(new VelocityComponent(direction * this.projectileSpeed));
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(

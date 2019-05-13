@@ -21,7 +21,7 @@ namespace Hazmat.GameElements.Shooting
         public float timeLastShot;
         public Alliance alliance;
 
-        public abstract void Shoot(float absoluteValue, Transform3D transform, Vector2 direction);
+        public abstract void Shoot(float absoluteValue, Transform3D transform, Vector2 direction, Vector3? offset = null);
 
     }
 }
