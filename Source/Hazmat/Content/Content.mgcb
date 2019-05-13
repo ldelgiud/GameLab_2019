@@ -905,6 +905,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/blackAndWhite.fx
 
+#begin shaders/blink.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/blink.fx
+
 #begin shaders/bright.fx
 /importer:EffectImporter
 /processor:EffectProcessor

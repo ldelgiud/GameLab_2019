@@ -142,6 +142,7 @@
     <Compile Include="Components\AABBTetherComponent.cs" />
     <Compile Include="Components\AIComponent.cs" />
     <Compile Include="Components\AllianceMaskComponent.cs" />
+    <Compile Include="Components\DamageEffectComponent.cs" />
     <Compile Include="Components\DisplayPowerUpChoiceComponent.cs" />
     <Compile Include="Components\EnergyEventSystem.cs" />
     <Compile Include="Components\InputHandlers\PowerUpInputHandler.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Systems\AABBTetherSystem.cs" />
     <Compile Include="Systems\AnimationStateUpdateSystem.cs" />
     <Compile Include="Systems\CameraSystem.cs" />
+    <Compile Include="Systems\DamageEffectSystem.cs" />
     <Compile Include="Systems\HealthDrawSystem.cs" />
     <Compile Include="Systems\InteractionSystem.cs" />
     <Compile Include="Systems\Debugging\AABBDebugDrawSystem.cs" />

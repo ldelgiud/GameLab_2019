@@ -128,6 +128,7 @@ namespace Hazmat.States
                     Hazmat.Instance.Content.Load<Effect>(@"shaders/bright")
                 );
             PowerUpSystem powerUpSystem = new PowerUpSystem(this.world);
+            DamageEffectSystem damageEffectSystem = new DamageEffectSystem(this.world);
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
@@ -136,6 +137,7 @@ namespace Hazmat.States
                 eventSystem,
                 interactionSystem,
                 collisionSystem,
+                damageEffectSystem,
                 aISystem,
                 powerUpSystem,
                 powerplantSystem,

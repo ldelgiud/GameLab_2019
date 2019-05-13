@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+
+using DefaultEcs;
+using Hazmat.Components;
 
 using Hazmat.Utilities;
 
@@ -59,6 +63,38 @@ namespace Hazmat.Components
             }
 
             info.updateTimeEffect = info.cachedUpdateTimeEffect;
+        }
+
+        public void EnableDamageEffect(bool enable = true)
+        {
+            //if (enable) ApplyEffect(Hazmat.Instance.Content.Load<Effect>("shaders/blink"));
+            //else RestoreStandardEffect();
+            Debug.WriteLine("Value for enable damage effect is: " + enable);
+            foreach (var mesh in value.Meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    //if (enable) part.Effect = part.Effect.Clone();
+                    part.Effect.Parameters["AmbientIntensity"].SetValue(enable ? 1f : 0f);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Enables blink effext for all childrens of an entity (used for player mainly).
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="enable"></param>
+        public void EnableDamageEffectForChildren(Entity entity, bool enable = true)
+        {
+            foreach(Entity ent in entity.GetChildren())
+            {
+                if (ent.Has<ModelComponent>())
+                {
+                    ref ModelComponent model = ref ent.Get<ModelComponent>();
+                    model.EnableDamageEffect(enable);
+                }
+            }
         }
 
         /// <summary>

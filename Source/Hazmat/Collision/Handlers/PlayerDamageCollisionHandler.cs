@@ -40,6 +40,24 @@ namespace Hazmat.Collision.Handlers
                     {
 
                         ref StatsComponent playerStats = ref collider.Get<StatsComponent>();
+                        ref ModelComponent playerModel = ref collider.Get<ModelComponent>();
+
+                        float timeDamageEffect = 0.2f;
+
+                        if (collider.Has<DamageEffectComponent>())
+                        {
+                            ref DamageEffectComponent damageEffectPlayer = ref collider.Get<DamageEffectComponent>();
+                            damageEffectPlayer.Initialize(timeDamageEffect);
+                        }
+                        else
+                        {
+                            playerModel.EnableDamageEffect();
+                            playerModel.EnableDamageEffectForChildren(collider);
+                            DamageEffectComponent damageEffect = new DamageEffectComponent();
+                            damageEffect.Initialize(timeDamageEffect);
+                            collider.Set(damageEffect);
+                        }
+                        
 
                         energy.CurrentEnergy -= (collidee.Get<DamageComponent>().Damage * (1f - playerStats.Defense));
 
