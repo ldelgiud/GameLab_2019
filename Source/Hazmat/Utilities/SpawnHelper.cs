@@ -168,6 +168,10 @@ namespace Hazmat.Utilities
 
             entity.SetModelAnimation("Take 001");
 
+            var model = entity.Get<ModelComponent>();
+            model.EnableDamageEffect(false);
+            model.EnableDamageEffectForChildren(entity, false);
+
             Debug.WriteLine("END: generation of player_0" + playerID);
         }
 
