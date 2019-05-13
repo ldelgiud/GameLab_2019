@@ -14,13 +14,14 @@ namespace Hazmat.Collision.Handlers
     class DamageHealthCollisionHandler : CollisionHandler
     {
         Score score;
-
+        double dropIncrease;
         public DamageHealthCollisionHandler(World world, Score score) : base(
             new Type[] { typeof(DamageComponent), typeof(AABBComponent), typeof(AllianceMaskComponent)},
             new Type[] { typeof(HealthComponent), typeof(AABBComponent), typeof(AllianceMaskComponent)}
             )
         {
             this.score = score;
+            this.dropIncrease = 0.0;
         }
 
         public override void HandleCollision(CollisionType type, Entity collider, Entity collidee)
@@ -31,7 +32,7 @@ namespace Hazmat.Collision.Handlers
             HealthComponent health = collidee.Get<HealthComponent>();
             DamageComponent damage = collider.Get<DamageComponent>();
             Vector3 collideePos = collidee.Get<Transform3DComponent>().value.Translation;
-
+            /*
             // Apply blink effect
             float timeDamageEffect = 0.2f;
             if (collidee.Has<DamageEffectComponent>())
@@ -46,15 +47,16 @@ namespace Hazmat.Collision.Handlers
                 DamageEffectComponent damageEffect = new DamageEffectComponent();
                 damageEffect.Initialize(timeDamageEffect);
                 collidee.Set(damageEffect);
-            }
+            }*/
 
             health.DealDamage(damage.Damage);
             if (health.isDead())
             {
                 this.score.Kills += 1;
-                bool drop = Constants.RANDOM.NextDouble() < HelperFunctions.DropRate();
+                bool drop = Constants.RANDOM.NextDouble()  < (HelperFunctions.DropRate() + this.dropIncrease);
                 if (drop)
                 {
+                    this.dropIncrease = 0;
                     int size = Constants.RANDOM.Next(100);
                     uint batterySize;
                     if (size <= 60) batterySize = Constants.SMALL_BATTERY_SIZE;
@@ -63,6 +65,7 @@ namespace Hazmat.Collision.Handlers
                     SpawnHelper.SpawnBattery(batterySize, collideePos.ToVector2());
 
                 }
+                else this.dropIncrease += .05;
                 collidee.Delete();
             }
 
