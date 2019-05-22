@@ -77,8 +77,11 @@ namespace Hazmat.Event
                     this.conclusionEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                         new SpineAnimationInfo(@"ui\SPS_Screens",
                         new SkeletonInfo(745, 360, skin: "story_end_01"),
-                        new AnimationStateInfo("press_A_to_continue", true)
+                        new AnimationStateInfo("tip_popup", false)
                         )));
+
+                    var animation = conclusionEntity.Get<SpineAnimationComponent>();
+                    animation.value.AddAnimation(0, "press_A_to_continue", true, 0);
 
                     this.state = State.Conclusion1;
                     break;

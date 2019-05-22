@@ -83,8 +83,11 @@ namespace Hazmat.Event
                     this.tipEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                         new SpineAnimationInfo(@"ui\SPS_Screens",
                         new SkeletonInfo(596, 288, skin: this.name),
-                        new AnimationStateInfo("press_A_to_continue", true)
+                        new AnimationStateInfo("tip_popup", false)
                         )));
+
+                    var animation = tipEntity.Get<SpineAnimationComponent>();
+                    animation.value.AddAnimation(0, "press_A_to_continue", true, 0);
                     this.timeStamp = time.Absolute + 10;
                     this.state = State.Tip;
                     break;

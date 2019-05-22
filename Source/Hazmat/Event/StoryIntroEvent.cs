@@ -119,8 +119,11 @@ namespace Hazmat.Event
                         this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                             new SpineAnimationInfo(@"ui\SPS_Screens",
                             new SkeletonInfo(skin: "story_01"),
-                            new AnimationStateInfo("press_A_to_continue", true)
+                            new AnimationStateInfo("tip_popup", false)
                             )));
+
+                        animation = introEntity.Get<SpineAnimationComponent>();
+                        animation.value.AddAnimation(0, "press_A_to_continue", true, 0);
 
                         this.state = State.Intro1;
 
@@ -179,8 +182,12 @@ namespace Hazmat.Event
                         this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                             new SpineAnimationInfo(@"ui\SPS_Screens",
                             new SkeletonInfo(596, 288, skin: "tip_after_first_steps"),
-                            new AnimationStateInfo("press_A_to_continue", true)
+                            new AnimationStateInfo("tip_popup", false)
                         )));
+
+                        var animation = introEntity.Get<SpineAnimationComponent>();
+                        animation.value.AddAnimation(0, "press_A_to_continue", true, 0);
+
                         this.state = State.Tutorial;
                         this.soundManager.StopSoundEffectInstance(playing);
                         this.playing = this.soundManager.PlaySoundEffectInstance(soundManager.BossEnergy02);

@@ -79,7 +79,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 220))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 295))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.Won ? "VICTORY!" : "DEFEAT",
                     @"font\Playtime",
@@ -89,7 +89,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 170))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 235))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     new DateTime((long)((this.score.TimeEnd - this.score.TimeStart) * 10e6f)).ToString("mm:ss"),
                     @"font\Playtime",
@@ -99,7 +99,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 105))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 170))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.Kills.ToString(),
                     @"font\Playtime",
@@ -110,7 +110,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 40))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 105))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.Batteries.ToString(),
                     @"font\Playtime",
@@ -121,7 +121,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -25))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 40))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.ArmorUpgrades.ToString(),
                     @"font\Playtime",
@@ -132,7 +132,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -90))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -25))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.WeaponUpgrades.ToString(),
                     @"font\Playtime",
@@ -158,9 +158,9 @@ namespace Hazmat.States
                 int myVal = (int)percentage;
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(20, -135))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -85))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
-                    "Distance Covered " + myVal.ToString() + "%",
+                    myVal.ToString() + "%",
                     @"font\Playtime",
                     color: color
                     )));
