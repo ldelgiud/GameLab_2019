@@ -23,7 +23,7 @@ using Spine;
 
 namespace Hazmat.States
 {
-    public class MainMenuState : State.State
+    public class CreditsState : State.State
     {
         GameWindow window;
 
@@ -40,10 +40,8 @@ namespace Hazmat.States
 
             this.inputManager = new InputManager();
             // Input 
-            this.inputManager.Register(Keys.Enter);
-            this.inputManager.Register(Buttons.A);
+            this.inputManager.Register(Keys.Escape);
             this.inputManager.Register(Buttons.B);
-            this.inputManager.Register(Buttons.Y);
 
             this.world = new World();
             this.screenCamera = new Camera2D(
@@ -54,7 +52,6 @@ namespace Hazmat.States
 
             // Resource Managers
             Hazmat.Instance.spineAnimationResourceManager.Manage(this.world);
-            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.MenuSong, loop: true);
 
             this.drawSystem = new SequentialSystem<Time>(
                 new AnimationStateUpdateSystem(this.world),
@@ -68,48 +65,24 @@ namespace Hazmat.States
                 entity.Set(new Transform2DComponent(new Transform2D()));
                 entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                     new SpineAnimationInfo(
-                        @"ui\SPS_Screens", 
-                        new SkeletonInfo(1920, 1080, skin: "main_menu"),
+                        @"ui\SPS_Screens",
+                        new SkeletonInfo(1920, 1080, skin: "credits"),
                         null
                     )
                 ));
             }
         }
 
-        public override void Resume(object data)
-        {
-            Hazmat.Instance.SoundManager.PlayBackgroundMusic(Hazmat.Instance.SoundManager.MenuSong, loop: true);
-            this.inputManager.Clear();
-            this.inputManager.Sleep(10);
-            base.Resume(data);
-        }
-
         public override IStateTransition Update(Time time)
         {
             this.inputManager.Update(time);
 
-            IInputEvent inputEvent = this.inputManager.GetEvent(Keys.Enter) ?? this.inputManager.GetEvent(0, Buttons.A);
-            IInputEvent creditsEvent = this.inputManager.GetEvent(0, Buttons.Y);
-            IInputEvent exitEvent = this.inputManager.GetEvent(Keys.Escape) ?? this.inputManager.GetEvent(0, Buttons.B);
+            IInputEvent backEvent = this.inputManager.GetEvent(Keys.Escape) ?? this.inputManager.GetEvent(0, Buttons.B);
 
-            switch (inputEvent)
+            switch (backEvent)
             {
                 case ReleaseEvent _:
-                    this.stateTransition = new PushStateTransition(new ControlsState());
-                    break;
-            }
-
-            switch (creditsEvent)
-            {
-                case ReleaseEvent _:
-                    this.stateTransition = new PushStateTransition(new CreditsState());
-                    break;
-            }
-
-            switch (exitEvent)
-            {
-                case ReleaseEvent _:
-                    this.stateTransition = new ExitTransition();
+                    this.stateTransition = new PopStateTransition(null);
                     break;
             }
 

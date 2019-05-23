@@ -1,250 +1,278 @@
 
 SPS_Screens.png
-size: 4096,2048
+size: 4096,4096
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 animated_sprites/SPT_UI_Controls
   rotate: false
-  xy: 2, 198
+  xy: 1924, 3333
   size: 1685, 757
   orig: 1685, 757
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_PlayerStats_01
   rotate: false
-  xy: 2984, 1349
+  xy: 1062, 1238
+  size: 720, 688
+  orig: 720, 688
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_UI_HUD_PlayerStats_01_defeat
+  rotate: false
+  xy: 3091, 3194
+  size: 456, 137
+  orig: 456, 137
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_UI_HUD_PlayerStats_01_victory
+  rotate: true
+  xy: 2646, 2419
+  size: 595, 157
+  orig: 595, 157
+  offset: 0, 0
+  index: -1
+animated_sprites/SPT_UI_HUD_PlayerStats_02
+  rotate: false
+  xy: 1924, 2326
   size: 720, 688
   orig: 720, 688
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_StoryEnd_01
-  rotate: true
-  xy: 3706, 1210
+  rotate: false
+  xy: 2, 454
   size: 827, 252
   orig: 827, 252
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Story_01
   rotate: false
-  xy: 1813, 327
+  xy: 2, 200
   size: 824, 252
   orig: 824, 252
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Story_02
   rotate: false
-  xy: 1813, 581
+  xy: 2, 708
   size: 830, 250
   orig: 830, 250
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_TipBG_Big
   rotate: false
-  xy: 1924, 1526
+  xy: 2, 1415
   size: 1058, 511
   orig: 1058, 511
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_TipBG_BossPhone
   rotate: false
-  xy: 2674, 187
+  xy: 3095, 2886
   size: 133, 140
   orig: 133, 140
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_TipBG_BossPortrait
   rotate: false
-  xy: 2645, 575
-  size: 256, 256
-  orig: 256, 256
+  xy: 834, 696
+  size: 262, 262
+  orig: 262, 262
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_TipBG_BossText
-  rotate: false
-  xy: 3091, 798
+  rotate: true
+  xy: 2927, 2477
   size: 537, 45
   orig: 537, 45
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_TipBG_Small
   rotate: false
-  xy: 1924, 1150
+  xy: 2, 1039
   size: 1058, 374
   orig: 1058, 374
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_TipBG_Small_02
   rotate: false
-  xy: 2, 119
+  xy: 2, 960
   size: 1058, 77
   orig: 1058, 77
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_TipBG_Too_Far_Away
-  rotate: false
-  xy: 2903, 538
+  rotate: true
+  xy: 2805, 2412
   size: 602, 46
   orig: 602, 46
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_After_First_Steps
   rotate: false
-  xy: 2, 2
+  xy: 2, 83
   size: 813, 115
   orig: 813, 115
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_At_The_Powerplant
   rotate: true
-  xy: 3960, 1256
+  xy: 3856, 3309
   size: 781, 115
   orig: 781, 115
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_Battery_Powerup
-  rotate: false
-  xy: 1813, 82
+  rotate: true
+  xy: 3611, 3295
   size: 795, 243
   orig: 795, 243
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_First_Enemy
-  rotate: false
-  xy: 2903, 644
+  rotate: true
+  xy: 1784, 1315
   size: 611, 71
   orig: 611, 71
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_Lootbox
-  rotate: true
-  xy: 1689, 202
+  rotate: false
+  xy: 1062, 1114
   size: 753, 122
   orig: 753, 122
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_Too_Far_Away_01
-  rotate: false
-  xy: 1062, 82
+  rotate: true
+  xy: 3973, 3344
   size: 746, 114
   orig: 746, 114
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_Too_Far_Away_02
   rotate: false
-  xy: 2903, 717
+  xy: 2, 2
   size: 645, 79
   orig: 645, 79
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_Tip_Weapon
   rotate: false
-  xy: 2984, 1232
+  xy: 1062, 997
   size: 711, 115
   orig: 711, 115
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_UpgradeArmor_01
   rotate: false
-  xy: 2639, 329
+  xy: 2446, 2080
   size: 197, 244
   orig: 197, 244
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_UpgradeBG_01
   rotate: false
-  xy: 3091, 845
+  xy: 1924, 1939
   size: 520, 385
   orig: 520, 385
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_UpgradeTimerBar
   rotate: false
-  xy: 2838, 440
+  xy: 1062, 973
   size: 512, 22
   orig: 512, 22
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_HUD_UpgradeWeapon_01
-  rotate: false
-  xy: 3673, 966
+  rotate: true
+  xy: 831, 497
   size: 197, 242
   orig: 197, 242
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_MenuBackground
   rotate: false
-  xy: 817, 4
+  xy: 2446, 1965
   size: 200, 113
   orig: 200, 113
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_MenuCredits
   rotate: false
-  xy: 2838, 318
+  xy: 3091, 3072
   size: 281, 62
   orig: 281, 62
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_MenuGameLogo
   rotate: false
-  xy: 1924, 833
+  xy: 1924, 3016
   size: 1165, 315
   orig: 1165, 315
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_MenuNewRun
   rotate: true
-  xy: 3613, 928
+  xy: 2974, 2712
   size: 302, 58
   orig: 302, 58
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_MenuPressAnyKey
-  rotate: false
-  xy: 2838, 464
+  rotate: true
+  xy: 2853, 2474
   size: 540, 72
   orig: 540, 72
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_MenuQuit
   rotate: true
-  xy: 2610, 122
+  xy: 2974, 2507
   size: 203, 62
   orig: 203, 62
   offset: 0, 0
   index: -1
 animated_sprites/SPT_UI_MenuResume
   rotate: true
-  xy: 3872, 932
+  xy: 3034, 2738
   size: 276, 59
   orig: 276, 59
   offset: 0, 0
   index: -1
-animated_sprites/hazmat-splash-screen
+animated_sprites/hazmat-splash-screen-blank
   rotate: false
-  xy: 2, 957
+  xy: 2, 3010
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+animated_sprites/hazmat_credits
+  rotate: false
+  xy: 2, 1928
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
 animated_sprites/press_A_to_continue
-  rotate: true
-  xy: 3933, 921
+  rotate: false
+  xy: 3091, 3028
   size: 287, 42
   orig: 287, 42
   offset: 0, 0
   index: -1
 animated_sprites/press_A_to_pickup_phone
-  rotate: false
-  xy: 2903, 586
+  rotate: true
+  xy: 1857, 1319
   size: 607, 56
   orig: 607, 56
   offset: 0, 0
   index: -1
 animated_sprites/press_B_to_ignore
   rotate: false
-  xy: 2838, 382
+  xy: 3091, 3136
   size: 397, 56
   orig: 397, 56
   offset: 0, 0

@@ -216,6 +216,7 @@
     <Compile Include="ResourceManagers\TileModelResourceManager.cs" />
     <Compile Include="States\ControlsState.cs" />
     <Compile Include="States\CoverState.cs" />
+    <Compile Include="States\CreditsState.cs" />
     <Compile Include="States\GameState.cs" />
     <Compile Include="States\MainMenuState.cs" />
     <Compile Include="States\ScoreState.cs" />

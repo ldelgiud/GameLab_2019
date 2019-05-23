@@ -20,6 +20,8 @@ namespace Hazmat.States
 {
     class ScoreState : State.State
     {
+        static float OFFSET_Y = -100;
+
         GameWindow window;
         InputManager inputManager;
         Camera2D screenCamera;
@@ -67,11 +69,11 @@ namespace Hazmat.States
                 var entity = this.world.CreateEntity();
                 entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(new SpineAnimationInfo(
                     @"ui\SPS_Screens",
-                    new SkeletonInfo(1920, 1080, skin: "player_stats"),
+                    new SkeletonInfo(1920, 1080, skin: this.score.Won ? "player_stats_victory" : "player_stats_defeat"),
                     new AnimationStateInfo("press_A_to_continue", true)
                 )));
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D()));
+                entity.Set(new Transform2DComponent(new Transform2D(position: new Vector2(0, OFFSET_Y))));
             }
 
             var color = new Color(22, 28, 47);
@@ -79,17 +81,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(0, 295))));
-                entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
-                    this.score.Won ? "VICTORY!" : "DEFEAT",
-                    @"font\Playtime",
-                    color: color
-                    )));
-            }
-            {
-                var entity = this.world.CreateEntity();
-                entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 235))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 235 + OFFSET_Y))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     new DateTime((long)((this.score.TimeEnd - this.score.TimeStart) * 10e6f)).ToString("mm:ss"),
                     @"font\Playtime",
@@ -99,7 +91,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 170))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 170 + OFFSET_Y))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.Kills.ToString(),
                     @"font\Playtime",
@@ -110,7 +102,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 105))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 105 + OFFSET_Y))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.Batteries.ToString(),
                     @"font\Playtime",
@@ -121,7 +113,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 40))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, 40 + OFFSET_Y))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.ArmorUpgrades.ToString(),
                     @"font\Playtime",
@@ -132,7 +124,7 @@ namespace Hazmat.States
             {
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -25))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -25 + OFFSET_Y))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     this.score.WeaponUpgrades.ToString(),
                     @"font\Playtime",
@@ -141,7 +133,6 @@ namespace Hazmat.States
             }
 
             {
-
                 Vector2 avgDist = Vector2.Zero;
                 foreach(Entity player in this.players.GetEntities())
                 {
@@ -158,7 +149,7 @@ namespace Hazmat.States
                 int myVal = (int)percentage;
                 var entity = this.world.CreateEntity();
                 entity.Set(new ScreenSpaceComponent());
-                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -85))));
+                entity.Set(new Transform2DComponent(new Transform2D(new Vector2(175, -85 + OFFSET_Y))));
                 entity.Set(new ManagedResource<TextInfo, TextAlias>(new TextInfo(
                     myVal.ToString() + "%",
                     @"font\Playtime",
