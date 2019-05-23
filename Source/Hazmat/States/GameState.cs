@@ -164,7 +164,6 @@ namespace Hazmat.States
             Grid grid = new Grid();
 
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
-
             
             //DRAWING SYSTEMS
             EnergyDrawSystem energyDrawSystem =
@@ -208,6 +207,10 @@ namespace Hazmat.States
 
 
             //-----------------------SPAWNING-----------------------
+            SpawnHelper.SpawnPowerUp(new Vector2(10,10));
+            SpawnHelper.SpawnPowerUp(new Vector2(10,25));
+            SpawnHelper.SpawnPowerUp(new Vector2(10,40));
+
             //ENEMY SPAWNING
             SpawnHelper.SpawnEnemyCamps();
             SpawnHelper.SpawnEnemyCamp(new Vector2(100, 100));

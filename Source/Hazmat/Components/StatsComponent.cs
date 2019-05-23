@@ -9,7 +9,8 @@ namespace Hazmat.Components
 {
     public class StatsComponent
     {
-
+        private ModelComponent GunModelComponent; // used for changing color of gun
+        private ModelComponent[] GunAttachementModelComponent;
         private Entity PlayerEntity;
         private int ArmorLevel;
         private int DamageLevel;
@@ -21,12 +22,14 @@ namespace Hazmat.Components
         public float Damage;
         public float Defense; // in percentage
 
-        public StatsComponent(float speed, float damage, Entity entity)
+        public StatsComponent(float speed, float damage, Entity playerEntity, ModelComponent modelComponent)
         {
             this.Speed = speed;
             this.Damage = damage;
-            this.PlayerEntity = entity;
-            
+            this.PlayerEntity = playerEntity;
+            this.GunModelComponent = modelComponent;
+            this.GunAttachementModelComponent = new ModelComponent[2];
+
             this.Defense = 0;
             this.ArmorLevel = 0;
             this.DamageLevel = 0;
@@ -61,25 +64,62 @@ namespace Hazmat.Components
                 switch (this.DamageLevel)
                 {
                     case 0:
+                        // Projectiles
                         smallGun.ChangeProjectiles("MatProjectile_02");
-                        PlayerEntity.SetAttachment(
+                    
+                        // Gun Attachement
+                        Entity attachement = PlayerEntity.SetAttachment(
                             @"weapons\MED_WP_MatGunBasic_upgrade1",
                             @"weapons\TEX_WP_MatGunBasic_01",
                             rotation: new Vector3(0f,0f,MathHelper.Pi),
                             position: new Vector3(-1.15f, -1f, 0.25f)
                             );
+
+                        //Color change
+                        GunAttachementModelComponent[0] = attachement.Get<ModelComponent>();
+                        GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(0, 1, 0, 1));
+                        GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity",0.8f);
+                        
+                        GunModelComponent.ChangeParameter("AmbientColor", new Vector4(0, 1, 0, 1));
+                        GunModelComponent.ChangeParameter("AmbientIntensity", 0.8f);
+                        
                         break;
                     case 1:
+                        // Projectiles
                         smallGun.ChangeProjectiles("MatProjectile_03");
-                        PlayerEntity.SetAttachment(
+
+                        // Gun Attachement
+                        Entity attachement2 = PlayerEntity.SetAttachment(
                             @"weapons\MED_WP_MatGunBasic_upgrade2",
                             @"weapons\TEX_WP_MatGunBasic_01",
                             rotation: new Vector3(0f, 0f, MathHelper.Pi),
                             position: new Vector3(-1.15f, -1f, 0.25f)
                             );
+
+                        // Color change
+                        GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
+                        GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity", 0.7f);
+
+                        GunAttachementModelComponent[1] = attachement2.Get<ModelComponent>();
+                        GunAttachementModelComponent[1].ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
+                        GunAttachementModelComponent[1].ChangeParameter("AmbientIntensity", 0.7f);
+
+                        GunModelComponent.ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
+                        GunModelComponent.ChangeParameter("AmbientIntensity", 0.7f);
+
                         break;
                     case 2:
                         smallGun.ChangeProjectiles("MatProjectile_04");
+
+                        // Color change
+                        GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
+                        GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity", 0.7f);
+
+                        GunAttachementModelComponent[1].ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
+                        GunAttachementModelComponent[1].ChangeParameter("AmbientIntensity", 1f);
+
+                        GunModelComponent.ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
+                        GunModelComponent.ChangeParameter("AmbientIntensity", 0.7f);
                         break;
                 }
                 PlayerEntity.SetModelAnimation("Take 001");

@@ -9,7 +9,7 @@ using Hazmat.Utilities;
 
 namespace Hazmat.Components
 {
-    struct ModelComponent
+    public struct ModelComponent
     {
         public Model value;
         public ModelInfo info;
@@ -75,7 +75,7 @@ namespace Hazmat.Components
                 foreach (var part in mesh.MeshParts)
                 {
                     //if (enable) part.Effect = part.Effect.Clone();
-                    part.Effect.Parameters["AmbientIntensity"].SetValue(enable ? 1f : 0f);
+                    part.Effect.Parameters["ActivateBlink"].SetValue(enable);
                 }
             }
         }
@@ -127,6 +127,32 @@ namespace Hazmat.Components
             }
         }
 
+        public void ChangeParameter(string parameterID, Vector4 parameterValue)
+        {
+            foreach (var mesh in value.Meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    if (part.Effect.Parameters[parameterID] != null)
+                    {
+                        part.Effect.Parameters[parameterID].SetValue(parameterValue);
+                    }
+                }
+            }
+        }
 
+        public void ChangeParameter(string parameterID, float parameterValue)
+        {
+            foreach (var mesh in value.Meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    if (part.Effect.Parameters[parameterID] != null)
+                    {
+                        part.Effect.Parameters[parameterID].SetValue(parameterValue);
+                    }
+                }
+            }
+        }
     }
 }

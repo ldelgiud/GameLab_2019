@@ -32,8 +32,9 @@ float4 DiffuseColor = float4(1, 1, 1, 1);
 float DiffuseIntensity = 1;
 
 float4 AmbientColor = float4(1, 1, 1, 1);
-
 float AmbientIntensity = 0;
+
+bool ActivateBlink = false;
 
 //--------------------------- TOON SHADER PROPERTIES ------------------------------
 // The color to draw the lines in.  Black is a good default.
@@ -204,9 +205,13 @@ float4 CelPixelShader(VertexToPixel input) : COLOR0
 
 	color = saturate(color * 3); //pump intensity
 
-	return saturate(color + AmbientColor * AmbientIntensity);
-
-
+	if (ActivateBlink) {
+		return float4(1,1,1,1);
+	}
+	else
+	{
+		return saturate(color + AmbientColor * AmbientIntensity);
+	}
 }
 
 // The entire technique for doing toon shading
