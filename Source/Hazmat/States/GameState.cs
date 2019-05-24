@@ -160,7 +160,7 @@ namespace Hazmat.States
             SpawnHelper.SpawnLootStation(new Vector2(-20,-15), 0);
 
             ProcGen.BuildStreet(powerPlant);
-            ProcGen.BuildExtras();
+            //ProcGen.BuildExtras();
             ProcGen.SetSpawnRates();
             Grid grid = new Grid();
 
@@ -217,6 +217,10 @@ namespace Hazmat.States
             // Story Intro Event
             StoryIntroEvent intro = SpawnHelper.SpawnEvent();
             this.SetInstance(intro);
+
+            SpawnHelper.SpawnCar(new Vector2(-10),0);
+            SpawnHelper.SpawnCar(new Vector2(-20),0);
+            SpawnHelper.SpawnCar(new Vector2(-30),0);
             //-----------------------END SPAWNING-----------------------
         }
 

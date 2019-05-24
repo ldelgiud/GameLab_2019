@@ -345,7 +345,7 @@ namespace Hazmat.Utilities
         public static void SpawnSideWalk(Vector2 position, int dir)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, new Vector2(-2.5f), new Vector2(2.5f), false);
+            SpawnHelper.AttachAABB(entity, position, new Vector2(-5f), new Vector2(5f), false);
             entity.Set(new NameComponent() { name = Constants.SIDEWALK_NAME });
 
             entity.Set(new Transform3DComponent(new Transform3D(
@@ -354,7 +354,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"buildings\sidewalk\sidewalk_01",
                 @"buildings\sidewalk\sidewalk_01_tex",
-                scale: new Vector3(6f)
+                scale: new Vector3(12f)
                 )));
             entity.Set(new WorldSpaceComponent());
 
@@ -393,8 +393,8 @@ namespace Hazmat.Utilities
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = Constants.SIDEWALK_BORDER_NAME });
 
-            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 1, 5, false);
-            else SpawnHelper.AttachAABB(entity, position, 5, 1, false);
+            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 2, 10, false);
+            else SpawnHelper.AttachAABB(entity, position, 10, 2, false);
 
             entity.Set(new Transform3DComponent(new Transform3D(
                 position: new Vector3(position, 0),
@@ -404,7 +404,7 @@ namespace Hazmat.Utilities
                 @"buildings\sidewalk\sidewalk_border_01",
                 @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
                 rotation: new Vector3(Vector2.Zero, MathF.PI/2),
-                scale: new Vector3(6f,6f,6f)
+                scale: new Vector3(12f)
                 )));
             entity.Set(new WorldSpaceComponent());
         }
@@ -414,8 +414,8 @@ namespace Hazmat.Utilities
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = Constants.SIDEWALK_BARRIER_NAME });
 
-            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 2, 10, true);
-            else SpawnHelper.AttachAABB(entity, position, 10, 2, true);
+            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 4, 20, true);
+            else SpawnHelper.AttachAABB(entity, position, 20, 4, true);
 
             entity.Set(new Transform3DComponent(new Transform3D(
                 position: new Vector3(position, 0),
@@ -425,7 +425,7 @@ namespace Hazmat.Utilities
                 @"buildings\sidewalk\sidewalk_barrier_01",
                 @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
                 rotation: new Vector3(Vector2.Zero, MathF.PI / 2),
-                scale: new Vector3(6f, 6f, 6f)
+                scale: new Vector3(12f)
                 )));
             entity.Set(new WorldSpaceComponent());
         }
@@ -435,8 +435,8 @@ namespace Hazmat.Utilities
             var entity = SpawnHelper.World.CreateEntity();
             entity.Set(new NameComponent() { name = Constants.SIDEWALK_BARRIER_NAME });
 
-            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 2, 4, true);
-            else SpawnHelper.AttachAABB(entity, position, 4, 2, true);
+            if (dir == 1 || dir == 3) SpawnHelper.AttachAABB(entity, position, 4, 8, true);
+            else SpawnHelper.AttachAABB(entity, position, 8, 4, true);
 
             entity.Set(new Transform3DComponent(new Transform3D(
                 position: new Vector3(position, 0),
@@ -446,7 +446,7 @@ namespace Hazmat.Utilities
                 @"buildings\sidewalk\sidewalk_barrier_02",
                 @"buildings\sidewalk\sidewalk_border_barriers_01_tex",
                 rotation: new Vector3(Vector2.Zero, MathF.PI / 2),
-                scale: new Vector3(6f, 6f, 6f)
+                scale: new Vector3(12f)
                 )));
             entity.Set(new WorldSpaceComponent());
         }
@@ -630,6 +630,38 @@ namespace Hazmat.Utilities
             ));
             entity.Set(new EnergyPickupComponent(sized));
 
+        }
+
+        public static void SpawnCar(Vector2 position, int dir)
+        {
+            float radian = dir * MathF.PI / 2 + (float) Constants.RANDOM.NextDouble();
+            int width = 10, height = 6;
+            if (dir == 1 || dir == 3)
+            {
+                width = 6;
+                height = 10;
+            }
+            if (!SpawnHelper.IsCollisionFree(new AABB(position, 1, 1), true)) return;
+
+            var entity = SpawnHelper.World.CreateEntity();
+            int number = Constants.RANDOM.Next(1, 3);
+            string path = @"buildings\environment\car_0" + number;
+            string texpath = @"buildings\environment\car_tex";
+            SpawnHelper.AttachAABB(entity, position, width, height, true);
+
+            entity.Set(new NameComponent() { name = Constants.CAR_NAME + number });
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0),
+                rotation: new Vector3(Vector2.Zero, radian)
+                )));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+                path,
+                texpath,
+                standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.02f) },
+                scale: new Vector3(6f),
+                rotation: new Vector3(Vector2.Zero, -MathF.PI/2)
+                )));
         }
 
         public static void SpawnLootStation(Vector2 position, float dir)

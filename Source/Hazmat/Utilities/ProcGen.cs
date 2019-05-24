@@ -80,7 +80,7 @@ namespace Hazmat.Utilities
 
                     //Add grass Background
                     ProcGen.TileMap.AddTile(
-                        new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(5f)),
+                        new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(10f)),
                         new TileModelInfo(@"static_sprites/SPT_EN_Tile_Grass_01"),
                         "grassTile"
                         );
@@ -177,7 +177,7 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
                                 new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), 
-                                scale: new Vector3(5f)),
+                                scale: new Vector3(10f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02"),
                             "dirtTile"
                             );
@@ -186,7 +186,7 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
                                 new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), 
-                                scale: new Vector3(5f)),
+                                scale: new Vector3(10f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_03"),
                             "dirtTile"
                             );
@@ -195,7 +195,7 @@ namespace Hazmat.Utilities
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
                                 new Vector3(position, Constants.LAYER_BACKGROUND_DETAIL), 
-                                scale: new Vector3(5f)),
+                                scale: new Vector3(10f)),
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_04"),
                             "dirtTile"
                             );
@@ -245,23 +245,41 @@ namespace Hazmat.Utilities
             ProcGen.Street.AddTile(position);
             ProcGen.TileMap.RemoveTiles(new Transform2D(position));
             float radian = direction * MathF.PI / 2;
-            //Add roadblock
-            bool block = Constants.RANDOM.Next(8) == 1;
-            if (block && !changeDir)
+            //Add roadblock & cars
             {
-                Vector2 roadblockOffset = new Vector2(0, 4f).Rotate(radian);
-                if (Constants.RANDOM.Next(2) == 0) roadblockOffset *= -1;
-                SpawnHelper.SpawnRoadBlock(position+roadblockOffset, direction);
+                bool block = Constants.RANDOM.Next(8) == 1;
+                if (block && !changeDir)
+                {
+                    Vector2 roadblockOffset = new Vector2(0, 4f).Rotate(radian);
+                    if (Constants.RANDOM.Next(2) == 0) roadblockOffset *= -1;
+                    SpawnHelper.SpawnRoadBlock(position + roadblockOffset, direction);
+                    if (Constants.RANDOM.Next(100) <= 65)
+                    {
+                        Vector2 carOffset = new Vector2(-5.5f, 0).Rotate(radian);
+                        int carDir = (int) (radian / (MathF.PI*2));
+                        SpawnHelper.SpawnCar(position+roadblockOffset+carOffset,carDir);
+                    }
+                } else if (Constants.RANDOM.Next(100) <= 13)
+                {
+                    float carRadian = (float) Constants.RANDOM.NextDouble() * MathF.PI * 2; 
+                    Vector2 carOffset = (Vector2.One*5).Rotate(carRadian);
+                    SpawnHelper.SpawnCar(position + carOffset, direction);
+                }
             }
+
             //Add house
-            bool house1 = Constants.RANDOM.Next(100) <= 60;
-            bool house2 = Constants.RANDOM.Next(100) <= 60; 
-            if (walls && !changeDir && !turnedBefore && !willTurnNext)
             {
-                Vector2 houseOffset = new Vector2(0,25).Rotate(radian);
-                if (house1) SpawnHelper.SpawnRandomHouse(position+houseOffset, (direction-1)%4);
-                if (house2) SpawnHelper.SpawnRandomHouse(position-houseOffset, (direction+1)%4);
+                bool house1 = Constants.RANDOM.Next(100) <= 60;
+                bool house2 = Constants.RANDOM.Next(100) <= 60;
+                if (walls && !changeDir && !turnedBefore && !willTurnNext)
+                {
+                    Vector2 houseOffset = new Vector2(0, 35).Rotate(radian);
+                    if (house1) SpawnHelper.SpawnRandomHouse(position + houseOffset, (direction - 1) % 4);
+                    if (house2) SpawnHelper.SpawnRandomHouse(position - houseOffset, (direction + 1) % 4);
+                }
             }
+
+            
             Vector3 rotation = new Vector3(Vector2.Zero, (1 - direction) * MathF.PI / 2);
             float step = Constants.TILE_SIZE / 4;
 
@@ -293,7 +311,7 @@ namespace Hazmat.Utilities
                         new Transform3D(
                             new Vector3(position, Constants.LAYER_BACKGROUND),
                             rotation: rotation,
-                            scale: new Vector3(5f)),
+                            scale: new Vector3(10f)),
                         new TileModelInfo(
                             "static_sprites/SPT_EN_Tile_MainStreetCorner_01"),
                         Constants.STREET_TILE_NAME
@@ -353,7 +371,7 @@ namespace Hazmat.Utilities
                 }
                 // Right
                 ProcGen.TileMap.AddTile(
-                    new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(5f), rotation: rotation),
+                    new Transform3D(new Vector3(position, Constants.LAYER_BACKGROUND), scale: new Vector3(10f), rotation: rotation),
                     new TileModelInfo("static_sprites/SPT_EN_Tile_MainStreet_01"),
                     Constants.STREET_TILE_NAME
                     );
