@@ -10,10 +10,12 @@ namespace Hazmat.Components
 {
     struct ModelAnimationComponent
     {
+        public float playbackSpeed;
         public Animations animations;
 
         public ModelAnimationComponent(Animations animations)
         {
+            this.playbackSpeed = 1;
             this.animations = animations;
         }
     }

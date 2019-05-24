@@ -29,6 +29,35 @@ namespace Hazmat.Utilities.Extensions
             }
         }
 
+        public static void SetModelAnimationFrame(this Entity entity, float time)
+        {
+            if (entity.Has<ModelAnimationComponent>())
+            {
+                ref var animation = ref entity.Get<ModelAnimationComponent>();
+
+                animation.animations.Update(new TimeSpan(0, 0, 1) * time, false, Matrix.Identity);
+            }
+
+            foreach (var child in entity.GetChildren())
+            {
+                child.SetModelAnimationFrame(time);
+            }
+        }
+
+        public static void SetModelAnimationPlaybackSpeed(this Entity entity, float playbackSpeed)
+        {
+            if (entity.Has<ModelAnimationComponent>())
+            {
+                ref var animation = ref entity.Get<ModelAnimationComponent>();
+                animation.playbackSpeed = playbackSpeed;
+            }
+
+            foreach (var child in entity.GetChildren())
+            {
+                child.SetModelAnimationPlaybackSpeed(playbackSpeed);
+            }
+        }
+
         public static void SyncModelAnimation(this Entity entity)
         {
             ref var animation = ref entity.Get<ModelAnimationComponent>();

@@ -28,10 +28,10 @@ namespace Hazmat.Interaction.Handlers
         public override bool HandleInteraction(IInputEvent inputEvent, Entity interactor, Entity interactee)
         {
 
-            switch (inputEvent)
-            {
-                case ReleaseEvent _:
-                    {
+            //switch (inputEvent)
+            //{
+            //    case ReleaseEvent _:
+            //        {
                         interactee.Remove<InteractableComponent>();
 
                         var entity = this.world.CreateEntity();
@@ -40,11 +40,11 @@ namespace Hazmat.Interaction.Handlers
                         _event.Initialize(this.world, entity);
                         entity.Set(new EventComponent(_event));
                         entity.Set(new NameComponent() { name = "conclusion event" });
-                    }
+                    //}
                     return true;
-            }
+            //}
 
-            return false;
+            //return false;
         }
     }
 }

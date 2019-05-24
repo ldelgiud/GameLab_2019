@@ -54,12 +54,12 @@ namespace Hazmat.Systems
                 ref var player = ref playerEntity.Get<PlayerComponent>();
                 ref var playerTransform = ref playerEntity.Get<Transform3DComponent>();
 
-                var inputEvent = this.inputManager.GetEvent(player.Id, Buttons.X);
+                //var inputEvent = this.inputManager.GetEvent(player.Id, Buttons.X);
 
-                if (inputEvent == null && player.Id == 0)
-                {
-                    inputEvent = this.inputManager.GetEvent(Keys.E);
-                }
+                //if (inputEvent == null && player.Id == 0)
+                //{
+                //    inputEvent = this.inputManager.GetEvent(Keys.E);
+                //}
 
                 foreach (var entity in entities)
                 {
@@ -91,11 +91,11 @@ namespace Hazmat.Systems
                             interactable.playerNearby = true;
                         }
 
-                        if (inputEvent != null)
-                        {
+                        //if (inputEvent != null)
+                        //{
                             foreach (var handler in this.interactionHandlers)
                             {
-                                bool remove = handler.HandleInteractions(inputEvent, playerEntity, entity);
+                                bool remove = handler.HandleInteractions(null, playerEntity, entity);
                                 if (remove)
                                 {
                                     this.inputManager.RemoveEvent(player.Id, Buttons.X);
@@ -106,9 +106,9 @@ namespace Hazmat.Systems
                                 }
                             }
                         }
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         // If player was nearby and now is not anymore, then make glowing disappear
                         if (interactable.playerNearby && entity.Has<Texture2DComponent>())
                         {
@@ -124,7 +124,7 @@ namespace Hazmat.Systems
                             interactable.playerNearby = false;
                         }
 
-                    }
+                    //}
                 }
             }
         }

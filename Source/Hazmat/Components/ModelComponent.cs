@@ -35,11 +35,12 @@ namespace Hazmat.Components
         /// <param name="updateTimeEffect"></param>
         public void ApplyEffect(Effect effect, bool updateTimeEffect = false)
         {
+            var _effect = effect.Clone();
             foreach(var mesh in value.Meshes)
             {
                 foreach(var part in mesh.MeshParts)
                 {
-                    part.Effect = effect.Clone();
+                    part.Effect = _effect;
                 }
             }
 
@@ -54,11 +55,12 @@ namespace Hazmat.Components
         /// <param name="updateTimeEffect"></param>
         public void RestoreStandardEffect()
         {
+            var effect = info.standardEffect.Clone();
             foreach (var mesh in value.Meshes)
             {
                 foreach (var part in mesh.MeshParts)
                 {
-                    part.Effect = info.standardEffect.Clone();
+                    part.Effect = effect;
                 }
             }
 

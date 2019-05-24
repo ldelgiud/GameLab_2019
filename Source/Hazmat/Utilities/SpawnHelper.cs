@@ -172,6 +172,7 @@ namespace Hazmat.Utilities
             }
 
             entity.SetModelAnimation("Take 001");
+            entity.SetModelAnimationPlaybackSpeed(0);
 
             var model = entity.Get<ModelComponent>();
             model.EnableDamageEffect(false);
@@ -726,7 +727,7 @@ namespace Hazmat.Utilities
             )));
 
             // AABB for main entity, not solid
-            SpawnHelper.AttachAABB(entity, position, 2, 2, false);
+            SpawnHelper.AttachAABB(entity, position, 4, 4, false);
 
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());

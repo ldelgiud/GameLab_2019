@@ -29,7 +29,22 @@ namespace Hazmat.Components.InputHandlers
             switch (inputManager.GetEvent(0, ThumbSticks.Left))
             {
                 case ValueEvent<Vector2> value:
-                    velComp.velocity = player.Speed * value.current;
+                    if (value.current.LengthSquared() != 0)
+                    {
+                        velComp.velocity = player.Speed * value.current;
+                        entity.SetModelAnimationPlaybackSpeed(1);
+                        gamepadDirection = true;
+                        var current = Camera2D.PerspectiveToWorld(value.current);
+                        current.Normalize();
+                        var rotation = transform.value.Rotation;
+                        transform.value.Rotation = new Vector3(rotation.X, rotation.Y, current.ToRotation());
+                    }
+                    else
+                    {
+                        velComp.velocity = Vector2.Zero;
+                        entity.SetModelAnimationFrame(0);
+                        entity.SetModelAnimationPlaybackSpeed(0f);
+                    }
                     break;
             }
 

@@ -48,11 +48,12 @@ namespace Hazmat.ResourceManagers
                 }
                 else // Textured custom shader effect
                 {
+                    var effect = info.standardEffect.Clone();
                     foreach (var mesh in model.Meshes)
                     {
                         foreach (var part in mesh.MeshParts)
                         {
-                            part.Effect = info.standardEffect.Clone();
+                            part.Effect = effect;
                             part.Effect.Parameters["Texture"].SetValue(texture);
                         }
                     }
