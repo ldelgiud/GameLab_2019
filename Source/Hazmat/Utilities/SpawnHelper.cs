@@ -320,6 +320,28 @@ namespace Hazmat.Utilities
             //Debug.WriteLine("AABB upperBound: " + rotatedAABB.UpperBound);
         }
 
+        public static void SpawnPlayerHouse()
+        {
+            Vector2 position = new Vector2(-25,0);
+            var entity = SpawnHelper.World.CreateEntity();
+            SpawnHelper.AttachAABB(entity, position, new Vector2(-15f, -10f), new Vector2(15f, 10f), true);
+            entity.Set(new NameComponent() { name = Constants.PLAYER_HOUSE_NAME });
+
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position: new Vector3(position, 0)
+                )));
+            entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
+            @"buildings\houses\house3",
+            @"buildings\houses\house3_tex",
+            scale: new Vector3(6f),
+            rotation: new Vector3(Vector2.Zero, MathF.PI/2),
+            standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
+            standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.04f) }
+            )));
+
+            entity.Set(new WorldSpaceComponent());
+        }
+
         public static void SpawnSideWalk(Vector2 position, int dir)
         {
             var entity = SpawnHelper.World.CreateEntity();

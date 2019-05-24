@@ -156,6 +156,9 @@ namespace Hazmat.States
 
             ProcGen.BuildBackground();
             ProcGen.BuildPowerPlant(powerPlant);
+            SpawnHelper.SpawnPlayerHouse();
+            SpawnHelper.SpawnLootStation(new Vector2(-20,-15), 0);
+
             ProcGen.BuildStreet(powerPlant);
             ProcGen.BuildExtras();
             ProcGen.SetSpawnRates();
