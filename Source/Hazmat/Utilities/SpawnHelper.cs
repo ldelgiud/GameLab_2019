@@ -363,6 +363,7 @@ namespace Hazmat.Utilities
             Vector2 borderOffset = (new Vector2(Constants.TILE_SIZE / 4, 0)).Rotate(dir * MathF.PI / 2);
             SpawnHelper.SpawnSidewalkBorder(position + borderOffset, (dir+1)%4);
         }
+        
         /*
         public static void SpawnRandomSuitcase(Vector2 position)
         {
@@ -490,6 +491,7 @@ namespace Hazmat.Utilities
 
         public static void SpawnRock(Vector2 position, int number)
         {
+            if (!SpawnHelper.IsCollisionFree(new AABB(position, 6, 6), true)) return;
             var entity = SpawnHelper.World.CreateEntity();
 
             float radian = ((float)Constants.RANDOM.NextDouble()) * MathF.PI*2;
@@ -630,43 +632,21 @@ namespace Hazmat.Utilities
 
         }
 
-        public static void SpawnLootStation(Vector2 position)
+        public static void SpawnLootStation(Vector2 position, float dir)
         {
             var entity = SpawnHelper.World.CreateEntity();
 
-            
-
             // Create 2 more entities since we need 2 aabbs.
-            Vector2 offset = new Vector2(3.3f, 0);
-            
+            float radian = dir * MathF.PI / 2;
+            Vector2 offset = new Vector2(3.3f, 0).Rotate(radian);
             // AABB Left Side
             var entityL = SpawnHelper.World.CreateEntity();
-            AABB aabbL = new AABB()
-            {
-                LowerBound = new Vector2(-1f, -1f) * 0.8f,
-                UpperBound = new Vector2(1f, 1f) * 0.8f
-            };
-            Element<Entity> elementL = new Element<Entity>(aabbL) { Value = entityL };
-            elementL.Span.LowerBound += position - offset;
-            elementL.Span.UpperBound += position - offset;
-            SpawnHelper.quadtree.AddNode(elementL);
+            SpawnHelper.AttachAABB(entityL, position - offset, 1.6f, 1.6f, true);
 
             // AABB Right Side
             var entityR = SpawnHelper.World.CreateEntity();
-            AABB aabbR = new AABB()
-            {
-                LowerBound = new Vector2(-1f, -1f) * 0.8f,
-                UpperBound = new Vector2(1f, 1f) * 0.8f
-            };
-            Element<Entity> elementR = new Element<Entity>(aabbL) { Value = entityR };
-            elementR.Span.LowerBound += position + offset;
-            elementR.Span.UpperBound += position + offset;
-            SpawnHelper.quadtree.AddNode(elementR);
-
-            entityL.Set(new AABBComponent(SpawnHelper.quadtree, aabbL, elementL, true));
-            entityR.Set(new AABBComponent(SpawnHelper.quadtree, aabbR, elementR, true));
+            SpawnHelper.AttachAABB(entityR, position + offset, 1.6f, 1.6f, true);
             
-
             // Add AABB Entities as childs of main enitity.
             entity.SetAsParentOf(entityL);
             entity.SetAsParentOf(entityR);
@@ -685,11 +665,13 @@ namespace Hazmat.Utilities
             )));
 
             // AABB for main entity, not solid
-            SpawnHelper.AttachAABB(entity, position, new Vector2(1), new Vector2(1), false);
+            SpawnHelper.AttachAABB(entity, position, 2, 2, false);
 
             entity.Set(new InteractableComponent());
             entity.Set(new LootableComponent());
-            entity.Set(new Transform3DComponent(new Transform3D(position.ToVector3())));
+            entity.Set(new Transform3DComponent(new Transform3D(
+                position.ToVector3(),
+                rotation: new Vector3(Vector2.Zero, radian))));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new NameComponent() { name = Constants.LOOTING_STATION_NAME });
         }
@@ -897,7 +879,7 @@ namespace Hazmat.Utilities
 
         public static void SpawnRoadBlock(Vector2 position, int direction)
         {
-
+            if (!SpawnHelper.IsCollisionFree(new AABB(position, 6, 6), true)) return;
             var entity = SpawnHelper.World.CreateEntity();
             
             entity.Set(new NameComponent() { name = Constants.ROADBLOCK_NAME});

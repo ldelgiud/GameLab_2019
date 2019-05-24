@@ -55,18 +55,6 @@ namespace Hazmat.Interaction.Handlers
                         Constants.BIG_BATTERY_SCALE
                         );
 
-                    //Normal Batteries 
-                    Vector2 disp =  new Vector2((float)Constants.RANDOM.NextDouble() * 2f, (float)Constants.RANDOM.NextDouble() * 2f);
-                    SpawnHelper.SpawnBattery(
-                        Constants.MEDIUM_BATTERY_SIZE,
-                        transform.value.Translation.ToVector2() + disp
-                        );
-                    SpawnHelper.SpawnBattery(
-                        Constants.MEDIUM_BATTERY_SIZE, 
-                        transform.value.Translation.ToVector2() - disp
-                        );
-
-
                     return true;
             }
 
