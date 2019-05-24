@@ -17,6 +17,7 @@ float Contrast = 0;
 float Saturation = 0.4;
 float Hue = 0.2;
 
+bool redVignetteActive = false;
 
 const float3 lumCoeff = float3(0.2125, 0.7154, 0.0721);
 
@@ -88,8 +89,11 @@ float4 VignettePS(VertexShaderOutput input) : COLOR0
 	outputColor.rgb = lerp(intensity, outputColor.rgb, Saturation );            
 	
 	float dist = distance(input.texCoord, float2(0.5, 0.5)) * 0.7;
-	outputColor.rgb *= smoothstep(radiusX, radiusY, dist);
+	float blackness = smoothstep(radiusX, radiusY, dist);
+	outputColor.rgb *= blackness;
+	if (redVignetteActive) outputColor.rgb = saturate(outputColor.rgb	+ ((1 - blackness) * float3(1, 0, 0)));
 	outputColor.a = alpha;
+	
 	return outputColor;
 }
 

@@ -75,8 +75,8 @@ namespace Hazmat.Utilities
 
             var transform = new Transform3D(position.ToVector3());
             entity.Set(new PlayerComponent(playerID));
-            var playerStats = new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0, entity);
-            entity.Set(playerStats);
+            //var playerStats = new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0, entity);
+            //entity.Set(playerStats);
             entity.Set(new AllianceMaskComponent(Alliance.Player));
             entity.Set(new Transform3DComponent(transform));
             entity.Set(new WorldSpaceComponent());
@@ -137,7 +137,6 @@ namespace Hazmat.Utilities
 
                 SpawnHelper.AttachAABB(gunEntity, Vector2.Zero, -Vector2.One, Vector2.One, false);
                 gunEntity.Set(new AABBTetherComponent(parent: entity));
-                gunEntity.Set(new InputComponent(new ShootingInputHandler(SpawnHelper.World, playerStats)));
                 gunEntity.SetAsChildOf(entity);
 
                 gunEntity.Set(new SmallGunComponent(
@@ -164,6 +163,12 @@ namespace Hazmat.Utilities
                 gunEntity.Set(new NameComponent() { name = Constants.GUN_NAME });
 
                 entity.Set(new WeaponComponent(gunEntity));
+
+                var playerStats = new StatsComponent(Constants.PLAYER_INITIAL_SPEED, 0, entity, gunEntity.Get<ModelComponent>());
+                entity.Set(playerStats);
+
+                gunEntity.Set(new InputComponent(new ShootingInputHandler(SpawnHelper.World, playerStats)));
+
             }
 
             entity.SetModelAnimation("Take 001");
