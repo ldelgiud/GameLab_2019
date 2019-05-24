@@ -108,7 +108,7 @@ namespace Hazmat.Utilities
             plant.Position = position;
 
             //Bounding box stuff
-            SpawnHelper.AttachAABB(entity, position, 50, 50, true);
+            SpawnHelper.AttachAABB(entity, position, 40, 40, true);
 
             //Create entity and attach the components to it
             entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
@@ -116,7 +116,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"buildings\houses\MES_EN_Powerplant_01",
                 @"buildings\houses\TEX_EN_Powerplant_01",
-                scale: new Vector3(0.2f,0.2f,0.1f),
+                scale: new Vector3(0.1f),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                 updateTimeEffect: true,
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
@@ -169,7 +169,7 @@ namespace Hazmat.Utilities
                     Vector2 closestTile = Street.FindClosestTile(position);
                     float streetSqrdDist = (position- closestTile).LengthSquared();
                     
-                    if (position.LengthSquared() <= 30*30) continue;
+                    if (position.LengthSquared() <= 40*40) continue;
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
                     if (rand <= 10 && streetSqrdDist >= 10 * 10)
@@ -242,7 +242,6 @@ namespace Hazmat.Utilities
             bool turnedBefore,
             bool willTurnNext)
         {
-            walls = true;
             ProcGen.Street.AddTile(position);
             ProcGen.TileMap.RemoveTiles(new Transform2D(position));
             float radian = direction * MathF.PI / 2;
@@ -417,8 +416,8 @@ namespace Hazmat.Utilities
             Vector3 scale = new Vector3(0.2f, 0.2f, 1);
             
             //Target position is diagonally previous tile of plants tile
-            int x = (int)(plant.Position.X / Constants.TILE_SIZE) - 3;
-            int y = (int)(plant.Position.Y / Constants.TILE_SIZE) - 3;
+            int x = (int)(plant.Position.X / Constants.TILE_SIZE);
+            int y = (int)(plant.Position.Y / Constants.TILE_SIZE);
 
             Vector2 target = new Vector2(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE);
             //0 = right; 1 = top;
@@ -435,8 +434,10 @@ namespace Hazmat.Utilities
                 nextChangeDir = Constants.RANDOM.Next(7) == 1 && (!prevChangeDir) && (!changeDir);
                 if(curr.X == nextLootStation || curr.Y == nextLootStation)
                 {
+                    Vector2 stationOffset = new Vector2(0, -Constants.TILE_SIZE / 2)
+                        .Rotate(currentDir * MathF.PI/2 );
                     nextLootStation += Constants.LOOT_STATIONS_DIST;
-                    SpawnHelper.SpawnLootStation(curr,1-currentDir);
+                    SpawnHelper.SpawnLootStation(curr + stationOffset,currentDir);
                 }
                 ProcGen.PlaceStreetTile(
                     curr, currentDir, changeDir, parity, walls, prevChangeDir, nextChangeDir);

@@ -36,7 +36,7 @@ namespace Hazmat.States
         float timeStamp;
         SpriteBatch spriteBatch;
         Entity entity;
-       
+        Rectangle screenRectangle;
         public override void Initialize(Time time, Hazmat game)
         {
             this.inputManager = new InputManager();
@@ -73,7 +73,10 @@ namespace Hazmat.States
             videoTexture = null;
             timeStamp = time.Absolute + 62;
 
-
+            Rectangle screen = new Rectangle(game.GraphicsDevice.Viewport.X,
+                game.GraphicsDevice.Viewport.Y,
+                game.GraphicsDevice.Viewport.Width,
+                game.GraphicsDevice.Viewport.Height);
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
 
         }
@@ -91,7 +94,7 @@ namespace Hazmat.States
             if (videoTexture != null)
             {
                 spriteBatch.Begin();
-                spriteBatch.Draw(videoTexture, new Rectangle(0, 0, 400, 240), Color.White);
+                spriteBatch.Draw(videoTexture, screenRectangle, Color.White);
                 spriteBatch.End();
             }
 

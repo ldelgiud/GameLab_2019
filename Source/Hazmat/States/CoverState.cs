@@ -83,7 +83,7 @@ namespace Hazmat.States
             switch (inputEvent)
             {
                 case ReleaseEvent _:
-                    this.stateTransition = new SwapStateTransition(new VideoState());
+                    this.stateTransition = new SwapStateTransition(new MainMenuState());
                     break;
             }
 
