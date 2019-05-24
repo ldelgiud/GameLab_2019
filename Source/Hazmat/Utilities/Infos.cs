@@ -125,7 +125,7 @@ namespace Hazmat.Utilities
         }
     }
 
-    struct ModelInfo
+    public struct ModelInfo
     {
         public String name;
         public String textureName;

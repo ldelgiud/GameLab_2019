@@ -129,6 +129,7 @@ namespace Hazmat.States
                 );
             PowerUpSystem powerUpSystem = new PowerUpSystem(this.world);
             DamageEffectSystem damageEffectSystem = new DamageEffectSystem(this.world);
+            LowEnergyEffectSystem lowEnergyEffectSystem = new LowEnergyEffectSystem(this.world, energy, this.postprocessor);
 
             this.updateSystem = new SequentialSystem<Time>(
                 inputSystem,
@@ -138,6 +139,7 @@ namespace Hazmat.States
                 interactionSystem,
                 collisionSystem,
                 damageEffectSystem,
+                lowEnergyEffectSystem,
                 aISystem,
                 powerUpSystem,
                 powerplantSystem,
@@ -165,7 +167,6 @@ namespace Hazmat.States
             Grid grid = new Grid();
 
             this.SetInstance(new PathRequestManager(new PathFinder(grid)));
-
             
             //DRAWING SYSTEMS
             EnergyDrawSystem energyDrawSystem =
@@ -209,6 +210,10 @@ namespace Hazmat.States
 
 
             //-----------------------SPAWNING-----------------------
+            SpawnHelper.SpawnPowerUp(new Vector2(10,10));
+            SpawnHelper.SpawnPowerUp(new Vector2(10,25));
+            SpawnHelper.SpawnPowerUp(new Vector2(10,40));
+
             //ENEMY SPAWNING
             SpawnHelper.SpawnEnemyCamps();
             SpawnHelper.SpawnEnemyCamp(new Vector2(100, 100));
@@ -241,9 +246,10 @@ namespace Hazmat.States
             renderCapture = new RenderCapture(Hazmat.Instance.GraphicsDevice);
             Effect contrastEffect = game.Content.Load<Effect>(@"shaders/post");
             // Vignette
-            contrastEffect.Parameters["radiusX"].SetValue(0.5f);
-            contrastEffect.Parameters["radiusY"].SetValue(0.37f);
+            contrastEffect.Parameters["radiusX"].SetValue(0.5f); //0.5
+            contrastEffect.Parameters["radiusY"].SetValue(0.37f); //0.37
             contrastEffect.Parameters["alpha"].SetValue(0.5f);
+            contrastEffect.Parameters["redVignetteActive"].SetValue(false);
             // Colors
             contrastEffect.Parameters["Contrast"].SetValue(0.2f);
             contrastEffect.Parameters["Brightness"].SetValue(0.05f);

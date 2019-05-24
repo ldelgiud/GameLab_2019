@@ -232,6 +232,7 @@
     <Compile Include="Systems\Debugging\GraphDrawSystem.cs" />
     <Compile Include="Systems\AISystem.cs" />
     <Compile Include="Systems\EnergyDrawSystem.cs" />
+    <Compile Include="Systems\LowEnergyEffectSystem.cs" />
     <Compile Include="Systems\ModelAnimationUpdateSystem.cs" />
     <Compile Include="Systems\PathFinderSystem.cs" />
     <Compile Include="Systems\PowerplantSystem.cs" />
