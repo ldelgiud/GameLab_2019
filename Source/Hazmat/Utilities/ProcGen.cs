@@ -242,6 +242,7 @@ namespace Hazmat.Utilities
             bool turnedBefore,
             bool willTurnNext)
         {
+            walls = true;
             ProcGen.Street.AddTile(position);
             ProcGen.TileMap.RemoveTiles(new Transform2D(position));
             float radian = direction * MathF.PI / 2;
@@ -287,15 +288,9 @@ namespace Hazmat.Utilities
             {
                 if (direction == 0) rotation.Z += MathF.PI / 2; 
                 Vector2 extraSideWalkOffset =
-                    new Vector2(3 * Constants.TILE_SIZE / 4, -3 * Constants.TILE_SIZE / 4)
+                    new Vector2(2 * Constants.TILE_SIZE / 3, -2 * Constants.TILE_SIZE / 3)
                     .Rotate(direction * MathF.PI);
-                //Turn Left
-                Vector2 extraSidewalkBarrierOffset1 =
-                    new Vector2(Constants.TILE_SIZE, - 3 * Constants.TILE_SIZE / 4)
-                    .Rotate(direction * MathF.PI);
-                Vector2 extraSidewalkBarrierOffset2 =
-                     new Vector2(3 * Constants.TILE_SIZE / 4, -Constants.TILE_SIZE)
-                     .Rotate(direction * MathF.PI);
+                
                 SpawnHelper.SpawnCompleteSidewalk(position, direction, walls);
                 SpawnHelper.SpawnCompleteSidewalk(position, 3-direction, walls);
                 SpawnHelper.SpawnSideWalk(position + extraSideWalkOffset, 100);
@@ -303,8 +298,18 @@ namespace Hazmat.Utilities
 
                 if (walls )
                 {
+                    Vector2 extraSidewalkBarrierOffset1 =
+                    new Vector2(5 * Constants.TILE_SIZE / 6, -2 * Constants.TILE_SIZE / 3)
+                    .Rotate(direction * MathF.PI);
+                    Vector2 extraSidewalkBarrierOffset2 =
+                         new Vector2(2 * Constants.TILE_SIZE / 3, -5 * Constants.TILE_SIZE / 6)
+                         .Rotate(direction * MathF.PI);
+                    Vector2 extraSidewalkBarrierOffset3 =
+                        new Vector2(-5 * Constants.TILE_SIZE / 6, 5 * Constants.TILE_SIZE / 6)
+                        .Rotate(direction * MathF.PI);
                     SpawnHelper.SpawnSmallSidewalkBarrier(position + extraSidewalkBarrierOffset1, 1);
-                    SpawnHelper.SpawnSmallSidewalkBarrier(position + extraSidewalkBarrierOffset2, 0);
+                    SpawnHelper.SpawnTinySidewalkBarrier(position + extraSidewalkBarrierOffset2, 0);
+                    SpawnHelper.SpawnTinySidewalkBarrier(position + extraSidewalkBarrierOffset3, 0);
                 }
 
                 ProcGen.TileMap.AddTile(
@@ -323,19 +328,20 @@ namespace Hazmat.Utilities
                 {
                     SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, walls);
                     SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, walls);
-                } else if (willTurnNext)
+                }
+                else if (willTurnNext)
                 {
                     if (direction == 0)
                     {
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, walls);
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, false);
-                        Vector2 BarrierOffset = new Vector2(-Constants.TILE_SIZE / 4, Constants.TILE_SIZE);
+                        Vector2 BarrierOffset = new Vector2(-Constants.TILE_SIZE / 4, 5*Constants.TILE_SIZE/6);
                         SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 0);
                     } else
                     {
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, walls);
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, false);
-                        Vector2 BarrierOffset = new Vector2(Constants.TILE_SIZE, -Constants.TILE_SIZE / 4);
+                        Vector2 BarrierOffset = new Vector2(5 *Constants.TILE_SIZE / 6, -Constants.TILE_SIZE / 4);
                         SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 1);
                     }
 
@@ -346,26 +352,26 @@ namespace Hazmat.Utilities
                     {
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, false);
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, walls);
-                        Vector2 BarrierOffset = new Vector2(Constants.TILE_SIZE / 4, -Constants.TILE_SIZE);
+                        Vector2 BarrierOffset = new Vector2(Constants.TILE_SIZE / 4, -5 * Constants.TILE_SIZE / 6);
                         SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 0);
                     }
                     else
                     {
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 1) % 4, false);
                         SpawnHelper.SpawnCompleteSidewalk(position, (direction + 3) % 4, walls);
-                        Vector2 BarrierOffset = new Vector2(-Constants.TILE_SIZE, Constants.TILE_SIZE / 4);
+                        Vector2 BarrierOffset = new Vector2(-5 * Constants.TILE_SIZE / 6, Constants.TILE_SIZE / 4);
                         SpawnHelper.SpawnSmallSidewalkBarrier(position + BarrierOffset, 1);
                     }
                 }
                 if (parity==1)
                 {
-                    Vector2 LampOffset = new Vector2(Constants.TILE_SIZE / 4, 3 * Constants.TILE_SIZE / 4)
+                    Vector2 LampOffset = new Vector2(0, 2 * Constants.TILE_SIZE / 3)
                         .Rotate(radian);
                     SpawnHelper.SpawnLamp(position + LampOffset, MathF.PI / 2 - radian);
                 }
                 else if (parity == 3)
                 {
-                    Vector2 LampOffset = new Vector2(Constants.TILE_SIZE / 4,- 3 * Constants.TILE_SIZE / 4)
+                    Vector2 LampOffset = new Vector2(0,- 2 * Constants.TILE_SIZE / 3)
                         .Rotate(radian);
                     SpawnHelper.SpawnLamp(position + LampOffset, MathF.PI / 2 - radian);
                 }
