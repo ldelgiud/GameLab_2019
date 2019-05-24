@@ -381,31 +381,50 @@ namespace Hazmat.Utilities
                     Constants.STREET_TILE_NAME
                     );
             }
-            ProcGen.SpreadClothes(position);
+            ProcGen.SpreadObjects(position);
         }
 
-        private static void SpreadClothes(Vector2 position)
+        private static void SpreadObjects(Vector2 position)
         {
-            float radian = (float) Constants.RANDOM.NextDouble() * MathF.PI * 2;
-            int counter = 0;
-            Vector2 offset = new Vector2(2.5f, 0);
-            float radianOffset = (MathF.PI + (float)Constants.RANDOM.NextDouble() * MathF.PI) / 4;
-            while(Constants.RANDOM.Next(2)==0 && counter < 4)
+            //CLOTHES
             {
-                counter++;
-                offset = offset.Rotate(radianOffset);
-                int clotheType = Constants.RANDOM.Next(1, 7);
-                ProcGen.TileMap.AddTile(
-                        new Transform3D(
-                            new Vector3(position+offset, 0.1f),
-                            rotation: new Vector3(Vector2.Zero, radian),
-                            scale: new Vector3(1f)),
-                        new TileModelInfo(
-                            "static_sprites/SPT_EN_Clothes_0" + clotheType),
-                        "clothes"
-                        );
+                float radian = (float)Constants.RANDOM.NextDouble() * MathF.PI * 2;
+                int counter = 0;
+                Vector2 offset = new Vector2(5f, 0);
+                float radianOffset = (MathF.PI + (float)Constants.RANDOM.NextDouble() * MathF.PI) / 4;
+                while (Constants.RANDOM.Next(2) == 0 && counter < 4)
+                {
+                    counter++;
+                    float offsetSize = (float) Constants.RANDOM.NextDouble() + 0.5f;
+                    offset = offset.Rotate(radianOffset);
+                    int clotheType = Constants.RANDOM.Next(1, 7);
+                    ProcGen.TileMap.AddTile(
+                            new Transform3D(
+                                new Vector3(position + offset*offsetSize, 0.1f),
+                                rotation: new Vector3(Vector2.Zero, radian),
+                                scale: new Vector3(1f)),
+                            new TileModelInfo(
+                                "static_sprites/SPT_EN_Clothes_0" + clotheType),
+                            "clothes"
+                            );
+                }
             }
-            
+
+            //SUITCASES
+            {
+                float radian = (float)Constants.RANDOM.NextDouble() * MathF.PI * 2;
+                int counter = 0;
+                Vector2 offset = new Vector2(5f, 0);
+                float radianOffset = (MathF.PI + (float)Constants.RANDOM.NextDouble() * MathF.PI) / 4;
+                while (Constants.RANDOM.Next(2) == 0 && counter < 2)
+                {
+                    counter++;
+                    offset = offset.Rotate(radianOffset);
+                    float offsetSize = (float)Constants.RANDOM.NextDouble() + 0.5f;
+                    SpawnHelper.SpawnRandomSuitcase(position + offset * offsetSize);
+                }
+            }
+
         }
 
         public static void BuildStreet(PowerPlant plant)

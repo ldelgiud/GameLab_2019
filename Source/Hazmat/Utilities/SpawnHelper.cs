@@ -377,11 +377,11 @@ namespace Hazmat.Utilities
             float radian = (int)(Constants.RANDOM.NextDouble() * Math.PI * 2);
 
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, new Vector2(1), new Vector2(1), true);
+            SpawnHelper.AttachAABB(entity, position, new Vector2(1), new Vector2(1), false);
             entity.Set(new NameComponent() { name = Constants.SUITCASE_NAME + suitcaseType });
 
             entity.Set(new Transform3DComponent(new Transform3D(
-                position: new Vector3(position, 0),
+                position: new Vector3(position, 1),
                 rotation: new Vector3(Vector2.Zero, radian)
                 )));
 
@@ -389,8 +389,9 @@ namespace Hazmat.Utilities
                 @"buildings\suitcases\MES_EN_suitcase"+ suitcaseType +"_01",
                 @"buildings\suitcases\TEX_EN_suitcases",
                 scale: new Vector3(0.1f),
+                rotation: new Vector3(MathF.PI/2,0,0),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
-                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 1f) }
+                standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 1.5f) }
                 )));
         }
 
