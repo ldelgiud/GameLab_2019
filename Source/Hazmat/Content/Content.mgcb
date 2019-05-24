@@ -991,6 +991,11 @@
 /processorParam:TextureFormat=Color
 /build:gradient_tex.png
 
+#begin hazmat-intro.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:hazmat-intro.mp4
+
 #begin items/SPS_Collectables.atlas
 /copy:items/SPS_Collectables.atlas
 
