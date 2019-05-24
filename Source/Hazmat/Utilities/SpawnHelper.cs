@@ -672,11 +672,16 @@ namespace Hazmat.Utilities
                 height = 10;
             }
             if (!SpawnHelper.IsCollisionFree(new AABB(position, 1, 1), true)) return;
-
+            
             var entity = SpawnHelper.World.CreateEntity();
             int number = Constants.RANDOM.Next(1, 3);
             string path = @"buildings\environment\car_0" + number;
+
             string texpath = @"buildings\environment\car_tex";
+            int randomCarTex = Constants.RANDOM.Next(3);
+            if (randomCarTex == 1) texpath += "_blue";
+            if (randomCarTex == 2) texpath += "_purple";
+
             SpawnHelper.AttachAABB(entity, position, width, height, true);
 
             entity.Set(new NameComponent() { name = Constants.CAR_NAME + number });

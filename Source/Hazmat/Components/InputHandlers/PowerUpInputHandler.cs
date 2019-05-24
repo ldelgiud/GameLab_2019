@@ -59,6 +59,9 @@ namespace Hazmat.Components.InputHandlers
                                )
                            ));
 
+                        Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.PowerUp);
+
+
                         stats.CurrentlyDisplayingOtherPowerUp = false;
                         displayPowerUp.DisplayForChoiceAnimation();
                         displayPowerUp.UpgradeAlreadyChoosen = true;
@@ -78,6 +81,8 @@ namespace Hazmat.Components.InputHandlers
                                    new AnimationStateInfo("upgrade_right", false)
                                )
                            ));
+
+                        Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.PowerUp);
 
                         stats.CurrentlyDisplayingOtherPowerUp = false;
                         displayPowerUp.DisplayForChoiceAnimation();

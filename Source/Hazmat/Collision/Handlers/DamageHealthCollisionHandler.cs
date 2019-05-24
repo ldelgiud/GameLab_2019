@@ -49,6 +49,9 @@ namespace Hazmat.Collision.Handlers
                 collidee.Set(damageEffect);
             }*/
 
+            Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.EnemyHit);
+
+
             health.DealDamage(damage.Damage);
             if (health.isDead())
             {
@@ -67,6 +70,7 @@ namespace Hazmat.Collision.Handlers
                 }
                 else this.dropIncrease += .05;
                 collidee.Delete();
+                Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.EnemyDead);
             }
 
             collider.Delete();

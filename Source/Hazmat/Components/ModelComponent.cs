@@ -154,5 +154,19 @@ namespace Hazmat.Components
                 }
             }
         }
+
+        public void ChangeParameter(string parameterID, Texture2D parameterValue)
+        {
+            foreach (var mesh in value.Meshes)
+            {
+                foreach (var part in mesh.MeshParts)
+                {
+                    if (part.Effect.Parameters[parameterID] != null)
+                    {
+                        part.Effect.Parameters[parameterID].SetValue(parameterValue);
+                    }
+                }
+            }
+        }
     }
 }

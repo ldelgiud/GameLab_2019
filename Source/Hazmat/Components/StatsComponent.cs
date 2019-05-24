@@ -4,6 +4,7 @@ using System.Diagnostics;
 using DefaultEcs;
 using Hazmat.Utilities.Extensions;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Hazmat.Components
 {
@@ -22,6 +23,10 @@ namespace Hazmat.Components
         public float Damage;
         public float Defense; // in percentage
 
+        public Texture2D texture2DGreenGun;
+        public Texture2D texture2DOrangeGun;
+        public Texture2D texture2DWhiteGun;
+
         public StatsComponent(float speed, float damage, Entity playerEntity, ModelComponent modelComponent)
         {
             this.Speed = speed;
@@ -33,6 +38,10 @@ namespace Hazmat.Components
             this.Defense = 0;
             this.ArmorLevel = 0;
             this.DamageLevel = 0;
+
+            this.texture2DGreenGun = Hazmat.Instance.Content.Load<Texture2D>(@"weapons\TEX_WP_MatGunBasic_01Green");
+            this.texture2DOrangeGun = Hazmat.Instance.Content.Load<Texture2D>(@"weapons\TEX_WP_MatGunBasic_01Orange");
+            this.texture2DWhiteGun = Hazmat.Instance.Content.Load<Texture2D>(@"weapons\TEX_WP_MatGunBasic_01White");
         }
 
         public void UpgradeSpeed(int amount = 2)
@@ -77,12 +86,15 @@ namespace Hazmat.Components
 
                         //Color change
                         GunAttachementModelComponent[0] = attachement.Get<ModelComponent>();
-                        GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(0, 1, 0, 1));
-                        GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity",0.8f);
-                        
-                        GunModelComponent.ChangeParameter("AmbientColor", new Vector4(0, 1, 0, 1));
-                        GunModelComponent.ChangeParameter("AmbientIntensity", 0.8f);
-                        
+                        GunAttachementModelComponent[0].ChangeParameter("Texture", texture2DGreenGun);
+                        //GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(0, 1, 0, 1));
+                        //GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity",0.8f);
+
+                        //GunModelComponent.ChangeParameter("AmbientColor", new Vector4(0, 1, 0, 1));
+                        //GunModelComponent.ChangeParameter("AmbientIntensity", 0.8f);
+
+                        GunModelComponent.ChangeParameter("Texture", texture2DGreenGun);
+
                         break;
                     case 1:
                         // Projectiles
@@ -97,29 +109,39 @@ namespace Hazmat.Components
                             );
 
                         // Color change
-                        GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
-                        GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity", 0.7f);
+                        //GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
+                        //GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity", 0.7f);
 
                         GunAttachementModelComponent[1] = attachement2.Get<ModelComponent>();
-                        GunAttachementModelComponent[1].ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
-                        GunAttachementModelComponent[1].ChangeParameter("AmbientIntensity", 0.7f);
+                        GunAttachementModelComponent[1].ChangeParameter("Texture", texture2DOrangeGun);
 
-                        GunModelComponent.ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
-                        GunModelComponent.ChangeParameter("AmbientIntensity", 0.7f);
+                        //GunAttachementModelComponent[1].ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
+                        //GunAttachementModelComponent[1].ChangeParameter("AmbientIntensity", 0.7f);
+
+                        //GunModelComponent.ChangeParameter("AmbientColor", new Vector4(1, 0.5f, 0, 1));
+                        //GunModelComponent.ChangeParameter("AmbientIntensity", 0.7f);
+                        GunAttachementModelComponent[0].ChangeParameter("Texture", texture2DOrangeGun);
+                        GunModelComponent.ChangeParameter("Texture", texture2DOrangeGun);
+
 
                         break;
                     case 2:
                         smallGun.ChangeProjectiles("MatProjectile_04");
 
                         // Color change
-                        GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
-                        GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity", 0.7f);
+                        //GunAttachementModelComponent[0].ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
+                        //GunAttachementModelComponent[0].ChangeParameter("AmbientIntensity", 0.7f);
 
-                        GunAttachementModelComponent[1].ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
-                        GunAttachementModelComponent[1].ChangeParameter("AmbientIntensity", 1f);
+                        //GunAttachementModelComponent[1].ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
+                        //GunAttachementModelComponent[1].ChangeParameter("AmbientIntensity", 1f);
 
-                        GunModelComponent.ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
-                        GunModelComponent.ChangeParameter("AmbientIntensity", 0.7f);
+                        //GunModelComponent.ChangeParameter("AmbientColor", new Vector4(1, 1, 1, 1));
+                        //GunModelComponent.ChangeParameter("AmbientIntensity", 0.7f);
+
+                        GunAttachementModelComponent[1].ChangeParameter("Texture", texture2DWhiteGun);
+                        GunAttachementModelComponent[0].ChangeParameter("Texture", texture2DWhiteGun);
+                        GunModelComponent.ChangeParameter("Texture", texture2DWhiteGun);
+
                         break;
                 }
                 PlayerEntity.SetModelAnimation("Take 001");

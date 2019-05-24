@@ -36,6 +36,9 @@ namespace Hazmat.Music
         public SoundEffect MatFirstTutorial { get; private set; }
         public SoundEffect MatWin { get; private set; }
         public SoundEffect Ringtone { get; private set; }
+        public SoundEffect EnemyHit { get; private set; }
+        public SoundEffect EnemyDead { get; private set; }
+        public SoundEffect PowerUp { get; private set; }
         // List of Songs
         public Song InGameSong { get; private set; }
         public Song MenuSong { get; private set; }
@@ -135,6 +138,9 @@ namespace Hazmat.Music
             this.BossPlant08 = Content.Load<SoundEffect>(@"sounds\Boss_08reachPlant");
             this.BossResolution09 = Content.Load<SoundEffect>(@"sounds\Boss_09resolution");
             this.Ringtone = Content.Load<SoundEffect>(@"sounds\Phone_Ringtone");
+            this.EnemyHit = Content.Load<SoundEffect>(@"sounds\Enemy_Hit");
+            this.EnemyDead = Content.Load<SoundEffect>(@"sounds\Enemy_Die");
+            this.PowerUp = Content.Load<SoundEffect>(@"sounds\PowerUp");
         }
 
     }

@@ -96,6 +96,30 @@
 /processorParam:TextureFormat=Color
 /build:buildings/environment/car_tex.png
 
+#begin buildings/environment/car_tex_blue.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:buildings/environment/car_tex_blue.png
+
+#begin buildings/environment/car_tex_purple.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:buildings/environment/car_tex_purple.png
+
 #begin buildings/environment/MES_EN_LootStation_01.FBX
 /importer:FbxImporter
 /processor:ModelProcessor
@@ -1162,6 +1186,18 @@
 /processorParam:Quality=Best
 /build:sounds/Boss_09resolution.wav
 
+#begin sounds/Enemy_Die.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Enemy_Die.wav
+
+#begin sounds/Enemy_Hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/Enemy_Hit.wav
+
 #begin sounds/Mat_dying.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -1197,6 +1233,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:sounds/Phone_Ringtone.wav
+
+#begin sounds/PowerUp.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/PowerUp.wav
 
 #begin ui/HealthBar_G.png
 /importer:TextureImporter
@@ -1464,6 +1506,54 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:weapons/TEX_WP_MatGunBasic_01.png
+
+#begin weapons/TEX_WP_MatGunBasic_01Green.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:weapons/TEX_WP_MatGunBasic_01Green.png
+
+#begin weapons/TEX_WP_MatGunBasic_01Orange.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:weapons/TEX_WP_MatGunBasic_01Orange.png
+
+#begin weapons/TEX_WP_MatGunBasic_01White.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:weapons/TEX_WP_MatGunBasic_01White.png
+
+#begin weapons/TEX_WP_MatGunBasic_01Yellow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:weapons/TEX_WP_MatGunBasic_01Yellow.png
 
 #begin weapons/TEX_WP_Plasma_01_BC.png
 /importer:TextureImporter
