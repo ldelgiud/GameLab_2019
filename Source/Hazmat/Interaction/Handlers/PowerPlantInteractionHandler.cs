@@ -32,6 +32,8 @@ namespace Hazmat.Interaction.Handlers
             {
                 case ReleaseEvent _:
                     {
+                        interactee.Remove<InteractableComponent>();
+
                         var entity = this.world.CreateEntity();
 
                         var _event = new StoryConclusionEvent();
