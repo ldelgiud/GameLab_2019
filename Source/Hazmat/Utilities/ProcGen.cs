@@ -108,14 +108,7 @@ namespace Hazmat.Utilities
             plant.Position = position;
 
             //Bounding box stuff
-            AABB aabb = new AABB()
-            {
-                LowerBound = new Vector2(-5, -5),
-                UpperBound = new Vector2(5, 5)
-            };
-            Element<Entity> element = new Element<Entity>(aabb) { Value = entity };
-            element.Span.LowerBound += position;
-            element.Span.UpperBound += position;
+            SpawnHelper.AttachAABB(entity, position, 50, 50, true);
 
             //Create entity and attach the components to it
             entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, 0))));
@@ -123,16 +116,13 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"buildings\houses\MES_EN_Powerplant_01",
                 @"buildings\houses\TEX_EN_Powerplant_01",
-                scale: new Vector3(0.1f, 0.1f, 0.05f),
+                scale: new Vector3(0.2f,0.2f,0.1f),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/toon"),
                 updateTimeEffect: true,
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.1f) }
             )));
-            entity.Set(new AABBComponent(SpawnHelper.quadtree, aabb, element, true));
             entity.Set(new PowerPlantComponent());
             entity.Set(new InteractableComponent());
-
-            SpawnHelper.quadtree.AddNode(element);
 
             Debug.WriteLine("End: Powerplant Generation");
 
@@ -403,22 +393,27 @@ namespace Hazmat.Utilities
             Vector3 scale = new Vector3(0.2f, 0.2f, 1);
             
             //Target position is diagonally previous tile of plants tile
-            int x = (int)(plant.Position.X / Constants.TILE_SIZE);
-            int y = (int)(plant.Position.Y / Constants.TILE_SIZE);
+            int x = (int)(plant.Position.X / Constants.TILE_SIZE) - 3;
+            int y = (int)(plant.Position.Y / Constants.TILE_SIZE) - 3;
 
             Vector2 target = new Vector2(x * Constants.TILE_SIZE, y * Constants.TILE_SIZE);
             //0 = right; 1 = top;
-            int currentDir = Constants.RANDOM.Next(2);
+            int currentDir = 0;
             bool walls = false;
             int parity = 0;
             bool changeDir = false;
             bool prevChangeDir = changeDir;
             bool nextChangeDir;
+            int nextLootStation = Constants.LOOT_STATIONS_DIST;
 
             while (curr.X < target.X && curr.Y < target.Y)
             {
                 nextChangeDir = Constants.RANDOM.Next(7) == 1 && (!prevChangeDir) && (!changeDir);
-
+                if(curr.X == nextLootStation || curr.Y == nextLootStation)
+                {
+                    nextLootStation += Constants.LOOT_STATIONS_DIST;
+                    SpawnHelper.SpawnLootStation(curr,1-currentDir);
+                }
                 ProcGen.PlaceStreetTile(
                     curr, currentDir, changeDir, parity, walls, prevChangeDir, nextChangeDir);
                 if ((changeDir && currentDir == 0) || (!changeDir && currentDir == 1))
