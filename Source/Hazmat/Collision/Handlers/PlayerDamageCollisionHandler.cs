@@ -60,9 +60,9 @@ namespace Hazmat.Collision.Handlers
                             damageEffect.Initialize(timeDamageEffect);
                             collider.Set(damageEffect);
                         }
-                        
 
-                        energy.CurrentEnergy -= (collidee.Get<DamageComponent>().Damage * (1f - playerStats.Defense));
+                        DamageComponent damageC = collidee.Get<DamageComponent>();
+                        energy.CurrentEnergy -= (damageC.Damage * (1f - playerStats.Defense));
 
                         if (energy.CurrentEnergy == 0)
                         {
@@ -71,6 +71,9 @@ namespace Hazmat.Collision.Handlers
                         {
                             soundManager.PlaySoundEffect(soundManager.MatHit);
                         }
+
+                        Vector3 collideePos = collidee.Get<Transform3DComponent>().value.Translation;
+                        SpawnHelper.SpawnExplosion(collideePos.ToVector2(), damageC.animationPath, damageC.skinPath);
                         collidee.Delete();
 
                         GamePad.SetVibration(0, 0, 0);

@@ -5,6 +5,7 @@ using DefaultEcs;
 using Hazmat.Components;
 using Hazmat.Utilities;
 using Hazmat.Utilities.Extensions;
+using Microsoft.Xna.Framework;
 
 namespace Hazmat.Collision.Handlers
 {
@@ -26,6 +27,11 @@ namespace Hazmat.Collision.Handlers
             switch (type)
             {
                 case CollisionType.Start:
+                    Vector3 colliderPos = collider.Get<Transform3DComponent>().value.Translation;
+                    DamageComponent damage = collider.Get<DamageComponent>();
+
+                    SpawnHelper.SpawnExplosion(colliderPos.ToVector2(), damage.animationPath, damage.skinPath);
+
                     collider.Delete();
                     break;
             }

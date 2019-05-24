@@ -8,11 +8,15 @@ namespace Hazmat.Components
 {
     class DamageComponent
     {
+        public string animationPath;
+        public string skinPath;
         public float Damage { get; }
 
-        public DamageComponent(float damage)
+        public DamageComponent(float damage, string animationPath, string skinPath)
         {
+            this.animationPath = animationPath;  
             this.Damage = damage;
+            this.skinPath = skinPath;
         }
     }
 }

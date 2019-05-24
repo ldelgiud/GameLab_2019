@@ -32,6 +32,7 @@ namespace Hazmat.Collision.Handlers
             HealthComponent health = collidee.Get<HealthComponent>();
             DamageComponent damage = collider.Get<DamageComponent>();
             Vector3 collideePos = collidee.Get<Transform3DComponent>().value.Translation;
+            Vector3 colliderPos = collider.Get<Transform3DComponent>().value.Translation;
             /*
             // Apply blink effect
             float timeDamageEffect = 0.2f;
@@ -69,6 +70,7 @@ namespace Hazmat.Collision.Handlers
                 collidee.Delete();
             }
 
+            SpawnHelper.SpawnExplosion(colliderPos.ToVector2(), damage.animationPath, damage.skinPath);
             collider.Delete();
         }
     }

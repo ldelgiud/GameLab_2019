@@ -10,7 +10,7 @@ namespace Hazmat.Components
     {
         public float totalTimeEffect { get; private set; }
         public float currentTimeEffect { get; private set; }
-
+        
         public void Initialize(float totalTimeEffect)
         {
             this.totalTimeEffect = totalTimeEffect;

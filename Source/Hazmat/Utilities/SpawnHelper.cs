@@ -146,7 +146,8 @@ namespace Hazmat.Utilities
                     reloadTime: Constants.PLAYER_RELOAD_TIME,
                     projectileSkin: "MatProjectile_01",
                     projectileAnimation: "MatProjectile_01",
-                    alliance: Alliance.Player));
+                    alliance: Alliance.Player,
+                    animationPath: "MatProjectile_Death_01"));
 
                 gunEntity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                     @"weapons\MED_WP_MatGunBasic_01",
@@ -179,7 +180,7 @@ namespace Hazmat.Utilities
 
             Debug.WriteLine("END: generation of player_0" + playerID);
         }
-
+        /*
         /// <summary>
         /// Spawns a collectable gun without an initial parent.
         /// </summary>
@@ -223,7 +224,7 @@ namespace Hazmat.Utilities
             List<Entity> entities = SpawnHelper.CollisionCheck(gunEntity.Get<AABBComponent>().aabb, true);
             foreach (Entity ent in entities) ent.Delete();
             return gunEntity;
-        }
+        }*/
 
         public static void SpawnRandomHouse(Vector2 position, int dir)
         {
@@ -574,6 +575,28 @@ namespace Hazmat.Utilities
 
         }
 
+        public static void SpawnExplosion(Vector2 position, string animationPath, string projectileSkinPath)
+        {
+           
+            var entity = SpawnHelper.World.CreateEntity();
+            SpawnHelper.AttachAABB(entity, position, 1, 1, false);
+
+
+            entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, Constants.LAYER_FOREGROUND))));
+            entity.Set(new WorldSpaceComponent());
+            entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
+                new SpineAnimationInfo(
+                    @"items\SPS_Projectiles",
+                    new SkeletonInfo(3f, 3f, skin: projectileSkinPath, translation: new Vector3(0, 0, 1f)),
+                    new AnimationStateInfo(animationPath, false)
+                )
+            ));
+            
+            entity.Set(new NameComponent() { name = Constants.EXPLOSION_NAME });
+            entity.Set(new TTLComponent(0.5f));
+
+        }
+
         /// <summary>
         /// Spawn an enemy entity at given position in offline state
         /// </summary>
@@ -774,7 +797,8 @@ namespace Hazmat.Utilities
                 reloadTime: Constants.MAILBOX_RELOAD_TIME,
                 projectileSkin: "EnemyProjectile_01",
                 projectileAnimation: "EnemyProjectile_01",
-                alliance: Alliance.Hostile));
+                alliance: Alliance.Hostile,
+                animationPath: "EnemyProjectile_Death_01"));
             entity.Set(new AIComponent(new ShooterOffline(entity)));
             entity.Set(new NameComponent() { name = Constants.SHOOTER_NAME });
         }
@@ -795,7 +819,7 @@ namespace Hazmat.Utilities
                     new Tuple<string, float>("LineThickness", 0.01f)},
                 scale: new Vector3(6f)
                 )));
-            entity.Set(new DamageComponent(200f));
+            entity.Set(new DamageComponent(200f, "EnemyExplosion_01", "EnemyExplosion_01"));
         }
 
         public static void SpawnMailBox(Vector2 position)
@@ -820,7 +844,8 @@ namespace Hazmat.Utilities
                 reloadTime: Constants.MAILBOX_RELOAD_TIME,
                 projectileSkin: "EnemyProjectile_01",
                 projectileAnimation: "EnemyProjectile_01",
-                alliance: Alliance.Hostile));
+                alliance: Alliance.Hostile,
+                animationPath: "EnemyProjectile_Death_01"));
 
         }
 

@@ -129,6 +129,7 @@ namespace Hazmat.Utilities
         public static string SUITCASE_NAME = "suitcase_0";
         public static string PLAYER_HOUSE_NAME = "player_house";
         public static string CAR_NAME = "car_0";
+        public static string EXPLOSION_NAME = "explosion";
 
     }
 }

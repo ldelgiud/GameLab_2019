@@ -22,7 +22,7 @@ namespace Hazmat.Components
 
         public string ProjectileSkinName { get; private set; }
         public string ProjectileAnimationName { get; private set; }
-
+        public string animationPath;
 
         public SmallGunComponent(
             float damage, 
@@ -31,7 +31,8 @@ namespace Hazmat.Components
             float reloadTime, 
             string projectileSkin,
             string projectileAnimation,
-            Alliance alliance)
+            Alliance alliance,
+            string animationPath)
         {
             this.damage = damage;
             this.projectileSpeed = projectileSpeed;
@@ -41,6 +42,7 @@ namespace Hazmat.Components
             this.timeLastShot = 0f;
             this.alliance = alliance;
 
+            this.animationPath = animationPath;
             this.ProjectileSkinName = projectileSkin;// "MatProjectile_01";
             this.ProjectileAnimationName = projectileAnimation;// "MatProjectile_01"; //taken from items\SPS_Projectiles
         }
@@ -70,17 +72,18 @@ namespace Hazmat.Components
                 )
             ));
 
-            entity.Set(new DamageComponent(this.damage + this.additionalDamage)); // added for collision handling
+            entity.Set(new DamageComponent(this.damage + this.additionalDamage, this.animationPath, this.ProjectileSkinName)); // added for collision handling
             entity.Set(new NameComponent() { name = "bullet" });
             entity.Set(new TTLComponent(Constants.TTL_BULLET));
             entity.Set(new AllianceMaskComponent(this.alliance));
             timeLastShot = absoluteTime;
         }
 
-        public void ChangeProjectiles(string projSkinName, string projAnimName = "MatProjectile_01")
+        public void ChangeProjectiles(string projSkinName, string animationPath = "MatProjectile_Death_01", string projAnimName = "MatProjectile_01")
         {
             this.ProjectileSkinName = projSkinName;
             this.ProjectileAnimationName = projAnimName;
+            this.animationPath = animationPath;
         }
     }
 }
