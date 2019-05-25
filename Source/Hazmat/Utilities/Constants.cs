@@ -15,7 +15,7 @@ namespace Hazmat.Utilities
         //PLAYER STATS
         public static float PLAYER_RELOAD_TIME = 0.15f;              //TESTED
         public static float BULLET_SIZE = 1f;                       //TESTED
-        public static int PLAYER_INITIAL_SPEED = 50;                //TESTED
+        public static int PLAYER_INITIAL_SPEED = 20;                //TESTED
         public static double PLAYER_INITIAL_ENERGY = 1000;
         public static float PLAYER_INITIAL_DAMAGE = 40;
         //PLAYER UPGRADES
@@ -24,7 +24,7 @@ namespace Hazmat.Utilities
 
         //PROCGEN
         public static int LOOT_STATIONS_DIST = 500;
-        public static double STREET_SPAWN_RATE = 0.75;
+        public static double STREET_SPAWN_RATE = 1.0;
         public static float TILE_SIZE = 20;
         public static float LEFT_BORDER = -200;
         public static float RIGHT_BORDER = 1800;
@@ -35,6 +35,10 @@ namespace Hazmat.Utilities
         public static Vector2 BOTTOM_LEFT_CORNER =
             new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
+        //CAMP SPAWNING
+        public static int MIN_ENEMIES_PER_CAMP = 6;
+        public static int MAX_ENEMIES_PER_CAMP = 9;
+        public static int CAMP_RANGE = 35;
         //POWERPLANT STATS
         public static double PLANT_PLAYER_DISTANCE = 1700;
         public static double MIN_DEGREE = 20;
