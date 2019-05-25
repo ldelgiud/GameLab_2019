@@ -581,8 +581,11 @@ namespace Hazmat.Utilities
             var entity = SpawnHelper.World.CreateEntity();
             SpawnHelper.AttachAABB(entity, position, 1, 1, false);
 
-
-            entity.Set(new Transform3DComponent(new Transform3D(new Vector3(position, Constants.LAYER_FOREGROUND))));
+            float radianZ = (float)Constants.RANDOM.NextDouble() * MathF.PI * 2;
+            entity.Set(new Transform3DComponent(
+                new Transform3D(
+                    position: new Vector3(position, Constants.LAYER_FOREGROUND),
+                    rotation: new Vector3(Vector2.Zero, radianZ))));
             entity.Set(new WorldSpaceComponent());
             entity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
                 new SpineAnimationInfo(
@@ -604,7 +607,7 @@ namespace Hazmat.Utilities
         private static Entity SpawnBasicEnemy(Vector2 position)
         {
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, 3.5f, 3.5f,true);
+            SpawnHelper.AttachAABB(entity, position, 4f, 4f,true);
             float offset = Math.Min((position.Length() / (float)Constants.PLANT_PLAYER_DISTANCE) * 200, 200)+10;
             int extraHealth = ((int)offset / 50) * 50;
             //Create entity and attach its components
@@ -849,11 +852,12 @@ namespace Hazmat.Utilities
 
         }
 
-        public static void SpawnRandomEnemy(bool shooter, Vector2 seed, int range)
+        public static void SpawnRandomEnemy(bool kamikaze, Vector2 seed)
         {
             bool collides;
             int sanityCheck = 0;
             Vector2 position;
+            int range = Constants.CAMP_RANGE;
             do
             {
                 collides = false;
@@ -863,8 +867,8 @@ namespace Hazmat.Utilities
 
                 AABB aabb = new AABB()
                 {
-                    LowerBound = new Vector2(-3f, -3f),
-                    UpperBound = new Vector2(3f, 3f)
+                    LowerBound = new Vector2(-2.5f, -2.5f),
+                    UpperBound = new Vector2(2.5f, 2.5f)
                 };
                 Element<Entity> element = new Element<Entity>(aabb);
                 element.Span.LowerBound += position;
@@ -885,21 +889,20 @@ namespace Hazmat.Utilities
 
             if (collides) return;
 
-            if (shooter) SpawnHelper.SpawnShooter(position);
-            else SpawnHelper.SpawnKamikaze(position);
-
+            if (kamikaze) SpawnHelper.SpawnKamikaze(position);
+            else SpawnHelper.SpawnShooter(position);
         }
 
         public static void SpawnEnemyCamp(Vector2 position) 
         {
-            int enemyCount = Constants.RANDOM.Next(5, 8);
-            bool upgrade = Constants.RANDOM.NextDouble() <= HelperFunctions.PowerUpRate(); 
-            if (upgrade) SpawnHelper.SpawnPowerUp(position);
+            int enemyCount = Constants.RANDOM.Next(Constants.MIN_ENEMIES_PER_CAMP, Constants.MAX_ENEMIES_PER_CAMP+1);
+            Vector2 powerUpPos = position + Vector2.One * Constants.CAMP_RANGE / 1.5f;
+            SpawnHelper.SpawnPowerUp(powerUpPos);
 
             for (int i = 0; i < enemyCount; ++i)
             {
-                bool shooter = Constants.RANDOM.Next(3) == 0;
-                SpawnHelper.SpawnRandomEnemy(shooter, position, 50);
+                bool kamikaze = Constants.RANDOM.Next(100) <= 40;
+                SpawnHelper.SpawnRandomEnemy(kamikaze, position);
             }
         }
 
