@@ -38,7 +38,7 @@ namespace Hazmat.Systems
 
             if (animation.animations != null && animation.animations.CurrentClip != null)
             {
-                animation.animations.Update(state.DeltaSpan, true, Matrix.Identity);
+                animation.animations.Update(state.DeltaSpan * animation.playbackSpeed, true, Matrix.Identity);
 
                 foreach (var mesh in model.value.Meshes)
                 {

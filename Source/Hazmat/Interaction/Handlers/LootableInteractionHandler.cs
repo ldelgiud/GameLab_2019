@@ -34,10 +34,10 @@ namespace Hazmat.Interaction.Handlers
 
         public override bool HandleInteraction(IInputEvent inputEvent, Entity interactor, Entity interactee)
         {
-            switch (inputEvent)
-            {
+            //switch (inputEvent)
+            //{
                 // In case interaction happened do:
-                case PressEvent _:
+                //case PressEvent _:
                     ref var transform = ref interactee.Get<Transform3DComponent>();
                     ref ModelComponent model = ref interactee.Get<ModelComponent>();
 
@@ -56,9 +56,9 @@ namespace Hazmat.Interaction.Handlers
                         );
 
                     return true;
-            }
+            //}
 
-            return false;
+            //return false;
         }
     }
 }
