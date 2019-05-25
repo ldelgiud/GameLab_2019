@@ -45,7 +45,7 @@ namespace Hazmat.Systems
             //This allows for a drain between 1 and 10 scaling linearly with the distance
             double decrease = (maxDist - (dist - minDist))/100;
 
-            this.energy.CurrentEnergy -= decrease * gameTime.Delta;
+            this.energy.CurrentEnergy -= decrease * gameTime.Delta * 1.2;
 
 
             }
