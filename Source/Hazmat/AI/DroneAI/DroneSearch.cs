@@ -42,7 +42,7 @@ namespace Hazmat.AI
             //STEP
             if (sqrdDistance <= Constants.DIRECT_ATTACK_SQRD_DIST)
             {
-                this.FollowTarget(Constants.DRONE_SPEED);
+                this.FollowTarget(Constants.KAMIKAZE_SPEED);
             }
             else if (path != null)
             {
@@ -61,7 +61,7 @@ namespace Hazmat.AI
                 }
                 if (followingPath)
                 {
-                    this.GoTo(nextNode.Item1, Constants.DRONE_SPEED);
+                    this.GoTo(nextNode.Item1, Constants.KAMIKAZE_SPEED);
                 }
 
             }

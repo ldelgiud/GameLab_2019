@@ -54,17 +54,22 @@ namespace Hazmat.Utilities
 
         //DRONES
         public static float MEMORY_OF_HIT = 5f;
-        public static float DRONE_SPEED = 23; //TESTED
+        public static float KAMIKAZE_SPEED = 23; //TESTED
+        public static int KAMIKAZE_DAMAGE = 200;
 
         //SHOOTERS
         public static float SHOOTER_SPEED = 20;//20;
+        public static float SHOOTER_RELOAD_TIME = 0.6f;
+        public static int SHOOTER_DAMAGE = 150;
+
+
 
         //MAILBOXES
-        public static float MAILBOX_DAMAGE = 100;
-        public static float MAILBOX_RELOAD_TIME = 1f;
+        public static float MAILBOX_DAMAGE = 150;
+        public static float MAILBOX_RELOAD_TIME = 0.6f;
 
         //SHOOTING
-        public static float TTL_BULLET = 5f; //TESTED
+        public static float TTL_BULLET = 2f; //TESTED
         public static float BULLET_SPEED = 80;  //TESTED
 
         //GRID GENERATION VALUES

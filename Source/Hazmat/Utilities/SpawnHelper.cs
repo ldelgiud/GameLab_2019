@@ -800,10 +800,10 @@ namespace Hazmat.Utilities
             )));
 
             entity.Set(new SmallGunComponent(
-                damage: Constants.MAILBOX_DAMAGE,
+                damage: Constants.SHOOTER_DAMAGE,
                 projectileSpeed: Constants.BULLET_SPEED,
                 radiusRange: -1f,
-                reloadTime: Constants.MAILBOX_RELOAD_TIME,
+                reloadTime: Constants.SHOOTER_RELOAD_TIME,
                 projectileSkin: "EnemyProjectile_01",
                 projectileAnimation: "EnemyProjectile_01",
                 alliance: Alliance.Hostile,
@@ -828,7 +828,7 @@ namespace Hazmat.Utilities
                     new Tuple<string, float>("LineThickness", 0.01f)},
                 scale: new Vector3(6f)
                 )));
-            entity.Set(new DamageComponent(200f, "EnemyExplosion_01", "EnemyExplosion_01"));
+            entity.Set(new DamageComponent(Constants.KAMIKAZE_DAMAGE, "EnemyExplosion_01", "EnemyExplosion_01"));
         }
 
         public static void SpawnMailBox(Vector2 position)
@@ -903,7 +903,8 @@ namespace Hazmat.Utilities
         {
             int enemyCount = Constants.RANDOM.Next(Constants.MIN_ENEMIES_PER_CAMP, Constants.MAX_ENEMIES_PER_CAMP+1);
             Vector2 powerUpPos = position + Vector2.One * Constants.CAMP_RANGE / 1.5f;
-            SpawnHelper.SpawnPowerUp(powerUpPos);
+            if (Constants.RANDOM.Next(100) <= HelperFunctions.PowerUpRate())
+                SpawnHelper.SpawnPowerUp(powerUpPos);
 
             for (int i = 0; i < enemyCount; ++i)
             {
@@ -915,7 +916,7 @@ namespace Hazmat.Utilities
         public static void SpawnEnemyCamps()
         {
             Debug.WriteLine("START: Spawning Enemy Camps");
-            int step = (int)Constants.TILE_SIZE * 10;
+            int step = (int)Constants.TILE_SIZE * 6;
 
             for (float y = Constants.BOTTOM_BORDER; y < Constants.TOP_BORDER; y += step)
             {
@@ -923,13 +924,7 @@ namespace Hazmat.Utilities
                 {
                     Vector2 curr = new Vector2(x, y);
                     if (curr.LengthSquared() <= (100 * 100)) continue;
-                    bool gen =
-                        Constants.RANDOM.NextDouble() < ProcGen.SpawnMap.GetSpawnRate(curr);
-                    if (gen)
-                    {
-                        //Debug.WriteLine("New Hotspot at: " + curr);
-                        SpawnHelper.SpawnEnemyCamp(curr);
-                    }
+                   SpawnHelper.SpawnEnemyCamp(curr);
                 }
             }
             Debug.WriteLine("END: Spawning Enemy Camps");

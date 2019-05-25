@@ -33,27 +33,10 @@ namespace Hazmat.Collision.Handlers
             DamageComponent damage = collider.Get<DamageComponent>();
             Vector3 collideePos = collidee.Get<Transform3DComponent>().value.Translation;
             Vector3 colliderPos = collider.Get<Transform3DComponent>().value.Translation;
-            /*
-            // Apply blink effect
-            float timeDamageEffect = 0.2f;
-            if (collidee.Has<DamageEffectComponent>())
-            {
-                ref DamageEffectComponent damageEffect = ref collidee.Get<DamageEffectComponent>();
-                damageEffect.Initialize(timeDamageEffect);
-            }
-            else
-            {
-                ref ModelComponent model = ref collidee.Get<ModelComponent>();
-                model.EnableDamageEffect();
-                DamageEffectComponent damageEffect = new DamageEffectComponent();
-                damageEffect.Initialize(timeDamageEffect);
-                collidee.Set(damageEffect);
-            }*/
-
+            
             Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.EnemyHit);
-
-
             health.DealDamage(damage.Damage);
+
             if (health.isDead())
             {
                 this.score.Kills += 1;

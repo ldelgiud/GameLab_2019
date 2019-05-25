@@ -22,9 +22,9 @@ namespace Hazmat.Utilities
             return 0.1f;
         }
 
-        public static double PowerUpRate()
+        public static int PowerUpRate()
         {
-            return 0.5f;
+            return 50;
         }
     }
 }
