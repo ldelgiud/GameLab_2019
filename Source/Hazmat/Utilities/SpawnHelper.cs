@@ -390,7 +390,7 @@ namespace Hazmat.Utilities
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"buildings\suitcases\MES_EN_suitcase"+ suitcaseType +"_01",
                 @"buildings\suitcases\TEX_EN_suitcases",
-                scale: new Vector3(0.1f),
+                scale: new Vector3(0.075f),
                 rotation: new Vector3(MathF.PI/2,0,0),
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 1.5f) }

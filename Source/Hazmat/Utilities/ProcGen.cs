@@ -414,7 +414,7 @@ namespace Hazmat.Utilities
             {
                 float radian = (float)Constants.RANDOM.NextDouble() * MathF.PI * 2;
                 int counter = 0;
-                Vector2 offset = new Vector2(5f, 0);
+                Vector2 offset = new Vector2(20f, 0);
                 float radianOffset = (MathF.PI + (float)Constants.RANDOM.NextDouble() * MathF.PI) / 4;
                 while (Constants.RANDOM.Next(2) == 0 && counter < 2)
                 {

@@ -55,6 +55,8 @@ namespace Hazmat.Collision.Handlers
                 else this.dropIncrease += .05;
                 collidee.Delete();
                 Hazmat.Instance.SoundManager.PlaySoundEffect(Hazmat.Instance.SoundManager.EnemyDead);
+                SpawnHelper.SpawnExplosion(collideePos.ToVector2(), "EnemyExplosion_01", "EnemyExplosion_01");
+
             }
 
             SpawnHelper.SpawnExplosion(colliderPos.ToVector2(), damage.animationPath, damage.skinPath);
