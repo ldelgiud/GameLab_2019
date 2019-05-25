@@ -19,6 +19,7 @@ namespace Hazmat.Systems
 {
     class EnergyDrawSystem : ISystem<Time>, IDisposable
     {
+        static float BAR_WIDTH = 600;
 
         public bool IsEnabled { get; set; } = true;
 
@@ -54,12 +55,16 @@ namespace Hazmat.Systems
 
         public void Update(Time gameTime)
         {
+            var ratio = (float)(this.energy.CurrentEnergy / Constants.PLAYER_INITIAL_ENERGY);
+
             ref var transform = ref this.energyBarEntity.Get<Transform2DComponent>();
 
             // TODO: Shift to proper location
+            var translation = transform.value.LocalTranslation;
+            transform.value.LocalTranslation = new Vector2(-BAR_WIDTH / 2 + BAR_WIDTH / 2 * ratio, translation.Y);
 
             // Scale to proper size
-            transform.value.Scale = new Vector2((float)(this.energy.CurrentEnergy / Constants.PLAYER_INITIAL_ENERGY), 1);
+            transform.value.Scale = new Vector2(ratio, 1);
         }
 
         public void Dispose()

@@ -155,6 +155,36 @@ namespace Hazmat.Systems
             this.effect.View = v;
             this.effect.Projection = p;
             this.effect.TextureEnabled = true;
+            this.effect.Texture = this.healthBar_W;
+
+            foreach (var entity in this.healthList)
+            {
+                ref HealthComponent healtComponent = ref entity.Get<HealthComponent>();
+                ref Transform3DComponent transform = ref entity.Get<Transform3DComponent>();
+
+                // Custom model matrix to Billboard the skeleton to the screen so that its not flat
+                var m =
+                    Matrix.CreateScale(transform.value.Scale * new Vector3(-1, 1, 1)) * Matrix.CreateScale(1.5f, 0.3f, 1f) *
+                    Matrix.CreateRotationX(transform.value.LocalRotation.X) *
+                    Matrix.CreateRotationY(transform.value.LocalRotation.Y) *
+                    //Matrix.CreateRotationZ(transform.value.LocalRotation.Z) * // Removed to clamp health bars to fixed rotation
+                    Matrix.CreateBillboard(Vector3.Zero, this.camera.distance * Camera3D.ISOMETRIC_OFFSET, Camera3D.ISOMETRIC_UP, Camera3D.ISOMETRIC_OFFSET) *
+                    Matrix.CreateTranslation(transform.value.Translation) * Matrix.CreateTranslation(0, 0, 6f);
+
+                this.effect.World = m;
+
+                this.graphicsDevice.SetVertexBuffer(this.vertexBuffer);
+                this.graphicsDevice.Indices = this.indexBuffer;
+
+                this.graphicsDevice.DepthStencilState = DepthStencilState.Default;
+
+                foreach (var pass in this.effect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    this.graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
+                }
+            }
+
             this.effect.Texture = this.healthBar_G;
 
             foreach (var entity in this.healthList)
