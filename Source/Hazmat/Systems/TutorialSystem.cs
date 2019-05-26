@@ -67,23 +67,23 @@ namespace Hazmat.Systems
         public void Update(Time time)
         {
             if (!intro.Answered) return;
-            if (!this.tutorialComplete.Contains(Tutorial.AtPowerPlant))
-            {
-                foreach (var playerEntity in this.players.GetEntities())
-                {
-                    ref var transform = ref playerEntity.Get<Transform3DComponent>();
+            //if (!this.tutorialComplete.Contains(Tutorial.AtPowerPlant))
+            //{
+            //    foreach (var playerEntity in this.players.GetEntities())
+            //    {
+            //        ref var transform = ref playerEntity.Get<Transform3DComponent>();
 
-                    if (Vector2.Distance(powerPlant.Position, transform.value.Translation.ToVector2()) <= 40)
-                    {
-                        var entity = this.world.CreateEntity();
-                        var _event = new TipEvent("tip_at_the_powerplant", soundManager.BossResolution09);
-                        _event.Initialize(this.world, entity);
-                        entity.Set(new EventComponent(_event));
-                        entity.Set(new NameComponent() { name = "event" });
-                        this.tutorialComplete.Add(Tutorial.AtPowerPlant);
-                    }
-                }
-            }
+            //        if (Vector2.Distance(powerPlant.Position, transform.value.Translation.ToVector2()) <= 40)
+            //        {
+            //            var entity = this.world.CreateEntity();
+            //            var _event = new TipEvent("tip_at_the_powerplant", soundManager.BossResolution09);
+            //            _event.Initialize(this.world, entity);
+            //            entity.Set(new EventComponent(_event));
+            //            entity.Set(new NameComponent() { name = "event" });
+            //            this.tutorialComplete.Add(Tutorial.AtPowerPlant);
+            //        }
+            //    }
+            //}
 
             if (!this.tutorialComplete.Contains(Tutorial.BatteryPickup))
             {
