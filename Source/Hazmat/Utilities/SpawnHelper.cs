@@ -856,7 +856,7 @@ namespace Hazmat.Utilities
                 standardEffect: Hazmat.Instance.Content.Load<Effect>(@"shaders/outline"),
                 standardEffectInitialize: new Tuple<string, float>[] { new Tuple<string, float>("LineThickness", 0.05f) }
                 )));
-            entity.Set(new AIComponent(new MailboxOffline(entity)));
+            entity.Set(new AIComponent(new MailboxOffline(entity, SpawnHelper.Time)));
 
             entity.Set(new SmallGunComponent(
                 damage: Constants.MAILBOX_DAMAGE,

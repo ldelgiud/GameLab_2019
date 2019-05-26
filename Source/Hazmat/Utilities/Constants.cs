@@ -53,7 +53,7 @@ namespace Hazmat.Utilities
         public static uint BIG_BATTERY_SIZE = 1000;
 
         //ENEMIES 
-        public static float ENEMY_UPDATE_THRESHOLD = 0.1f;
+        public static float ENEMY_UPDATE_THRESHOLD = 0.2f;
         //DRONES
         public static float MEMORY_OF_HIT = 5f;
         public static float KAMIKAZE_SPEED = 22; //TESTED
@@ -69,7 +69,7 @@ namespace Hazmat.Utilities
         public static float MAILBOX_RELOAD_TIME = 0.6f;
 
         //SHOOTING
-        public static float TTL_BULLET = 1f; //TESTED
+        public static float TTL_BULLET = 0.8f; //TESTED
         public static float BULLET_SPEED = 80;  //TESTED
 
         //GRID GENERATION VALUES

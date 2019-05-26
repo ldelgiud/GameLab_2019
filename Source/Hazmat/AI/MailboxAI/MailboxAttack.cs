@@ -16,10 +16,11 @@ namespace Mazmat.AI.MailboxAI
 {
     class MailboxAttack : AIState
     {
-        public MailboxAttack(Entity me, Vector2 target)
+        public MailboxAttack(Entity me, Vector2 target, Time time)
         {
             this.me = me;
             this.target = target;
+            this.timeOfLastTotalUpdate = time.Absolute;
         }
 
 
@@ -28,6 +29,9 @@ namespace Mazmat.AI.MailboxAI
             Time time)
 
         {
+            if (time.Absolute < this.timeOfLastTotalUpdate + Constants.ENEMY_UPDATE_THRESHOLD) return this;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
             //Debug.WriteLine("Mailbox Attack");
             this.myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
             this.target = this.FindClosestPlayer(playerInfos);
@@ -52,7 +56,7 @@ namespace Mazmat.AI.MailboxAI
             if (sqrdDistance >= Constants.ATTACK_TO_OFFLINE_SQRD_DIST)
             {
                 //Debug.WriteLine("going into SEARCH");
-                return new MailboxOffline(this.me);
+                return new MailboxOffline(this.me, time);
             }
 
             return this;
