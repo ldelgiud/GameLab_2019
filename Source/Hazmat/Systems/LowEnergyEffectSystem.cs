@@ -47,7 +47,7 @@ namespace Hazmat.Systems
             this.postProcessing = postProcessing;
 
             //0.3f is the percentage
-            this.thresholdEnergy = (float)Constants.PLAYER_INITIAL_ENERGY * 0.5f;
+            this.thresholdEnergy = (float)Constants.PLAYER_INITIAL_ENERGY * 0.3f;
 
             // Set radius of vignette
             if (postProcessing.Effect.Parameters["radiusX"] != null)
