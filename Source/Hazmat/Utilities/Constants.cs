@@ -69,7 +69,7 @@ namespace Hazmat.Utilities
         public static float MAILBOX_RELOAD_TIME = 0.6f;
 
         //SHOOTING
-        public static float TTL_BULLET = 2f; //TESTED
+        public static float TTL_BULLET = 1f; //TESTED
         public static float BULLET_SPEED = 80;  //TESTED
 
         //GRID GENERATION VALUES
