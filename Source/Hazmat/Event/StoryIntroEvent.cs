@@ -89,7 +89,7 @@ namespace Hazmat.Event
                                 new SkeletonInfo(skin: "story_0"),
                                 new AnimationStateInfo("press_A_to_pickup_phone", true)
                                 )));
-                    this.timeToStop = time.Absolute + 15;
+                    this.timeToStop = time.Absolute + 60;
                     this.state = State.Intro0;
                     break;
                 case State.Intro0:
@@ -111,7 +111,7 @@ namespace Hazmat.Event
 
                         this.soundManager.StopSoundEffectInstance(this.playing);
                         this.playing = this.soundManager.PlaySoundEffectInstance(effect: soundManager.BossIntro01);
-                        this.timeToStop = time.Absolute + 12;
+                        this.timeToStop = time.Absolute + 60;
 
                         ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
                         ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
@@ -137,7 +137,7 @@ namespace Hazmat.Event
                     if ((inputEvent != null && inputEvent.GetType() == typeof(PressEvent)) || 
                         time.Absolute >= this.timeToStop)
                     {
-                        this.timeToStop = time.Absolute + 12;
+                        this.timeToStop = time.Absolute + 60;
                         ref var skeleton = ref this.introEntity.Get<SpineSkeletonComponent>();
                         ref var animation = ref this.introEntity.Get<SpineAnimationComponent>();
 
@@ -176,7 +176,7 @@ namespace Hazmat.Event
                 case State.Waiting:
                     if (timestamp <= time.Absolute)
                     {
-                        this.timeToStop = time.Absolute + 8;
+                        this.timeToStop = time.Absolute + 60;
                         ref var transform = ref this.introEntity.Get<Transform2DComponent>();
                         transform.value.LocalTranslation = transform.value.LocalTranslation * new Vector2(1, 0) + new Vector2(0, -330);
                         this.introEntity.Set(new ManagedResource<SpineAnimationInfo, SkeletonDataAlias>(
