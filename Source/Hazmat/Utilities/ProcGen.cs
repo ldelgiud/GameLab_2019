@@ -410,7 +410,7 @@ namespace Hazmat.Utilities
                             );
                 }
             }
-
+            return;
             //SUITCASES
             {
                 float radian = (float)Constants.RANDOM.NextDouble() * MathF.PI * 2;

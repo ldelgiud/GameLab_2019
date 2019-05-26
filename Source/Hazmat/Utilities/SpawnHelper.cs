@@ -374,19 +374,21 @@ namespace Hazmat.Utilities
 
         public static void SpawnRandomSuitcase(Vector2 position)
         {
+            return;
+
             if (!SpawnHelper.IsCollisionFree(new AABB(position, 1, 1), true)) return;
             string suitcaseType = Constants.RANDOM.Next(1, 3) == 1 ? "A" : "B";
             float radian = (int)(Constants.RANDOM.NextDouble() * Math.PI * 2);
 
             var entity = SpawnHelper.World.CreateEntity();
-            SpawnHelper.AttachAABB(entity, position, new Vector2(1), new Vector2(1), false);
+            SpawnHelper.AttachAABB(entity, position, 1,1, false);
             entity.Set(new NameComponent() { name = Constants.SUITCASE_NAME + suitcaseType });
 
             entity.Set(new Transform3DComponent(new Transform3D(
                 position: new Vector3(position, 1),
                 rotation: new Vector3(Vector2.Zero, radian)
                 )));
-
+            
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"buildings\suitcases\MES_EN_suitcase"+ suitcaseType +"_01",
                 @"buildings\suitcases\TEX_EN_suitcases",
