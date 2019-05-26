@@ -67,7 +67,7 @@ namespace Hazmat.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            
+            return;
             ref var aabbComponent = ref entity.Get<AABBComponent>();
             var size = aabbComponent.element.Span.UpperBound - aabbComponent.element.Span.LowerBound;
 
