@@ -14,11 +14,13 @@ namespace Hazmat.AI
 {
     class ShooterAttack : AIState
     {
-        public ShooterAttack(Entity me, Vector2 target)
+        public ShooterAttack(Entity me, Vector2 target, Time time)
         {
             this.me = me;
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
             this.target = target;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
         }
         
         public override AIState UpdateState(
@@ -26,6 +28,9 @@ namespace Hazmat.AI
             Time time)
 
         {
+            if (time.Absolute < this.timeOfLastTotalUpdate + Constants.ENEMY_UPDATE_THRESHOLD) return this;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
             //Debug.WriteLine("Shooter Attack");
             this.myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
             this.target = this.FindClosestPlayer(playerInfos);
@@ -75,7 +80,7 @@ namespace Hazmat.AI
             if (this.SqrdDist >= Constants.ATTACK_TO_SEARCH_SQRD_DIST || !this.IsTargetInSight())
             {
                 //Debug.WriteLine("going into SEARCH");
-                return new ShooterSearch(this.me, this.target);
+                return new ShooterSearch(this.me, this.target, time);
             }
             return this;
         }

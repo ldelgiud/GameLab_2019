@@ -13,17 +13,22 @@ namespace Hazmat.AI
 {
     class ShooterSearch : AIState
     {
-        public ShooterSearch(Entity me, Vector2 target)
+        public ShooterSearch(Entity me, Vector2 target, Time time)
         {
             this.me = me;
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
             this.target = target;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
         }
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
             Time time)
         {
+            if (time.Absolute < this.timeOfLastTotalUpdate + Constants.ENEMY_UPDATE_THRESHOLD) return this;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
             //Debug.WriteLine("Shooter Search");
             this.myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
             this.target = this.FindClosestPlayer(playerInfos);
@@ -57,17 +62,17 @@ namespace Hazmat.AI
 
             //UPDATE STATE
             bool mad = this.AmIMad(time);
-            if (mad) return new ShooterAttack(this.me, this.target);
+            if (mad) return new ShooterAttack(this.me, this.target, time);
 
             if (this.SqrdDist <= Constants.SEARCH_TO_ATTACK_SQRD_DIST && this.IsTargetInSight())
             {
                 //Debug.WriteLine("going into ATTACK");
-                return new ShooterAttack(this.me, this.target);
+                return new ShooterAttack(this.me, this.target, time);
             }
             if (this.SqrdDist >= Constants.SEARCH_TO_STANDBY_SQRD_DIST)
             {
                 //Debug.WriteLine("going into STANDBY");
-                return new ShooterStandby(this.me);
+                return new ShooterStandby(this.me, time);
             }
             return this;
         }

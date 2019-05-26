@@ -17,21 +17,25 @@ namespace Hazmat.AI
 {
     class DroneOffline : AIState
     {
-        public DroneOffline(Entity me)
+        public DroneOffline(Entity me, Time time)
         {
             this.me = me;
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            this.timeOfLastTotalUpdate = time.Absolute;
         }
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
             Time time)
         {
+            if (time.Absolute < this.timeOfLastTotalUpdate + Constants.ENEMY_UPDATE_THRESHOLD) return this;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
             float sqrdDist = (this.myPos - this.FindClosestPlayer(playerInfos)).LengthSquared();
 
             if (sqrdDist <= Constants.OFFLINE_TO_STANDBY_SQRD_DIST)
-                return new DroneStandby(this.me);
+                return new DroneStandby(this.me, time);
             else return this;
         }
     }

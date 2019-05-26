@@ -16,11 +16,12 @@ namespace Hazmat.AI
 {
     class DroneSearch : AIState
     {
-        public DroneSearch(Entity me, Vector2 target)
+        public DroneSearch(Entity me, Vector2 target, Time time)
         {
             this.me = me;
             this.target = target;
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
+            this.timeOfLastTotalUpdate = time.Absolute;
         }
 
 
@@ -28,6 +29,9 @@ namespace Hazmat.AI
             List<PlayerInfo> playerInfos,
             Time time)
         {
+            if (time.Absolute < this.timeOfLastTotalUpdate + Constants.ENEMY_UPDATE_THRESHOLD) return this;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
             //Update information about myself
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
             this.target = FindClosestPlayer(playerInfos);
@@ -72,7 +76,7 @@ namespace Hazmat.AI
             if (sqrdDistance >= Constants.SEARCH_TO_STANDBY_SQRD_DIST && !mad)
             {
                 velocity.velocity = Vector2.Zero;
-                return new DroneStandby(this.me);
+                return new DroneStandby(this.me, time);
             }
             return this;
         }

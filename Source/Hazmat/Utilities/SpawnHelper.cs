@@ -54,6 +54,16 @@ namespace Hazmat.Utilities
             }
         }
 
+        public static Time Time
+        {
+            get
+            {
+                return Hazmat.Instance.ActiveState.GetInstance<Time>();
+            }
+        }
+
+
+
         /// <summary>
         /// Helper function, spawns player at position (0,0) with zero velocity
         /// </summary>
@@ -810,7 +820,7 @@ namespace Hazmat.Utilities
                 projectileAnimation: "EnemyProjectile_01",
                 alliance: Alliance.Hostile,
                 animationPath: "EnemyProjectile_Death_01"));
-            entity.Set(new AIComponent(new ShooterOffline(entity)));
+            entity.Set(new AIComponent(new ShooterOffline(entity, SpawnHelper.Time)));
             entity.Set(new NameComponent() { name = Constants.SHOOTER_NAME });
         }
         
@@ -820,7 +830,7 @@ namespace Hazmat.Utilities
             entity.Set(new NameComponent() { name = Constants.DRONE_NAME });
 
             entity.Set(new VelocityComponent());
-            entity.Set(new AIComponent(new DroneOffline(entity)));
+            entity.Set(new AIComponent(new DroneOffline(entity, SpawnHelper.Time)));
             entity.Set(new ManagedResource<ModelInfo, ModelAlias>(new ModelInfo(
                 @"characters\kamikaze\MED_CH_GenericDrone_01",
                 @"characters\kamikaze\TEX_CH_GenericDrone_01",

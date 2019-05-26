@@ -151,6 +151,7 @@ namespace Hazmat.States
                 );
 
             //TERRAIN GENERATION
+            this.SetInstance(time);
             SpawnMap spawnMap = new SpawnMap();
             this.SetInstance(spawnMap);
             Street street = new Street();

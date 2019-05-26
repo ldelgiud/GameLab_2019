@@ -41,7 +41,8 @@ namespace Hazmat.AI
         protected Vector2 oldTarget;
         protected float oldLife;
         float timeOfLastAttack;
-        float timeOfLastUpdate; 
+        float timeOfLastPathUpdate;
+        protected float timeOfLastTotalUpdate;
         protected Path path;
         int turnDist = 1;
         public const float updateThreshold = 3f;
@@ -77,12 +78,12 @@ namespace Hazmat.AI
         protected void UpdatePath(Time time)
         {
             float sqrdDist = (target - oldTarget).LengthSquared();
-            float timePassed = time.Absolute - this.timeOfLastUpdate;
+            float timePassed = time.Absolute - this.timeOfLastPathUpdate;
             if ((sqrdDist > sqrdUpdateThreshold && timePassed > AIState.minPathUpdateTime)
                 ||timePassed > AIState.maxPathUpdateTime)
             {
                 //Debug.WriteLine("and Succeding");
-                this.timeOfLastUpdate = time.Absolute;
+                this.timeOfLastPathUpdate = time.Absolute;
                 this.oldTarget = this.target;
                 PathRequestManager.RequestPath(this.myPos, target, OnPathFound);
             }

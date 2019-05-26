@@ -13,7 +13,7 @@ namespace Hazmat.Utilities
         public static Random RANDOM = new Random();
 
         //PLAYER STATS
-        public static float PLAYER_RELOAD_TIME = 0.15f;              //TESTED
+        public static float PLAYER_RELOAD_TIME = 0.15f;             //TESTED
         public static float BULLET_SIZE = 1f;                       //TESTED
         public static int PLAYER_INITIAL_SPEED = 20;                //TESTED
         public static double PLAYER_INITIAL_ENERGY = 1000;
@@ -52,6 +52,8 @@ namespace Hazmat.Utilities
         public static uint MEDIUM_BATTERY_SIZE = 500;
         public static uint BIG_BATTERY_SIZE = 1000;
 
+        //ENEMIES 
+        public static float ENEMY_UPDATE_THRESHOLD = 0.1f;
         //DRONES
         public static float MEMORY_OF_HIT = 5f;
         public static float KAMIKAZE_SPEED = 22; //TESTED

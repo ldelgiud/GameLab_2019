@@ -16,17 +16,21 @@ namespace Hazmat.AI
 {
     class DroneStandby : AIState
     {
-        public DroneStandby(Entity me)
+        public DroneStandby(Entity me, Time time)
         {
             this.me = me;
             this.myPos = me.Get<Transform3DComponent>().value.Translation.ToVector2();
-        } 
+            this.timeOfLastTotalUpdate = time.Absolute;
+        }
 
 
         public override AIState UpdateState(
             List<PlayerInfo> playerInfos,
             Time time)
         {
+            if (time.Absolute < this.timeOfLastTotalUpdate + Constants.ENEMY_UPDATE_THRESHOLD) return this;
+
+            this.timeOfLastTotalUpdate = time.Absolute;
             //TODO: might be a problem with 2 or more players
             this.target = this.FindClosestPlayer(playerInfos);
             this.myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
@@ -34,21 +38,21 @@ namespace Hazmat.AI
 
             //UPDATE STATE
             bool mad = this.AmIMad(time);
-            if (mad) return new DroneSearch(this.me, this.target);
-            if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST) return new DroneOffline(this.me);
+            if (mad) return new DroneSearch(this.me, this.target, time);
+            if (sqrdDist >= Constants.STANDBY_TO_OFFLINE_SQRD_DIST) return new DroneOffline(this.me, time);
             else if (sqrdDist <= Constants.STANDBY_TO_SEARCH_SQRD_DIST)
             {
                 if (this.IsTargetInSight())
                 {
-                    Debug.WriteLine("DRONY: SAW YOU BITCH!!");
-                    Debug.WriteLine("DISTANCE: " + Math.Sqrt(sqrdDist));
-                    return new DroneSearch(this.me, this.target);
+                    //Debug.WriteLine("DRONY: SAW YOU BITCH!!");
+                    //Debug.WriteLine("DISTANCE: " + Math.Sqrt(sqrdDist));
+                    return new DroneSearch(this.me, this.target, time);
                 }
                 else if (sqrdDist <= Constants.BLIND_STANDBY_TO_SEARCH_SQRD_DIST)
                 {
-                    Debug.WriteLine("DRONY: TOO CLOSE BITCH!!");
-                    Debug.WriteLine("SQRD DISTANCE: " + Math.Sqrt(sqrdDist));
-                    return new DroneSearch(this.me, this.target);
+                    //Debug.WriteLine("DRONY: TOO CLOSE BITCH!!");
+                    //Debug.WriteLine("SQRD DISTANCE: " + Math.Sqrt(sqrdDist));
+                    return new DroneSearch(this.me, this.target, time);
                 }
             }
             return this;
