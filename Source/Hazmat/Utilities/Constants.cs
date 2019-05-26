@@ -27,8 +27,8 @@ namespace Hazmat.Utilities
         public static double STREET_SPAWN_RATE = 1.0;
         public static float TILE_SIZE = 20;
         public static float LEFT_BORDER = -200;
-        public static float RIGHT_BORDER = 1800;
-        public static float TOP_BORDER = 1800;
+        public static float RIGHT_BORDER = 2000;
+        public static float TOP_BORDER = 2000;
         public static float BOTTOM_BORDER = -200;
         public static Vector2 TOP_RIGHT_CORNER =
             new Vector2(Constants.RIGHT_BORDER, Constants.TOP_BORDER);
@@ -36,8 +36,8 @@ namespace Hazmat.Utilities
             new Vector2(Constants.LEFT_BORDER, Constants.BOTTOM_BORDER);
 
         //CAMP SPAWNING
-        public static int MIN_ENEMIES_PER_CAMP = 6;
-        public static int MAX_ENEMIES_PER_CAMP = 9;
+        public static int MIN_ENEMIES_PER_CAMP = 5;
+        public static int MAX_ENEMIES_PER_CAMP = 8;
         public static int CAMP_RANGE = 35;
         //POWERPLANT STATS
         public static double PLANT_PLAYER_DISTANCE = 1700;
@@ -54,11 +54,11 @@ namespace Hazmat.Utilities
 
         //DRONES
         public static float MEMORY_OF_HIT = 5f;
-        public static float KAMIKAZE_SPEED = 23; //TESTED
+        public static float KAMIKAZE_SPEED = 22; //TESTED
         public static int KAMIKAZE_DAMAGE = 200;
 
         //SHOOTERS
-        public static float SHOOTER_SPEED = 20;//20;
+        public static float SHOOTER_SPEED = 18;
         public static float SHOOTER_RELOAD_TIME = 0.7f;
         public static int SHOOTER_DAMAGE = 150;
 

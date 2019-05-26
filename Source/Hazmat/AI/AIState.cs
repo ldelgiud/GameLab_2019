@@ -44,10 +44,10 @@ namespace Hazmat.AI
         float timeOfLastUpdate; 
         protected Path path;
         int turnDist = 1;
-        public const float updateThreshold = 0.5f;
+        public const float updateThreshold = 3f;
         public const float sqrdUpdateThreshold = AIState.updateThreshold * AIState.updateThreshold;
-        const float minPathUpdateTime = 0.5f;
-        const float maxPathUpdateTime = 1f;
+        const float minPathUpdateTime = 1f;
+        const float maxPathUpdateTime = 3f;
 
         protected bool AmIMad(Time time)
         {
@@ -90,10 +90,9 @@ namespace Hazmat.AI
 
         protected Vector2 FindClosestPlayer(List<PlayerInfo> playerInfos)
         {
-            Vector2 myPos = this.me.Get<Transform3DComponent>().value.Translation.ToVector2();
             float minSqrdDist = 1000000;
             Vector2 closest =playerInfos[0].transform.Translation.ToVector2();
-            foreach (PlayerInfo player in playerInfos)
+            /*foreach (PlayerInfo player in playerInfos)
             {
                 Vector2 curr = player.transform.Translation.ToVector2();
                 float sqrdDist = (curr - myPos).LengthSquared();
@@ -104,7 +103,7 @@ namespace Hazmat.AI
                     closest = curr;
                 }
                 
-            }
+            }*/
             return closest;
         }
 
@@ -148,7 +147,7 @@ namespace Hazmat.AI
 
             AIState.quadtree.MyRayCast((RayCastInput ray, Element<Entity> collidee) =>
             {
-                //if (collidee.Value.Equals(me)) return -1f;
+                if (collidee.Value.Equals(me)) return -1f;
                 if (collidee.Value.Has<AABBComponent>())
                 {
                     if (collidee.Value.Has<PlayerComponent>())
