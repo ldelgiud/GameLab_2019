@@ -67,7 +67,7 @@ namespace Hazmat.Systems
 
         protected override void Update(Time time, in Entity entity)
         {
-            /*   
+            
             ref var aabbComponent = ref entity.Get<AABBComponent>();
             var size = aabbComponent.element.Span.UpperBound - aabbComponent.element.Span.LowerBound;
 
@@ -86,7 +86,7 @@ namespace Hazmat.Systems
                 pass.Apply();
                 this.graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, 2);
             }
-            */
+            
         }
 
         protected override void PostUpdate(Time state)

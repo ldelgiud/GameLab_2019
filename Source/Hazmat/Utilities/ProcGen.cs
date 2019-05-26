@@ -160,9 +160,10 @@ namespace Hazmat.Utilities
             Debug.WriteLine("START: Objects Generation");
 
             float tile = Constants.TILE_SIZE;
-            for (float y = Constants.BOTTOM_BORDER; y <= Constants.TOP_BORDER; y+= Constants.TILE_SIZE)
+
+            for (float y = Constants.BOTTOM_BORDER; y <= Constants.TOP_BORDER; y+= tile)
             {
-                for (float x = Constants.LEFT_BORDER; x <= Constants.RIGHT_BORDER; x += Constants.TILE_SIZE)
+                for (float x = Constants.LEFT_BORDER; x <= Constants.RIGHT_BORDER; x += tile)
                 {
                     float randRradian = (float) (Constants.RANDOM.NextDouble() * Math.PI / 2);
                     Vector2 position = new Vector2(x, y);
@@ -172,7 +173,7 @@ namespace Hazmat.Utilities
                     if (position.LengthSquared() <= 40*40) continue;
                     //Add random objects 
                     int rand = Constants.RANDOM.Next(100);
-                    if (rand <= 10 && streetSqrdDist >= 10 * 10)
+                    if (rand <= 20 && streetSqrdDist >= 10 * 10)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
@@ -181,7 +182,7 @@ namespace Hazmat.Utilities
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_02"),
                             "dirtTile"
                             );
-                    } else if (rand <= 20 && streetSqrdDist >= 10 * 10)
+                    } else if (rand <= 40 && streetSqrdDist >= 10 * 10)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
@@ -190,7 +191,7 @@ namespace Hazmat.Utilities
                             new TileModelInfo("static_sprites/SPT_EN_Tile_Grass_03"),
                             "dirtTile"
                             );
-                    } else if (rand <= 30 && streetSqrdDist >= 10 * 10)
+                    } else if (rand <= 60 && streetSqrdDist >= 10 * 10)
                     {
                         ProcGen.TileMap.AddTile(
                             new Transform3D(
@@ -200,11 +201,11 @@ namespace Hazmat.Utilities
                             "dirtTile"
                             );
                     }
-                    else if (rand <= 36 && streetSqrdDist >= 20 * 20)
+                    else if (rand <= 72 && streetSqrdDist >= 50 * 50)
                     {
                         SpawnHelper.SpawnRandomHouse(position,100);
                     }
-                    else if (rand <= 41 && streetSqrdDist >= 30 * 30)
+                    else if (rand <= 82 && streetSqrdDist >= 30 * 30)
                     {
                         SpawnHelper.SpawnRock(position, Constants.RANDOM.Next(1, 5));
                     } 
@@ -274,7 +275,7 @@ namespace Hazmat.Utilities
                 if (walls && !changeDir && !turnedBefore && !willTurnNext)
                 {
                     Vector2 houseOffset = new Vector2(0, 35).Rotate(radian);
-                    if (house1) SpawnHelper.SpawnRandomHouse(position + houseOffset, (direction - 1) % 4);
+                    if (house1) SpawnHelper.SpawnRandomHouse(position + houseOffset, (direction + 3) % 4);
                     if (house2) SpawnHelper.SpawnRandomHouse(position - houseOffset, (direction + 1) % 4);
                 }
             }
@@ -442,6 +443,7 @@ namespace Hazmat.Utilities
             //0 = right; 1 = top;
             int currentDir = 0;
             bool walls = false;
+            int wallCounter = 0;
             int parity = 0;
             bool changeDir = false;
             bool prevChangeDir = changeDir;
@@ -450,7 +452,7 @@ namespace Hazmat.Utilities
 
             while (curr.X < target.X && curr.Y < target.Y)
             {
-                nextChangeDir = Constants.RANDOM.Next(7) == 1 && (!prevChangeDir) && (!changeDir);
+                nextChangeDir = Constants.RANDOM.Next(5) == 1 && (!prevChangeDir) && (!changeDir);
                 if(curr.X == nextLootStation || curr.Y == nextLootStation)
                 {
                     Vector2 stationOffset = new Vector2(0, -Constants.TILE_SIZE / 2)
@@ -473,10 +475,13 @@ namespace Hazmat.Utilities
                     parity = 0;
                 }
                 else parity = (++parity)%4;
-                if (walls)
+                if (Constants.RANDOM.Next(100) <= 30 || wallCounter > 6)
                 {
-                    walls = Constants.RANDOM.Next(100) <= 80;
-                } else walls = Constants.RANDOM.Next(100) > 80;
+                    walls = !walls;
+                    wallCounter = 0;
+                }
+                else wallCounter++;
+
                 if ((curr.X + Constants.TILE_SIZE) >= target.X || (curr.Y + Constants.TILE_SIZE) >= target.Y)
                 {
                     walls = false;

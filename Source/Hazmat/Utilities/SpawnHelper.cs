@@ -240,7 +240,7 @@ namespace Hazmat.Utilities
             else SpawnHelper.SpawnHouse1(position, dir);
 
             bool spawnMailbox = Constants.RANDOM.Next(100) <= 60;
-            if (spawnMailbox && position.Length()>=60)
+            if (spawnMailbox && position.Length()>=60 && dir > 1)
             {
                 Vector2 mailboxOffset = new Vector2(13, -13f).Rotate(dir * MathF.PI / 2);
                 if (SpawnHelper.IsCollisionFree(new AABB(position + mailboxOffset, 2, 2), true))

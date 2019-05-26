@@ -59,10 +59,8 @@ namespace Hazmat.Utilities
 
         //SHOOTERS
         public static float SHOOTER_SPEED = 20;//20;
-        public static float SHOOTER_RELOAD_TIME = 0.6f;
+        public static float SHOOTER_RELOAD_TIME = 0.7f;
         public static int SHOOTER_DAMAGE = 150;
-
-
 
         //MAILBOXES
         public static float MAILBOX_DAMAGE = 150;
@@ -78,14 +76,14 @@ namespace Hazmat.Utilities
 
         //AI values for FSM transitions
         public static double OFFLINE_TO_STANDBY_DIST = 60;
-        public static double OFFLINE_TO_ATTACK_DIST = 35;       //ONLY FOR MAILBOX!
+        public static double OFFLINE_TO_ATTACK_DIST = 30;       //ONLY FOR MAILBOX!
         public static double STANDBY_TO_OFFLINE_DIST = 70;
         public static double STANDBY_TO_SEARCH_DIST = 40;
         public static double SEARCH_TO_STANDBY_DIST = 50;
         public static double BLIND_STANDBY_TO_SEARCH_DIST = 20;
         public static double SEARCH_TO_ATTACK_DIST = 35;        //ONLY FOR SHOOTER
         public static double ATTACK_TO_SEARCH_DIST = 40;        //ONLY FOR SHOOTER
-        public static double ATTACK_TO_OFFLINE_DIST = 30;       //ONLY FOR MAILBOX!
+        public static double ATTACK_TO_OFFLINE_DIST = 35;       //ONLY FOR MAILBOX!
         public static double DIRECT_ATTACK_DIST = 4; 
         //SQUARED VERSIONS OF PREV NUMBERS 
         public static double OFFLINE_TO_STANDBY_SQRD_DIST = OFFLINE_TO_STANDBY_DIST * OFFLINE_TO_STANDBY_DIST;

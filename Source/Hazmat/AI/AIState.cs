@@ -159,7 +159,7 @@ namespace Hazmat.AI
                     }
                     else if (collidee.Value.Get<AABBComponent>().solid) return 0f;
                 }
-                return 0.0f;
+                return -1f;
             }, ref rayCastInput);
 
             return isInSight;
