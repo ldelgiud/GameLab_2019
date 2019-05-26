@@ -146,7 +146,7 @@ namespace Hazmat.States
                 cameraSystem,
                 TTLSystem,
                 pathFinderSystem,
-                new TutorialSystem(world, powerPlant),
+                //new TutorialSystem(world, powerPlant),
                 new EnergyEventSystem(energy, score, powerPlant, world)
                 );
 
