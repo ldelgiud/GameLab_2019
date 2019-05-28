@@ -384,8 +384,6 @@ namespace Hazmat.Utilities
 
         public static void SpawnRandomSuitcase(Vector2 position)
         {
-            return;
-
             if (!SpawnHelper.IsCollisionFree(new AABB(position, 1, 1), true)) return;
             string suitcaseType = Constants.RANDOM.Next(1, 3) == 1 ? "A" : "B";
             float radian = (int)(Constants.RANDOM.NextDouble() * Math.PI * 2);

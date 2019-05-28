@@ -89,7 +89,7 @@ namespace Hazmat.Event
                                 new SkeletonInfo(skin: "story_0"),
                                 new AnimationStateInfo("press_A_to_pickup_phone", true)
                                 )));
-                    this.timeToStop = time.Absolute + 60;
+                    this.timeToStop = time.Absolute + 15;
                     this.state = State.Intro0;
                     break;
                 case State.Intro0:
