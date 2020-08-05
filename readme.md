@@ -23,3 +23,5 @@ about their actions. The unforgivingness of the game, combined with a
 procedurally generated map, should allow for a lot of replayability. 
 Players are able to try different strategies every time.
 
+
+![Logo](Assignments/gameplay.PNG)
