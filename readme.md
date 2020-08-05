@@ -1,6 +1,8 @@
 # Game Programming Lab 2019
 
 
+![Logo](Assignments/Final%20Presentation/voting-logo.png)
+
 
 ## Hazmat - Team 2
 * Sophie Walker- Production, 3D Artist
